@@ -6,7 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 /**
  * Created by oladahl on 16-03-07.
  */
-public class CreateAccountActivity extends AppCompatActivity {
+public class CreateAccountActivity extends AppCompatActivity
+        implements CreateAccountFragment.OnFragmentInteraction{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
