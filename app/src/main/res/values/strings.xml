@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Auto Work</string>
+    <string name="hello_world">Hello world!</string>
+
+    <string name="openDrawer">Open drawer</string>
+    <string name="closeDrawer">Close drawer</string>
+
+    <!-- Login Fragment -->
+    <string name="login_title">Login</string>
+    <string name="login_description">Please input your email and password to log in to your account.</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="btn_login">Login</string>
+
+    <!-- Create Account Fragment -->
+    <string name="create_account_title">Create Account</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
