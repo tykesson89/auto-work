@@ -64,8 +64,8 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="register"
-        android:id="@+id/registerButton"
+        android:text="Register"
+        android:id="@+id/btnRegister"
         android:background="#c22727"
         android:textColor="#ffffff"
         android:textSize="30dp"
@@ -78,8 +78,8 @@
 
 
     <Button
-        android:id="@+id/backButton"
-        android:text="back to log in"
+        android:id="@+id/btnBackToLogin"
+        android:text="back to login"
         android:textSize="30sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

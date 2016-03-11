@@ -34,13 +34,13 @@ public class SQLiteDB extends SQLiteOpenHelper {
                         "workplace TEXT NOT NULL)" +
 
 
-                "create table if not exists Workplace( " +
+                        "create table if not exists Workplace( " +
                         "workplaceID INTEGER PRIMARY KEY UNIQUE NOT NULL" +
                         "userID INTEGER NOT NULL, " +
                         "workplaceName TEXT NOT NULL) " +
 
 
-                "create table if not exists Workdays( " +
+                        "create table if not exists Workdays( " +
                         "workdayID INTEGER PRIMARY KEY UNIQUE NOT NULL," +
                         "userID INTEGER NOT NULL," +
                         "workplaceID INTEGER NOT NULL," +
@@ -79,6 +79,12 @@ public class SQLiteDB extends SQLiteOpenHelper {
         workPlace.put("userID", userid);
         workPlace.put("workplace", workplace);
         db.insert("Workplace", null, workPlace);
+        return true;
+    }
+
+
+    public boolean isLoggedIn(){
+        // TODO: 2016-03-11 Method to check local database.
         return true;
     }
 
