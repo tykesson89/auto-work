@@ -3,6 +3,8 @@ package Networking;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.util.Log;
 
 
 import com.lhadalo.oladahl.autowork.LoginActivity;
@@ -15,46 +17,40 @@ import java.util.HashMap;
 /**
  * Created by Henrik on 2016-03-10.
  */
-public class CreateUser extends Thread {
+public class CreateUser extends AsyncTask<HashMap<String, String>, Void, String> {
     private static final int port = 40001;
     private Thread thread;
-    private Context context;
+    private String response;
     private HashMap<String, String> map;
-    private static final String ip = "10.2.5.71";
+    private static final String ip = "192.168.1.7";
     private static final String tag = "Create User";
-    ObjectOutputStream oos;
-    ObjectInputStream ois;
-    public CreateUser(HashMap<String, String> map, Context context){
-        start();
-        this.map = map;
-        this.context = context;
-    }
-    public void run() {
-        try {
+    private ObjectInputStream objectInputStream;
+    private ObjectOutputStream objectOutputStream;
 
+
+    protected void onPreExecute (){
+
+    }
+
+    @Override
+    protected String doInBackground(HashMap<String, String>... params) {
+        try{
+            Log.d("Tråden skapades", "nummer 1");
+            String response;
             Socket socket = new Socket(ip, port);
-            oos = new ObjectOutputStream(socket.getOutputStream());
-            ois = new ObjectInputStream(socket.getInputStream());
+            Log.d("ansluten till socket", "nummer 2");
+            objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectInputStream = new ObjectInputStream(socket.getInputStream());
+            objectOutputStream.writeObject(tag);
+            Log.d("Första meddelandet", "nummer 3");
+            response = objectInputStream.readObject().toString();
 
-            while(!Thread.interrupted()){
-            oos.writeObject(tag);
-            oos.writeObject(map);
+        }catch (Exception e){
 
-                Intent intent = new Intent(this.context, LoginActivity.class);
-                context.startActivity(intent);
-
-            }
-
-
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+        return null;
+    }
+    protected void onPostExecute (String result){
 
     }
-
-
-
-
 }
