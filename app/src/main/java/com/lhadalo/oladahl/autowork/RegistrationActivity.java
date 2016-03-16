@@ -6,9 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import java.util.HashMap;
+
+import Networking.CreateUser;
 
 public class RegistrationActivity extends AppCompatActivity {
     private Button btnBackToLogin, btnRegister;
