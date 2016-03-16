@@ -9,13 +9,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent mainIntent = new Intent(MainActivity.this, SplashScreenActivity.class);
-        MainActivity.this.startActivity(mainIntent);
-        MainActivity.this.finish();
         SQLiteDB sqLiteDB = new SQLiteDB(getApplicationContext());
         setContentView(R.layout.activity_main);
-        if(sqLiteDB.isLoggedIn() != true) {
-            // TODO: 2016-03-11 Check if user is logged in. 
+        if(sqLiteDB.isLoggedIn() == false) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         }else{
             // TODO: 2016-03-11 Continue MainActivity. 
         }

@@ -37,7 +37,8 @@ public class SQLiteDB extends SQLiteOpenHelper {
                         "create table if not exists Workplace( " +
                         "workplaceID INTEGER PRIMARY KEY UNIQUE NOT NULL" +
                         "userID INTEGER NOT NULL, " +
-                        "workplaceName TEXT NOT NULL) " +
+                        "workplaceName TEXT NOT NULL, " +
+                        "salary REAL NOT NULL)" +
 
 
                         "create table if not exists Workdays( " +
@@ -84,7 +85,16 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
 
     public boolean isLoggedIn(){
-        // TODO: 2016-03-11 Method to check local database.
+        String countQuery = "SELECT  * FROM " + "Users";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        cursor.close();
+
+        // return count
+        int count = cursor.getCount();
+        if(count == 0){
+            return false;
+        }
         return true;
     }
 
