@@ -30,7 +30,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.execSQL(
                 "create table if not exists Users( " +
                         "id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT," +
-                        "userID INTEGER UNIQUE PRIMARY KEY UNIQUE NOT NULL," +
+                        "userID INTEGER UNIQUE UNIQUE NOT NULL," +
                         "firstname TEXT NOT NULL, " +
                         "lastname TEXT NOT NULL, " +
                         "email TEXT NOT NULL," +
@@ -40,7 +40,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.execSQL(
                 "create table if not exists Workplace( " +
                         "id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT," +
-                        "workplaceID INTEGER PRIMARY KEY UNIQUE NOT NULL, " +
+                        "workplaceID INTEGER UNIQUE NOT NULL, " +
                         "userID INTEGER NOT NULL, " +
                         "workplaceName TEXT NOT NULL, " +
                         "salary REAL NOT NULL)");
@@ -48,7 +48,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.execSQL(
                 "create table if not exists Workdays( " +
                         "id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT," +
-                        "workdayID INTEGER PRIMARY KEY UNIQUE NOT NULL, " +
+                        "workdayID INTEGER UNIQUE NOT NULL, " +
                         "userID INTEGER NOT NULL," +
                         "workplaceID INTEGER NOT NULL, " +
                         "workplaceName TEXT NOT NULL, " +
