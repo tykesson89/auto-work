@@ -6,20 +6,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
 
+import UserPackage.User;
+
 /**
- *@Author: Henrik Tykesson
+ * @Author: Henrik Tykesson
  * Registration activity class and inner class that handle communication with
  * server and creates a user in the database.
- *
  */
 public class RegistrationActivity extends Activity {
     private Button btnBackToLogin, btnRegister;
@@ -54,30 +57,39 @@ public class RegistrationActivity extends Activity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put("Firstname", etFirstName.getText().toString());
-                map.put("Lastname", etLastName.getText().toString());
-                map.put("Email", etEmail.getText().toString());
-                map.put("Password", etPassword.getText().toString());
-                map.put("HourlyWage", etHoulyWage.getText().toString());
-                map.put("CompanyName", etCompany.getText().toString());
-                if(etPassword.getText().toString().length()< 5){
+
+                String firstname = etFirstName.getText().toString();
+                String lastname = etLastName.getText().toString();
+                String email = etEmail.getText().toString();
+                String password = etPassword.getText().toString();
+                String companyName = etCompany.getText().toString();
+                double hourlyWage = 0;
+                try {
+                    hourlyWage = Double.parseDouble(etHoulyWage.getText().toString());
+                } catch (NumberFormatException w) {
+                    CharSequence text = "Your Hourly Wage have to be in number format";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
+                    toast.show();
+                }
+                if (password.length() < 5) {
                     CharSequence text = "Password need to be atleast 6 characters";
                     int duration = Toast.LENGTH_SHORT;
                     Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
                     toast.show();
-                }else if(!etEmail.getText().toString().contains("@")){
+                } else if (!email.contains("@")) {
                     CharSequence text = "Invalid Email";
                     int duration = Toast.LENGTH_SHORT;
                     Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
                     toast.show();
-                }else if(etFirstName.getText().toString().length()<1 || etCompany.getText().toString().length()<1 || etHoulyWage.getText().toString().length()<1 || etLastName.getText().toString().length()<1){
+                } else if (firstname.length() < 1 || lastname.length() < 1 || hourlyWage < 1 || companyName.length() < 1) {
                     CharSequence text = "You have to fill all the fields";
                     int duration = Toast.LENGTH_SHORT;
                     Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
                     toast.show();
-                }else {
-                    new CreateUser(RegistrationActivity.this).execute(map);
+                } else {
+                    User user = new User(firstname, lastname, email, password, companyName, hourlyWage);
+                    new CreateUser(RegistrationActivity.this).execute(user);
                 }
 
             }
@@ -94,11 +106,11 @@ public class RegistrationActivity extends Activity {
     }
 
     /**
-     * Inner class for communikation with server.
+     * Inner class for communication with server.
      */
-    private class CreateUser extends AsyncTask<HashMap<String, String>, Void, String> {
+    private class CreateUser extends AsyncTask<User, Void, String> {
         private static final int port = 45001;
-        private static final String ip = "85.235.21.222";
+        private static final String ip = "10.2.5.71";
         private static final String tag = "Create User";
         private ObjectInputStream objectInputStream;
         private ObjectOutputStream objectOutputStream;
@@ -110,36 +122,34 @@ public class RegistrationActivity extends Activity {
         }
 
         @Override
-        protected String doInBackground(HashMap<String, String>... params) {
+        protected String doInBackground(User... params) {
 
-            HashMap<String, String> map = new HashMap<String, String>();
-            map = params[0];
+            User user;
+            user = params[0];
             try {
                 String response;
                 Socket socket = new Socket(ip, port);
                 objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
                 objectInputStream = new ObjectInputStream(socket.getInputStream());
                 objectOutputStream.writeObject(tag);
-                objectOutputStream.writeObject(map);
+                objectOutputStream.writeObject(user);
                 progressDialog.dismiss();
-                response = objectInputStream.readObject().toString();
 
-                if (response.contains("User Already Exists")) {
-                    return "User Already Exists";
-                } else if (response.contains("Only Int")) {
-                    return "Only Int";
-                } else  {
-                    return "succes";
-                }
+                    user = (User) objectInputStream.readObject();
+                    SQLiteDB sqLiteDB = new SQLiteDB(context);
+                    sqLiteDB.createUser(user);
 
-            } catch (Exception e) {
+
+
+            }catch (Exception e){
+                return "User Already Exists";
             }
-            return null;
+            return "succes";
         }
-
         protected void onPreExecute() {
             progressDialog = progressDialog.show(context, "Creating user", "Creating User", true);
         }
+
         protected void onPostExecute(String res) {
             progressDialog.dismiss();
             if (res.equals("User Already Exists")) {
@@ -147,8 +157,8 @@ public class RegistrationActivity extends Activity {
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
-            } else if (res.contains("Only Int")) {
-                CharSequence text = "Hourly wage have to be integers";
+            } else if (res.contains("Something went wrong")) {
+                CharSequence text = "Something went wrong";
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
@@ -157,7 +167,7 @@ public class RegistrationActivity extends Activity {
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finish();
             }

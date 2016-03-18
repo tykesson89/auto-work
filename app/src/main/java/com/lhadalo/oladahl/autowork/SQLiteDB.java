@@ -5,8 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
+
+import UserPackage.User;
 
 /**
  * Created by Henrik on 2016-02-29.
@@ -17,7 +20,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "AutoWork_DB";
 
     public SQLiteDB(Context context) {
-        super(context, DATABASE_NAME , null, DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
 
@@ -26,32 +29,35 @@ public class SQLiteDB extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         db.execSQL(
                 "create table if not exists Users( " +
+                        "id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT," +
                         "userID INTEGER UNIQUE PRIMARY KEY UNIQUE NOT NULL," +
-                        "firstname TEXT NOT NULL," +
-                        "lastname TEXT NOT NULL" +
+                        "firstname TEXT NOT NULL, " +
+                        "lastname TEXT NOT NULL, " +
                         "email TEXT NOT NULL," +
                         "salary REAL NOT NULL," +
-                        "workplace TEXT NOT NULL)" +
-
-
-                        "create table if not exists Workplace( " +
-                        "workplaceID INTEGER PRIMARY KEY UNIQUE NOT NULL" +
+                        "workplacename TEXT NOT NULL)" );
+        Log.d("Table 1", "created");
+        db.execSQL(
+                "create table if not exists Workplace( " +
+                        "id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT," +
+                        "workplaceID INTEGER PRIMARY KEY UNIQUE NOT NULL, " +
                         "userID INTEGER NOT NULL, " +
                         "workplaceName TEXT NOT NULL, " +
-                        "salary REAL NOT NULL)" +
-
-
-                        "create table if not exists Workdays( " +
-                        "workdayID INTEGER PRIMARY KEY UNIQUE NOT NULL," +
+                        "salary REAL NOT NULL)");
+        Log.d("Table 2", "created");
+        db.execSQL(
+                "create table if not exists Workdays( " +
+                        "id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT," +
+                        "workdayID INTEGER PRIMARY KEY UNIQUE NOT NULL, " +
                         "userID INTEGER NOT NULL," +
-                        "workplaceID INTEGER NOT NULL," +
-                        "workplaceName TEXT NOT NULL " +
+                        "workplaceID INTEGER NOT NULL, " +
+                        "workplaceName TEXT NOT NULL, " +
                         "date TEXT NOT NULL," +
                         "startTime TEXT NOT NULL," +
                         "endTime TEXT NOT NULL," +
-                        "salary REAL NOT NULL)"
+                        "salary REAL NOT NULL)");
+        Log.d("Table 3", "created");
 
-        );
 
     }
 
@@ -62,24 +68,38 @@ public class SQLiteDB extends SQLiteOpenHelper {
     }
 
 
-    public boolean createUser  (String userID, String firstname, String lastname, String email, String sSalary, String workplace, String workplaceID) {
-        int userid = Integer.parseInt(userID);
-        int workplaceid = Integer.parseInt(workplaceID);
-        double salary = Double.parseDouble(sSalary);
+    public boolean createUser  (User user) {
+        int userid = user.getUserid();
+        String firstname = user.getFirstname();
+        String lastname = user.getLastname();
+        String email = user.getEmail();
+        double salary = user.getHourlyWage();
+        String workplace = user.getCompanyName();
+        int workplaceid = user.getCompanyid();
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues user = new ContentValues();
-        user.put("userID", userid);
-        user.put("firstname", firstname);
-        user.put("lastname", lastname);
-        user.put("email", email);
-        user.put("salary", salary);
-        user.put("workplace", workplace);
-        db.insert("Users", null, user);
+        Log.d("Open Database", " ");
+        ContentValues users = new ContentValues();
+        users.put("userID", userid);
+        users.put("firstname", firstname);
+        users.put("lastname", lastname);
+        users.put("email", email);
+        users.put("salary", salary);
+        users.put("workplacename", workplace);
+        Long id = db.insert("Users", null, users);
+        if(id == -1){
+            Log.d("user Not inserted", " ");
+        }
+
+
         ContentValues workPlace = new ContentValues();
         workPlace.put("workplaceID", workplaceid);
         workPlace.put("userID", userid);
-        workPlace.put("workplace", workplace);
-        db.insert("Workplace", null, workPlace);
+        workPlace.put("workplacename", workplace);
+        workPlace.put("salary", salary);
+        Long id1 = db.insert("Workplace", null, workPlace);
+        if(id1 == -1){
+            Log.d("Not inserted", " ");
+        }
         return true;
     }
 
@@ -88,14 +108,34 @@ public class SQLiteDB extends SQLiteOpenHelper {
         String countQuery = "SELECT  * FROM " + "Users";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
         cursor.close();
 
         // return count
-        int count = cursor.getCount();
         if(count == 0){
             return false;
         }
         return true;
+    }
+    public User getUser() {
+
+        final String TABLE_NAME = "Users";
+
+        String selectQuery = "SELECT  * FROM " + TABLE_NAME;
+        SQLiteDatabase db  = this.getReadableDatabase();
+        Cursor cursor      = db.rawQuery(selectQuery, null);
+        User user = null;
+
+
+            String firstname = cursor.getString(cursor.getColumnIndex("firstname"));
+            String lastname = cursor.getString(cursor.getColumnIndex("lastname"));
+            String email = cursor.getString(cursor.getColumnIndex("email"));
+            String companyname = cursor.getString(cursor.getColumnIndex("workplacename"));
+            double salary = cursor.getDouble(cursor.getColumnIndex("salary"));
+             user = new User(firstname, lastname, email, null, companyname, salary);
+
+        cursor.close();
+        return user;
     }
 
 
