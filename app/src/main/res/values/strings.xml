@@ -6,15 +6,17 @@
     <string name="closeDrawer">Close drawer</string>
 
     <!-- Login Fragment -->
-    <string name="login_title">Login</string>
-    <string name="login_description">Please input your email and password to log in to your account.</string>
+    <string name="login_title">Welcome to Auto Work!</string>
+    <string name="login_description">Please input your email and password to log in</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
     <string name="btn_login">Login</string>
+    <string name="btn_create_account">Create Account</string>
 
     <!-- Create Account Fragment -->
     <string name="create_account_title">Create Account</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="account_title">Create Account</string>
 </resources>

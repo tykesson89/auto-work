@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +27,8 @@ import UserPackage.User;
  * Registration activity class and inner class that handle communication with
  * server and creates a user in the database.
  */
-public class RegistrationActivity extends Activity {
+public class RegistrationActivity extends AppCompatActivity {
+    private Toolbar toolbar;
     private Button btnBackToLogin, btnRegister;
     private EditText etFirstName, etLastName, etEmail, etPassword, etHoulyWage, etCompany;
 
@@ -40,7 +44,8 @@ public class RegistrationActivity extends Activity {
      * Method that handle all the EditTexts and Buttons.
      */
     public void textAndButtons() {
-        btnBackToLogin = (Button) findViewById(R.id.btnBackToLogin);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        //btnBackToLogin = (Button) findViewById(R.id.btnBackToLogin);
         btnRegister = (Button) findViewById(R.id.btnRegister);
         etFirstName = (EditText) findViewById(R.id.etFirstName);
         etLastName = (EditText) findViewById(R.id.etLastName);
@@ -48,6 +53,12 @@ public class RegistrationActivity extends Activity {
         etPassword = (EditText) findViewById(R.id.etPassword);
         etHoulyWage = (EditText) findViewById(R.id.etHourlyWage);
         etCompany = (EditText) findViewById(R.id.etCompany);
+
+        setSupportActionBar(toolbar);
+        setTitle(getResources().getString(R.string.account_title));
+
+        ActionBar bar = getSupportActionBar();
+        bar.setDisplayHomeAsUpEnabled(true);
     }
 
     /**
@@ -94,14 +105,14 @@ public class RegistrationActivity extends Activity {
 
             }
         });
-        btnBackToLogin.setOnClickListener(new View.OnClickListener() {
+        /*btnBackToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             }
-        });
+        });*/
 
     }
 
