@@ -83,7 +83,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
                     toast.show();
                 }
-                if (password.length() < 5) {
+                if (password.length() < 6) {
                     CharSequence text = "Password need to be atleast 6 characters";
                     int duration = Toast.LENGTH_SHORT;
                     Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
