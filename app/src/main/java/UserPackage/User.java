@@ -1,55 +1,54 @@
 package UserPackage;
 
-
+import UserPackage.UserInterface;
 
 /**
  * Created by Henrik on 2016-03-17.
  */
 public class User implements UserInterface {
     private static final long serialVersionUID = 1L;
-
     private String firstname;
     private String lastname;
     private String email;
     private String password;
-    private String companyName;
-    private double hourlyWage;
     private int userId;
-    private int companyId;
 
-    public User(String firstname, String lastname, String email, String password, String companyName, double hourlyWage, int userId, int companyId){
+
+    public User(String firstname, String lastname, String email, String password, int userId){
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
-        this.companyName = companyName;
-        this.hourlyWage = hourlyWage;
         this.userId = userId;
-        this.companyId = companyId;
-    }
-
-    public User(String firstname, String lastname, String email, String password, String companyName, double hourlyWage){
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.email = email;
-        this.password = password;
-        this.companyName = companyName;
-        this.hourlyWage = hourlyWage;
-        this.userId = 0;
-        this.companyId = 0;
 
     }
 
     public User(String email, String password){
-        this.email = email;
-        this.password = password;
-        this.userId = 0;
         this.firstname = null;
         this.lastname = null;
-        this.companyName = null;
-        this.hourlyWage = 0;
-        this.companyId = 0;
+        this.email = email;
+        this.password = password;
+        this.userId = -1;
+
     }
+    public User(String firstname, String lastname, String email, int userId){
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = null;
+        this.userId = userId;
+    }
+    public User(String firstname, String lastname, String email, String password){
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.userId = -1;
+    }
+
+
+
+
 
 
     public String getFirstname() {
@@ -91,25 +90,6 @@ public class User implements UserInterface {
         this.password = password;
     }
 
-    @Override
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    @Override
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    @Override
-    public double getHourlyWage() {
-        return hourlyWage;
-    }
-
-    @Override
-    public void setHourlyWage(double hourlyWage) {
-        this.hourlyWage = hourlyWage;
-    }
 
     public int getUserid() {
         return userId;
@@ -119,13 +99,7 @@ public class User implements UserInterface {
         this.userId = userid;
     }
 
-    public int getCompanyid() {
-        return companyId;
-    }
 
-    public void setCompanyid(int companyid) {
-        this.companyId = companyid;
-    }
 
     @Override
     public Object[] toObjectArray() {
@@ -134,14 +108,11 @@ public class User implements UserInterface {
         arr[1] = lastname;
         arr[2] = email;
         arr[3] = password;
-        arr[4] = companyName;
-        arr[5] = hourlyWage;
-        arr[6] = userId;
-        arr[7] = companyId;
+        arr[4] = userId;
         return arr;
     }
     public String toString(){
-        String str = firstname + ", " + lastname + ", " + email + ", " + password + ", " + companyName + ", " + hourlyWage + ", " + userId + ", " + companyId;
+        String str = firstname + ", " + lastname + ", " + email + ", " + password + ", " + userId;
         return str;
     }
 }

@@ -33,9 +33,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
                         "userID INTEGER UNIQUE UNIQUE NOT NULL," +
                         "firstname TEXT NOT NULL, " +
                         "lastname TEXT NOT NULL, " +
-                        "email TEXT NOT NULL," +
-                        "salary REAL," +
-                        "workplacename TEXT)" );
+                        "email TEXT NOT NULL)" );
         Log.d("Table 1", "created");
         db.execSQL(
                 "create table if not exists Workplace( " +
@@ -73,9 +71,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         String firstname = user.getFirstname();
         String lastname = user.getLastname();
         String email = user.getEmail();
-        double salary = user.getHourlyWage();
-        String workplace = user.getCompanyName();
-        int workplaceid = user.getCompanyid();
+
 
         SQLiteDatabase db = this.getWritableDatabase();
         Log.d("Open Database", " ");
@@ -84,23 +80,13 @@ public class SQLiteDB extends SQLiteOpenHelper {
         users.put("firstname", firstname);
         users.put("lastname", lastname);
         users.put("email", email);
-        users.put("salary", salary);
-        users.put("workplacename", workplace);
         Long id = db.insert("Users", null, users);
         if(id == -1){
             Log.d("user Not inserted", " ");
         }
 
 
-        ContentValues workPlace = new ContentValues();
-        workPlace.put("workplaceID", workplaceid);
-        workPlace.put("userID", userid);
-        workPlace.put("workplacename", workplace);
-        workPlace.put("salary", salary);
-        Long id1 = db.insert("Workplace", null, workPlace);
-        if(id1 == -1){
-            Log.d("Not inserted", " ");
-        }
+
         return true;
     }
 
@@ -150,9 +136,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
             String firstname = cursor.getString(cursor.getColumnIndex("firstname"));
             String lastname = cursor.getString(cursor.getColumnIndex("lastname"));
             String email = cursor.getString(cursor.getColumnIndex("email"));
-            String companyname = cursor.getString(cursor.getColumnIndex("workplacename"));
-            double salary = cursor.getDouble(cursor.getColumnIndex("salary"));
-             user = new User(firstname, lastname, email, null, companyname, salary);
+            user = new User(firstname, lastname, email, null);
 
         cursor.close();
         return user;

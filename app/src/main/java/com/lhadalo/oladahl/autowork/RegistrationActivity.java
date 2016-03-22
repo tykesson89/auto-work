@@ -20,6 +20,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
 
+import UserPackage.Company;
 import UserPackage.User;
 
 /**
@@ -100,8 +101,9 @@ public class RegistrationActivity extends AppCompatActivity {
                     Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
                     toast.show();
                 } else {
-                    User user = new User(firstname, lastname, email, password, companyName, hourlyWage);
-                    new CreateUser(RegistrationActivity.this).execute(user);
+                    User user = new User(firstname, lastname, email, password);
+                    Company company = new Company(companyName, hourlyWage);
+                    new CreateUser(RegistrationActivity.this).execute(user, company);
                 }
 
             }
@@ -120,7 +122,7 @@ public class RegistrationActivity extends AppCompatActivity {
     /**
      * Inner class for communication with server.
      */
-    private class CreateUser extends AsyncTask<User, Void, String> {
+    private class CreateUser extends AsyncTask<Object, Void, String> {
         private static final int port = 45001;
         private static final String ip = "10.2.5.71";
         private static final String tag = "Create User";
@@ -135,10 +137,11 @@ public class RegistrationActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(User... params) {
-
+        protected String doInBackground(Object... params) {
+            Company company;
             User user;
-            user = params[0];
+            user = (User) params[0];
+            company = (Company) params[1];
             try {
                 String response;
                 Socket socket = new Socket(ip, port);
@@ -146,6 +149,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 objectInputStream = new ObjectInputStream(socket.getInputStream());
                 objectOutputStream.writeObject(tag);
                 objectOutputStream.writeObject(user);
+                objectOutputStream.writeObject(company);
                 progressDialog.dismiss();
 
                     user = (User) objectInputStream.readObject();
