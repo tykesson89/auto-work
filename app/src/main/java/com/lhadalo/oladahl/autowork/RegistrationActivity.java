@@ -31,6 +31,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Button btnBackToLogin, btnRegister;
     private EditText etFirstName, etLastName, etEmail, etPassword, etHoulyWage, etCompany;
+    private String email;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 String firstname = etFirstName.getText().toString();
                 String lastname = etLastName.getText().toString();
-                String email = etEmail.getText().toString();
+                email = etEmail.getText().toString();
                 String password = etPassword.getText().toString();
                 String companyName = etCompany.getText().toString();
                 double hourlyWage = 0;
@@ -128,6 +129,7 @@ public class RegistrationActivity extends AppCompatActivity {
         private ProgressDialog progressDialog;
         private Context context;
 
+
         public CreateUser(Context context) {
             this.context = context;
         }
@@ -178,8 +180,12 @@ public class RegistrationActivity extends AppCompatActivity {
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+                Intent data = new Intent();
+                data.putExtra("Email", email);
+
+                setResult(RESULT_OK, data);
+                //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                //startActivity(intent);
                 finish();
             }
         }

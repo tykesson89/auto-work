@@ -22,6 +22,7 @@ import java.net.Socket;
 import UserPackage.User;
 
 public class LoginActivity extends AppCompatActivity {
+    private final int requestCode = 1;
     private Toolbar toolbar;
     private Button btnLogin, btnCreateUser;
     private EditText etEmail, etPassword;
@@ -64,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, requestCode);
             }
         });
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +124,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
 
-
         @Override
         protected void onPostExecute(String res) {
             progressDialog.dismiss();
@@ -136,6 +136,17 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(requestCode == this.requestCode){
+            if(resultCode == RESULT_OK){
+                etEmail.setText(data.getStringExtra("Email"));
+            }
+        }
+
     }
 }
 

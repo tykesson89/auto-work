@@ -135,6 +135,8 @@ public class SQLiteDB extends SQLiteOpenHelper {
         }
         return true;
     }
+
+    
     public User getUser() {
 
         final String TABLE_NAME = "Users";
