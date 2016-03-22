@@ -34,8 +34,8 @@ public class SQLiteDB extends SQLiteOpenHelper {
                         "firstname TEXT NOT NULL, " +
                         "lastname TEXT NOT NULL, " +
                         "email TEXT NOT NULL," +
-                        "salary REAL NOT NULL," +
-                        "workplacename TEXT NOT NULL)" );
+                        "salary REAL," +
+                        "workplacename TEXT)" );
         Log.d("Table 1", "created");
         db.execSQL(
                 "create table if not exists Workplace( " +
@@ -76,6 +76,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         double salary = user.getHourlyWage();
         String workplace = user.getCompanyName();
         int workplaceid = user.getCompanyid();
+
         SQLiteDatabase db = this.getWritableDatabase();
         Log.d("Open Database", " ");
         ContentValues users = new ContentValues();
@@ -100,6 +101,23 @@ public class SQLiteDB extends SQLiteOpenHelper {
         if(id1 == -1){
             Log.d("Not inserted", " ");
         }
+        return true;
+    }
+
+    public boolean loginUser(User user){
+        int userid = user.getUserid();
+        String firstname = user.getFirstname();
+        String lastname = user.getLastname();
+        String email = user.getEmail();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues content = new ContentValues();
+        content.put("userID", userid);
+        content.put("firstname", firstname);
+        content.put("lastname", lastname);
+        content.put("email", email);
+
+        db.insert("Users", null, content);
         return true;
     }
 

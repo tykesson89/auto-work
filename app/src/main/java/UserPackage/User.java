@@ -6,6 +6,8 @@ package UserPackage;
  * Created by Henrik on 2016-03-17.
  */
 public class User implements UserInterface {
+    private static final long serialVersionUID = 1L;
+
     private String firstname;
     private String lastname;
     private String email;
@@ -38,10 +40,10 @@ public class User implements UserInterface {
 
     }
 
-    public User(String email, String password, int userId){
+    public User(String email, String password){
         this.email = email;
         this.password = password;
-        this.userId = userId;
+        this.userId = 0;
         this.firstname = null;
         this.lastname = null;
         this.companyName = null;
