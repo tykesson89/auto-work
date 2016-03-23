@@ -1,9 +1,24 @@
 <resources>
+
     <string name="app_name">Auto Work</string>
     <string name="hello_world">Hello world!</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- Main Activity -->
     <string name="openDrawer">Open drawer</string>
     <string name="closeDrawer">Close drawer</string>
+
+    <!-- Login Activity -->
+    <string name="login_desciption">Please write your email and password to log in</string>
+
+    <!-- Create Account Activity -->
+    <string name="et_first_name_hint">First name</string>
+    <string name="et_last_name_hint">Last name</string>
+    <string name="et_email_hint">Email</string>
+    <string name="et_password_hint">Password</string>
+    <string name="et_company_hint">Company</string>
+    <string name="et_hourly_wage_hint">Hourly wage</string>
+    <string name="btn_register">Register</string>
 
     <!-- Login Fragment -->
     <string name="login_title">Welcome to Auto Work!</string>
@@ -15,8 +30,11 @@
 
     <!-- Create Account Fragment -->
     <string name="create_account_title">Create Account</string>
+    <string name="account_title">Create Account</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="account_title">Create Account</string>
+
+
+
 </resources>

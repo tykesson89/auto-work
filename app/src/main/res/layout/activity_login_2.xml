@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <include
         android:id="@+id/toolbar"
@@ -9,64 +11,43 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/activity_horizontal_margin"
         android:layout_below="@id/toolbar"
+        android:layout_margin="@dimen/activity_horizontal_margin"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/infoTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Please write your email and password to log in"
-            android:id="@+id/infoTextView"
-            android:textSize="20dp"
-
-
-            android:textAlignment="center"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:text="@string/login_desciption"
             style="@style/AppTheme.Title"/>
 
-
         <EditText
+            android:id="@+id/userEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/item_vertical_margin"
-            android:inputType="textPersonName"
+            android:inputType="textEmailAddress"
             android:hint="@string/email_hint"
-            android:ems="10"
-            android:id="@+id/userEmail"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-
-
-            android:textColor="#000000" />
-
+            android:ems="10" />
 
         <EditText
+            android:id="@+id/userPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/item_vertical_margin"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/userPassword"
-            android:hint="@string/password_hint"
-            android:textColor="#000000" />
+            android:hint="@string/password_hint" />
 
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="38dp"
-            android:layout_marginLeft="@dimen/item_horizontal_margin"
-            android:layout_marginRight="@dimen/item_horizontal_margin"
+            android:layout_marginTop="@dimen/item_vertical_margin"
             android:text="@string/btn_login"
-            android:textSize="15dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/ripple_button"
-            android:textColor="@android:color/white"/>
-
-
+            android:layout_marginBottom="20dp" />
 
     </LinearLayout>
 
@@ -78,11 +59,7 @@
         android:layout_marginBottom="@dimen/item_vertical_margin"
         android:layout_marginLeft="@dimen/item_vertical_margin"
         android:layout_marginRight="@dimen/item_vertical_margin"
-
-        android:text="@string/btn_create_account"
-        android:textSize="15dp"
-        android:background="@drawable/ripple_button"
-        android:textColor="@android:color/white" />
+        android:text="@string/btn_create_account" />
 
 
 </RelativeLayout>

@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">@color/primary_material_light</color>
+    <color name="ColorPrimaryDark">@color/primary_dark_material_light</color>
+    <color name="colorAccent">@color/accent_material_light</color>
+    <color name="ripple_color">#870000</color>
+
+    <!-- Kopia på färger.
     <color name="colorPrimary">#c22727</color>
     <color name="ColorPrimaryDark">#c22727</color>
     <color name="colorAccent">#d50000</color>
     <color name="ripple_color">#870000</color>
+    -->
 </resources>
