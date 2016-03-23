@@ -40,11 +40,13 @@ public class LoginActivity extends AppCompatActivity {
 //            startActivity(intent);
 //            finish();
 //        } else {
+
         sqLiteDB.getWritableDatabase();
 
         setContentView(R.layout.activity_login_2);
         textAndButtons();
         listeners();
+
     }
 
     public void textAndButtons(){
@@ -85,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
         private static final String ip = "10.2.5.71";
         private String tag = "Login";
         private Context context;
+        
         private Socket socket;
         private ObjectOutputStream objectOut;
         private ObjectInputStream objectIn;
