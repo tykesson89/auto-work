@@ -97,7 +97,7 @@ public class User implements UserInterface {
 
     @Override
     public String getNewPassword() {
-        return null;
+        return newPassword;
     }
 
     @Override
