@@ -1,6 +1,5 @@
 package com.lhadalo.oladahl.autowork;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -43,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
 
         sqLiteDB.getWritableDatabase();
 
-        setContentView(R.layout.activity_login_2);
+        setContentView(R.layout.activity_login);
         textAndButtons();
         listeners();
 
