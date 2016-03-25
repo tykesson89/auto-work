@@ -106,12 +106,12 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
     public String getFirstName(){
         SQLiteDatabase db = this.getReadableDatabase();
-        String s;
+        String string;
         Cursor c = db.rawQuery("SELECT * FROM Users", null);
         c.moveToFirst();
-        s=c.getString(c.getColumnIndex("firstname"));
+        string=c.getString(c.getColumnIndex("firstname"));
         db.close();
-        return s;
+        return string;
     }
 
     public Boolean isLoggedIn(){
