@@ -114,6 +114,19 @@ public class SQLiteDB extends SQLiteOpenHelper {
         return s;
     }
 
+    public Boolean isLoggedIn(){
+        String countQuery = "SELECT  * FROM Users";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int cnt = cursor.getCount();
+        cursor.close();
+        if(cnt == 0){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     
 
 

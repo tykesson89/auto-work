@@ -31,20 +31,19 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("Creating database", " ");
         SQLiteDB sqLiteDB = new SQLiteDB(this);
-
-        Log.d("Database created", " ");
-//        if (sqLiteDB.isLoggedIn() == true) {
-//            Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
-//            startActivity(intent);
-//            finish();
-//        } else {
-
         sqLiteDB.getWritableDatabase();
+        Log.d("Database created", " ");
+        if (sqLiteDB.isLoggedIn() == true) {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
 
-        setContentView(R.layout.activity_login);
-        textAndButtons();
-        listeners();
 
+            setContentView(R.layout.activity_login);
+            textAndButtons();
+            listeners();
+        }
     }
 
     public void textAndButtons(){
