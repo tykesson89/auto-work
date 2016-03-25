@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private class Login extends AsyncTask<User, Void, String>{
         private static final int port = 45001;
-        private static final String ip = "10.2.5.71";
+        private static final String ip = "192.168.1.77";
         private String tag = "Login";
         private Context context;
         

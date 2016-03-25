@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQuery;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
                         "email TEXT NOT NULL)" );
         Log.d("Table 1", "created");
         db.execSQL(
-                "create table if not exists Workplace( " +
+                "create table if not exists Company( " +
                         "id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT," +
                         "workplaceID INTEGER UNIQUE NOT NULL, " +
                         "userID INTEGER NOT NULL, " +
@@ -64,31 +65,17 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS Users" + "DROP TABLE IF EXISTS Workplace" + "DROP TABLE IF EXISTS Workdays");
         onCreate(db);
     }
-
-
-    public boolean createUser  (User user) {
-        int userid = user.getUserid();
-        String firstname = user.getFirstname();
-        String lastname = user.getLastname();
-        String email = user.getEmail();
-
-
+    public void deleteAll() {
         SQLiteDatabase db = this.getWritableDatabase();
-        Log.d("Open Database", " ");
-        ContentValues users = new ContentValues();
-        users.put("userID", userid);
-        users.put("firstname", firstname);
-        users.put("lastname", lastname);
-        users.put("email", email);
-        Long id = db.insert("Users", null, users);
-        if(id == -1){
-            Log.d("user Not inserted", " ");
-        }
-
-
-
-        return true;
+        db.delete("Users",null,null);
+        db.delete("Company",null,null);
+        db.delete("Workdays",null,null);
+        Log.d("Database: ", "Deleted");
+        onCreate(db);
+        db.close();
     }
+
+
 
     public boolean loginUser(User user){
         int userid = user.getUserid();
@@ -107,40 +94,27 @@ public class SQLiteDB extends SQLiteOpenHelper {
         return true;
     }
 
-
-    public boolean isLoggedIn(){
-        String countQuery = "SELECT  * FROM " + "Users";
+    public int getUserId(Context context){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-        int count = cursor.getCount();
-        cursor.close();
+        int s;
+        Cursor c = db.rawQuery("SELECT * FROM Users", null);
+        c.moveToFirst();
+        s=c.getInt(c.getColumnIndex("UserID"));
+        db.close();
+        return s;
+    }
 
-        // return count
-        if(count == 0){
-            return false;
-        }
-        return true;
+    public String getFirstName(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String s;
+        Cursor c = db.rawQuery("SELECT * FROM Users", null);
+        c.moveToFirst();
+        s=c.getString(c.getColumnIndex("firstname"));
+        db.close();
+        return s;
     }
 
     
-    public User getUser() {
-
-        final String TABLE_NAME = "Users";
-
-        String selectQuery = "SELECT  * FROM " + TABLE_NAME;
-        SQLiteDatabase db  = this.getReadableDatabase();
-        Cursor cursor      = db.rawQuery(selectQuery, null);
-        User user = null;
-
-
-            String firstname = cursor.getString(cursor.getColumnIndex("firstname"));
-            String lastname = cursor.getString(cursor.getColumnIndex("lastname"));
-            String email = cursor.getString(cursor.getColumnIndex("email"));
-            user = new User(firstname, lastname, email, null);
-
-        cursor.close();
-        return user;
-    }
 
 
 }

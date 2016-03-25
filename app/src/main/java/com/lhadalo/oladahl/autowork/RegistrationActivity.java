@@ -1,6 +1,5 @@
 package com.lhadalo.oladahl.autowork;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +16,6 @@ import android.widget.Toast;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.HashMap;
 
 import UserPackage.Company;
 import UserPackage.User;
@@ -124,7 +121,7 @@ public class RegistrationActivity extends AppCompatActivity {
      */
     private class CreateUser extends AsyncTask<Object, Void, String> {
         private static final int port = 45001;
-        private static final String ip = "10.2.5.71";
+        private static final String ip = "192.168.1.77";
         private static final String tag = "Create User";
         private ObjectInputStream objectInputStream;
         private ObjectOutputStream objectOutputStream;
@@ -143,7 +140,6 @@ public class RegistrationActivity extends AppCompatActivity {
             user = (User) params[0];
             company = (Company) params[1];
             try {
-                String response;
                 Socket socket = new Socket(ip, port);
                 objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
                 objectInputStream = new ObjectInputStream(socket.getInputStream());
@@ -152,9 +148,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 objectOutputStream.writeObject(company);
                 progressDialog.dismiss();
 
-                    user = (User) objectInputStream.readObject();
-                    SQLiteDB sqLiteDB = new SQLiteDB(context);
-                    sqLiteDB.createUser(user);
+
+
 
 
 
@@ -174,11 +169,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
-            } else if (res.contains("Something went wrong")) {
-                CharSequence text = "Something went wrong";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
             } else if (res.contains("succes")) {
                 CharSequence text = "Account created";
                 int duration = Toast.LENGTH_SHORT;
@@ -188,8 +178,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 data.putExtra("Email", email);
 
                 setResult(RESULT_OK, data);
-                //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                //startActivity(intent);
                 finish();
             }
         }
