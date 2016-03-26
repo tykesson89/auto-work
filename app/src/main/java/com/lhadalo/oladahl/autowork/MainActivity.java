@@ -12,29 +12,36 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteraction {
     private MainFragment fragment;
-
+    private String name;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initFragment();
 
-        /*SQLiteDB sqLiteDB = new SQLiteDB(MainActivity.this);
-        String name = sqLiteDB.getFirstName();
+        SQLiteDB sqLiteDB = new SQLiteDB(MainActivity.this);
+        name = sqLiteDB.getFirstName();
 
-        fragment.setTextTvName(name);*/
+
+
     }
 
 
 
     private void initFragment(){
         fragment = new MainFragment();
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_container, fragment)
                 .commit();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+        fragment.setTextTvName(name);
+    }
 
     @Override
     public void onActionSettingsPressed() {
