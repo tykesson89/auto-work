@@ -9,62 +9,34 @@ import android.widget.TextView;
 
 import UserPackage.User;
 
-public class SettingsActivity extends AppCompatActivity {
-        private Button btnChangeUserInfo;
-        private EditText etFirstName, etLastName, etEmail, etOldPassword, etNewPassword;
-        private TextView tvDeleteAccount;
-        private int userId;
+public class SettingsActivity extends AppCompatActivity implements SettingsFragment.OnFragmentInteraction {
+    private SettingsFragment fragment;
+    private int userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        initComponents();
-        initListeners();
-
+        initFragment();
     }
 
-    public void initComponents(){
-        btnChangeUserInfo = (Button)findViewById(R.id.btnChangeUserInfo);
-        etFirstName = (EditText)findViewById(R.id.etFirstName);
-        etLastName = (EditText)findViewById(R.id.etLastName);
-        etEmail = (EditText)findViewById(R.id.et_email);
-        etNewPassword = (EditText)findViewById(R.id.etNewPassword);
-        etOldPassword = (EditText)findViewById(R.id.etOldPassword);
-        tvDeleteAccount = (TextView)findViewById(R.id.tvDeleteAccount);
+    private void initFragment() {
+        fragment = new SettingsFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container_settings, fragment).commit();
     }
 
-    public void initListeners(){
-        btnChangeUserInfo.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                User user = new User(getFirstName(), getLastName(), getEmail(), getNewPassword(), userId, getOldPassword());
-                new SettingsController(SettingsActivity.this, "Change User Info", user);
-            }
-        });
-
-        tvDeleteAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                User user = new User(getFirstName(), getLastName(), getEmail(), getNewPassword(), userId);
-                new SettingsController(SettingsActivity.this, "Delete User", user);
-
-            }
-        });
+    @Override
+    public void onClickBtnChangeUserInfo(String firstName, String lastName, String email,
+                                         String oldPassword, String newPassword) {
+        User user = new User(firstName, lastName, email, newPassword, userId, oldPassword);
+        new SettingsController(SettingsActivity.this, "Change User Info", user);
     }
 
-    public String getFirstName(){
-        return etFirstName.getText().toString();
-    }
-    public String getLastName(){
-        return etLastName.getText().toString();
-    }
-    public String getEmail(){
-        return etEmail.getText().toString();
-    }
-    public String getNewPassword(){
-        return etNewPassword.getText().toString();
-    }
-    public String getOldPassword(){
-        return etOldPassword.getText().toString();
+    @Override
+    public void onClickDeleteAccount(String firstName, String lastName, String email,
+                                     String oldPassword, String newPassword) {
+        User user = new User(firstName, lastName, email, newPassword, userId, oldPassword);
+        new SettingsController(SettingsActivity.this, "Delete User", user);
     }
 }
