@@ -46,7 +46,7 @@ public class LoginFragment extends Fragment {
         btnCreateUser = (Button)view.findViewById(R.id.btn_create_user);
 
         etEmail = (EditText)view.findViewById(R.id.et_email);
-        etPassword = (EditText)view.findViewById(R.id.etPassword);
+        etPassword = (EditText)view.findViewById(R.id.et_password);
 
         initListeners();
     }
