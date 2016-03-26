@@ -46,13 +46,15 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    
+
     public void initComponents(){
         toolbar = (Toolbar)findViewById(R.id.toolbar);
-        btnLogin = (Button)findViewById(R.id.btnLogin);
-        btnCreateUser = (Button)findViewById(R.id.btnCreateUser);
+        btnLogin = (Button)findViewById(R.id.btn_login);
+        btnCreateUser = (Button)findViewById(R.id.btn_create_user);
 
         etEmail = (EditText)findViewById(R.id.userEmail);
-        etPassword = (EditText)findViewById(R.id.userPassword);
+        etPassword = (EditText)findViewById(R.id.user_password);
 
         setSupportActionBar(toolbar);
         setTitle(getResources().getString(R.string.login_title));

@@ -27,7 +27,7 @@ public class SettingsActivity extends AppCompatActivity {
         btnChangeUserInfo = (Button)findViewById(R.id.btnChangeUserInfo);
         etFirstName = (EditText)findViewById(R.id.etFirstName);
         etLastName = (EditText)findViewById(R.id.etLastName);
-        etEmail = (EditText)findViewById(R.id.etEmail);
+        etEmail = (EditText)findViewById(R.id.et_email);
         etNewPassword = (EditText)findViewById(R.id.etNewPassword);
         etOldPassword = (EditText)findViewById(R.id.etOldPassword);
         tvDeleteAccount = (TextView)findViewById(R.id.tvDeleteAccount);

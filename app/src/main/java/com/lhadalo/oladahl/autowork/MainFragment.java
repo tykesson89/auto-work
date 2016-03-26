@@ -48,14 +48,14 @@ public class MainFragment extends Fragment {
     private void initComponents(View view){
         tvName = (TextView)view.findViewById(R.id.tvName);
 
-        toolbar = (Toolbar)view.findViewById(R.id.toolbarMain);
+        toolbar = (Toolbar)view.findViewById(R.id.toolbar_main);
         AppCompatActivity activity = (AppCompatActivity)getActivity();
         activity.setSupportActionBar(toolbar);
 
-        initListeners(view);
+        initListeners();
     }
 
-    private void initListeners(View view){
+    private void initListeners(){
 
     }
 
