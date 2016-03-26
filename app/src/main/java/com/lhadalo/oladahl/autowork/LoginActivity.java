@@ -19,11 +19,9 @@ import java.net.Socket;
 
 import UserPackage.User;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteraction{
+    private LoginFragment fragment;
     private final int requestCode = 1;
-    private Toolbar toolbar;
-    private Button btnLogin, btnCreateUser;
-    private EditText etEmail, etPassword;
     private SQLiteDB db = new SQLiteDB(this);
 
     @Override
@@ -33,52 +31,35 @@ public class LoginActivity extends AppCompatActivity {
         SQLiteDB sqLiteDB = new SQLiteDB(this);
         sqLiteDB.getWritableDatabase();
         Log.d("Database created", " ");
+
         if (sqLiteDB.isLoggedIn() == true) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         } else {
-
-
             setContentView(R.layout.activity_login);
-            initComponents();
-            initListeners();
+            initFragment();
         }
     }
 
-    
-
-    public void initComponents(){
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        btnLogin = (Button)findViewById(R.id.btn_login);
-        btnCreateUser = (Button)findViewById(R.id.btn_create_user);
-
-        etEmail = (EditText)findViewById(R.id.userEmail);
-        etPassword = (EditText)findViewById(R.id.user_password);
-
-        setSupportActionBar(toolbar);
-        setTitle(getResources().getString(R.string.login_title));
-
+    private void initFragment(){
+        fragment = new LoginFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container_login, fragment)
+                .commit();
     }
 
-    public void initListeners(){
-        btnCreateUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
-                startActivityForResult(intent, requestCode);
-            }
-        });
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email =  etEmail.getText().toString();
-                String password = etPassword.getText().toString();
-                User user = new User(email, password);
 
-                new Login(LoginActivity.this).execute(user);
-            }
-        });
+    @Override
+    public void onClickBtnLogin(String email, String password) {
+        User user = new User(email, password);
+        new Login(LoginActivity.this).execute(user);
+    }
+
+    @Override
+    public void onClickBtnCreateUser() {
+        Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+        startActivityForResult(intent, requestCode);
     }
 
     private class Login extends AsyncTask<User, Void, String>{
@@ -95,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         public Login(Context context){
             this.context = context;
         }
+
         @Override
         protected void onPreExecute() {
             progressDialog = progressDialog.show(context, "Login", "Logging in", true);
@@ -142,10 +124,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if(requestCode == this.requestCode){
             if(resultCode == RESULT_OK){
-                etEmail.setText(data.getStringExtra("Email"));
+                fragment.setTextetEmail(data.getStringExtra("Email"));
             }
         }
 

@@ -40,6 +40,7 @@ public class LoginFragment extends Fragment {
         toolbar = (Toolbar)view.findViewById(R.id.toolbar_login);
         AppCompatActivity activity = (AppCompatActivity)getActivity();
         activity.setSupportActionBar(toolbar);
+        activity.setTitle(getResources().getString(R.string.login_title));
 
         btnLogin = (Button)view.findViewById(R.id.btn_login);
         btnCreateUser = (Button)view.findViewById(R.id.btn_create_user);
@@ -76,5 +77,9 @@ public class LoginFragment extends Fragment {
             Log.e("", context.getClass().getCanonicalName() +
                     " must implement OnFragmentInteraction");
         }
+    }
+
+    public void setTextetEmail(String str){
+        etEmail.setText(str);
     }
 }
