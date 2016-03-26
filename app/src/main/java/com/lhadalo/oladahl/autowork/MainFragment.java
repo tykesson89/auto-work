@@ -22,7 +22,7 @@ import android.widget.TextView;
 public class MainFragment extends Fragment {
     private OnFragmentInteraction callback;
     private Button btnSettings, btnLogOut;
-    private TextView tvName;
+    public TextView tvName;
     private Toolbar toolbar;
 
     interface OnFragmentInteraction{
