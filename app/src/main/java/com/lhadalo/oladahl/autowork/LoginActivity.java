@@ -41,12 +41,12 @@ public class LoginActivity extends AppCompatActivity {
 
 
             setContentView(R.layout.activity_login);
-            textAndButtons();
-            listeners();
+            initComponents();
+            initListeners();
         }
     }
 
-    public void textAndButtons(){
+    public void initComponents(){
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         btnLogin = (Button)findViewById(R.id.btnLogin);
         btnCreateUser = (Button)findViewById(R.id.btnCreateUser);
@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void listeners(){
+    public void initListeners(){
         btnCreateUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

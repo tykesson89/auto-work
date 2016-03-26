@@ -35,14 +35,14 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        textAndButtons();
-        listeners();
+        initComponents();
+        initListeners();
     }
 
     /**
      * Method that handle all the EditTexts and Buttons.
      */
-    public void textAndButtons() {
+    private void initComponents() {
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         //btnBackToLogin = (Button) findViewById(R.id.btnBackToLogin);
         btnRegister = (Button) findViewById(R.id.btnRegister);
@@ -63,7 +63,7 @@ public class RegistrationActivity extends AppCompatActivity {
     /**
      * Button listener for the activity.
      */
-    public void listeners() {
+    private void initListeners() {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

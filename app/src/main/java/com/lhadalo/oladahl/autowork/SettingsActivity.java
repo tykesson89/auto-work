@@ -18,12 +18,12 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        Componentsinit();
-        ListenersInit();
+        initComponents();
+        initListeners();
 
     }
 
-    public void Componentsinit(){
+    public void initComponents(){
         btnChangeUserInfo = (Button)findViewById(R.id.btnChangeUserInfo);
         etFirstName = (EditText)findViewById(R.id.etFirstName);
         etLastName = (EditText)findViewById(R.id.etLastName);
@@ -33,7 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
         tvDeleteAccount = (TextView)findViewById(R.id.tvDeleteAccount);
     }
 
-    public void ListenersInit(){
+    public void initListeners(){
         btnChangeUserInfo.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {

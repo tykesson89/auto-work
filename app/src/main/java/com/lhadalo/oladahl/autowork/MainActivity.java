@@ -1,16 +1,11 @@
 package com.lhadalo.oladahl.autowork;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import UserPackage.User;
 
 public class MainActivity extends AppCompatActivity {
         private Button btnSettings, btnLogOut;
@@ -18,21 +13,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        componentsInits();
-        listeners();
+        initComponents();
+        initListeners();
         SQLiteDB sqLiteDB = new SQLiteDB(MainActivity.this);
         String name = sqLiteDB.getFirstName();
         tvName.setText(name);
     }
 
 
-    public void componentsInits(){
+    public void initComponents(){
         btnSettings = (Button)findViewById(R.id.btnSettings);
         btnLogOut = (Button)findViewById(R.id.btnLogOut);
         tvName = (TextView)findViewById(R.id.tvName);
     }
 
-    public void listeners(){
+    public void initListeners(){
         btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
