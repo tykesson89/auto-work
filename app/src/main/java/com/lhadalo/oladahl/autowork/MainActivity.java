@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteraction {
     private MainFragment fragment;
-    private Toolbar toolbar;
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

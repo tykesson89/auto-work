@@ -21,7 +21,6 @@ public class SettingsController {
         }else if(tag.equals("Change User Info")){
             new ChangeUserInfo(context).execute(user);
         }
-
     }
 
 

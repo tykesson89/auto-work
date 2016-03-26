@@ -35,6 +35,9 @@ public class RegistrationFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Method that initializes all components.
+     */
     private void initComponents(View view) {
         toolbar = (Toolbar)view.findViewById(R.id.toolbar_registration);
         AppCompatActivity activity = (AppCompatActivity)getActivity();
@@ -78,5 +81,9 @@ public class RegistrationFragment extends Fragment {
             Log.e("", context.getClass().getCanonicalName() +
                     " must implement OnFragmentInteraction");
         }
+    }
+
+    public String getEmail(){
+        return etEmail.getText().toString();
     }
 }

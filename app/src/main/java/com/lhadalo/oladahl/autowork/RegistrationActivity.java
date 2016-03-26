@@ -27,18 +27,12 @@ import UserPackage.User;
  */
 public class RegistrationActivity extends AppCompatActivity implements RegistrationFragment.OnFragmentInteraction{
     private RegistrationFragment fragment;
-    private Toolbar toolbar;
-    private Button btnBackToLogin, btnRegister;
-    private EditText etFirstName, etLastName, etEmail, etPassword, etHoulyWage, etCompany;
-    private String email;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         initFragment();
-        //initComponents();
-        //initListeners();
     }
 
     private void initFragment(){
@@ -48,95 +42,14 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
                 .commit();
     }
 
-    /**
-     * Method that handle all the EditTexts and Buttons.
-     */
-    private void initComponents() {
-
-        //btnBackToLogin = (Button) findViewById(R.id.btnBackToLogin);
-        btnRegister = (Button) findViewById(R.id.btnRegister);
-        etFirstName = (EditText) findViewById(R.id.etFirstName);
-        etLastName = (EditText) findViewById(R.id.etLastName);
-        etEmail = (EditText) findViewById(R.id.et_email);
-        etPassword = (EditText) findViewById(R.id.etPassword);
-        etHoulyWage = (EditText) findViewById(R.id.etHourlyWage);
-        etCompany = (EditText) findViewById(R.id.etCompany);
-
-        setSupportActionBar(toolbar);
-        setTitle(getResources().getString(R.string.account_title));
-
-        ActionBar bar = getSupportActionBar();
-        bar.setDisplayHomeAsUpEnabled(true);
-    }
 
     /**
      * Button listener for the activity.
      */
-    private void initListeners() {
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String firstname = etFirstName.getText().toString();
-                String lastname = etLastName.getText().toString();
-                email = etEmail.getText().toString();
-                String password = etPassword.getText().toString();
-                String companyName = etCompany.getText().toString();
-                double hourlyWage = 0;
-                try {
-                    hourlyWage = Double.parseDouble(etHoulyWage.getText().toString());
-                } catch (NumberFormatException w) {
-                    CharSequence text = "Your Hourly Wage have to be in number format";
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
-                    toast.show();
-                }
-                if (password.length() < 6) {
-                    CharSequence text = "Password need to be atleast 6 characters";
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
-                    toast.show();
-                } else if (!email.contains("@")) {
-                    CharSequence text = "Invalid Email";
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
-                    toast.show();
-                } else if (firstname.length() < 1 || lastname.length() < 1 || hourlyWage < 1 || companyName.length() < 1) {
-                    CharSequence text = "You have to fill all the fields";
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
-                    toast.show();
-                } else {
-                    User user = new User(firstname, lastname, email, password);
-                    Company company = new Company(companyName, hourlyWage);
-                    new CreateUser(RegistrationActivity.this).execute(user, company);
-                }
-
-            }
-        });
-        /*btnBackToLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });*/
-
-    }
-
     @Override
     public void onClickBtnRegister(String firstName, String lastName, String email, String password,
                                    String wage, String companyName) {
-
         double hourlyWage = 0;
-        /*
-        String firstname = etFirstName.getText().toString();
-        String lastname = etLastName.getText().toString();
-        email = etEmail.getText().toString();
-        String password = etPassword.getText().toString();
-        String companyName = etCompany.getText().toString();
-        double hourlyWage = 0;*/
 
         try {
             hourlyWage = Double.parseDouble(wage);
@@ -224,7 +137,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
                 Intent data = new Intent();
-                data.putExtra("Email", email);
+                data.putExtra("Email", fragment.getEmail());
 
                 setResult(RESULT_OK, data);
                 finish();
