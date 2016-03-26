@@ -7,6 +7,8 @@
     <!-- Main Activity -->
     <string name="openDrawer">Open drawer</string>
     <string name="closeDrawer">Close drawer</string>
+    <string name="action_log_out">Log out</string>
+    <string name="action_settings">Settings</string>
 
     <!-- Login Activity -->
     <string name="login_desciption">Please write your email and password to log in</string>
@@ -31,6 +33,7 @@
     <!-- Create Account Fragment -->
     <string name="create_account_title">Create Account</string>
     <string name="account_title">Create Account</string>
+
 
 
     <!-- TODO: Remove or change this placeholder text -->

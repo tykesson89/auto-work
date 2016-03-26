@@ -10,69 +10,46 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteraction {
+    private MainFragment fragment;
     private Toolbar toolbar;
-    private Button btnSettings, btnLogOut;
-    private TextView tvName;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initComponents();
-        initListeners();
-        SQLiteDB sqLiteDB = new SQLiteDB(MainActivity.this);
+        initFragment();
+
+        /*SQLiteDB sqLiteDB = new SQLiteDB(MainActivity.this);
         String name = sqLiteDB.getFirstName();
-        tvName.setText(name);
+
+        fragment.setTextTvName(name);*/
     }
 
 
-    public void initComponents() {
-        btnSettings = (Button) findViewById(R.id.btnSettings);
-        btnLogOut = (Button) findViewById(R.id.btnLogOut);
-        tvName = (TextView) findViewById(R.id.tvName);
+
+    private void initFragment(){
+        fragment = new MainFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_container, fragment)
+                .commit();
     }
 
-    public void initListeners() {
-        btnSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
-        btnLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
+    @Override
+    public void onActionSettingsPressed() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        Intent intent;
-        switch (id) {
-            case R.id.action_settings:
-                intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
-                break;
-
-            case R.id.action_log_out:
-                SQLiteDB sqLiteDB = new SQLiteDB(MainActivity.this);
-                sqLiteDB.deleteAll();
-                intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void onActionLogOutPressed() {
+        SQLiteDB sqLiteDB = new SQLiteDB(MainActivity.this);
+        sqLiteDB.deleteAll();
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
