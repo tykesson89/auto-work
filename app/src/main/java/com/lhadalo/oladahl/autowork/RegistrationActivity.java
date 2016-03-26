@@ -5,12 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.ObjectInputStream;
@@ -54,23 +49,23 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         try {
             hourlyWage = Double.parseDouble(wage);
         } catch (NumberFormatException w) {
-            CharSequence text = "Your Hourly Wage have to be in number format";
+            CharSequence text = getString(R.string.toast_wage_number_error);
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
             toast.show();
         }
         if (password.length() < 6) {
-            CharSequence text = "Password need to be atleast 6 characters";
+            CharSequence text = getString(R.string.toast_password_error);
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
             toast.show();
         } else if (!email.contains("@")) {
-            CharSequence text = "Invalid Email";
+            CharSequence text = getString(R.string.toast_email_error);
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
             toast.show();
         } else if (firstName.length() < 1 || lastName.length() < 1 || hourlyWage < 1 || companyName.length() < 1) {
-            CharSequence text = "You have to fill all the fields";
+            CharSequence text = getString(R.string.toast_all_fields_error);
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
             toast.show();
@@ -86,9 +81,10 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
      * Inner class for communication with server.
      */
     private class CreateUser extends AsyncTask<Object, Void, String> {
+        //TODO Hämta port och ip från inställningar
         private static final int port = 45001;
         private static final String ip = "192.168.1.77";
-        private static final String tag = "Create User";
+        //private static final String tag = "Create User";
         private ObjectInputStream objectInputStream;
         private ObjectOutputStream objectOutputStream;
         private ProgressDialog progressDialog;
@@ -109,35 +105,37 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
                 Socket socket = new Socket(ip, port);
                 objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
                 objectInputStream = new ObjectInputStream(socket.getInputStream());
-                objectOutputStream.writeObject(tag);
+                objectOutputStream.writeObject(SQLiteTag.CREATE_USER);
                 objectOutputStream.writeObject(user);
                 objectOutputStream.writeObject(company);
                 progressDialog.dismiss();
 
 
             }catch (Exception e){
-                return "User Already Exists";
+                return Tag.USER_ALREADY_EXISTS;
             }
-            return "succes";
+            return Tag.SUCCESS; //Stod "succes" innan.
         }
         protected void onPreExecute() {
-            progressDialog = progressDialog.show(context, "Creating user", "Creating User", true);
+            progressDialog = progressDialog.show(context,
+                    getString(R.string.dialog_title_creating_user),
+                    getString(R.string.dialog_message_creating_user), true);
         }
 
         protected void onPostExecute(String res) {
             progressDialog.dismiss();
-            if (res.equals("User Already Exists")) {
-                CharSequence text = "User already exists";
+            if (res.equals(Tag.USER_ALREADY_EXISTS)) {
+                CharSequence text = getString(R.string.toast_user_exists);
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
-            } else if (res.contains("succes")) {
-                CharSequence text = "Account created";
+            } else if (res.contains(Tag.SUCCESS)) { //Stod "succes" innan.
+                CharSequence text = getString(R.string.toast_account_created);
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
                 Intent data = new Intent();
-                data.putExtra("Email", fragment.getEmail());
+                data.putExtra(Tag.EMAIL_INTENT, fragment.getEmail());
 
                 setResult(RESULT_OK, data);
                 finish();

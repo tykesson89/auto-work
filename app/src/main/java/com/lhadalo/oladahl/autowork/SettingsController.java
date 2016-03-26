@@ -16,9 +16,9 @@ public class SettingsController {
         this.user = user;
         this.context = context;
         this.tag = tag;
-        if(tag.equals("Delete User")){
+        if(tag.equals(Tag.DELETE_USER)){
             new DeleteUser(context).execute(user);
-        }else if(tag.equals("Change User Info")){
+        }else if(tag.equals(Tag.CHANGE_USER_INFO)){
             new ChangeUserInfo(context).execute(user);
         }
     }

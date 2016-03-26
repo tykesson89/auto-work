@@ -30,13 +30,13 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
     public void onClickBtnChangeUserInfo(String firstName, String lastName, String email,
                                          String oldPassword, String newPassword) {
         User user = new User(firstName, lastName, email, newPassword, userId, oldPassword);
-        new SettingsController(SettingsActivity.this, "Change User Info", user);
+        new SettingsController(SettingsActivity.this, Tag.CHANGE_USER_INFO, user);
     }
 
     @Override
     public void onClickDeleteAccount(String firstName, String lastName, String email,
                                      String oldPassword, String newPassword) {
         User user = new User(firstName, lastName, email, newPassword, userId, oldPassword);
-        new SettingsController(SettingsActivity.this, "Delete User", user);
+        new SettingsController(SettingsActivity.this, Tag.DELETE_USER, user);
     }
 }

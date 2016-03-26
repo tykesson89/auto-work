@@ -6,11 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.ObjectInputStream;
@@ -49,7 +45,6 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                 .commit();
     }
 
-
     @Override
     public void onClickBtnLogin(String email, String password) {
         User user = new User(email, password);
@@ -63,9 +58,10 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     }
 
     private class Login extends AsyncTask<User, Void, String>{
+        //TODO Hämta port och ip från inställningar
         private static final int port = 45001;
         private static final String ip = "192.168.1.77";
-        private String tag = "Login";
+
         private Context context;
         
         private Socket socket;
@@ -79,7 +75,8 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
         @Override
         protected void onPreExecute() {
-            progressDialog = progressDialog.show(context, "Login", "Logging in", true);
+            progressDialog = progressDialog.show(context, getString(R.string.dialog_title_login),
+                    getString(R.string.dialog_message_login), true);
         }
 
         @Override
@@ -91,7 +88,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                 objectOut = new ObjectOutputStream(socket.getOutputStream());
                 objectIn = new ObjectInputStream(socket.getInputStream());
 
-                objectOut.writeObject(tag);
+                objectOut.writeObject(Tag.LOGIN);
                 objectOut.writeObject(user);
 
                 progressDialog.dismiss();
@@ -101,10 +98,10 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
 
             } catch (Exception e){
-                return "User not found";
+                return Tag.USER_NOT_FOUND;
             }
 
-            return "success";
+            return Tag.SUCCESS;
         }
 
 
@@ -112,10 +109,11 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         protected void onPostExecute(String res) {
             progressDialog.dismiss();
 
-            if(res.equals("User not found")){
-                Toast.makeText(context, "User not found", Toast.LENGTH_SHORT).show();
+            if(res.equals(Tag.USER_NOT_FOUND)){
+                Toast.makeText(context, getString(R.string.toast_user_not_found),
+                        Toast.LENGTH_SHORT).show();
             }
-            else if(res.equals("success")){
+            else if(res.equals(Tag.SUCCESS)){
                 Intent intent = new Intent(context, MainActivity.class);
                 startActivity(intent);
             }
@@ -126,7 +124,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == this.requestCode){
             if(resultCode == RESULT_OK){
-                fragment.setTextetEmail(data.getStringExtra("Email"));
+                fragment.setTextetEmail(data.getStringExtra(Tag.EMAIL_INTENT));
             }
         }
 

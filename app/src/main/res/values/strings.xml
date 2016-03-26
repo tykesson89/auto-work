@@ -1,19 +1,44 @@
 <resources>
-
+    <!-- App -->
     <string name="app_name">Auto Work</string>
     <string name="hello_world">Hello world!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <!-- Main Activity -->
+    <!-- MainActivity -->
     <string name="openDrawer">Open drawer</string>
     <string name="closeDrawer">Close drawer</string>
     <string name="action_log_out">Log out</string>
     <string name="action_settings">Settings</string>
 
+    <!-- MainFragment -->
+
     <!-- Login Activity -->
+    <string name="dialog_title_login">Logging in</string>
+    <string name="dialog_message_login">Logging in</string>
+    <string name="toast_user_not_found">User not found</string>
+
+    <!-- LoginFragment -->
+    <string name="login_title">Welcome to Auto Work!</string>
+    <string name="login_description">Please input your email and password to log in</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_create_account">Create Account</string>
     <string name="login_desciption">Please write your email and password to log in</string>
 
-    <!-- Create Account Activity -->
+    <!-- RegistrationActivity -->
+    <string name="create_account_title">Create Account</string>
+    <string name="account_title">Create Account</string>
+    <string name="dialog_title_creating_user">Creating user</string>
+    <string name="dialog_message_creating_user">Creating User</string>
+    <string name="toast_user_exists">User already exists</string>
+    <string name="toast_account_created">Account created</string>
+    <string name="toast_wage_number_error">Your Hourly Wage have to be in number format</string>
+    <string name="toast_password_error">Password need to be atleast 6 characters</string>
+    <string name="toast_email_error">Invalid Email</string>
+    <string name="toast_all_fields_error">You have to fill all the fields</string>
+
+    <!-- RegistrationFragment -->
     <string name="registration_title">Title on page</string>
     <string name="et_first_name_hint">First name</string>
     <string name="et_last_name_hint">Last name</string>
@@ -23,21 +48,7 @@
     <string name="et_hourly_wage_hint">Hourly wage</string>
     <string name="btn_register">Register</string>
 
-    <!-- Login Fragment -->
-    <string name="login_title">Welcome to Auto Work!</string>
-    <string name="login_description">Please input your email and password to log in</string>
-    <string name="email_hint">Email</string>
-    <string name="password_hint">Password</string>
-    <string name="btn_login">Login</string>
-    <string name="btn_create_account">Create Account</string>
 
-    <!-- Create Account Fragment -->
-    <string name="create_account_title">Create Account</string>
-    <string name="account_title">Create Account</string>
-
-
-
-    <!-- TODO: Remove or change this placeholder text -->
 
 
 
