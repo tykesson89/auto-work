@@ -14,6 +14,7 @@
     <string name="login_desciption">Please write your email and password to log in</string>
 
     <!-- Create Account Activity -->
+    <string name="registration_title">Title on page</string>
     <string name="et_first_name_hint">First name</string>
     <string name="et_last_name_hint">Last name</string>
     <string name="et_email_hint">Email</string>

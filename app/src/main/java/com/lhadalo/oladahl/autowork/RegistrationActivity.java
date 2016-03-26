@@ -25,7 +25,8 @@ import UserPackage.User;
  * Registration activity class and inner class that handle communication with
  * server and creates a user in the database.
  */
-public class RegistrationActivity extends AppCompatActivity {
+public class RegistrationActivity extends AppCompatActivity implements RegistrationFragment.OnFragmentInteraction{
+    private RegistrationFragment fragment;
     private Toolbar toolbar;
     private Button btnBackToLogin, btnRegister;
     private EditText etFirstName, etLastName, etEmail, etPassword, etHoulyWage, etCompany;
@@ -35,15 +36,23 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        initComponents();
-        initListeners();
+        initFragment();
+        //initComponents();
+        //initListeners();
+    }
+
+    private void initFragment(){
+        fragment = new RegistrationFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container_registration, fragment)
+                .commit();
     }
 
     /**
      * Method that handle all the EditTexts and Buttons.
      */
     private void initComponents() {
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+
         //btnBackToLogin = (Button) findViewById(R.id.btnBackToLogin);
         btnRegister = (Button) findViewById(R.id.btnRegister);
         etFirstName = (EditText) findViewById(R.id.etFirstName);
@@ -116,6 +125,50 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onClickBtnRegister(String firstName, String lastName, String email, String password,
+                                   String wage, String companyName) {
+
+        double hourlyWage = 0;
+        /*
+        String firstname = etFirstName.getText().toString();
+        String lastname = etLastName.getText().toString();
+        email = etEmail.getText().toString();
+        String password = etPassword.getText().toString();
+        String companyName = etCompany.getText().toString();
+        double hourlyWage = 0;*/
+
+        try {
+            hourlyWage = Double.parseDouble(wage);
+        } catch (NumberFormatException w) {
+            CharSequence text = "Your Hourly Wage have to be in number format";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
+            toast.show();
+        }
+        if (password.length() < 6) {
+            CharSequence text = "Password need to be atleast 6 characters";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
+            toast.show();
+        } else if (!email.contains("@")) {
+            CharSequence text = "Invalid Email";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
+            toast.show();
+        } else if (firstName.length() < 1 || lastName.length() < 1 || hourlyWage < 1 || companyName.length() < 1) {
+            CharSequence text = "You have to fill all the fields";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
+            toast.show();
+        } else {
+            User user = new User(firstName, lastName, email, password);
+            Company company = new Company(companyName, hourlyWage);
+            new CreateUser(RegistrationActivity.this).execute(user, company);
+        }
+
+    }
+
     /**
      * Inner class for communication with server.
      */
@@ -147,10 +200,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 objectOutputStream.writeObject(user);
                 objectOutputStream.writeObject(company);
                 progressDialog.dismiss();
-
-
-
-
 
 
             }catch (Exception e){
