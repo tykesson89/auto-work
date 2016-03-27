@@ -2,58 +2,125 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android.support.design="http://schemas.android.com/tools">
+    xmlns:android.support.design="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    <android.support.v7.widget.Toolbar
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/toolbar_add_workplace"
+    xmlns:http="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_expanded_height"
-        android:theme="@style/ThemeOverlay.AppCompat"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp">
+        android:layout_height="wrap_content">
 
-        <EditText
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/item_vertical_margin"
-            android:layout_marginLeft="@dimen/toolbar_horizontal_margin"
-            android:layout_marginRight="@dimen/toolbar_horizontal_margin"
-            android:hint="Title"/>
-    </android.support.v7.widget.Toolbar>
+            android:orientation="vertical"
+            app:expandedTitleTextAppearance="@style/Widget.AppCompat.ActionBar.TabText">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_1"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:elevation="0dp"
+                android:background="@color/colorPrimary"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat">
+            </android.support.v7.widget.Toolbar>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_add_workplace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/ThemeOverlay.AppCompat"
+                android:background="@color/colorPrimary"
+                android:elevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:paddingRight="16dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="@dimen/content_vertical_margin"
+                        android:layout_marginBottom="@dimen/content_vertical_margin"
+                        android:layout_marginRight="@dimen/toolbar_horizontal_margin"
+                        android:hint="Title"/>
+                </LinearLayout>
+
+
+            </android.support.v7.widget.Toolbar>
+        </LinearLayout>
+
+
+
+
+    </android.support.design.widget.AppBarLayout>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:divider="?android:dividerHorizontal"
+        android:showDividers="middle"
         android:orientation="vertical"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_below="@id/toolbar_add_workplace">
+        android:layout_below="@id/appbar">
 
         <include
-            android:id="@+id/test_layout"
-            layout="@layout/add_workplace_list_item"/>
+            android:id="@+id/txt_layout_workplace"
+            layout="@layout/add_workpass_list_item"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/txt_layout_start"
+                layout="@layout/add_workpass_list_item_time"/>
+
+            <include
+                android:id="@+id/txt_layout_stop"
+                layout="@layout/add_workpass_list_item_time"/>
+
+        </LinearLayout>
+
+
 
         <include
-            android:id="@+id/test2_layout"
-            layout="@layout/add_workplace_list_item"/>
+            android:id="@+id/txt_layout_lunch"
+            layout="@layout/add_workpass_list_item"/>
 
 
-
-
-
-
-
-
-
-
-
+        <include
+            android:id="@+id/txt_layout_add_notes"
+            layout="@layout/add_workpass_list_item"/>
 
     </LinearLayout>
     
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
 
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 
 </RelativeLayout>

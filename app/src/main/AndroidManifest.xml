@@ -21,9 +21,15 @@
         <activity
             android:name=".RegistrationActivity"
             android:parentActivityName=".LoginActivity"></activity>
+
         <activity android:name=".MainActivity" />
+
         <activity android:name=".SettingsActivity"></activity>
-        <activity android:name=".AddWorkpassActivity"></activity>
+
+        <activity android:name=".AddWorkpassActivity"
+            android:parentActivityName=".MainActivity">
+
+        </activity>
     </application>
 
 </manifest>

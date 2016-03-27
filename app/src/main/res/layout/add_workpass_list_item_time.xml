@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_height_dense"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:layout_width="@dimen/list_icon_horizontal_margin"
+        android:layout_height="@dimen/list_height_dense"
+        android:gravity="center_vertical" />
+
+    <TextView
+        android:id="@+id/txt_workplace_name"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/list_height_dense"
+        android:layout_weight="1"
+        android:textIsSelectable="true"
+        android:background="?android:selectableItemBackground"
+        android:gravity="center_vertical"
+        android:text="Sun, Mar 27, 2016"/>
+
+    <TextView
+        android:id="@+id/txt_workplace_name2"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/list_height_dense"
+        android:textIsSelectable="true"
+        android:background="?android:selectableItemBackground"
+        android:paddingLeft="@dimen/content_horizontal_margin"
+        android:paddingRight="@dimen/content_horizontal_margin"
+        android:gravity="center_vertical"
+        android:text="13:45"/>
+
+
+</LinearLayout>
+

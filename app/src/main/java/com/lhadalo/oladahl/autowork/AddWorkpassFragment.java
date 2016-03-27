@@ -19,10 +19,10 @@ public class AddWorkpassFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_workpass, container, false);
+        //View view = inflater.inflate(R.layout.fragment_add_workpass, container, false);
 
-        initComponents(view);
-        return view;
+       // initComponents(view);
+        return null;
     }
 
     private void initComponents(View view) {
