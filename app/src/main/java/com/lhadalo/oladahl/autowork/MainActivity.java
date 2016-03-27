@@ -21,8 +21,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         SQLiteDB sqLiteDB = new SQLiteDB(MainActivity.this);
         name = sqLiteDB.getFirstName();
 
-
-
     }
 
 
