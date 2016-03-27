@@ -1,8 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android.support.design="http://schemas.android.com/tools">
+
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolbar_add_workplace"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_expanded_height"
+        android:theme="@style/ThemeOverlay.AppCompat"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/item_vertical_margin"
+            android:layout_marginLeft="@dimen/toolbar_horizontal_margin"
+            android:layout_marginRight="@dimen/toolbar_horizontal_margin"
+            android:hint="Title"/>
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_below="@id/toolbar_add_workplace">
+
+        <include
+            android:id="@+id/test_layout"
+            layout="@layout/add_workplace_list_item"/>
+
+        <include
+            android:id="@+id/test2_layout"
+            layout="@layout/add_workplace_list_item"/>
+
+
+
+
+
+
+
+
+
+
+
+
+    </LinearLayout>
+    
+
+
+
+
+
 </RelativeLayout>
