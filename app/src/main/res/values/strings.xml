@@ -48,6 +48,20 @@
     <string name="et_hourly_wage_hint">Hourly wage</string>
     <string name="btn_register">Register</string>
 
+    <string-array name="months">
+        <item name="jan">January</item>
+        <item name="feb">February</item>
+        <item name="mar">Mars</item>
+        <item name="apr">April</item>
+        <item name="may">May</item>
+        <item name="jun">June</item>
+        <item name="jul">July</item>
+        <item name="aug">August</item>
+        <item name="sep">September</item>
+        <item name="oct">October</item>
+        <item name="nov">November</item>
+        <item name="dec">December</item>
+    </string-array>
 
 
 

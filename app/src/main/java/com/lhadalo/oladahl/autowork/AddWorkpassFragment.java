@@ -112,6 +112,14 @@ public class AddWorkpassFragment extends Fragment {
         }
     }
 
+    public void setTxtDateStart(String str) {
+        txtDateStart.setText(str);
+    }
+
+    public void setTxtDateEnd(String str) {
+        txtDateEnd.setText(str);
+    }
+
     private class EventListener implements View.OnClickListener{
 
         @Override
