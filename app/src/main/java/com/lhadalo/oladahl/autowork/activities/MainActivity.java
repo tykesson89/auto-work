@@ -1,15 +1,12 @@
-package com.lhadalo.oladahl.autowork;
+package com.lhadalo.oladahl.autowork.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+
+import com.lhadalo.oladahl.autowork.R;
+import com.lhadalo.oladahl.autowork.SQLiteDB;
+import com.lhadalo.oladahl.autowork.fragments.MainFragment;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteraction {
     private MainFragment fragment;
@@ -19,8 +16,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         setContentView(R.layout.activity_main);
         initFragment();
 
-        SQLiteDB sqLiteDB = new SQLiteDB(MainActivity.this);
-        name = sqLiteDB.getFirstName();
+        /*SQLiteDB sqLiteDB = new SQLiteDB(MainActivity.this);
+        name = sqLiteDB.getFirstName();*/
     }
 
 
@@ -38,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     protected void onStart() {
         super.onStart();
 
-        fragment.setTextTvName(name);
+       // fragment.setTextTvName(name);
     }
 
     @Override

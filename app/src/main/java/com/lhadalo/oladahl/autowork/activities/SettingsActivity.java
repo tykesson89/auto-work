@@ -1,13 +1,14 @@
-package com.lhadalo.oladahl.autowork;
+package com.lhadalo.oladahl.autowork.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import UserPackage.User;
+
+import com.lhadalo.oladahl.autowork.R;
+import com.lhadalo.oladahl.autowork.SettingsController;
+import com.lhadalo.oladahl.autowork.Tag;
+import com.lhadalo.oladahl.autowork.fragments.SettingsFragment;
 
 public class SettingsActivity extends AppCompatActivity implements SettingsFragment.OnFragmentInteraction {
     private SettingsFragment fragment;

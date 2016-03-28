@@ -1,7 +1,6 @@
-package com.lhadalo.oladahl.autowork;
+package com.lhadalo.oladahl.autowork.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.lhadalo.oladahl.autowork.R;
+
 /**
  * Created by oladahl on 16-03-26.
  */
@@ -25,7 +26,7 @@ public class MainFragment extends Fragment {
     public TextView tvName;
     private Toolbar toolbar;
 
-    interface OnFragmentInteraction{
+    public interface OnFragmentInteraction{
         void onActionSettingsPressed();
         void onActionLogOutPressed();
     }

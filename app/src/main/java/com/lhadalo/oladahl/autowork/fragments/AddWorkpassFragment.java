@@ -1,4 +1,4 @@
-package com.lhadalo.oladahl.autowork;
+package com.lhadalo.oladahl.autowork.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,10 +8,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.lhadalo.oladahl.autowork.R;
 
 public class AddWorkpassFragment extends Fragment {
     private OnFragmentInteraction callback;
@@ -29,17 +34,29 @@ public class AddWorkpassFragment extends Fragment {
     private TextView txtDateEnd;
     private TextView txtTimeEnd;
 
-    private TextView txtBreak;
-    private TextView txtAddNote;
+    private TextView txtBrake;
 
-    interface OnFragmentInteraction {
+
+    public interface OnFragmentInteraction {
         void onClickWorkplace();
+
         void onClickDateStart();
+
         void onClickTimeStart();
+
         void onClickDateEnd();
+
         void onClickTimeEnd();
+
         void onClickBreak();
-        void onClickAddNote();
+
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -52,8 +69,8 @@ public class AddWorkpassFragment extends Fragment {
     }
 
     private void initComponents(View view) {
-        Toolbar toolbar = (Toolbar)view.findViewById(R.id.toolbar_1);
-        AppCompatActivity activity = (AppCompatActivity)getActivity();
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar_1);
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         activity.setTitle("Add workpass");
@@ -71,8 +88,7 @@ public class AddWorkpassFragment extends Fragment {
         txtDateEnd = (TextView) layoutStop.getChildAt(1);
 
         txtTimeEnd = (TextView) layoutStop.getChildAt(2);
-        txtBreak = (TextView) layoutBreak.getChildAt(1);
-        txtAddNote = (TextView) layoutAddNote.getChildAt(1);
+        txtBrake = (TextView) layoutBreak.getChildAt(1);
 
         txtWorkplace.setText("Workplace");
         txtDateStart.setText("Sun, Mar 27, 2016");
@@ -81,8 +97,7 @@ public class AddWorkpassFragment extends Fragment {
         txtDateEnd.setText("Sun, Mar 27, 2016");
         txtTimeEnd.setText("18:15");
 
-        txtBreak.setText("Add break");
-        txtAddNote.setText("Add note");
+        txtBrake.setText("Add brake");
 
         initListeners();
     }
@@ -96,8 +111,8 @@ public class AddWorkpassFragment extends Fragment {
         txtDateEnd.setOnClickListener(listener);
         txtTimeEnd.setOnClickListener(listener);
 
-        txtBreak.setOnClickListener(listener);
-        txtAddNote.setOnClickListener(listener);
+        txtBrake.setOnClickListener(listener);
+
 
     }
 
@@ -110,6 +125,17 @@ public class AddWorkpassFragment extends Fragment {
             Log.e("", context.getClass().getCanonicalName() +
                     " must implement OnFragmentInteraction");
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_add_workpass, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 
     public void setTxtDateStart(String str) {
@@ -128,30 +154,26 @@ public class AddWorkpassFragment extends Fragment {
         txtTimeEnd.setText(str);
     }
 
-    private class EventListener implements View.OnClickListener{
+    public void setTxtBrake(String str) {
+        txtBrake.setText(str);
+    }
+
+    private class EventListener implements View.OnClickListener {
 
         @Override
         public void onClick(View view) {
-            if(view.equals(txtWorkplace)){
+            if (view.equals(txtWorkplace)) {
                 callback.onClickWorkplace();
-            }
-            else if(view.equals(txtDateStart)){
+            } else if (view.equals(txtDateStart)) {
                 callback.onClickDateStart();
-            }
-            else if(view.equals(txtTimeStart)){
+            } else if (view.equals(txtTimeStart)) {
                 callback.onClickTimeStart();
-            }
-            else if(view.equals(txtDateEnd)){
+            } else if (view.equals(txtDateEnd)) {
                 callback.onClickDateEnd();
-            }
-            else if(view.equals(txtTimeEnd)){
+            } else if (view.equals(txtTimeEnd)) {
                 callback.onClickTimeEnd();
-            }
-            else if(view.equals(txtBreak)){
+            } else if (view.equals(txtBrake)) {
                 callback.onClickBreak();
-            }
-            else if(view.equals(txtAddNote)){
-                callback.onClickAddNote();
             }
         }
 

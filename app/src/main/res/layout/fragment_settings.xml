@@ -9,7 +9,7 @@
     android:paddingTop="20sp"
     android:paddingLeft="20sp"
     android:paddingRight="20sp"
-    tools:context="com.lhadalo.oladahl.autowork.SettingsActivity">
+    tools:context=".activities.SettingsActivity">
 
     <TextView
         android:layout_width="wrap_content"

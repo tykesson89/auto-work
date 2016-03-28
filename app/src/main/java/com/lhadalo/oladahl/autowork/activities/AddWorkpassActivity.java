@@ -1,20 +1,28 @@
-package com.lhadalo.oladahl.autowork;
+package com.lhadalo.oladahl.autowork.activities;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.text.format.DateFormat;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
+import com.lhadalo.oladahl.autowork.R;
+import com.lhadalo.oladahl.autowork.Tag;
+import com.lhadalo.oladahl.autowork.fragments.AddWorkpassFragment;
 
 /**
  * Created by oladahl on 16-03-26.
@@ -24,7 +32,7 @@ public class AddWorkpassActivity extends AppCompatActivity
         TimePickerDialog.OnTimeSetListener {
     private AddWorkpassFragment fragment;
     private int dialogSource = 0;
-
+    private String brakeTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +79,9 @@ public class AddWorkpassActivity extends AppCompatActivity
 
     @Override
     public void onClickBreak() {
-
+        createAlertDialog();
     }
 
-    @Override
-    public void onClickAddNote() {
-
-    }
 
     private String formatDate(int year, int month, int dayOfMonth) {
         return getResources().getStringArray(R.array.months)[month] + " " + dayOfMonth + ", " + year;
@@ -106,6 +110,34 @@ public class AddWorkpassActivity extends AppCompatActivity
             fragment.setTxtTimeEnd(String.valueOf(DateFormat.format("kk:mm",
                     new GregorianCalendar(0,0,0,hour,minute))));
         }
+    }
+
+    private void createAlertDialog(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add brake in minutes");
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        builder.setView(input);
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                brakeTime = input.getText().toString();
+                fragment.setTxtBrake(String.valueOf(brakeTime + " min"));
+            }
+        }
+        ).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+
     }
 
     public static class TimePickerFragment extends DialogFragment{

@@ -1,4 +1,4 @@
-package com.lhadalo.oladahl.autowork;
+package com.lhadalo.oladahl.autowork.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,6 +14,11 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import UserPackage.User;
+
+import com.lhadalo.oladahl.autowork.R;
+import com.lhadalo.oladahl.autowork.SQLiteDB;
+import com.lhadalo.oladahl.autowork.Tag;
+import com.lhadalo.oladahl.autowork.fragments.LoginFragment;
 
 public class LoginActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteraction{
     private LoginFragment fragment;

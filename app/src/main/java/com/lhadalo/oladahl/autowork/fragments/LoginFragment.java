@@ -1,4 +1,4 @@
-package com.lhadalo.oladahl.autowork;
+package com.lhadalo.oladahl.autowork.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.lhadalo.oladahl.autowork.R;
+
 /**
  * Created by oladahl on 16-03-26.
  */
@@ -22,7 +24,7 @@ public class LoginFragment extends Fragment {
     private Button btnLogin, btnCreateUser;
     private EditText etEmail, etPassword;
 
-    interface OnFragmentInteraction{
+    public interface OnFragmentInteraction{
         void onClickBtnLogin(String email, String password);
         void onClickBtnCreateUser();
     }

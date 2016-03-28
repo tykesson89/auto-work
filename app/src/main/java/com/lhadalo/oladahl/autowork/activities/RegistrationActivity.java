@@ -1,4 +1,4 @@
-package com.lhadalo.oladahl.autowork;
+package com.lhadalo.oladahl.autowork.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,6 +14,11 @@ import java.net.Socket;
 
 import UserPackage.Company;
 import UserPackage.User;
+
+import com.lhadalo.oladahl.autowork.R;
+import com.lhadalo.oladahl.autowork.SQLiteTag;
+import com.lhadalo.oladahl.autowork.Tag;
+import com.lhadalo.oladahl.autowork.fragments.RegistrationFragment;
 
 /**
  * @Author: Henrik Tykesson

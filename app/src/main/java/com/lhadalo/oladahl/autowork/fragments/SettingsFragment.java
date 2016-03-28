@@ -1,4 +1,4 @@
-package com.lhadalo.oladahl.autowork;
+package com.lhadalo.oladahl.autowork.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,13 +12,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.lhadalo.oladahl.autowork.R;
+
 public class SettingsFragment extends Fragment {
     private OnFragmentInteraction callback;
     private Button btnChangeUserInfo;
     private EditText etFirstName, etLastName, etEmail, etOldPassword, etNewPassword;
     private TextView tvDeleteAccount;
 
-    interface OnFragmentInteraction {
+    public interface OnFragmentInteraction {
         void onClickBtnChangeUserInfo(String firstName, String lastName, String email,
                                       String oldPassword, String newPassword);
         void onClickDeleteAccount(String firstName, String lastName, String email,
