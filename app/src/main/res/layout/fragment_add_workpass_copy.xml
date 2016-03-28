@@ -7,48 +7,15 @@
 
     xmlns:http="http://schemas.android.com/apk/res-auto">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:expandedTitleTextAppearance="@style/Widget.AppCompat.ActionBar.TabText">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar_1"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:elevation="0dp"
-                android:background="@color/colorPrimary"
-                android:theme="@style/ThemeOverlay.AppCompat">
-            </android.support.v7.widget.Toolbar>
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar_add_workplace"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/ThemeOverlay.AppCompat"
-                android:background="@color/colorPrimary"
-                android:elevation="0dp">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_marginRight="@dimen/toolbar_horizontal_margin"
-                    android:background="@color/colorPrimary"
-                    android:hint="Enter title, date, time..."
-                    style="@style/edit_text_style"/>
-            </android.support.v7.widget.Toolbar>
-        </LinearLayout>
-
-
-
-
-    </android.support.design.widget.AppBarLayout>
+        android:layout_height="?attr/actionBarSize"
+        android:elevation="4dp"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat">
+    </android.support.v7.widget.Toolbar>
 
 
 
@@ -58,7 +25,15 @@
         android:divider="?android:dividerHorizontal"
         android:showDividers="middle"
         android:orientation="vertical"
-        android:layout_below="@id/appbar">
+        android:layout_below="@id/toolbar_1">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_height_dense"
+            android:layout_marginLeft="@dimen/list_icon_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:hint="Title"
+            style="@style/edit_text_style"/>
 
         <include
             android:id="@+id/txt_layout_workplace"
@@ -91,7 +66,7 @@
             layout="@layout/add_workpass_list_item"/>
 
     </LinearLayout>
-    
+
 
 
     <LinearLayout
