@@ -15,7 +15,6 @@
         android:id="@+id/txt_workplace_name"
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_height_dense"
-        android:textIsSelectable="true"
         android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:text="Placeholder"/>

@@ -16,7 +16,6 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/list_height_dense"
         android:layout_weight="1"
-        android:textIsSelectable="true"
         android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
         android:text="Sun, Mar 27, 2016"/>
@@ -25,7 +24,6 @@
         android:id="@+id/txt_workplace_name2"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/list_height_dense"
-        android:textIsSelectable="true"
         android:background="?android:selectableItemBackground"
         android:paddingLeft="@dimen/content_horizontal_margin"
         android:paddingRight="@dimen/content_horizontal_margin"
