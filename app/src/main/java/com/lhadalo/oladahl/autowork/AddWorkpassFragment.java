@@ -120,6 +120,14 @@ public class AddWorkpassFragment extends Fragment {
         txtDateEnd.setText(str);
     }
 
+    public void setTxtTimeStart(String str) {
+        txtTimeStart.setText(str);
+    }
+
+    public void setTxtTimeEnd(String str) {
+        txtTimeEnd.setText(str);
+    }
+
     private class EventListener implements View.OnClickListener{
 
         @Override
