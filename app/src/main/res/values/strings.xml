@@ -64,4 +64,28 @@
     </string-array>
 
 
+
+    <!--RemoveOrChangeCompanyFragment -->
+    <string name="delete">DELETE</string>
+    <string name="change">CHANGE</string>
+    <string name="back">BACK</string>
+    <string name="txt_company">Remove/Change Company</string>
+
+
+    <string name="company"></string>
+    <string-array name="company_names">
+        <item>xxx</item>
+        <item>yyy</item>
+        <item>ccc</item>
+        <item>bbb</item>
+    </string-array>
+    <string name="title_activity_add_company">AddCompanyActivity</string>
+
+
 </resources>
+
+
+
+
+
+
