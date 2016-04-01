@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -24,9 +25,13 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.lhadalo.oladahl.autowork.R;
+import com.lhadalo.oladahl.autowork.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
+import com.lhadalo.oladahl.autowork.WorkpassData;
 import com.lhadalo.oladahl.autowork.WorkpassModel;
 import com.lhadalo.oladahl.autowork.fragments.AddWorkpassFragment;
+
+import UserPackage.Company;
 
 /**
  * Created by oladahl on 16-03-26.
@@ -36,6 +41,9 @@ public class AddWorkpassActivity extends AppCompatActivity
         TimePickerDialog.OnTimeSetListener {
 
     private AddWorkpassFragment fragment;
+
+    SQLiteDB database;
+    private WorkpassData dataSource;
     private int dialogSource = 0;
     private String brakeTime;
     private WorkpassModel model;
@@ -49,6 +57,20 @@ public class AddWorkpassActivity extends AppCompatActivity
         initFragment();
 
         model = new WorkpassModel();
+        dataSource = new WorkpassData(this);
+        dataSource.open();
+    }
+
+    @Override
+    protected void onPause() {
+        dataSource.close();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        dataSource.open();
+        super.onResume();
     }
 
     @Override
@@ -76,6 +98,7 @@ public class AddWorkpassActivity extends AppCompatActivity
         fragment.setTxtTimeEnd(String.valueOf(DateFormat.format("kk:mm", endTime)));
         fragment.setTimeEndTag(endTime);
 
+        fragment.setBreakTag(0.0);
     }
 
     private void initFragment() {
@@ -115,26 +138,30 @@ public class AddWorkpassActivity extends AppCompatActivity
 
     @Override
     public void onClickBreak() {
+        workpassModels = dataSource.getAllWorkpasses();
 
-
+        for(WorkpassModel m : workpassModels) {
+            Log.v(Tag.LOGTAG, m.getTitle());
+        }
         //createAlertDialog();
     }
 
     @Override
     public void onClickAdd() {
+        populateModel();
+        dataSource.addWorkpass(model);
+    }
 
-        WorkpassModel model = new WorkpassModel();
-        model.setTitle(fragment.getTitle());
-        model.setCompany(null);
-        Timestamp dateTimeStart = formatDateTime(fragment.getDateStartTag(),
-                fragment.getTimeStartTag());
-        Timestamp dateTimeEnd = formatDateTime(fragment.getDateEndTag(),
-                fragment.getTimeEndTag());
-        model.setStartDateTime(dateTimeStart);
-        model.setEndDateTime(dateTimeEnd);
-        model.setBreaktime(Integer.parseInt(fragment.getBrakeTime()));
-        model.setSalary(0.0);
-        model.setNote(fragment.getNote());
+    //TODO Sätta värden från interface
+    private void populateModel(){
+        model.setUserId(1);
+        model.setCompany(new Company("test", 5.5));
+        model.setTitle("Hej");
+        model.setStartDateTime(new Timestamp(0, 0, 0, 0, 0, 0, 0));
+        model.setEndDateTime(new Timestamp(0, 0, 0, 0, 0, 0, 0));
+        model.setBreaktime(0.0);
+        model.setSalary(125.0);
+        model.setNote("Note");
 
     }
 
@@ -192,6 +219,7 @@ public class AddWorkpassActivity extends AppCompatActivity
             public void onClick(DialogInterface dialog, int i) {
                 brakeTime = input.getText().toString();
                 fragment.setTxtBrake(String.valueOf(brakeTime + " min"));
+                fragment.setBreakTag(Double.parseDouble(brakeTime));
             }
         }
         ).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -202,7 +230,6 @@ public class AddWorkpassActivity extends AppCompatActivity
         });
 
         builder.show();
-
     }
 
     public static class TimePickerFragment extends DialogFragment{
