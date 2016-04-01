@@ -124,7 +124,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
         values.put(WorkpassEntry.COLUMN_USER_ID, model.getUserId());
         values.put(WorkpassEntry.COLUMN_TITLE, model.getTitle());
-        values.put(WorkpassEntry.COLUMN_WORKPLACE_ID, model.getWorkpassId());
+       // values.put(WorkpassEntry.COLUMN_WORKPLACE_ID, model.getWorkpassId());
         values.put(WorkpassEntry.COLUMN_START_DATE_TIME, model.getStartDateTime().toString());
         values.put(WorkpassEntry.COLUMN_END_DATE_TIME, model.getEndDateTime().toString());
         values.put(WorkpassEntry.COLUMN_SALARY, model.getSalary());
