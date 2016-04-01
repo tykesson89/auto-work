@@ -1,6 +1,7 @@
 package com.lhadalo.oladahl.autowork.activities;
 
 import android.app.ProgressDialog;
+import android.content.ComponentCallbacks;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -12,8 +13,11 @@ import android.widget.Toast;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
+import UserPackage.Company;
 import UserPackage.User;
+import UserPackage.WorkpassModel;
 
 import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.SQLiteDB;
@@ -86,7 +90,9 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
         @Override
         protected String doInBackground(User... users) {
-
+            ArrayList<Company> companyArrayList = new ArrayList<>();
+            ArrayList<WorkpassModel>workpassModelArrayList = new ArrayList<>();
+           
             User user = users[0];
             try{
                 socket = new Socket(ip, port);
@@ -100,6 +106,11 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
                 user = (User)objectIn.readObject();
                 db.loginUser(user);
+                companyArrayList = (ArrayList<Company>)objectIn.readObject();
+                // TODO: 2016-03-31 Spara alla arbetsplatser i SQLite databasen 
+                
+                workpassModelArrayList = (ArrayList<WorkpassModel>)objectIn.readObject();
+                //// TODO: 2016-03-31 Spara alla arbetspass i SQLite databasen 
 
 
             } catch (Exception e){
