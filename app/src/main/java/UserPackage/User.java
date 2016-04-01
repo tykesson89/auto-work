@@ -24,6 +24,9 @@ public class User implements UserInterface {
         this.newPassword = newPassword;
 
     }
+    public User(int userId){
+        this.userId = userId;
+    }
 
 
     public User(String firstname, String lastname, String email, String oldPassword, int userId){
