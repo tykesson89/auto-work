@@ -13,10 +13,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lhadalo.oladahl.autowork.R;
+
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class AddWorkpassFragment extends Fragment {
     private OnFragmentInteraction callback;
@@ -26,14 +32,14 @@ public class AddWorkpassFragment extends Fragment {
     private LinearLayout layoutStop;
     private LinearLayout layoutBreak;
     private LinearLayout layoutAddNote;
-    private TextView txtWorkplace;
 
+    private EditText etTitle, etAddNote;
+
+    private TextView txtWorkplace;
     private TextView txtDateStart;
     private TextView txtTimeStart;
-
     private TextView txtDateEnd;
     private TextView txtTimeEnd;
-
     private TextView txtBrake;
 
 
@@ -49,6 +55,8 @@ public class AddWorkpassFragment extends Fragment {
         void onClickTimeEnd();
 
         void onClickBreak();
+
+        void onClickAdd();
 
     }
 
@@ -69,34 +77,32 @@ public class AddWorkpassFragment extends Fragment {
     }
 
     private void initComponents(View view) {
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar_1);
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        Toolbar toolbar = (Toolbar)view.findViewById(R.id.toolbar_1);
+        AppCompatActivity activity = (AppCompatActivity)getActivity();
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         activity.setTitle("Add workpass");
 
-        layoutWorkplace = (LinearLayout) view.findViewById(R.id.txt_layout_workplace);
-        layoutStart = (LinearLayout) view.findViewById(R.id.txt_layout_start);
-        layoutStop = (LinearLayout) view.findViewById(R.id.txt_layout_stop);
-        layoutBreak = (LinearLayout) view.findViewById(R.id.txt_layout_lunch);
-        layoutAddNote = (LinearLayout) view.findViewById(R.id.txt_layout_add_notes);
+        etTitle = (EditText)view.findViewById(R.id.et_title);
+        etAddNote = (EditText)view.findViewById(R.id.et_add_note);
 
-        txtWorkplace = (TextView) layoutWorkplace.getChildAt(1);
-        txtDateStart = (TextView) layoutStart.getChildAt(1);
-        txtTimeStart = (TextView) layoutStart.getChildAt(2);
 
-        txtDateEnd = (TextView) layoutStop.getChildAt(1);
+        layoutWorkplace = (LinearLayout)view.findViewById(R.id.txt_layout_workplace);
+        layoutStart = (LinearLayout)view.findViewById(R.id.txt_layout_start);
+        layoutStop = (LinearLayout)view.findViewById(R.id.txt_layout_stop);
+        layoutBreak = (LinearLayout)view.findViewById(R.id.txt_layout_lunch);
+        layoutAddNote = (LinearLayout)view.findViewById(R.id.txt_layout_add_notes);
 
-        txtTimeEnd = (TextView) layoutStop.getChildAt(2);
-        txtBrake = (TextView) layoutBreak.getChildAt(1);
+        txtWorkplace = (TextView)layoutWorkplace.getChildAt(1);
+        txtDateStart = (TextView)layoutStart.getChildAt(1);
+        txtTimeStart = (TextView)layoutStart.getChildAt(2);
+        txtDateEnd = (TextView)layoutStop.getChildAt(1);
+        txtTimeEnd = (TextView)layoutStop.getChildAt(2);
+        txtBrake = (TextView)layoutBreak.getChildAt(1);
+
+
 
         txtWorkplace.setText("Workplace");
-        txtDateStart.setText("Sun, Mar 27, 2016");
-        txtTimeStart.setText("15:15");
-
-        txtDateEnd.setText("Sun, Mar 27, 2016");
-        txtTimeEnd.setText("18:15");
-
         txtBrake.setText("Add brake");
 
         initListeners();
@@ -104,23 +110,18 @@ public class AddWorkpassFragment extends Fragment {
 
     private void initListeners() {
         txtWorkplace.setOnClickListener(listener);
-
         txtDateStart.setOnClickListener(listener);
         txtTimeStart.setOnClickListener(listener);
-
         txtDateEnd.setOnClickListener(listener);
         txtTimeEnd.setOnClickListener(listener);
-
         txtBrake.setOnClickListener(listener);
-
-
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            callback = (OnFragmentInteraction) context;
+            callback = (OnFragmentInteraction)context;
         } catch (ClassCastException e) {
             Log.e("", context.getClass().getCanonicalName() +
                     " must implement OnFragmentInteraction");
@@ -135,7 +136,44 @@ public class AddWorkpassFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.action_add){
+            callback.onClickAdd();
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setTimeStartTag(GregorianCalendar date){
+        txtTimeStart.setTag(date);
+    }
+
+    public GregorianCalendar getTimeStartTag(){
+        return (GregorianCalendar)txtTimeStart.getTag();
+    }
+
+    public void setDateEndTag(GregorianCalendar date){
+        txtDateEnd.setTag(date);
+    }
+
+    public GregorianCalendar getDateEndTag(){
+        return (GregorianCalendar)txtDateEnd.getTag();
+    }
+
+    public void setTimeEndTag(GregorianCalendar date){
+        txtTimeEnd.setTag(date);
+    }
+
+    public GregorianCalendar getTimeEndTag(){
+        return (GregorianCalendar)txtTimeEnd.getTag();
+    }
+
+    public void setDateStartTag(GregorianCalendar date){
+        txtDateStart.setTag(date);
+    }
+
+    public GregorianCalendar getDateStartTag(){
+        return (GregorianCalendar)txtDateStart.getTag();
     }
 
     public void setTxtDateStart(String str) {
@@ -156,6 +194,34 @@ public class AddWorkpassFragment extends Fragment {
 
     public void setTxtBrake(String str) {
         txtBrake.setText(str);
+    }
+
+    public String getTitle(){
+        return etTitle.getText().toString();
+    }
+
+    public String getStartDate(){
+        return txtDateStart.getText().toString();
+    }
+
+    public String getStartTime(){
+        return txtTimeStart.getText().toString();
+    }
+
+    public String getEndDate(){
+        return txtDateEnd.getText().toString();
+    }
+
+    public String getEndTime(){
+        return txtTimeEnd.getText().toString();
+    }
+
+    public String getBrakeTime(){
+        return txtBrake.getText().toString();
+    }
+
+    public String getNote(){
+        return etAddNote.getText().toString();
     }
 
     private class EventListener implements View.OnClickListener {

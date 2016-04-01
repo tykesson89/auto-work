@@ -16,7 +16,7 @@ import UserPackage.Company;
 import UserPackage.User;
 
 import com.lhadalo.oladahl.autowork.R;
-import com.lhadalo.oladahl.autowork.SQLiteTag;
+import com.lhadalo.oladahl.autowork.SQLiteCommand;
 import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.fragments.RegistrationFragment;
 
@@ -110,7 +110,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
                 Socket socket = new Socket(ip, port);
                 objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
                 objectInputStream = new ObjectInputStream(socket.getInputStream());
-                objectOutputStream.writeObject(SQLiteTag.CREATE_USER);
+                objectOutputStream.writeObject("Create User");
                 objectOutputStream.writeObject(user);
                 objectOutputStream.writeObject(company);
                 progressDialog.dismiss();

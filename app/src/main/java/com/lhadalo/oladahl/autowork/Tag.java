@@ -14,4 +14,6 @@ public class Tag {
 
     public static final int START_DATE_TIME = 1;
     public static final int END_DATE_TIME = 2;
+
+    public static final String LOGTAG = "com.lhadalo.tagvalue";
 }
