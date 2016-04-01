@@ -23,8 +23,7 @@ public class SettingsFragment extends Fragment {
     public interface OnFragmentInteraction {
         void onClickBtnChangeUserInfo(String firstName, String lastName, String email,
                                       String oldPassword, String newPassword);
-        void onClickDeleteAccount(String firstName, String lastName, String email,
-                                  String oldPassword, String newPassword);
+        void onClickDeleteAccount();
     }
 
     @Nullable
@@ -66,11 +65,7 @@ public class SettingsFragment extends Fragment {
         tvDeleteAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callback.onClickDeleteAccount(getFirstName(),
-                        getLastName(),
-                        getEmail(),
-                        getOldPassword(),
-                        getNewPassword());
+                callback.onClickDeleteAccount();
             }
         });
     }
