@@ -11,8 +11,8 @@ public class SQLiteCommand {
     private static final String INT_TYPE = " INTEGER";
     private static final String REAL_TYPE = " REAL";
 
-    public static final String DB_CREATE_TABLE =
-            "CREATE TABLE " + WorkpassEntry.TABLE_NAME + " ("
+    public static final String DB_CREATE_WORKPASS_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + WorkpassEntry.TABLE_NAME + " ("
                     + WorkpassEntry.WORKPASS_ID + " INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT" + COMMA_SEP
                     + WorkpassEntry.COLUMN_USER_ID + INT_TYPE + COMMA_SEP
                     + WorkpassEntry.COLUMN_TITLE + TEXT_TYPE + COMMA_SEP
@@ -22,6 +22,4 @@ public class SQLiteCommand {
                     + WorkpassEntry.COLUMN_SALARY + REAL_TYPE + COMMA_SEP
                     + WorkpassEntry.COLUMN_BRAKE_TIME + INT_TYPE + COMMA_SEP
                     + WorkpassEntry.COLUMN_NOTE + TEXT_TYPE + ");";
-
-
 }

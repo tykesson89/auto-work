@@ -100,8 +100,6 @@ public class AddWorkpassFragment extends Fragment {
         txtTimeEnd = (TextView)layoutStop.getChildAt(2);
         txtBrake = (TextView)layoutBreak.getChildAt(1);
 
-
-
         txtWorkplace.setText("Workplace");
         txtBrake.setText("Add brake");
 
@@ -144,28 +142,13 @@ public class AddWorkpassFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public void setTimeStartTag(GregorianCalendar date){
-        txtTimeStart.setTag(date);
+    public String getTitle(){
+        return etTitle.getText().toString();
     }
 
-    public GregorianCalendar getTimeStartTag(){
-        return (GregorianCalendar)txtTimeStart.getTag();
-    }
-
-    public void setDateEndTag(GregorianCalendar date){
-        txtDateEnd.setTag(date);
-    }
-
-    public GregorianCalendar getDateEndTag(){
-        return (GregorianCalendar)txtDateEnd.getTag();
-    }
-
-    public void setTimeEndTag(GregorianCalendar date){
-        txtTimeEnd.setTag(date);
-    }
-
-    public GregorianCalendar getTimeEndTag(){
-        return (GregorianCalendar)txtTimeEnd.getTag();
+    //Date start---------------------------------
+    public void setTxtDateStart(String str) {
+        txtDateStart.setText(str);
     }
 
     public void setDateStartTag(GregorianCalendar date){
@@ -176,50 +159,63 @@ public class AddWorkpassFragment extends Fragment {
         return (GregorianCalendar)txtDateStart.getTag();
     }
 
-    public void setTxtDateStart(String str) {
-        txtDateStart.setText(str);
-    }
-
-    public void setTxtDateEnd(String str) {
-        txtDateEnd.setText(str);
-    }
-
+    //Time start---------------------------------
     public void setTxtTimeStart(String str) {
         txtTimeStart.setText(str);
     }
 
+    public void setTimeStartTag(GregorianCalendar date){
+        txtTimeStart.setTag(date);
+    }
+
+    public GregorianCalendar getTimeStartTag(){
+        return (GregorianCalendar)txtTimeStart.getTag();
+    }
+
+    //Date end---------------------------------
+    public void setTxtDateEnd(String str) {
+        txtDateEnd.setText(str);
+    }
+
+    public void setDateEndTag(GregorianCalendar date){
+        txtDateEnd.setTag(date);
+    }
+
+    public GregorianCalendar getDateEndTag(){
+        return (GregorianCalendar)txtDateEnd.getTag();
+    }
+
+    //Time end---------------------------------
     public void setTxtTimeEnd(String str) {
         txtTimeEnd.setText(str);
     }
 
+    public void setTimeEndTag(GregorianCalendar date){
+        txtTimeEnd.setTag(date);
+    }
+
+    public GregorianCalendar getTimeEndTag(){
+        return (GregorianCalendar)txtTimeEnd.getTag();
+    }
+
+    //Brake---------------------------------
     public void setTxtBrake(String str) {
         txtBrake.setText(str);
     }
 
-    public String getTitle(){
-        return etTitle.getText().toString();
+    public void setBreakTag(double time){
+        txtBrake.setTag(time);
     }
 
-    public String getStartDate(){
-        return txtDateStart.getText().toString();
-    }
-
-    public String getStartTime(){
-        return txtTimeStart.getText().toString();
-    }
-
-    public String getEndDate(){
-        return txtDateEnd.getText().toString();
-    }
-
-    public String getEndTime(){
-        return txtTimeEnd.getText().toString();
+    public double getBrakeTag(){
+        return (double)txtBrake.getTag();
     }
 
     public String getBrakeTime(){
         return txtBrake.getText().toString();
     }
 
+    //Note---------------------------------
     public String getNote(){
         return etAddNote.getText().toString();
     }

@@ -11,15 +11,16 @@ import UserPackage.Company;
  */
 public class WorkpassModel implements Serializable{
     private static final long serialVersionUID = 1L;
-    private long workpassId;
+    private long id;
     private int userId;
-    private String title;
-    private double salary;
     private Company company;
+    private String title;
     private Timestamp startDateTime;
     private Timestamp endDateTime;
-    private int breaktime;
+    private double breaktime;
+    private double salary;
     private String note;
+
 
     public WorkpassModel(String title, double salary, Company company, Timestamp startDateTime,
                          Timestamp endDateTime, int breaktime, String note) {
@@ -31,7 +32,6 @@ public class WorkpassModel implements Serializable{
         this.breaktime = breaktime;
         this.note = note;
     }
-
 
     public WorkpassModel(){
     }
@@ -68,13 +68,6 @@ public class WorkpassModel implements Serializable{
         return salary;
     }
 
-    public long getWorkpassId() {
-        return workpassId;
-    }
-
-    public void setWorkpassId(long id) {
-        this.workpassId = id;
-    }
 
     public String getTitle() {
         return title;
@@ -84,13 +77,6 @@ public class WorkpassModel implements Serializable{
         this.title = title;
     }
 
-    public int getBreaktime() {
-        return breaktime;
-    }
-
-    public void setBreaktime(int breaktime) {
-        this.breaktime = breaktime;
-    }
 
     public String getNote() {
         return note;
@@ -106,5 +92,21 @@ public class WorkpassModel implements Serializable{
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public double getBreaktime() {
+        return breaktime;
+    }
+
+    public void setBreaktime(double breaktime) {
+        this.breaktime = breaktime;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
