@@ -54,7 +54,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS Users" + "DROP TABLE IF EXISTS Workplace" + "DROP TABLE IF EXISTS Workdays");
+        db.execSQL("DROP TABLE IF EXISTS Users" + "DROP TABLE IF EXISTS Workplace" + "DROP TABLE IF EXISTS workpass");
         onCreate(db);
     }
 
@@ -62,7 +62,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete("Users",null,null);
         db.delete("Company",null,null);
-        db.delete("Workdays",null,null);
+        db.delete("workpass",null,null);
         Log.d("Database: ", "Deleted");
         onCreate(db);
         db.close();
@@ -88,9 +88,9 @@ public class SQLiteDB extends SQLiteOpenHelper {
     public int getUserId(Context context){
         SQLiteDatabase db = this.getReadableDatabase();
         int s;
-        Cursor c = db.rawQuery("SELECT * FROM Users", null);
+        Cursor c = db.rawQuery("SELECT userID FROM Users", null);
         c.moveToFirst();
-        s=c.getInt(c.getColumnIndex("UserID"));
+        s=c.getInt(c.getColumnIndex("userID"));
         db.close();
         return s;
     }
@@ -98,7 +98,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
     public String getFirstName(){
         SQLiteDatabase db = this.getReadableDatabase();
         String string;
-        Cursor c = db.rawQuery("SELECT * FROM Users", null);
+        Cursor c = db.rawQuery("SELECT firstname FROM Users", null);
         c.moveToFirst();
         string=c.getString(c.getColumnIndex("firstname"));
         db.close();

@@ -88,7 +88,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     private class CreateUser extends AsyncTask<Object, Void, String> {
         //TODO Hämta port och ip från inställningar
         private static final int port = 45001;
-        private static final String ip = "192.168.1.77";
+        private static final String ip = "192.168.1.7";
         //private static final String tag = "Create User";
         private ObjectInputStream objectInputStream;
         private ObjectOutputStream objectOutputStream;

@@ -16,8 +16,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         setContentView(R.layout.activity_main);
         initFragment();
 
-        /*SQLiteDB sqLiteDB = new SQLiteDB(MainActivity.this);
-        name = sqLiteDB.getFirstName();*/
+       SQLiteDB sqLiteDB = new SQLiteDB(MainActivity.this);
+        name = sqLiteDB.getFirstName();
     }
 
 
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     protected void onStart() {
         super.onStart();
 
-       // fragment.setTextTvName(name);
+      fragment.setTextTvName(name);
     }
 
     @Override

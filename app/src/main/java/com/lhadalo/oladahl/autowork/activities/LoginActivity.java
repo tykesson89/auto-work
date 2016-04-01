@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     private class Login extends AsyncTask<User, Void, String>{
         //TODO Hämta port och ip från inställningar
         private static final int port = 45001;
-        private static final String ip = "192.168.1.77";
+        private static final String ip = "192.168.1.7";
 
         private Context context;
         
