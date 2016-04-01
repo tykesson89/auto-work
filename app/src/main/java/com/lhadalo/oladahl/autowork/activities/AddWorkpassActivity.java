@@ -136,6 +136,8 @@ public class AddWorkpassActivity extends AppCompatActivity
         model.setStartDateTime(dateTimeStart);
         model.setEndDateTime(dateTimeEnd);
         model.setBreaktime(Integer.parseInt(fragment.getBrakeTime()));
+
+
 //        model.setNote(fragment.getNote());
 //
 //        GregorianCalendar date = fragment.getTimeStartTag();

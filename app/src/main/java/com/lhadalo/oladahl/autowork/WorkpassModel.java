@@ -12,6 +12,7 @@ import UserPackage.Company;
 public class WorkpassModel implements Serializable{
     private static final long serialVersionUID = 1L;
     private long workpassId;
+    private int userId;
     private String title;
     private double salary;
     private Company company;
@@ -97,5 +98,13 @@ public class WorkpassModel implements Serializable{
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

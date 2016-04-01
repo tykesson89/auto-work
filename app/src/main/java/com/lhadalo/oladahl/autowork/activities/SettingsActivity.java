@@ -37,6 +37,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
     @Override
     public void onClickDeleteAccount(String firstName, String lastName, String email,
                                      String oldPassword, String newPassword) {
+
         User user = new User(firstName, lastName, email, newPassword, userId, oldPassword);
         new SettingsController(SettingsActivity.this, Tag.DELETE_USER, user);
     }
