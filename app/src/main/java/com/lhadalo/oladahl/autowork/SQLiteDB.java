@@ -46,17 +46,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
                         "workplaceName TEXT NOT NULL, " +
                         "salary REAL NOT NULL)");
         Log.d("Table 2", "created");
-        db.execSQL(
-                "create table if not exists Workdays( " +
-                        "id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT," +
-                        "workdayID INTEGER UNIQUE NOT NULL, " +
-                        "userID INTEGER NOT NULL," +
-                        "workplaceID INTEGER NOT NULL, " +
-                        "workplaceName TEXT NOT NULL, " +
-                        "date TEXT NOT NULL," +
-                        "startTime TEXT NOT NULL," +
-                        "endTime TEXT NOT NULL," +
-                        "salary REAL NOT NULL)");
+        db.execSQL(SQLiteCommand.DB_CREATE_TABLE);
         Log.d("Table 3", "created");
 
 
