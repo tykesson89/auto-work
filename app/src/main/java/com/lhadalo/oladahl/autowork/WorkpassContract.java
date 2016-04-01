@@ -7,6 +7,7 @@ import android.provider.BaseColumns;
  */
 public class WorkpassContract {
     public static abstract class WorkpassEntry implements BaseColumns{
+        public static final String WORKPASS_ID = "workpass_id";
         public static final String TABLE_NAME = "tablename";
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_USER_ID = "userId";

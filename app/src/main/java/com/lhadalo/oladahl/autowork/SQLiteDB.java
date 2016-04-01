@@ -29,7 +29,6 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // TODO Auto-generated method stub
         db.execSQL(
                 "create table if not exists Users( " +
                         "id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT," +
@@ -46,6 +45,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
                         "workplaceName TEXT NOT NULL, " +
                         "salary REAL NOT NULL)");
         Log.d("Table 2", "created");
+
         db.execSQL(SQLiteCommand.DB_CREATE_TABLE);
         Log.d("Table 3", "created");
 
@@ -57,6 +57,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS Users" + "DROP TABLE IF EXISTS Workplace" + "DROP TABLE IF EXISTS Workdays");
         onCreate(db);
     }
+
     public void deleteAll() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete("Users",null,null);
@@ -66,8 +67,6 @@ public class SQLiteDB extends SQLiteOpenHelper {
         onCreate(db);
         db.close();
     }
-
-
 
     public boolean loginUser(User user){
         int userid = user.getUserid();
@@ -128,6 +127,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         values.put(WorkpassEntry.COLUMN_WORKPLACE_ID, model.getWorkpassId());
         values.put(WorkpassEntry.COLUMN_START_DATE_TIME, model.getStartDateTime().toString());
         values.put(WorkpassEntry.COLUMN_END_DATE_TIME, model.getEndDateTime().toString());
+        values.put(WorkpassEntry.COLUMN_SALARY, model.getSalary());
         values.put(WorkpassEntry.COLUMN_BRAKE_TIME, model.getBreaktime());
         values.put(WorkpassEntry.COLUMN_NOTE, model.getNote());
 

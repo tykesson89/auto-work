@@ -12,7 +12,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -25,7 +24,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import com.lhadalo.oladahl.autowork.R;
-import com.lhadalo.oladahl.autowork.WorkpassDBHelper;
 import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.WorkpassModel;
 import com.lhadalo.oladahl.autowork.fragments.AddWorkpassFragment;
@@ -36,10 +34,11 @@ import com.lhadalo.oladahl.autowork.fragments.AddWorkpassFragment;
 public class AddWorkpassActivity extends AppCompatActivity
         implements AddWorkpassFragment.OnFragmentInteraction, DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
-    private WorkpassDBHelper database = new WorkpassDBHelper(this);
+
     private AddWorkpassFragment fragment;
     private int dialogSource = 0;
     private String brakeTime;
+    private WorkpassModel model;
     private List<WorkpassModel> workpassModels = new ArrayList<>();
 
     @Override
@@ -48,6 +47,8 @@ public class AddWorkpassActivity extends AppCompatActivity
         setContentView(R.layout.activity_add_workpass);
 
         initFragment();
+
+        model = new WorkpassModel();
     }
 
     @Override
@@ -85,7 +86,7 @@ public class AddWorkpassActivity extends AppCompatActivity
 
     @Override
     public void onClickWorkplace() {
-
+        //TODO Hämta company från databas och sätt i en parameter.
     }
 
     @Override
@@ -115,11 +116,7 @@ public class AddWorkpassActivity extends AppCompatActivity
     @Override
     public void onClickBreak() {
 
-        workpassModels = database.getAllWorkpasses();
 
-        WorkpassModel m = workpassModels.get(0);
-
-        Toast.makeText(this, m.getTitle(), Toast.LENGTH_SHORT).show();
         //createAlertDialog();
     }
 
@@ -136,14 +133,9 @@ public class AddWorkpassActivity extends AppCompatActivity
         model.setStartDateTime(dateTimeStart);
         model.setEndDateTime(dateTimeEnd);
         model.setBreaktime(Integer.parseInt(fragment.getBrakeTime()));
+        model.setSalary(0.0);
+        model.setNote(fragment.getNote());
 
-
-//        model.setNote(fragment.getNote());
-//
-//        GregorianCalendar date = fragment.getTimeStartTag();
-//        date.get(Calendar.HOUR_OF_DAY);
-//        String log = String.valueOf(date.get(Calendar.HOUR_OF_DAY));
-//        Log.v(Tag.LOGTAG, log);
     }
 
     private Timestamp formatDateTime(GregorianCalendar date, GregorianCalendar time){
