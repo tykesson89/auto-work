@@ -55,14 +55,31 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
     @Override
     public void onClickBtnLogin(String email, String password) {
-        User user = new User(email, password);
-        new Login(LoginActivity.this).execute(user);
+        /*User user = new User(email, password);
+        new Login(LoginActivity.this).execute(user);*/
+
+        fakeLogin();
     }
 
     @Override
     public void onClickBtnCreateUser() {
         Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
         startActivityForResult(intent, requestCode);
+    }
+
+    private void fakeLogin(){
+        User fakeUser = new User("Fejk", "Fejksson", "fejk.son@gmail.com", 1);
+
+        Company company1 = new Company("Palladium", 132.0, fakeUser.getUserid(), 100);
+        Company company2 = new Company("Fejkalladium", 50, fakeUser.getUserid(), 101);
+
+        db.loginUser(fakeUser);
+
+        db.addCompany(company1);
+        db.addCompany(company2);
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     private class Login extends AsyncTask<User, Void, String>{

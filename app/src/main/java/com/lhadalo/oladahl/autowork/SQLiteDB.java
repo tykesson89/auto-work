@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,9 +76,9 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
     public void deleteAll() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete("Users",null,null);
-        db.delete("Company",null,null);
-        db.delete("workpass",null,null);
+        db.delete("Users", null, null);
+        db.delete("Company", null, null);
+        db.delete("workpass", null, null);
         Log.d("Database: ", "Deleted");
         onCreate(db);
         db.close();
@@ -99,6 +100,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.insert("Users", null, content);
         return true;
     }
+
     public void addCompany(Company company){
         int companyId = company.getCompanyId();
         String companyName = company.getCompanyName();
@@ -115,6 +117,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.insert("Company", null, content);
 
     }
+
     public void addloginWorkpass(WorkpassModel model){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -130,8 +133,6 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.insert("workpass", null, values);
 
     }
-
-
 
     public int getUserId(Context context){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -166,6 +167,50 @@ public class SQLiteDB extends SQLiteOpenHelper {
         }
     }
 
+    //Workpass-----------------------------------------------------------------------------------
+    public long addWorkpass(WorkpassModel model) {
+        ContentValues values = new ContentValues();
 
+        values.put(WorkpassEntry.COLUMN_USER_ID, model.getUserId());
+        values.put(WorkpassEntry.COLUMN_WORKPLACE_ID, 1);
+        values.put(WorkpassEntry.COLUMN_TITLE, model.getTitle());
+        values.put(WorkpassEntry.COLUMN_START_DATE_TIME, model.getStartDateTime().toString());
+        values.put(WorkpassEntry.COLUMN_END_DATE_TIME, model.getEndDateTime().toString());
+        values.put(WorkpassEntry.COLUMN_BRAKE_TIME, model.getBreaktime());
+        values.put(WorkpassEntry.COLUMN_SALARY, model.getSalary());
+        values.put(WorkpassEntry.COLUMN_NOTE, model.getNote());
+
+        return this.getWritableDatabase().insert(WorkpassEntry.TABLE_NAME, null, values);
+    }
+
+    public List<WorkpassModel> getAllWorkpasses() {
+        Cursor cursor = this.getReadableDatabase().rawQuery(
+                "SELECT * FROM " + WorkpassEntry.TABLE_NAME, null);
+        List<WorkpassModel> workpassModels = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            WorkpassModel model = populateModel(cursor);
+            workpassModels.add(model);
+        }
+
+        return workpassModels;
+    }
+
+    private WorkpassModel populateModel(Cursor c) {
+        WorkpassModel model = new WorkpassModel();
+
+        model.setUserId(c.getColumnIndex(WorkpassEntry.COLUMN_USER_ID));
+        model.setCompany(null);
+        model.setTitle(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_TITLE)));
+        model.setStartDateTime(Timestamp.valueOf(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_START_DATE_TIME))));
+        model.setEndDateTime(Timestamp.valueOf(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME))));
+        model.setBreaktime(c.getInt(c.getColumnIndex(WorkpassEntry.COLUMN_BRAKE_TIME)));
+        model.setSalary(c.getDouble(c.getColumnIndex(WorkpassEntry.COLUMN_SALARY)));
+        model.setNote(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_NOTE)));
+
+        return model;
+    }
+
+    //Workpass-----------------------------------------------------------------------------------
 
 }

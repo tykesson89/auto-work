@@ -136,14 +136,20 @@ public class AddWorkpassFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.action_add){
+        if (id == R.id.action_add) {
             callback.onClickAdd();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public String getTitle(){
+    //Title
+    public String getTitle() {
         return etTitle.getText().toString();
+    }
+
+    //Workplace
+    public void setWorkplaceName(String str) {
+        txtWorkplace.setText(str);
     }
 
     //Date start---------------------------------
@@ -151,51 +157,21 @@ public class AddWorkpassFragment extends Fragment {
         txtDateStart.setText(str);
     }
 
-    public void setDateStartTag(GregorianCalendar date){
-        txtDateStart.setTag(date);
-    }
-
-    public GregorianCalendar getDateStartTag(){
-        return (GregorianCalendar)txtDateStart.getTag();
-    }
-
     //Time start---------------------------------
     public void setTxtTimeStart(String str) {
         txtTimeStart.setText(str);
     }
 
-    public void setTimeStartTag(GregorianCalendar date){
-        txtTimeStart.setTag(date);
-    }
-
-    public GregorianCalendar getTimeStartTag(){
-        return (GregorianCalendar)txtTimeStart.getTag();
-    }
 
     //Date end---------------------------------
     public void setTxtDateEnd(String str) {
         txtDateEnd.setText(str);
     }
 
-    public void setDateEndTag(GregorianCalendar date){
-        txtDateEnd.setTag(date);
-    }
-
-    public GregorianCalendar getDateEndTag(){
-        return (GregorianCalendar)txtDateEnd.getTag();
-    }
 
     //Time end---------------------------------
     public void setTxtTimeEnd(String str) {
         txtTimeEnd.setText(str);
-    }
-
-    public void setTimeEndTag(GregorianCalendar date){
-        txtTimeEnd.setTag(date);
-    }
-
-    public GregorianCalendar getTimeEndTag(){
-        return (GregorianCalendar)txtTimeEnd.getTag();
     }
 
     //Brake---------------------------------
@@ -203,22 +179,11 @@ public class AddWorkpassFragment extends Fragment {
         txtBrake.setText(str);
     }
 
-    public void setBreakTag(double time){
-        txtBrake.setTag(time);
-    }
-
-    public double getBrakeTag(){
-        return (double)txtBrake.getTag();
-    }
-
-    public String getBrakeTime(){
-        return txtBrake.getText().toString();
-    }
-
     //Note---------------------------------
-    public String getNote(){
+    public String getNote() {
         return etAddNote.getText().toString();
     }
+
 
     private class EventListener implements View.OnClickListener {
 

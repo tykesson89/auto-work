@@ -12,7 +12,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -27,26 +26,27 @@ import java.util.List;
 import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
-import com.lhadalo.oladahl.autowork.WorkpassData;
+
 import UserPackage.WorkpassModel;
+
 import com.lhadalo.oladahl.autowork.fragments.AddWorkpassFragment;
 
 import UserPackage.Company;
 
-/**
- * Created by oladahl on 16-03-26.
- */
 public class AddWorkpassActivity extends AppCompatActivity
         implements AddWorkpassFragment.OnFragmentInteraction, DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
 
     private AddWorkpassFragment fragment;
 
-    SQLiteDB database;
-    private WorkpassData dataSource;
+    private SQLiteDB database;
+
     private int dialogSource = 0;
+    private Company selectedCompany;
+    private GregorianCalendar startDate, startTime, endDate, endTime;
+    private double brake;
     private String brakeTime;
-    private WorkpassModel model;
+
     private List<WorkpassModel> workpassModels = new ArrayList<>();
 
     @Override
@@ -56,26 +56,23 @@ public class AddWorkpassActivity extends AppCompatActivity
 
         initFragment();
 
-        model = new WorkpassModel();
-        dataSource = new WorkpassData(this);
-        dataSource.open();
+        database = new SQLiteDB(this);
     }
 
-    @Override
-    protected void onPause() {
-        dataSource.close();
-        super.onPause();
+    private void initFragment() {
+        fragment = new AddWorkpassFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container_add_workpass, fragment).commit();
     }
 
-    @Override
-    protected void onResume() {
-        dataSource.open();
-        super.onResume();
-    }
 
     @Override
     protected void onStart() {
         super.onStart();
+
+        selectedCompany = new Company("Fejkarbete", 500, database.getUserId(this), 100);
+
+        fragment.setWorkplaceName(selectedCompany.getCompanyName());
 
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
@@ -84,28 +81,23 @@ public class AddWorkpassActivity extends AppCompatActivity
         int hourOfDay = cal.get(Calendar.HOUR_OF_DAY);
         int minute = cal.get(Calendar.MINUTE);
 
+        startDate = new GregorianCalendar(year, month, dayOfMonth);
         fragment.setTxtDateStart(formatDate(year, month, dayOfMonth));
-        fragment.setDateStartTag(new GregorianCalendar(year, month, dayOfMonth));
 
-        GregorianCalendar startTime = new GregorianCalendar(0,0,0,hourOfDay,minute);
+        startTime = new GregorianCalendar(0, 0, 0, hourOfDay, minute);
         fragment.setTxtTimeStart(String.valueOf(DateFormat.format("kk:mm", startTime)));
-        fragment.setTimeStartTag(startTime);
 
+
+        endDate = new GregorianCalendar(year, month, dayOfMonth);
         fragment.setTxtDateEnd(formatDate(year, month, dayOfMonth));
-        fragment.setDateEndTag(new GregorianCalendar(year, month, dayOfMonth));
 
-        GregorianCalendar endTime = new GregorianCalendar(0,0,0, hourOfDay + 3, minute);
+
+        endTime = new GregorianCalendar(0, 0, 0, hourOfDay + 3, minute);
         fragment.setTxtTimeEnd(String.valueOf(DateFormat.format("kk:mm", endTime)));
-        fragment.setTimeEndTag(endTime);
 
-        fragment.setBreakTag(0.0);
+        brake = 0.0;
     }
 
-    private void initFragment() {
-        fragment = new AddWorkpassFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container_add_workpass, fragment).commit();
-    }
 
     @Override
     public void onClickWorkplace() {
@@ -138,33 +130,44 @@ public class AddWorkpassActivity extends AppCompatActivity
 
     @Override
     public void onClickBreak() {
-        workpassModels = dataSource.getAllWorkpasses();
 
-        for(WorkpassModel m : workpassModels) {
-            Log.v(Tag.LOGTAG, m.getTitle());
-        }
         //createAlertDialog();
     }
 
     @Override
     public void onClickAdd() {
-        populateModel();
-        dataSource.addWorkpass(model);
+
     }
 
     //TODO Sätta värden från interface
-    private void populateModel(){
-        model.setUserId(1);
-        model.setCompany(new Company("test", 5.5));
-        model.setTitle("Hej");
-        model.setStartDateTime(new Timestamp(0, 0, 0, 0, 0, 0, 0));
-        model.setEndDateTime(new Timestamp(0, 0, 0, 0, 0, 0, 0));
-        model.setBreaktime(0.0);
-        model.setSalary(125.0);
-        model.setNote("Note");
+    private WorkpassModel populateModelFromInterface() {
+        WorkpassModel model = new WorkpassModel();
+
+        if(validTitle()) {
+            model.setTitle(fragment.getTitle());
+        }
+        else{
+            return null;
+        }
+
+
+
+        return model;
     }
 
-    private Timestamp formatDateTime(GregorianCalendar date, GregorianCalendar time){
+    private boolean validTitle(){
+        String res = fragment.getTitle();
+        if(res.contains("")){
+            createAlertDialog("No title", "The workpass must have a title");
+            return false;
+        }
+
+        return true;
+    }
+
+   
+
+    private Timestamp formatDateTime(GregorianCalendar date, GregorianCalendar time) {
         return new Timestamp(date.get(Calendar.YEAR), date.get(Calendar.MONTH),
                 date.get(Calendar.DAY_OF_MONTH), time.get(Calendar.HOUR_OF_DAY),
                 time.get(Calendar.MINUTE), 0, 0);
@@ -176,13 +179,10 @@ public class AddWorkpassActivity extends AppCompatActivity
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        if(dialogSource == Tag.START_DATE_TIME){
+        if (dialogSource == Tag.START_DATE_TIME) {
             fragment.setTxtDateStart(formatDate(year, month, day));
-            fragment.setDateStartTag(new GregorianCalendar(year, month, day));
-        }
-        else if(dialogSource == Tag.END_DATE_TIME){
+        } else if (dialogSource == Tag.END_DATE_TIME) {
             fragment.setTxtDateEnd(formatDate(year, month, day));
-            fragment.setDateStartTag(new GregorianCalendar(year, month, day));
         }
 
         Toast.makeText(this, String.valueOf(dialogSource), Toast.LENGTH_SHORT).show();
@@ -190,20 +190,33 @@ public class AddWorkpassActivity extends AppCompatActivity
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-        if(dialogSource == Tag.START_DATE_TIME){
+        if (dialogSource == Tag.START_DATE_TIME) {
             fragment.setTxtTimeStart(String.valueOf(DateFormat.format("kk:mm",
                     new GregorianCalendar(0, 0, 0, hour, minute))));
-            fragment.setTimeStartTag(new GregorianCalendar(0,0,0,hour, minute));
-        }
-        else if(dialogSource == Tag.END_DATE_TIME){
-            fragment.setTxtTimeEnd(String.valueOf(DateFormat.format("kk:mm",
-                    new GregorianCalendar(0,0,0,hour,minute))));
-            fragment.setTimeEndTag(new GregorianCalendar(0,0,0, hour, minute));
 
+        } else if (dialogSource == Tag.END_DATE_TIME) {
+            fragment.setTxtTimeEnd(String.valueOf(DateFormat.format("kk:mm",
+                    new GregorianCalendar(0, 0, 0, hour, minute))));
         }
     }
 
-    private void createAlertDialog(){
+    private void createAlertDialog(String title, String message){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
+
+        alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        alertDialog.show();
+    }
+
+    private void createBreakDialog() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add brake in minutes");
@@ -214,13 +227,12 @@ public class AddWorkpassActivity extends AppCompatActivity
         builder.setView(input);
 
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                brakeTime = input.getText().toString();
-                fragment.setTxtBrake(String.valueOf(brakeTime + " min"));
-                fragment.setBreakTag(Double.parseDouble(brakeTime));
-            }
-        }
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        brakeTime = input.getText().toString();
+                        fragment.setTxtBrake(String.valueOf(brakeTime + " min"));
+                    }
+                }
         ).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
@@ -231,10 +243,10 @@ public class AddWorkpassActivity extends AppCompatActivity
         builder.show();
     }
 
-    public static class TimePickerFragment extends DialogFragment{
+    public static class TimePickerFragment extends DialogFragment {
         private TimePickerDialog.OnTimeSetListener listener;
 
-        static TimePickerFragment newInstance(){
+        static TimePickerFragment newInstance() {
             TimePickerFragment f = new TimePickerFragment();
 
             return f;
@@ -258,7 +270,7 @@ public class AddWorkpassActivity extends AppCompatActivity
         }
     }
 
-    public static class DatePickerFragment extends DialogFragment{
+    public static class DatePickerFragment extends DialogFragment {
         private DatePickerDialog.OnDateSetListener listener;
 
 

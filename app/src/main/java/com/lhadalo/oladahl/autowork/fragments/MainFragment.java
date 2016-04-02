@@ -29,6 +29,7 @@ public class MainFragment extends Fragment {
     public interface OnFragmentInteraction{
         void onActionSettingsPressed();
         void onActionLogOutPressed();
+        void onActionAddWorkpassPressed();
     }
 
     @Override
@@ -77,6 +78,8 @@ public class MainFragment extends Fragment {
             case R.id.action_log_out:
                 callback.onActionLogOutPressed();
                 break;
+            case R.id.action_add_workpass:
+                callback.onActionAddWorkpassPressed();
         }
 
         return super.onOptionsItemSelected(item);

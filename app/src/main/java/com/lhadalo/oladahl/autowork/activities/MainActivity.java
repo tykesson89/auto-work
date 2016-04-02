@@ -11,18 +11,18 @@ import com.lhadalo.oladahl.autowork.fragments.MainFragment;
 public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteraction {
     private MainFragment fragment;
     private String name;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initFragment();
 
-       SQLiteDB sqLiteDB = new SQLiteDB(MainActivity.this);
+        SQLiteDB sqLiteDB = new SQLiteDB(MainActivity.this);
         name = sqLiteDB.getFirstName();
     }
 
 
-
-    private void initFragment(){
+    private void initFragment() {
         fragment = new MainFragment();
 
         getSupportFragmentManager()
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     protected void onStart() {
         super.onStart();
 
-      fragment.setTextTvName(name);
+        fragment.setTextTvName(name);
     }
 
     @Override
@@ -51,5 +51,11 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onActionAddWorkpassPressed() {
+        Intent intent = new Intent(this, AddWorkpassActivity.class);
+        startActivity(intent);
     }
 }
