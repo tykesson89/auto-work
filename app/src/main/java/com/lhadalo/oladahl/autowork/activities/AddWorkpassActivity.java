@@ -28,7 +28,7 @@ import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.WorkpassData;
-import com.lhadalo.oladahl.autowork.WorkpassModel;
+import UserPackage.WorkpassModel;
 import com.lhadalo.oladahl.autowork.fragments.AddWorkpassFragment;
 
 import UserPackage.Company;

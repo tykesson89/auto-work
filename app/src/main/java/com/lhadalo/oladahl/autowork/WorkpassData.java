@@ -4,16 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
-import com.lhadalo.oladahl.autowork.SQLiteDB;
-import com.lhadalo.oladahl.autowork.WorkpassContract;
 import com.lhadalo.oladahl.autowork.WorkpassContract.WorkpassEntry;
-import com.lhadalo.oladahl.autowork.WorkpassModel;
+import UserPackage.WorkpassModel;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

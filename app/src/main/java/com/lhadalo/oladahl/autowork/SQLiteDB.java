@@ -5,13 +5,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteQuery;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import UserPackage.Company;
 import UserPackage.User;
+import UserPackage.WorkpassModel;
+
 import com.lhadalo.oladahl.autowork.WorkpassContract.WorkpassEntry;
 
 /**
@@ -40,10 +42,10 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.execSQL(
                 "create table if not exists Company( " +
                         "id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT," +
-                        "workplaceID INTEGER UNIQUE NOT NULL, " +
+                        "companyId INTEGER UNIQUE NOT NULL, " +
                         "userID INTEGER NOT NULL, " +
-                        "workplaceName TEXT NOT NULL, " +
-                        "salary REAL NOT NULL)");
+                        "companyName TEXT NOT NULL, " +
+                        "Hourlywage REAL NOT NULL)");
         Log.d("Table 2", "created");
 
         db.execSQL(SQLiteCommand.DB_CREATE_TABLE);
@@ -54,7 +56,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS Users" + "DROP TABLE IF EXISTS Workplace" + "DROP TABLE IF EXISTS workpass");
+        db.execSQL("DROP TABLE IF EXISTS Users" + "DROP TABLE IF EXISTS Company" + "DROP TABLE IF EXISTS workpass");
         onCreate(db);
     }
 
@@ -84,6 +86,39 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.insert("Users", null, content);
         return true;
     }
+    public void addCompany(Company company){
+        int companyId = company.getCompanyId();
+        String companyName = company.getCompanyName();
+        double hourtlyWage = company.getHourlyWage();
+        int userid = company.getUserId();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues content = new ContentValues();
+        content.put("userID", userid);
+        content.put("companyId", companyId);
+        content.put("Hourlywage", hourtlyWage);
+        content.put("companyName", companyName);
+
+        db.insert("Company", null, content);
+
+    }
+    public void addloginWorkpass(WorkpassModel model){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(WorkpassEntry.COLUMN_USER_ID, model.getUserId());
+        values.put(WorkpassEntry.COLUMN_TITLE, model.getTitle());
+        values.put(WorkpassEntry.COLUMN_WORKPLACE_ID, model.getId());
+        values.put(WorkpassEntry.COLUMN_START_DATE_TIME, model.getStartDateTime().toString());
+        values.put(WorkpassEntry.COLUMN_END_DATE_TIME, model.getEndDateTime().toString());
+        values.put(WorkpassEntry.COLUMN_SALARY, model.getSalary());
+        values.put(WorkpassEntry.COLUMN_BRAKE_TIME, model.getBreaktime());
+        values.put(WorkpassEntry.COLUMN_NOTE, model.getNote());
+
+        db.insert("workpass", null, values);
+
+    }
+
+
 
     public int getUserId(Context context){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -124,7 +159,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
         values.put(WorkpassEntry.COLUMN_USER_ID, model.getUserId());
         values.put(WorkpassEntry.COLUMN_TITLE, model.getTitle());
-       // values.put(WorkpassEntry.COLUMN_WORKPLACE_ID, model.getWorkpassId());
+        values.put(WorkpassEntry.COLUMN_WORKPLACE_ID, model.getId());
         values.put(WorkpassEntry.COLUMN_START_DATE_TIME, model.getStartDateTime().toString());
         values.put(WorkpassEntry.COLUMN_END_DATE_TIME, model.getEndDateTime().toString());
         values.put(WorkpassEntry.COLUMN_SALARY, model.getSalary());

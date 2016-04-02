@@ -1,7 +1,6 @@
 package com.lhadalo.oladahl.autowork.activities;
 
 import android.app.ProgressDialog;
-import android.content.ComponentCallbacks;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -17,11 +16,11 @@ import java.util.ArrayList;
 
 import UserPackage.Company;
 import UserPackage.User;
-import UserPackage.WorkpassModel;
 
 import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
+import UserPackage.WorkpassModel;
 import com.lhadalo.oladahl.autowork.fragments.LoginFragment;
 
 public class LoginActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteraction{
@@ -107,10 +106,14 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                 user = (User)objectIn.readObject();
                 db.loginUser(user);
                 companyArrayList = (ArrayList<Company>)objectIn.readObject();
-                // TODO: 2016-03-31 Spara alla arbetsplatser i SQLite databasen 
+                for(int i = 0; i < companyArrayList.size(); i++){
+                    db.addCompany(companyArrayList.get(i));
+                }
                 
                 workpassModelArrayList = (ArrayList<WorkpassModel>)objectIn.readObject();
-                //// TODO: 2016-03-31 Spara alla arbetspass i SQLite databasen 
+                for(int i = 0; i < workpassModelArrayList.size(); i++){
+                    db.addloginWorkpass(workpassModelArrayList.get(i));
+                }
 
 
             } catch (Exception e){

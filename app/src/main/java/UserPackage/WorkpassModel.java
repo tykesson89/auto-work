@@ -12,14 +12,15 @@ import UserPackage.Company;
 public class WorkpassModel implements Serializable{
     private static final long serialVersionUID = 1L;
     private long id;
-    private int userID;
-    private String title;
-    private double salary;
+    private int userId;
     private Company company;
+    private String title;
     private Timestamp startDateTime;
     private Timestamp endDateTime;
-    private int breaktime;
+    private double breaktime;
+    private double salary;
     private String note;
+
 
     public WorkpassModel(String title, double salary, Company company, Timestamp startDateTime,
                          Timestamp endDateTime, int breaktime, String note) {
@@ -31,19 +32,6 @@ public class WorkpassModel implements Serializable{
         this.breaktime = breaktime;
         this.note = note;
     }
-    public WorkpassModel(long id, int userID, String title, double salary, Company company, Timestamp startDateTime,
-                         Timestamp endDateTime, int breaktime, String note){
-        this.id = id;
-        this.userID = userID;
-        this.title = title;
-        this.salary = salary;
-        this.company = company;
-        this.startDateTime = startDateTime;
-        this.endDateTime = endDateTime;
-        this.breaktime = breaktime;
-        this.note = note;
-    }
-
 
     public WorkpassModel(){
     }
@@ -80,21 +68,6 @@ public class WorkpassModel implements Serializable{
         return salary;
     }
 
-    public long getUserId() {
-        return userID;
-    }
-
-    public void setUserId(int userID) {
-        this.userID = userID;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -104,13 +77,6 @@ public class WorkpassModel implements Serializable{
         this.title = title;
     }
 
-    public int getBreaktime() {
-        return breaktime;
-    }
-
-    public void setBreaktime(int breaktime) {
-        this.breaktime = breaktime;
-    }
 
     public String getNote() {
         return note;
@@ -118,5 +84,29 @@ public class WorkpassModel implements Serializable{
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public double getBreaktime() {
+        return breaktime;
+    }
+
+    public void setBreaktime(double breaktime) {
+        this.breaktime = breaktime;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
