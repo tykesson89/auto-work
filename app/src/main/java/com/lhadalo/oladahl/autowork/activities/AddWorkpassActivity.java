@@ -162,7 +162,6 @@ public class AddWorkpassActivity extends AppCompatActivity
         model.setBreaktime(0.0);
         model.setSalary(125.0);
         model.setNote("Note");
-
     }
 
     private Timestamp formatDateTime(GregorianCalendar date, GregorianCalendar time){
