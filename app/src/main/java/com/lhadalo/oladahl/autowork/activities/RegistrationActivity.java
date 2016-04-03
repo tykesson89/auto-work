@@ -44,9 +44,9 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     protected void onStart() {
         super.onStart();
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        ip = prefs.getString("pref_key_ip", null);
-        port = Integer.parseInt(prefs.getString("pref_key_port", null));
+        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        //ip = prefs.getString("pref_key_ip", null);
+        //port = Integer.parseInt(prefs.getString("pref_key_port", null));
 
         Log.v(Tag.LOGTAG, ip);
         Log.v(Tag.LOGTAG, String.valueOf(port));
@@ -105,12 +105,6 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
      * Inner class for communication with server.
      */
     private class CreateUser extends AsyncTask<Object, Void, String> {
-        //TODO Hämta port och ip från inställningar
-
-        private static final int port = 45001;
-        private static final String ip = "85.235.21.222";
-
-
         private ObjectInputStream objectInputStream;
         private ObjectOutputStream objectOutputStream;
         private ProgressDialog progressDialog;
@@ -128,7 +122,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
             user = (User) params[0];
             company = (Company) params[1];
             try {
-                Socket socket = new Socket(ip, port);
+                Socket socket = new Socket(Tag.IP, Tag.PORT);
                 objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
                 objectInputStream = new ObjectInputStream(socket.getInputStream());
                 objectOutputStream.writeObject(Tag.CREATE_USER);
