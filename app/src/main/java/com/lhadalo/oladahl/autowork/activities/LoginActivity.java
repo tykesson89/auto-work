@@ -3,7 +3,9 @@ package com.lhadalo.oladahl.autowork.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import UserPackage.Company;
 import UserPackage.User;
 
+import com.lhadalo.oladahl.autowork.InternetSettingsActivity;
 import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
@@ -27,6 +30,8 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     private LoginFragment fragment;
     private final int requestCode = 1;
     private SQLiteDB db = new SQLiteDB(this);
+    private String ip;
+    private int port;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,10 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         SQLiteDB sqLiteDB = new SQLiteDB(this);
         sqLiteDB.getWritableDatabase();
         Log.d("Database created", " ");
+
+
+
+
 
         if (sqLiteDB.isLoggedIn() == true) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -46,6 +55,18 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        ip = prefs.getString("pref_key_ip", null);
+        port = Integer.parseInt(prefs.getString("pref_key_port", null));
+
+        Log.v(Tag.LOGTAG, String.valueOf(ip));
+        Log.v(Tag.LOGTAG, String.valueOf(port));
+    }
+
     private void initFragment(){
         fragment = new LoginFragment();
         getSupportFragmentManager().beginTransaction()
@@ -55,10 +76,16 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
     @Override
     public void onClickBtnLogin(String email, String password) {
-        /*User user = new User(email, password);
-        new Login(LoginActivity.this).execute(user);*/
+        User user = new User(email, password);
+        new Login(LoginActivity.this).execute(user);
 
-        fakeLogin();
+        //fakeLogin();
+    }
+
+    @Override
+    public void onClickInternetSettings() {
+        Intent intent = new Intent(this, InternetSettingsActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -84,8 +111,9 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
     private class Login extends AsyncTask<User, Void, String>{
         //TODO Hämta port och ip från inställningar
-        private static final int port = 45001;
-        private static final String ip = "192.168.1.7";
+
+        //private static final int port = 45001;
+        //private static final String ip = "85.235.21.222";
 
         private Context context;
         

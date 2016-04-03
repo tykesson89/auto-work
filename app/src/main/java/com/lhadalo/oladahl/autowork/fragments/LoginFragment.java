@@ -8,6 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -27,6 +30,15 @@ public class LoginFragment extends Fragment {
     public interface OnFragmentInteraction{
         void onClickBtnLogin(String email, String password);
         void onClickBtnCreateUser();
+
+        void onClickInternetSettings();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -83,5 +95,22 @@ public class LoginFragment extends Fragment {
 
     public void setTextetEmail(String str){
         etEmail.setText(str);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.menu_login, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.action_internet_settings){
+            callback.onClickInternetSettings();
+            return true;
+        }
+
+        return false;
     }
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Internet Settings"
+        android:key="pref_key_internet">
+        <EditTextPreference
+            android:id="@+id/pref_id_ip"
+            android:key="pref_key_ip"
+            android:hint="Ip-adress"
+            android:title="IP-adress"
+            android:dialogTitle="IP-adress"
+            android:defaultValue="85.235.21.222"/>
+
+        <EditTextPreference
+            android:id="@+id/pref_id_port"
+            android:key="pref_key_port"
+            android:hint="Port number"
+            android:title="Port number"
+            android:dialogTitle="Port number"
+            android:defaultValue="45001"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>
