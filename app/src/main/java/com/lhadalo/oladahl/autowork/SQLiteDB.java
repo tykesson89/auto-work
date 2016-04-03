@@ -27,7 +27,7 @@ import com.lhadalo.oladahl.autowork.WorkpassContract.WorkpassEntry;
  */
 public class SQLiteDB extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "AutoWork_DB";
 
     public SQLiteDB(Context context) {

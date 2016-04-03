@@ -49,8 +49,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         SQLiteDB sqLiteDB = new SQLiteDB(MainActivity.this);
         sqLiteDB.deleteAll();
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-        finish();
+
     }
 
     @Override
