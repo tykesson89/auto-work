@@ -78,7 +78,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete("Users", null, null);
         db.delete("Company", null, null);
-        db.delete("workpass", null, null);
+        db.delete(WorkpassEntry.TABLE_NAME, null, null);
         Log.d("Database: ", "Deleted");
         onCreate(db);
         db.close();
@@ -101,6 +101,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         return true;
     }
 
+    //Company---------------------------------------------------------------------------------
     public void addCompany(Company company){
         int companyId = company.getCompanyId();
         String companyName = company.getCompanyName();
@@ -117,6 +118,26 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.insert("Company", null, content);
 
     }
+
+    public List<Company> getAllCompanies(){
+        Cursor cursor = this.getReadableDatabase().rawQuery("SELECT * FROM Company", null);
+        List<Company> companies = new ArrayList<>();
+
+        while (cursor.moveToNext()){
+            Company company = new Company(
+                    cursor.getString(cursor.getColumnIndex("companyName")),
+                    cursor.getDouble(cursor.getColumnIndex("Hourlywage")),
+                    cursor.getInt(cursor.getColumnIndex("userID")),
+                    cursor.getInt(cursor.getColumnIndex("companyId"))
+            );
+
+            companies.add(company);
+        }
+
+        return companies;
+    }
+
+    //Company---------------------------------------------------------------------------------
 
     public void addloginWorkpass(WorkpassModel model){
         SQLiteDatabase db = this.getWritableDatabase();

@@ -28,6 +28,8 @@
             android:parentActivityName=".activities.MainActivity" />
         <activity android:name=".fragments.AddCompanyFragment" />
         <activity android:name=".fragments.ChangeOrRemoveCompanyFragment"></activity>
+
+        <activity android:name=".InternetSettingsActivity"/>
     </application>
 
 </manifest>

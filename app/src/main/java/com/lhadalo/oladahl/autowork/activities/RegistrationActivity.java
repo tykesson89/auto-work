@@ -3,9 +3,12 @@ package com.lhadalo.oladahl.autowork.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.ObjectInputStream;
@@ -27,12 +30,28 @@ import com.lhadalo.oladahl.autowork.fragments.RegistrationFragment;
  */
 public class RegistrationActivity extends AppCompatActivity implements RegistrationFragment.OnFragmentInteraction{
     private RegistrationFragment fragment;
+    private String ip;
+    private int port;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         initFragment();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        ip = prefs.getString("pref_key_ip", null);
+        port = Integer.parseInt(prefs.getString("pref_key_port", null));
+
+        Log.v(Tag.LOGTAG, ip);
+        Log.v(Tag.LOGTAG, String.valueOf(port));
+
+
     }
 
     private void initFragment(){
@@ -87,8 +106,13 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
      */
     private class CreateUser extends AsyncTask<Object, Void, String> {
         //TODO Hämta port och ip från inställningar
+<<<<<<< HEAD
         private static final int port = 45001;
         private static final String ip = "85.235.21.222";
+=======
+        //private static final int port = 45001;
+        //private static final String ip = "85.235.21.222";
+>>>>>>> origin/master
         //private static final String tag = "Create User";
         private ObjectInputStream objectInputStream;
         private ObjectOutputStream objectOutputStream;

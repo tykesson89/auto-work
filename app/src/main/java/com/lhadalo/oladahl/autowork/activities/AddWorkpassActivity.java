@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.SQLiteDB;
@@ -42,6 +44,9 @@ public class AddWorkpassActivity extends AppCompatActivity
     private SQLiteDB database;
 
     private int dialogSource = 0;
+
+    private WorkpassModel model;
+    private List<Company> companies;
     private Company selectedCompany;
     private GregorianCalendar startDate, startTime, endDate, endTime;
     private double brake;
@@ -57,6 +62,7 @@ public class AddWorkpassActivity extends AppCompatActivity
         initFragment();
 
         database = new SQLiteDB(this);
+        model = new WorkpassModel();
     }
 
     private void initFragment() {
@@ -70,9 +76,16 @@ public class AddWorkpassActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
 
-        selectedCompany = new Company("Fejkarbete", 500, database.getUserId(this), 100);
+        companies = database.getAllCompanies();
+        selectedCompany = companies.get(0);
 
-        fragment.setWorkplaceName(selectedCompany.getCompanyName());
+        if (companies != null) {
+            fragment.setWorkplaceName(selectedCompany.getCompanyName());
+        }
+        else {
+            fragment.setWorkplaceName("ERROR!");
+        }
+
 
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
@@ -95,13 +108,13 @@ public class AddWorkpassActivity extends AppCompatActivity
         endTime = new GregorianCalendar(0, 0, 0, hourOfDay + 3, minute);
         fragment.setTxtTimeEnd(String.valueOf(DateFormat.format("kk:mm", endTime)));
 
-        brake = 0.0;
+        model.setBreaktime(0.0);
     }
 
 
     @Override
     public void onClickWorkplace() {
-        //TODO Hämta company från databas och sätt i en parameter.
+        createCompaniesDialog();
     }
 
     @Override
@@ -136,36 +149,69 @@ public class AddWorkpassActivity extends AppCompatActivity
 
     @Override
     public void onClickAdd() {
-
+        validDateTime();
     }
 
     //TODO Sätta värden från interface
-    private WorkpassModel populateModelFromInterface() {
-        WorkpassModel model = new WorkpassModel();
+    private boolean populateModelFromInterface() {
 
-        if(validTitle()) {
-            model.setTitle(fragment.getTitle());
+        if (validTitle() && validDateTime()) {
+            return true;
         }
         else{
-            return null;
-        }
-
-
-
-        return model;
-    }
-
-    private boolean validTitle(){
-        String res = fragment.getTitle();
-        if(res.contains("")){
-            createAlertDialog("No title", "The workpass must have a title");
             return false;
         }
 
-        return true;
+
     }
 
-   
+    private boolean validTitle() {
+        String res = fragment.getTitle();
+        if (res.contains("")) {
+            createAlertDialog("No title", "The workpass must have a title");
+            return false;
+        }
+        else {
+            model.setTitle(res);
+            return true;
+        }
+    }
+
+    private boolean validDateTime() {
+        if (startDate.compareTo(endDate) > 0) {
+            createAlertDialog("Wrong date", "The end date cannot be before the start date");
+            return false;
+        }
+        if (startTime.compareTo(endTime) == 0) {
+            createAlertDialog("Same time", "You can't have the same start time as your end time");
+            return false;
+        }
+        if (startTime.compareTo(endTime) > 0) {
+            createAlertDialog("Wrong time", "The end time cannot be before the start time");
+            return false;
+        }
+        else {
+            Timestamp start = formatDateTime(startDate, startTime);
+            model.setStartDateTime(start);
+
+            Timestamp end = formatDateTime(endDate, endTime);
+            model.setEndDateTime(end);
+
+            return true;
+        }
+    }
+
+    private void setSalary(){
+        int start = (startTime.get(Calendar.HOUR_OF_DAY) * 60) + startTime.get(Calendar.MINUTE);
+        int end = (endTime.get(Calendar.HOUR_OF_DAY) * 60) + endTime.get(Calendar.MINUTE);
+
+        long workingTime = TimeUnit.MINUTES.toHours(end-start);
+
+        double hourlyWage = selectedCompany.getHourlyWage();
+        double salary = workingTime * hourlyWage;
+        model.setSalary(salary);
+        Log.v(Tag.LOGTAG, String.valueOf(salary));
+    }
 
     private Timestamp formatDateTime(GregorianCalendar date, GregorianCalendar time) {
         return new Timestamp(date.get(Calendar.YEAR), date.get(Calendar.MONTH),
@@ -181,8 +227,11 @@ public class AddWorkpassActivity extends AppCompatActivity
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         if (dialogSource == Tag.START_DATE_TIME) {
             fragment.setTxtDateStart(formatDate(year, month, day));
-        } else if (dialogSource == Tag.END_DATE_TIME) {
+            startDate = new GregorianCalendar(year, month, day);
+        }
+        else if (dialogSource == Tag.END_DATE_TIME) {
             fragment.setTxtDateEnd(formatDate(year, month, day));
+            endDate = new GregorianCalendar(year, month, day);
         }
 
         Toast.makeText(this, String.valueOf(dialogSource), Toast.LENGTH_SHORT).show();
@@ -193,14 +242,17 @@ public class AddWorkpassActivity extends AppCompatActivity
         if (dialogSource == Tag.START_DATE_TIME) {
             fragment.setTxtTimeStart(String.valueOf(DateFormat.format("kk:mm",
                     new GregorianCalendar(0, 0, 0, hour, minute))));
+            startTime = new GregorianCalendar(0, 0, 0, hour, minute);
 
-        } else if (dialogSource == Tag.END_DATE_TIME) {
+        }
+        else if (dialogSource == Tag.END_DATE_TIME) {
             fragment.setTxtTimeEnd(String.valueOf(DateFormat.format("kk:mm",
                     new GregorianCalendar(0, 0, 0, hour, minute))));
+            endTime = new GregorianCalendar(0, 0, 0, hour, minute);
         }
     }
 
-    private void createAlertDialog(String title, String message){
+    private void createAlertDialog(String title, String message) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
         alertDialog.setTitle(title);
@@ -230,6 +282,7 @@ public class AddWorkpassActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int i) {
                         brakeTime = input.getText().toString();
+                        model.setBreaktime(Integer.parseInt(brakeTime));
                         fragment.setTxtBrake(String.valueOf(brakeTime + " min"));
                     }
                 }
@@ -241,6 +294,26 @@ public class AddWorkpassActivity extends AppCompatActivity
         });
 
         builder.show();
+    }
+
+    private void createCompaniesDialog() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Choose a workplace");
+
+        String[] companyStrings = new String[companies.size()];
+        for (int i = 0; i < companies.size(); i++) {
+            companyStrings[i] = companies.get(i).getCompanyName();
+        }
+
+        dialog.setItems(companyStrings, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int position) {
+                selectedCompany = companies.get(position);
+                fragment.setWorkplaceName(selectedCompany.getCompanyName());
+            }
+        });
+
+        dialog.show();
     }
 
     public static class TimePickerFragment extends DialogFragment {
