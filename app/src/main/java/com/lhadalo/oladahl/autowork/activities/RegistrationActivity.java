@@ -38,18 +38,22 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         initFragment();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        ip = prefs.getString("pref_key_ip", "85.235.21.222");
+        port = Integer.parseInt(prefs.getString("pref_key_port", "40001"));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        /*SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         ip = prefs.getString("pref_key_ip", null);
         port = Integer.parseInt(prefs.getString("pref_key_port", null));
 
         Log.v(Tag.LOGTAG, ip);
-        Log.v(Tag.LOGTAG, String.valueOf(port));
+        Log.v(Tag.LOGTAG, String.valueOf(port));*/
 
 
     }

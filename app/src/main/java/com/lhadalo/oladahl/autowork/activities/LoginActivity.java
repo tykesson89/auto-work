@@ -41,7 +41,9 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         sqLiteDB.getWritableDatabase();
         Log.d("Database created", " ");
 
-
+        /*SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        ip = prefs.getString("pref_key_ip", "85.235.21.222");
+        port = Integer.parseInt(prefs.getString("pref_key_port", "40001"));*/
 
 
 
@@ -59,12 +61,10 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     protected void onStart() {
         super.onStart();
 
-       // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-       // ip = prefs.getString("pref_key_ip", null);
-        //port = Integer.parseInt(prefs.getString("pref_key_port", null));
+        /*SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        ip = prefs.getString("pref_key_ip", "85.235.21.222");
+        port = Integer.parseInt(prefs.getString("pref_key_port", "40001"));*/
 
-        Log.v(Tag.LOGTAG, String.valueOf(ip));
-        Log.v(Tag.LOGTAG, String.valueOf(port));
     }
 
     private void initFragment(){
@@ -171,6 +171,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
             }
             else if(res.equals(Tag.SUCCESS)){
                 Intent intent = new Intent(context, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
         }
