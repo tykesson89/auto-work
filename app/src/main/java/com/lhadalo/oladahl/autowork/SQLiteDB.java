@@ -85,7 +85,6 @@ public class SQLiteDB extends SQLiteOpenHelper {
     }
     public void updateUser(User user){
         SQLiteDatabase db = this.getWritableDatabase();
-        int userid = user.getUserid();
         String firstname = user.getFirstname();
         String lastname = user.getLastname();
         String email = user.getEmail();
