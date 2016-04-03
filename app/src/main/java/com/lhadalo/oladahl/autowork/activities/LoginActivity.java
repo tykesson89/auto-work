@@ -61,10 +61,10 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     protected void onStart() {
         super.onStart();
 
+
         /*SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         ip = prefs.getString("pref_key_ip", "85.235.21.222");
         port = Integer.parseInt(prefs.getString("pref_key_port", "40001"));*/
-
     }
 
     private void initFragment(){
@@ -97,18 +97,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
 
     private class Login extends AsyncTask<User, Void, String>{
-        //TODO Hämta port och ip från inställningar
-
-        private static final int port = 45001;
-        private static final String ip = "85.235.21.222";
-
-
-        //private static final int port = 45001;
-        //private static final String ip = "85.235.21.222";
-
-
         private Context context;
-        
         private Socket socket;
         private ObjectOutputStream objectOut;
         private ObjectInputStream objectIn;
@@ -131,7 +120,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
            
             User user = users[0];
             try{
-                socket = new Socket(ip, port);
+                socket = new Socket(Tag.IP, Tag.PORT);
                 objectOut = new ObjectOutputStream(socket.getOutputStream());
                 objectIn = new ObjectInputStream(socket.getInputStream());
 
