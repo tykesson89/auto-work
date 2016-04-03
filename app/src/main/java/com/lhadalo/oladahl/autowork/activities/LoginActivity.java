@@ -59,9 +59,9 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     protected void onStart() {
         super.onStart();
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        ip = prefs.getString("pref_key_ip", null);
-        port = Integer.parseInt(prefs.getString("pref_key_port", null));
+       // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+       // ip = prefs.getString("pref_key_ip", null);
+        //port = Integer.parseInt(prefs.getString("pref_key_port", null));
 
         Log.v(Tag.LOGTAG, String.valueOf(ip));
         Log.v(Tag.LOGTAG, String.valueOf(port));
@@ -78,19 +78,14 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     public void onClickBtnLogin(String email, String password) {
         User user = new User(email, password);
         new Login(LoginActivity.this).execute(user);
-<<<<<<< HEAD
 
-
-=======
-
-        //fakeLogin();
     }
 
     @Override
     public void onClickInternetSettings() {
         Intent intent = new Intent(this, InternetSettingsActivity.class);
         startActivity(intent);
->>>>>>> origin/master
+
     }
 
     @Override
@@ -103,14 +98,14 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
     private class Login extends AsyncTask<User, Void, String>{
         //TODO Hämta port och ip från inställningar
-<<<<<<< HEAD
+
         private static final int port = 45001;
         private static final String ip = "85.235.21.222";
-=======
+
 
         //private static final int port = 45001;
         //private static final String ip = "85.235.21.222";
->>>>>>> origin/master
+
 
         private Context context;
         

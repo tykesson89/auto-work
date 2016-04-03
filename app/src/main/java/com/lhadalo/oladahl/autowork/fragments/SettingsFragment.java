@@ -17,12 +17,12 @@ import com.lhadalo.oladahl.autowork.R;
 public class SettingsFragment extends Fragment {
     private OnFragmentInteraction callback;
     private Button btnChangeUserInfo;
-    private EditText etFirstName, etLastName, etEmail, etOldPassword, etNewPassword;
+    private EditText etFirstName, etLastName, etEmail, etOldPassword, etNewPassword, etNewPasswordCheck;
     private TextView tvDeleteAccount;
 
     public interface OnFragmentInteraction {
         void onClickBtnChangeUserInfo(String firstName, String lastName, String email,
-                                      String oldPassword, String newPassword);
+                                      String oldPassword, String newPassword, String newPasswordCheck);
         void onClickDeleteAccount();
     }
 
@@ -43,7 +43,7 @@ public class SettingsFragment extends Fragment {
         etEmail = (EditText)view.findViewById(R.id.et_email);
         etOldPassword = (EditText)view.findViewById(R.id.etOldPassword);
         etNewPassword = (EditText)view.findViewById(R.id.etNewPassword);
-
+        etNewPasswordCheck = (EditText)view.findViewById(R.id.etNewPasswordCheck);
         tvDeleteAccount = (TextView)view.findViewById(R.id.tvDeleteAccount);
 
         initListeners();
@@ -58,7 +58,8 @@ public class SettingsFragment extends Fragment {
                         getLastName(),
                         getEmail(),
                         getOldPassword(),
-                        getNewPassword());
+                        getNewPassword(),
+                        getNewPasswordCheck());
             }
         });
 
@@ -84,20 +85,29 @@ public class SettingsFragment extends Fragment {
     public String getFirstName() {
         return etFirstName.getText().toString();
     }
-
     public String getLastName() {
         return etLastName.getText().toString();
     }
-
     public String getEmail() {
         return etEmail.getText().toString();
     }
-
     public String getNewPassword() {
         return etNewPassword.getText().toString();
     }
-
     public String getOldPassword() {
         return etOldPassword.getText().toString();
     }
+    public String getNewPasswordCheck() {
+        return etOldPassword.getText().toString();
+    }
+    public void setTextFirstName(String str){
+        etFirstName.setText(str);
+    }
+    public void setTextLastName(String str){
+        etLastName.setText(str);
+    }
+    public void setTextEmail(String str){
+        etEmail.setText(str);
+    }
+
 }

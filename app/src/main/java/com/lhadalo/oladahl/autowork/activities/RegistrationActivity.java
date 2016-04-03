@@ -106,14 +106,11 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
      */
     private class CreateUser extends AsyncTask<Object, Void, String> {
         //TODO Hämta port och ip från inställningar
-<<<<<<< HEAD
+
         private static final int port = 45001;
         private static final String ip = "85.235.21.222";
-=======
-        //private static final int port = 45001;
-        //private static final String ip = "85.235.21.222";
->>>>>>> origin/master
-        //private static final String tag = "Create User";
+
+
         private ObjectInputStream objectInputStream;
         private ObjectOutputStream objectOutputStream;
         private ProgressDialog progressDialog;
@@ -134,7 +131,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
                 Socket socket = new Socket(ip, port);
                 objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
                 objectInputStream = new ObjectInputStream(socket.getInputStream());
-                objectOutputStream.writeObject("Create User");
+                objectOutputStream.writeObject(Tag.CREATE_USER);
                 objectOutputStream.writeObject(user);
                 objectOutputStream.writeObject(company);
                 progressDialog.dismiss();

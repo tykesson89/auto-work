@@ -5,6 +5,7 @@ package com.lhadalo.oladahl.autowork;
  */
 public class Tag {
     public static final String LOGIN = "Login";
+    public static final String CREATE_USER = "Create User";
     public static final String USER_NOT_FOUND = "User not found";
     public static final String USER_ALREADY_EXISTS = "User Already Exists";
     public static final String SUCCESS = "success";

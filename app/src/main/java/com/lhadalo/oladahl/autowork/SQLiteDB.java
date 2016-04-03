@@ -154,6 +154,19 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.insert("workpass", null, values);
 
     }
+    public User getUser(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        User user;
+        Cursor c = db.rawQuery("SELECT * FROM Users", null);
+        c.moveToFirst();
+        int userID = c.getInt(c.getColumnIndex("userID"));
+        String firstName = c.getString(c.getColumnIndex("firstname"));
+        String lastName = c.getString(c.getColumnIndex("lastname"));
+        String email = c.getString(c.getColumnIndex("email"));
+        user = new User(firstName, lastName, email, userID);
+        db.close();
+        return user;
+    }
 
     public int getUserId(Context context){
         SQLiteDatabase db = this.getReadableDatabase();
