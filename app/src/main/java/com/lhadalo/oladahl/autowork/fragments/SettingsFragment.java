@@ -98,7 +98,7 @@ public class SettingsFragment extends Fragment {
         return etOldPassword.getText().toString();
     }
     public String getNewPasswordCheck() {
-        return etOldPassword.getText().toString();
+        return etNewPasswordCheck.getText().toString();
     }
     public void setTextFirstName(String str){
         etFirstName.setText(str);

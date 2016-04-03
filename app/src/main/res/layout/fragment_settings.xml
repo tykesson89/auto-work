@@ -89,7 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="New password:" />
+        android:text="Password confirmation" />
 
     <EditText
         android:layout_width="match_parent"

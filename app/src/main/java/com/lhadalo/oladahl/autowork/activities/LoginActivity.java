@@ -63,8 +63,8 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
       //  ip = prefs.getString("pref_key_ip", null);
         //port = Integer.parseInt(prefs.getString("pref_key_port", null));
 
-        Log.v(Tag.LOGTAG, String.valueOf(ip));
-        Log.v(Tag.LOGTAG, String.valueOf(port));
+       // Log.v(Tag.LOGTAG, String.valueOf(ip));
+      //  Log.v(Tag.LOGTAG, String.valueOf(port));
     }
 
     private void initFragment(){

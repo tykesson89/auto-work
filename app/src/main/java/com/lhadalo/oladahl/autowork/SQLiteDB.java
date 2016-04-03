@@ -40,7 +40,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.execSQL(
                 "create table if not exists Users( " +
                         "id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT," +
-                        "userID INTEGER UNIQUE UNIQUE NOT NULL," +
+                        "userID INTEGER NOT NULL," +
                         "firstname TEXT NOT NULL, " +
                         "lastname TEXT NOT NULL, " +
                         "email TEXT NOT NULL)");
@@ -82,6 +82,19 @@ public class SQLiteDB extends SQLiteOpenHelper {
         Log.d("Database: ", "Deleted");
         onCreate(db);
         db.close();
+    }
+    public void updateUser(User user){
+        SQLiteDatabase db = this.getWritableDatabase();
+        int userid = user.getUserid();
+        String firstname = user.getFirstname();
+        String lastname = user.getLastname();
+        String email = user.getEmail();
+        int id = user.getUserid();
+        ContentValues data=new ContentValues();
+        data.put("firstname",firstname);
+        data.put("lastname",lastname);
+        data.put("email",email);
+        db.update("users", data, "userid=" + id, null);
     }
 
     public boolean loginUser(User user){

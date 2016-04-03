@@ -48,8 +48,8 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         //ip = prefs.getString("pref_key_ip", null);
         //port = Integer.parseInt(prefs.getString("pref_key_port", null));
 
-        Log.v(Tag.LOGTAG, ip);
-        Log.v(Tag.LOGTAG, String.valueOf(port));
+//        Log.v(Tag.LOGTAG, ip);
+   //     Log.v(Tag.LOGTAG, String.valueOf(port));
 
 
     }
