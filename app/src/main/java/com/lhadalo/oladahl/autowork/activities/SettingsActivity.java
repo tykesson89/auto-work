@@ -57,7 +57,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
                                          String oldPassword, String newPassword, String newPasswordCheck) {
         user = new User(firstName, lastName, email, oldPassword, userId, newPassword);
         if(!newPassword.equals("") && !newPasswordCheck.equals("")){
-            if(newPassword != newPasswordCheck) {
+            if(!newPassword.equals(newPasswordCheck)) {
                 CharSequence text = "Password does not match";
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
