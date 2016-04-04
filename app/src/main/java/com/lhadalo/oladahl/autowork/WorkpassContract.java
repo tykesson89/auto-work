@@ -15,6 +15,7 @@ public class WorkpassContract {
         public static final String COLUMN_START_DATE_TIME = "startdatetime";
         public static final String COLUMN_END_DATE_TIME = "enddatetime";
         public static final String COLUMN_SALARY = "salary";
+        public static final String COLUMN_HOURS = "hours";
         public static final String COLUMN_BRAKE_TIME = "braketime";
         public static final String COLUMN_NOTE = "note";
     }
