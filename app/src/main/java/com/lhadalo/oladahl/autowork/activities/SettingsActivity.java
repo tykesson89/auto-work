@@ -56,29 +56,29 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
     public void onClickBtnChangeUserInfo(String firstName, String lastName, String email,
                                          String oldPassword, String newPassword, String newPasswordCheck) {
         user = new User(firstName, lastName, email, oldPassword, userId, newPassword);
-        if(!newPassword.equals("") && !newPasswordCheck.equals("")){
-            if(!newPassword.equals(newPasswordCheck)) {
+
+        if(!newPassword.equals(newPasswordCheck)) {
                 CharSequence text = "Password does not match";
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
                 toast.show();
-            }
-        }else if(firstName == null){
+
+        }else if(firstName.equals("")){
             CharSequence text = "Please enter your first name";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
             toast.show();
-        }else if(lastName == null){
+        }else if(lastName.equals("")){
             CharSequence text = "Please enter your last name";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
             toast.show();
-        }else if(email == null){
+        }else if(email.equals("")){
             CharSequence text = "Please enter your email";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
             toast.show();
-        }else if(oldPassword == null){
+        }else if(oldPassword.equals("")){
             CharSequence text = "Please enter your password";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(SettingsActivity.this, text, duration);

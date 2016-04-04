@@ -94,6 +94,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         data.put("lastname",lastname);
         data.put("email",email);
         db.update("users", data, "userid=" + id, null);
+        db.close();
     }
 
     public boolean loginUser(User user){
@@ -110,6 +111,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         content.put("email", email);
 
         db.insert("Users", null, content);
+        db.close();
         return true;
     }
 
@@ -128,7 +130,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         content.put("companyName", companyName);
 
         db.insert("Company", null, content);
-
+        db.close();
     }
 
     public List<Company> getAllCompanies(){
@@ -164,7 +166,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         values.put(WorkpassEntry.COLUMN_NOTE, model.getNote());
 
         db.insert("workpass", null, values);
-
+        db.close();
     }
     public User getUser(){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -206,11 +208,13 @@ public class SQLiteDB extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(countQuery, null);
         int cnt = cursor.getCount();
         cursor.close();
+        db.close();
         if(cnt == 0){
             return false;
         }else{
             return true;
         }
+
     }
 
     //Workpass-----------------------------------------------------------------------------------
