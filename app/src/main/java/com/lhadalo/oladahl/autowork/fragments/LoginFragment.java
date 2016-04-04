@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.lhadalo.oladahl.autowork.R;
 
@@ -26,11 +27,12 @@ public class LoginFragment extends Fragment {
     private Toolbar toolbar;
     private Button btnLogin, btnCreateUser;
     private EditText etEmail, etPassword;
+    private TextView tvNewPassword;
 
     public interface OnFragmentInteraction{
         void onClickBtnLogin(String email, String password);
         void onClickBtnCreateUser();
-
+        void onClickNewPassword();
         void onClickInternetSettings();
     }
 
@@ -58,7 +60,7 @@ public class LoginFragment extends Fragment {
 
         btnLogin = (Button)view.findViewById(R.id.btn_login);
         btnCreateUser = (Button)view.findViewById(R.id.btn_create_user);
-
+        tvNewPassword = (TextView)view.findViewById(R.id.tvNewPassword);
         etEmail = (EditText)view.findViewById(R.id.et_email);
         etPassword = (EditText)view.findViewById(R.id.et_password);
 
@@ -78,6 +80,12 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 callback.onClickBtnCreateUser();
+            }
+        });
+        tvNewPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callback.onClickNewPassword();
             }
         });
     }

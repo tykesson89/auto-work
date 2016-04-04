@@ -1,14 +1,21 @@
 package com.lhadalo.oladahl.autowork.activities;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.ObjectInputStream;
@@ -78,6 +85,30 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     public void onClickBtnLogin(String email, String password) {
         User user = new User(email, password);
         new Login(LoginActivity.this).execute(user);
+
+    }
+    public void onClickNewPassword() {
+        final EditText txtEmail = new EditText(this);
+
+
+        txtEmail.setHint("Email");
+
+        new AlertDialog.Builder(this)
+                .setTitle("New Password")
+                .setMessage("Input your email to get new Password")
+                .setView(txtEmail)
+                .setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String str = txtEmail.getText().toString();
+                        new NewPassword().execute(str);
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                })
+                .show();
 
     }
 
@@ -173,5 +204,42 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
             }
         }
 
+    }
+    private class NewPassword extends AsyncTask<String, Void, String>{
+        private Socket socket;
+        private ObjectOutputStream objectOut;
+        private ObjectInputStream objectIn;
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String str = strings[0];
+            try {
+                socket = new Socket(Tag.IP, Tag.PORT);
+                objectOut = new ObjectOutputStream(socket.getOutputStream());
+                objectIn = new ObjectInputStream(socket.getInputStream());
+
+                objectOut.writeObject(Tag.New_Password);
+                objectOut.writeObject(str);
+                String response;
+                response = (String)objectIn.readObject();
+                return response;
+            }catch (Exception e){
+                return Tag.USER_NOT_FOUND;
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String res) {
+
+            if(res.equals(Tag.USER_NOT_FOUND)){
+                Toast.makeText(LoginActivity.this, getString(R.string.toast_user_not_found),
+                        Toast.LENGTH_SHORT).show();
+            }
+            else if(res.equals(Tag.SUCCESS)){
+                Toast.makeText(LoginActivity.this, "Password sent",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

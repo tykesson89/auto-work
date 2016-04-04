@@ -49,6 +49,17 @@
             android:text="@string/btn_login"
             android:layout_marginBottom="20dp" />
 
+        <TextView
+            android:layout_marginTop="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Forgot your password? \n Press here"
+            android:id="@+id/tvNewPassword"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:clickable="true" />
+
     </LinearLayout>
 
     <Button
