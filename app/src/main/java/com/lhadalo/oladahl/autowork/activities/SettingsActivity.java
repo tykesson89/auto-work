@@ -63,26 +63,27 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
                 Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
                 toast.show();
 
-        }else if(firstName.equals("")){
+        }else if(firstName.isEmpty()){
             CharSequence text = "Please enter your first name";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
             toast.show();
-        }else if(lastName.equals("")){
+        }else if(lastName.isEmpty()){
             CharSequence text = "Please enter your last name";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
             toast.show();
-        }else if(email.equals("")){
+        }else if(email.isEmpty()){
             CharSequence text = "Please enter your email";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
             toast.show();
-        }else if(oldPassword.equals("")){
+        }else if(oldPassword.isEmpty()){
             CharSequence text = "Please enter your password";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
             toast.show();
+
         }else{
             new ChangeUserInfo().execute(user);
         }
