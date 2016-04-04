@@ -1,6 +1,11 @@
 package com.lhadalo.oladahl.autowork.activities;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -92,9 +97,25 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
 
     @Override
     public void onClickDeleteAccount() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Are your sure you want to delete your account");
 
+        alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                new DeleteUser().execute(user);
+            }
+        });
 
-        new DeleteUser().execute(user);
+        alertDialogBuilder.setNegativeButton("NO",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
 
@@ -189,4 +210,8 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
             }
         }
     }
+   
+
+
 }
+
