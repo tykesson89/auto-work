@@ -1,10 +1,10 @@
 <resources>
 
-	<!-- Base application theme. -->
-	<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-		<!-- Customize your theme here. -->
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
 
-		<!--
+        <!--
 		<item name="android:colorPrimary">@color/colorPrimary</item>
 		<item name="android:colorPrimaryDark">@color/ColorPrimaryDark</item>
 		<item name="android:colorAccent">@color/colorAccent</item>
@@ -12,17 +12,25 @@
 		<item name="colorControlActivated">@color/colorAccent</item>
 		<item name="colorControlHighlight">@color/colorAccent</item>
 		-->
-	</style>
+    </style>
 
-	<style name="AppTheme.Title" parent="@android:style/TextAppearance">
-		<item name="android:textSize">18sp</item>
-		<item name="android:fontFamily">sans-serif</item>
-		<item name="android:textColor">?android:attr/textColorPrimary</item>
-	</style>
+    <style name="AppTheme.Title" parent="@android:style/TextAppearance">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
 
-	<style name="Divider">
-		<item name="android:layout_width">match_parent</item>
-		<item name="android:layout_height">1dp</item>
-		<item name="android:background">?android:listDivider</item>
-	</style>
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">?android:listDivider</item>
+    </style>
+    >
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
 </resources>
