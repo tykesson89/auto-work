@@ -30,7 +30,7 @@
         <activity android:name=".fragments.ChangeOrRemoveCompanyFragment" />
         <activity android:name=".InternetSettingsActivity" />
         <activity
-            android:name=".activities.StaticActivity"
+            android:name=".activities.StatisticsActivity"
             android:label="@string/title_activity_static"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

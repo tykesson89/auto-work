@@ -82,6 +82,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         onCreate(db);
         db.close();
     }
+    
     public void updateUser(User user){
         SQLiteDatabase db = this.getWritableDatabase();
         String firstname = user.getFirstname();
@@ -90,9 +91,10 @@ public class SQLiteDB extends SQLiteOpenHelper {
         int id = user.getUserid();
         ContentValues data=new ContentValues();
         data.put("firstname",firstname);
-        data.put("lastname",lastname);
-        data.put("email",email);
+        data.put("lastname", lastname);
+        data.put("email", email);
         db.update("users", data, "userid=" + id, null);
+        db.close();
     }
 
     public boolean loginUser(User user){
@@ -109,6 +111,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         content.put("email", email);
 
         db.insert("Users", null, content);
+        db.close();
         return true;
     }
 
@@ -127,6 +130,9 @@ public class SQLiteDB extends SQLiteOpenHelper {
         content.put("companyName", companyName);
 
         db.insert("Company", null, content);
+
+        db.close();
+
     }
 
     public List<Company> getAllCompanies(){
@@ -162,7 +168,11 @@ public class SQLiteDB extends SQLiteOpenHelper {
                 cursor.getInt(cursor.getColumnIndex("companyId"))
         );
 
+        db.close();
         return company;
+
+
+
     }
 
     //Company---------------------------------------------------------------------------------
@@ -197,7 +207,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         String string;
         Cursor c = db.rawQuery("SELECT firstname FROM Users", null);
         c.moveToFirst();
-        string=c.getString(c.getColumnIndex("firstname"));
+        string= c.getString(c.getColumnIndex("firstname"));
         db.close();
         return string;
     }
@@ -208,11 +218,13 @@ public class SQLiteDB extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(countQuery, null);
         int cnt = cursor.getCount();
         cursor.close();
+        db.close();
         if(cnt == 0){
             return false;
         }else{
             return true;
         }
+
     }
 
     //Workpass-----------------------------------------------------------------------------------
