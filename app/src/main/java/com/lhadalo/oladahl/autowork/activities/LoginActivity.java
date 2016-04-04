@@ -224,19 +224,21 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                 response = (String)objectIn.readObject();
                 return response;
             }catch (Exception e){
-                return Tag.USER_NOT_FOUND;
-            }
 
+            }
+            return "fail";
         }
 
         @Override
         protected void onPostExecute(String res) {
-
-            if(res.equals(Tag.USER_NOT_FOUND)){
+              if(res == null){
+                  Toast.makeText(LoginActivity.this, getString(R.string.toast_user_not_found),
+                          Toast.LENGTH_SHORT).show();
+              }
+            else if(res.equals("fail")){
                 Toast.makeText(LoginActivity.this, getString(R.string.toast_user_not_found),
                         Toast.LENGTH_SHORT).show();
-            }
-            else if(res.equals(Tag.SUCCESS)){
+            } else if(res.equals(Tag.SUCCESS)){
                 Toast.makeText(LoginActivity.this, "Password sent",
                         Toast.LENGTH_SHORT).show();
             }
