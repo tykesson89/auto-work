@@ -20,7 +20,8 @@ public class SQLiteCommand {
                     + WorkpassEntry.COLUMN_START_DATE_TIME + TEXT_TYPE + COMMA_SEP
                     + WorkpassEntry.COLUMN_END_DATE_TIME + TEXT_TYPE + COMMA_SEP
                     + WorkpassEntry.COLUMN_SALARY + REAL_TYPE + COMMA_SEP
-                    + WorkpassEntry.COLUMN_BRAKE_TIME + INT_TYPE + COMMA_SEP
+                    + WorkpassEntry.COLUMN_BRAKE_TIME + REAL_TYPE + COMMA_SEP
+                    + WorkpassEntry.COLUMN_HOURS + REAL_TYPE + COMMA_SEP
                     + WorkpassEntry.COLUMN_NOTE + TEXT_TYPE + ");";
 
 
