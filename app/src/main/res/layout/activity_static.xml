@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="STATISTICS"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
+        android:textAlignment="center"
+        android:textSize="30dp" />
+
+
+    <ScrollView
+        android:layout_marginTop="150dp"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:id="@+id/scrollView">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/linearLayout">
+
+
+
+            <Button
+                android:id="@+id/january"
+                android:text="January"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/february"
+                android:text="february"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/march"
+                android:text="march"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+
+            <Button
+                android:id="@+id/april"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="april"
+                />
+
+            <Button
+                android:id="@+id/may"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="may"
+                />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="june"
+                android:id="@+id/june"
+
+                />
+            <Button
+                android:id="@+id/july"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="july"
+                />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="August"
+                android:id="@+id/august"
+
+                />
+            <Button
+                android:id="@+id/september"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="september"
+                />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="october"
+                android:id="@+id/october"
+
+                />
+            <Button
+                android:id="@+id/november"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="november"
+                />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="december"
+                android:id="@+id/december"
+                />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="You have worked :"
+        android:id="@+id/work"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+
+        android:textSize="30dp"
+        android:textAlignment="center" />
+
+
+
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text=" ....... hours in september"
+        android:id="@+id/textView2"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:textSize="30dp"
+        android:textAlignment="center" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="back"
+        android:textSize="30dp"
+        android:id="@+id/backBtn"/>
+
+</LinearLayout>

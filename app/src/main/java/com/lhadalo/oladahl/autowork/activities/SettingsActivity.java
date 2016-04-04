@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import UserPackage.User;
 
@@ -35,6 +36,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
         firstName = user.getFirstname();
         lastName = user.getLastname();
         email = user.getEmail();
+        userId = user.getUserid();
     }
 
     private void initFragment() {
@@ -53,8 +55,38 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
     @Override
     public void onClickBtnChangeUserInfo(String firstName, String lastName, String email,
                                          String oldPassword, String newPassword, String newPasswordCheck) {
-        User user = new User(firstName, lastName, email, newPassword, userId, oldPassword);
-        new ChangeUserInfo().execute(user);
+        user = new User(firstName, lastName, email, oldPassword, userId, newPassword);
+        if(!newPassword.equals("") && !newPasswordCheck.equals("")){
+            if(!newPassword.equals(newPasswordCheck)) {
+                CharSequence text = "Password does not match";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
+                toast.show();
+            }
+        }else if(firstName == null){
+            CharSequence text = "Please enter your first name";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
+            toast.show();
+        }else if(lastName == null){
+            CharSequence text = "Please enter your last name";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
+            toast.show();
+        }else if(email == null){
+            CharSequence text = "Please enter your email";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
+            toast.show();
+        }else if(oldPassword == null){
+            CharSequence text = "Please enter your password";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
+            toast.show();
+        }else{
+            new ChangeUserInfo().execute(user);
+        }
+
     }
 
     @Override
@@ -66,8 +98,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
 
 
     class DeleteUser extends AsyncTask<User, Void, String> {
-        private static final int port = 45001;
-        private static final String ip = "85.235.21.222";
         private ObjectInputStream objectInputStream;
         private ObjectOutputStream objectOutputStream;
         private ProgressDialog progressDialog;
@@ -75,7 +105,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
         protected String doInBackground(User... params) {
             User user = params[0];
             try {
-                Socket socket = new Socket(ip, port);
+                Socket socket = new Socket(Tag.IP, Tag.PORT);
                 objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
                 objectInputStream = new ObjectInputStream(socket.getInputStream());
                 objectOutputStream.writeObject(Tag.DELETE_USER);
@@ -107,13 +137,55 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
 
 
     class ChangeUserInfo extends AsyncTask<User, Void, String>{
-
+        private ObjectInputStream objectInputStream;
+        private ObjectOutputStream objectOutputStream;
+        private ProgressDialog progressDialog;
 
 
 
 
         protected String doInBackground(User... params) {
+            User user = params[0];
+            try {
+                Socket socket = new Socket(Tag.IP, Tag.PORT);
+                objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                objectInputStream = new ObjectInputStream(socket.getInputStream());
+                objectOutputStream.writeObject(Tag.CHANGE_USER_INFO);
+                objectOutputStream.writeObject(user);
+
+                String response =(String) objectInputStream.readObject();
+                return response;
+
+            }catch (Exception e){
+
+            }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if(s.equals("Password is incorrect")){
+                CharSequence text = "Password is incorrect";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
+                toast.show();
+            }else if(s.equals("Something went wrong")){
+                CharSequence text = "Something went wrong";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
+                toast.show();
+            }else if(s.equals("Success")){
+                SQLiteDB sqLiteDB = new SQLiteDB(SettingsActivity.this);
+                sqLiteDB.updateUser(user);
+                CharSequence text = "User Info is changed";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
+                toast.show();
+                fragment.setTextEmail(user.getEmail());
+                fragment.setTextFirstName(user.getFirstname());
+                fragment.setTextLastName(user.getLastname());
+
+            }
         }
     }
 }

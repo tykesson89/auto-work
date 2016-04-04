@@ -17,5 +17,6 @@
     <dimen name="content_horizontal_margin">8dp</dimen>
     <dimen name="list_height_dense">48dp</dimen>
     <dimen name="list_icon_horizontal_margin">72dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
 </resources>

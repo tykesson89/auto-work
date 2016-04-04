@@ -64,7 +64,6 @@
     </string-array>
 
 
-
     <!--RemoveOrChangeCompanyFragment -->
     <string name="delete">DELETE</string>
     <string name="change">CHANGE</string>
@@ -80,6 +79,7 @@
         <item>bbb</item>
     </string-array>
     <string name="title_activity_add_company">AddCompanyActivity</string>
+    <string name="title_activity_static">StaticActivity</string>
 
 
 </resources>
