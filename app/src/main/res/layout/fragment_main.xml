@@ -13,75 +13,131 @@
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar_main">
 
-        <!--<Button
-            android:id="@+id/btnLogOut"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="36dp"
-            android:layout_toEndOf="@+id/userTxt"
-            android:layout_toRightOf="@+id/userTxt"
-            android:background="#d60e0e"
-            android:singleLine="true"
-            android:text="Log out"
-            android:textColor="#ffffff" />-->
+
+
 
         <TextView
-            android:id="@+id/userTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="78dp"
-            android:singleLine="true"
-            android:text="Welcome"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textIsSelectable="true"
-            android:textSize="40dp" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="65dp"
-            android:background="#d60e0e"
-            android:onClick="onClickGetStart"
-            android:text="Get start"
-            android:textAlignment="center"
-            android:textColor="#ffffff"
-            android:textSize="20dp" />
-
-        <!--<Button
-            android:id="@+id/btnSettings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/userTxt"
+            android:text="Denna månad"
+            android:id="@+id/textView"
+            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/userTxt"
-            android:layout_toStartOf="@+id/userTxt"
-            android:allowUndo="true"
-            android:background="#d60e0e"
-            android:singleLine="false"
-            android:text="Setting"
-            android:textColor="#ffffff" />-->
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:textSize="25dp" />
 
         <TextView
-            android:id="@+id/tvName"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/userTxt"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="39dp"
-            android:background="#e7e4e4"
-            android:singleLine="true"
-            android:text="Omar"
+            android:text="Lön"
+            android:id="@+id/textView2"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@+id/textView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Timmar"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/textView4"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/textView2"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5000"
+            android:id="@+id/tvSalary"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nästa pass"
+            android:id="@+id/textView6"
+            android:layout_below="@+id/tvSalary"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="25dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lön"
+            android:id="@+id/rrr"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@+id/textView6"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="429 kr"
+            android:id="@+id/tvSalaryPass"
+            android:layout_below="@+id/rrr"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="fredag 23/7"
+            android:id="@+id/tvNextPass"
+            android:layout_alignBottom="@+id/textView6"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="37h"
+            android:id="@+id/tvHours"
+
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:textAlignment="center"
-            android:textColor="#000000"
-            android:textSize="30dp" />
+            android:gravity="center"
+            android:layout_below="@+id/textView4"
+            android:layout_toEndOf="@+id/tvHoursPass"
+            android:layout_alignBottom="@+id/tvSalary"
+            android:layout_alignLeft="@+id/tvNextPass"
+            android:layout_alignStart="@+id/tvNextPass" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Timmar"
+            android:id="@+id/textView10"
+            android:layout_marginBottom="5dp"
+            android:layout_above="@+id/tvSalaryPass"
+            android:layout_alignLeft="@+id/tvNextPass"
+            android:layout_alignStart="@+id/tvNextPass"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3 h"
+            android:id="@+id/tvHoursPass"
+            android:layout_alignLeft="@+id/textView10"
+            android:layout_alignStart="@+id/textView10"
+            android:textAlignment="center"
+            android:layout_below="@+id/textView10"
+            android:layout_alignRight="@+id/textView10"
+            android:layout_alignEnd="@+id/textView10" />
+
 
     </RelativeLayout>
 

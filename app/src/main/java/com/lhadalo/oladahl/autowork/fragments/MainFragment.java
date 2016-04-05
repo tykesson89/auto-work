@@ -22,8 +22,7 @@ import com.lhadalo.oladahl.autowork.R;
  */
 public class MainFragment extends Fragment {
     private OnFragmentInteraction callback;
-    private Button btnSettings, btnLogOut;
-    public TextView tvName;
+    private TextView tvSalary,tvSalaryPass,tvNextPass,tvHours,tvHoursPass;
     private Toolbar toolbar;
 
     public interface OnFragmentInteraction{
@@ -48,7 +47,11 @@ public class MainFragment extends Fragment {
     }
 
     private void initComponents(View view){
-        tvName = (TextView)view.findViewById(R.id.tvName);
+        tvSalary = (TextView)view.findViewById(R.id.tvSalary);
+        tvSalaryPass = (TextView)view.findViewById(R.id.tvSalaryPass);
+        tvNextPass = (TextView)view.findViewById(R.id.tvNextPass);
+        tvHours = (TextView)view.findViewById(R.id.tvHours);
+        tvHoursPass = (TextView)view.findViewById(R.id.tvHoursPass);
 
         toolbar = (Toolbar)view.findViewById(R.id.toolbar_main);
         AppCompatActivity activity = (AppCompatActivity)getActivity();
@@ -91,7 +94,24 @@ public class MainFragment extends Fragment {
         this.callback = (OnFragmentInteraction)context;
     }
 
-    public void setTextTvName(String str){
-        tvName.setText(str);
+    public void setTextTvSalary(String str){
+
+        tvSalary.setText(str);
+    }
+    public void setTextTvSalaryPass(String str){
+
+        tvSalaryPass.setText(str);
+    }
+    public void setTextTvNextPass(String str){
+
+        tvNextPass.setText(str);
+    }
+    public void setTextTvHours(String str){
+
+        tvHours.setText(str);
+    }
+    public void setTextTvHoursPass(String str){
+
+        tvHoursPass.setText(str);
     }
 }

@@ -23,15 +23,14 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     private ArrayList<Long> ids = new ArrayList<>();
     private int companyId;
     private SQLiteDB database;
-    private String name;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initFragment();
 
-        database = new SQLiteDB(MainActivity.this);
-        name = database.getFirstName();
+
     }
 
 
@@ -48,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     protected void onStart() {
         super.onStart();
 
-        fragment.setTextTvName(name);
     }
 
     @Override
