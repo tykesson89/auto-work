@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import UserPackage.Company;
 import UserPackage.User;
 
+import com.lhadalo.oladahl.autowork.BufferDatabase;
+import com.lhadalo.oladahl.autowork.InternetService;
 import com.lhadalo.oladahl.autowork.InternetSettingsActivity;
 import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.SQLiteDB;
@@ -43,14 +45,12 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("Creating database", " ");
         SQLiteDB sqLiteDB = new SQLiteDB(this);
         sqLiteDB.getWritableDatabase();
-        Log.d("Database created", " ");
-
-
-
-
+        BufferDatabase bufferDatabase = new BufferDatabase(this);
+        bufferDatabase.getWritableDatabase();
+        Intent service = new Intent(this, InternetService.class);
+        startService(service);
 
         if (sqLiteDB.isLoggedIn() == true) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);

@@ -33,7 +33,7 @@ public class WorkpassContract {
         public static final String COLUMN_NOTE = "note";
         public static final String COLUMN_COMPANY_ID = "CompanyId";
         public static final String COLUMN_COMPANY_NAME = "companyname";
-        public static final String COLUMN_HOURLY_WAGE = "braketime";
+        public static final String COLUMN_HOURLY_WAGE = "hourlywage";
         public static final String COLUMN_TAG = "tag";
     }
 }
