@@ -285,6 +285,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         model.setBreaktime(c.getInt(c.getColumnIndex(WorkpassEntry.COLUMN_BRAKE_TIME)));
         model.setSalary(c.getDouble(c.getColumnIndex(WorkpassEntry.COLUMN_SALARY)));
         model.setNote(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_NOTE)));
+        model.setWorkingHours(c.getInt(c.getColumnIndex(WorkpassEntry.COLUMN_HOURS)));
 
         return model;
     }
@@ -308,6 +309,19 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
 
 
+    }
+    public ArrayList<WorkpassModel> getHours(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT hours FROM Workpass", null);
+        ArrayList<WorkpassModel> wpm = new ArrayList<WorkpassModel>();
+        WorkpassModel workpass;
+        while (c.moveToNext()){
+            workpass = new WorkpassModel();
+            workpass.setWorkingHours(c.getInt(c.getColumnIndex(WorkpassEntry.COLUMN_HOURS)));
+            wpm.add(workpass);
+        }
+        db.close();
+        return  wpm;
     }
 
 }
