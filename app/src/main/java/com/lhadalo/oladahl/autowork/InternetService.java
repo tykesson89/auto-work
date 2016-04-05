@@ -8,6 +8,8 @@ import android.net.NetworkInfo;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import com.lhadalo.oladahl.autowork.activities.LoginActivity;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,9 +19,9 @@ import java.util.TimerTask;
  */
 public class InternetService extends Service {
     private Timer timer;
-    private Context context;
+    private Context context = InternetService.this;
     
-
+   
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
