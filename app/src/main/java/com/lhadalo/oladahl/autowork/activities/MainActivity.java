@@ -13,6 +13,7 @@ import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.fragments.MainFragment;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import UserPackage.Company;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     private ArrayList<Long> ids = new ArrayList<>();
     private int companyId;
     private SQLiteDB database;
+    private ArrayList<WorkpassModel> workpassModels;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,10 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     @Override
     protected void onStart() {
         super.onStart();
+        Calendar cal = Calendar.getInstance();
+        int month = cal.get(Calendar.MONTH);
+
+         getMonthSalary(month);
 
     }
 
@@ -86,4 +92,29 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
             Log.v(Tag.LOGTAG, m.toString());
         }
     }
+    public void getMonthSalary(int month) {
+        database = new SQLiteDB(MainActivity.this);
+
+        ArrayList<WorkpassModel> workpassModels;
+        workpassModels= database.getSalaryAndDate();
+
+
+        double salary = 0;
+
+        ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
+
+        for (int i = 0; i < workpassModels.size(); i++) {
+            if (workpassModels.get(i).getEndDateTime().getMonth() == month) {
+                list.add(workpassModels.get(i));
+            }
+
+        }
+        for (int i = 0; i < list.size(); i++) {
+            salary += list.get(i).getSalary();
+
+        }
+        String sal = String.valueOf(salary);
+        fragment.setTextTvSalary(sal);
+    }
+
 }

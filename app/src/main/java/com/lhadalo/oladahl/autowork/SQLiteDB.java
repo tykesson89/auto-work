@@ -255,6 +255,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         values.put(WorkpassEntry.COLUMN_END_DATE_TIME, model.getEndDateTime().toString());
         values.put(WorkpassEntry.COLUMN_BRAKE_TIME, model.getBreaktime());
         values.put(WorkpassEntry.COLUMN_SALARY, model.getSalary());
+        values.put(WorkpassEntry.COLUMN_HOURS, model.getWorkingHours());
         values.put(WorkpassEntry.COLUMN_NOTE, model.getNote());
 
         return this.getWritableDatabase().insert(WorkpassEntry.TABLE_NAME, null, values);
@@ -289,27 +290,27 @@ public class SQLiteDB extends SQLiteOpenHelper {
     }
 
     //Workpass-----------------------------------------------------------------------------------
-    public WorkpassModel[] getSalaryAndDate(){
+    public ArrayList<WorkpassModel> getSalaryAndDate(){
         SQLiteDatabase db = this.getReadableDatabase();
-        String countQuery = "SELECT  * FROM Workpass";
-        Cursor cursor = db.rawQuery(countQuery, null);
-        int cnt = cursor.getCount();
-
-        Cursor c = db.rawQuery("SELECT salary,enddatetime FROM Workpass", null);
-
-        WorkpassModel[] wpm = new WorkpassModel[cnt];
+        Cursor c = db.rawQuery("SELECT salary,enddatetime FROM " + WorkpassEntry.TABLE_NAME, null);
         WorkpassModel workpass;
+       ArrayList<WorkpassModel> list = new ArrayList<>();
+        Log.v("DATA:", "1 ");
+        Log.v("DATA:", "2 ");
         c.moveToFirst();
-        for(int i=0;i<wpm.length;i++){
+        while(c.moveToNext()) {
             workpass = new WorkpassModel();
             workpass.setEndDateTime(Timestamp.valueOf(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME))));
             workpass.setSalary(c.getDouble(c.getColumnIndex(WorkpassEntry.COLUMN_SALARY)));
-            wpm[i]= workpass;
 
+            list.add(workpass);
+            c.moveToNext();
         }
 
+
+
         db.close();
-        return wpm;
+        return list;
 
     }
 }
