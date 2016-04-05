@@ -8,8 +8,9 @@ import android.net.NetworkInfo;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import com.lhadalo.oladahl.autowork.activities.LoginActivity;
-
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -20,8 +21,8 @@ import java.util.TimerTask;
 public class InternetService extends Service {
     private Timer timer;
     private Context context = InternetService.this;
-    
-   
+
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -47,9 +48,14 @@ public class InternetService extends Service {
     class Task extends TimerTask {
         @Override
         public void run() {
-            if(isConnected(context) == true){
-                // TODO: 2016-04-05 Vad ska hända om applikationen har internetuppkoppling. 
-            }else{
+            if (isConnected(context) == true) {
+                BufferDatabase bufferDatabase = new BufferDatabase(context);
+                if (bufferDatabase.isEmpty() == false) {
+                    // TODO: 2016-04-05  Lägga till vad som ska hända om databasen inte är tom.
+                } else {
+                    // TODO: 2016-04-05 Lägga till vad som ska hända om databasen är tom. 
+                }
+            } else {
                 // TODO: 2016-04-05 Vad ska hända om applikationen inte har internetuppkoppling. 
             }
 
@@ -68,6 +74,32 @@ public class InternetService extends Service {
             }
         }
         return false;
+    }
+
+    class InternetConnection extends Thread {
+        Socket socket;
+        ObjectInputStream objectIn;
+        ObjectOutputStream objectOut;
+        
+        public InternetConnection(){
+            Thread thread = new Thread();
+            try {
+                socket = new Socket(Tag.IP, Tag.PORT);
+                objectOut = new ObjectOutputStream(socket.getOutputStream());
+                objectIn = new ObjectInputStream(socket.getInputStream());
+            }catch(Exception e){
+                
+            }
+            thread.start();
+        }
+        
+        @Override
+        public void run() {
+
+
+            // TODO: 2016-04-05 Lägga till vad som ska hända i tråden.  
+            
+        }
     }
 
 

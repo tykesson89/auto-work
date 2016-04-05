@@ -1,6 +1,7 @@
 package com.lhadalo.oladahl.autowork;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -28,5 +29,21 @@ public class BufferDatabase extends SQLiteOpenHelper {
     }
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
+    }
+
+
+    public Boolean isEmpty(){
+        String countQuery = "SELECT  * FROM buffer";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int cnt = cursor.getCount();
+        cursor.close();
+        db.close();
+        if(cnt == 0){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }
