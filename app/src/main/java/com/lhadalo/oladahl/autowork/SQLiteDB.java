@@ -292,18 +292,10 @@ public class SQLiteDB extends SQLiteOpenHelper {
     //Workpass-----------------------------------------------------------------------------------
     public ArrayList<WorkpassModel> getSalaryAndDate(){
         SQLiteDatabase db = this.getReadableDatabase();
-<<<<<<< HEAD
-        Cursor c = db.rawQuery("SELECT salary,enddatetime FROM " + WorkpassEntry.TABLE_NAME, null);
-        WorkpassModel workpass;
+
        ArrayList<WorkpassModel> list = new ArrayList<>();
-        Log.v("DATA:", "1 ");
-        Log.v("DATA:", "2 ");
-        c.moveToFirst();
-        while(c.moveToNext()) {
-            workpass = new WorkpassModel();
-            workpass.setEndDateTime(Timestamp.valueOf(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME))));
-            workpass.setSalary(c.getDouble(c.getColumnIndex(WorkpassEntry.COLUMN_SALARY)));
-=======
+
+
 
 
         Cursor c = db.rawQuery("SELECT salary,enddatetime FROM Workpass", null);
@@ -318,7 +310,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
             workpass.setEndDateTime(Timestamp.valueOf(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME))));
             workpass.setSalary(c.getDouble(c.getColumnIndex(WorkpassEntry.COLUMN_SALARY)));
             wpm.add(workpass);
->>>>>>> origin/master
+
 
             list.add(workpass);
             c.moveToNext();
@@ -327,12 +319,11 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
 
         db.close();
-<<<<<<< HEAD
-        return list;
-=======
->>>>>>> origin/master
 
-        return wpm;
+        return list;
+
+
+
     }
 
 }

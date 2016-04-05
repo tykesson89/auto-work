@@ -51,11 +51,10 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         Calendar cal = Calendar.getInstance();
         int month = cal.get(Calendar.MONTH);
 
-<<<<<<< HEAD
+
          getMonthSalary(month);
-=======
-        getMonthSalary(month);
->>>>>>> origin/master
+
+
 
     }
 
@@ -89,32 +88,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         }
     }
 
-    public void getMonthSalary(int month) {
-        database = new SQLiteDB(MainActivity.this);
 
-        ArrayList<WorkpassModel> workpassModels;
-               workpassModels= database.getSalaryAndDate();
-
-
-            double salary = 0;
-
-            ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
-
-            for (int i = 0; i < workpassModels.size(); i++) {
-                if (workpassModels.get(i).getEndDateTime().getMonth() == month) {
-                    list.add(workpassModels.get(i));
-                }
-
-            }
-            for (int i = 0; i < list.size(); i++) {
-                salary += list.get(i).getSalary();
-
-            }
-            String sal = String.valueOf(salary);
-            fragment.setTextTvSalary(sal);
-        }
-<<<<<<< HEAD
-    }
     public void getMonthSalary(int month) {
         database = new SQLiteDB(MainActivity.this);
 
@@ -141,9 +115,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     }
 
 }
-=======
-
-        }
 
 
 
@@ -152,4 +123,3 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
 
 
->>>>>>> origin/master
