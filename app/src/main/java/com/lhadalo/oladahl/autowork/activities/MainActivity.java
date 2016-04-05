@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         fragment.setTextTvSalary(sal);
     }
 
-    public void getHours(double hour) {
+    public void getHours(double month) {
         database = new SQLiteDB(MainActivity.this);
 
         ArrayList<WorkpassModel> workpassModels;
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
 
         for (int i = 0; i < workpassModels.size(); i++) {
-            if (workpassModels.get(i).getWorkingHours() == hour) {
+            if (workpassModels.get(i).getEndDateTime().getMonth() == month) {
                 list.add(workpassModels.get(i));
             }
 

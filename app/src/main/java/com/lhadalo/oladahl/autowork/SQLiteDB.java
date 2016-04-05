@@ -312,11 +312,13 @@ public class SQLiteDB extends SQLiteOpenHelper {
     }
     public ArrayList<WorkpassModel> getHours(){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT hours FROM Workpass", null);
-        ArrayList<WorkpassModel> wpm = new ArrayList<WorkpassModel>();
+        ArrayList<WorkpassModel> wpm = new ArrayList<>();
+        Cursor c = db.rawQuery("SELECT hours,enddatetime FROM Workpass", null);
+
         WorkpassModel workpass;
         while (c.moveToNext()){
             workpass = new WorkpassModel();
+            workpass.setEndDateTime(Timestamp.valueOf(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME))));
             workpass.setWorkingHours(c.getInt(c.getColumnIndex(WorkpassEntry.COLUMN_HOURS)));
             wpm.add(workpass);
         }
