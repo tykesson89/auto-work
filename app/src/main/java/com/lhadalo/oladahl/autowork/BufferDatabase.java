@@ -5,6 +5,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
+import UserPackage.BufferModel;
+import UserPackage.WorkpassModel;
+
 /**
  * Created by Henrik on 2016-04-05.
  */
@@ -45,5 +53,29 @@ public class BufferDatabase extends SQLiteOpenHelper {
             return false;
         }
 
+    }
+    public Stack<BufferModel> getAllFromBuffer() {
+        Cursor c = this.getReadableDatabase().rawQuery(
+                "SELECT * FROM " + WorkpassContract.BufferEntry.TABLE_NAME, null);
+        Stack<BufferModel> bufferModels = new Stack<>();
+
+        while (c.moveToNext()) {
+            BufferModel model = new BufferModel();
+            model.setUserId(c.getColumnIndex(WorkpassContract.BufferEntry.COLUMN_USER_ID));
+            model.setTitle(c.getString(c.getColumnIndex(WorkpassContract.BufferEntry.COLUMN_TITLE)));
+            model.setStartDateTime(Timestamp.valueOf(c.getString(c.getColumnIndex(WorkpassContract.BufferEntry.COLUMN_START_DATE_TIME))));
+            model.setEndDateTime(Timestamp.valueOf(c.getString(c.getColumnIndex(WorkpassContract.BufferEntry.COLUMN_END_DATE_TIME))));
+            model.setBreaktime(c.getInt(c.getColumnIndex(WorkpassContract.BufferEntry.COLUMN_BRAKE_TIME)));
+            model.setSalary(c.getDouble(c.getColumnIndex(WorkpassContract.BufferEntry.COLUMN_SALARY)));
+            model.setNote(c.getString(c.getColumnIndex(WorkpassContract.BufferEntry.COLUMN_NOTE)));
+            model.setWorkingHours(c.getInt(c.getColumnIndex(WorkpassContract.BufferEntry.COLUMN_HOURS)));
+            model.setCompanyId(c.getInt(c.getColumnIndex(WorkpassContract.BufferEntry.COLUMN_COMPANY_ID)));
+            model.setCompanyName(c.getString(c.getColumnIndex(WorkpassContract.BufferEntry.COLUMN_COMPANY_NAME)));
+            model.setTag(c.getString(c.getColumnIndex(WorkpassContract.BufferEntry.COLUMN_TAG)));
+            model.setHourlyWage(c.getDouble(c.getColumnIndex(WorkpassContract.BufferEntry.COLUMN_HOURLY_WAGE)));
+            bufferModels.push(model);
+        }
+
+        return bufferModels;
     }
 }

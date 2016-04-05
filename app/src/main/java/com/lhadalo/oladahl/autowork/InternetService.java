@@ -11,8 +11,14 @@ import android.support.annotation.Nullable;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import UserPackage.BufferModel;
+import UserPackage.Company;
+import UserPackage.WorkpassModel;
 
 
 /**
@@ -21,6 +27,7 @@ import java.util.TimerTask;
 public class InternetService extends Service {
     private Timer timer;
     private Context context = InternetService.this;
+    private Stack<BufferModel> models;
 
 
     @Nullable
@@ -51,7 +58,10 @@ public class InternetService extends Service {
             if (isConnected(context) == true) {
                 BufferDatabase bufferDatabase = new BufferDatabase(context);
                 if (bufferDatabase.isEmpty() == false) {
-                    // TODO: 2016-04-05  Lägga till vad som ska hända om databasen inte är tom.
+                    models = bufferDatabase.getAllFromBuffer();
+                    while(!models.isEmpty()){
+                        new InternetConnection(models.pop());
+                    }
                 } else {
                     // TODO: 2016-04-05 Lägga till vad som ska hända om databasen är tom. 
                 }
@@ -77,11 +87,14 @@ public class InternetService extends Service {
     }
 
     class InternetConnection extends Thread {
-        Socket socket;
-        ObjectInputStream objectIn;
-        ObjectOutputStream objectOut;
+        private Socket socket;
+        private ObjectInputStream objectIn;
+        private ObjectOutputStream objectOut;
+        private BufferModel bufferModel;
+        private Object response;
         
-        public InternetConnection(){
+        public InternetConnection(BufferModel bufferModel){
+            this.bufferModel = bufferModel;
             Thread thread = new Thread();
             try {
                 socket = new Socket(Tag.IP, Tag.PORT);
@@ -95,7 +108,24 @@ public class InternetService extends Service {
         
         @Override
         public void run() {
+            SQLiteDB sqLiteDB = new SQLiteDB(context);
+                try{
+                    objectOut.writeObject(bufferModel.getTag());
+                    objectOut.writeObject(bufferModel);
 
+                response = objectIn.readObject();
+                    if(response instanceof Company){
+                        Company company = (Company)response;
+                      sqLiteDB.addCompany(company);
+                    }else if(response instanceof WorkpassModel){
+                        WorkpassModel workpassModel = (WorkpassModel)response;
+                        sqLiteDB.addWorkpass(workpassModel);
+                    }
+
+
+                }catch (Exception e){
+
+                }
 
             // TODO: 2016-04-05 Lägga till vad som ska hända i tråden.  
             
