@@ -29,6 +29,8 @@
         <activity android:name=".fragments.AddCompanyFragment" />
         <activity android:name=".fragments.ChangeOrRemoveCompanyFragment" />
         <activity android:name=".InternetSettingsActivity" />
+
+        <service android:name=".InternetService" />
     </application>
 
 </manifest>
