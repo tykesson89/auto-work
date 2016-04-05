@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     private ArrayList<Long> ids = new ArrayList<>();
     private int companyId;
     private SQLiteDB database;
-    private ArrayList<WorkpassModel> workpassModels;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +49,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         super.onStart();
         Calendar cal = Calendar.getInstance();
         int month = cal.get(Calendar.MONTH);
-
-
-         getMonthSalary(month);
-
-
-
+        getMonthSalary(month);
     }
 
     @Override
@@ -92,23 +86,23 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     public void getMonthSalary(int month) {
         database = new SQLiteDB(MainActivity.this);
 
-        ArrayList<WorkpassModel> workpassModels;
+        ArrayList<WorkpassModel> workpassModels = new ArrayList<WorkpassModel>();
         workpassModels= database.getSalaryAndDate();
-
+       Log.d("Get mounth", String.valueOf( workpassModels.get(0).getEndDateTime().getMonth()));
+        Log.d("Calender Month", String.valueOf(month));
 
         double salary = 0;
-
         ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
 
         for (int i = 0; i < workpassModels.size(); i++) {
             if (workpassModels.get(i).getEndDateTime().getMonth() == month) {
                 list.add(workpassModels.get(i));
+
             }
-
         }
-        for (int i = 0; i < list.size(); i++) {
-            salary += list.get(i).getSalary();
 
+        for (int i = 0; i < list.size(); i++) {
+            salary = salary + list.get(i).getSalary();
         }
         String sal = String.valueOf(salary);
         fragment.setTextTvSalary(sal);

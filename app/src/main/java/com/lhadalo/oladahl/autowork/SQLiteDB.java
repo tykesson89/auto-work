@@ -292,32 +292,16 @@ public class SQLiteDB extends SQLiteOpenHelper {
     //Workpass-----------------------------------------------------------------------------------
     public ArrayList<WorkpassModel> getSalaryAndDate(){
         SQLiteDatabase db = this.getReadableDatabase();
-
-       ArrayList<WorkpassModel> list = new ArrayList<>();
-
-
-
-
+        ArrayList<WorkpassModel> list = new ArrayList<>();
         Cursor c = db.rawQuery("SELECT salary,enddatetime FROM Workpass", null);
-
-        ArrayList<WorkpassModel> wpm = new ArrayList<WorkpassModel>();
         WorkpassModel workpass;
-
-
-
-     while (c.moveToNext()){
+        while (c.moveToNext()){
             workpass = new WorkpassModel();
             workpass.setEndDateTime(Timestamp.valueOf(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME))));
             workpass.setSalary(c.getDouble(c.getColumnIndex(WorkpassEntry.COLUMN_SALARY)));
-            wpm.add(workpass);
-
-
             list.add(workpass);
-            c.moveToNext();
+
         }
-
-
-
         db.close();
 
         return list;
