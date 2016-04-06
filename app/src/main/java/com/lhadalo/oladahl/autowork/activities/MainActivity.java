@@ -12,6 +12,7 @@ import com.lhadalo.oladahl.autowork.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.fragments.MainFragment;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     private MainFragment fragment;
     private ArrayList<Long> ids = new ArrayList<>();
     private int companyId;
+    private String nameCompany;
     private SQLiteDB database;
 
 
@@ -30,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initFragment();
-
 
     }
 
@@ -49,8 +50,12 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         super.onStart();
         Calendar cal = Calendar.getInstance();
         int month = cal.get(Calendar.MONTH);
+
         getMonthSalary(month);
         getHours(month);
+        getNextPassHour(month);
+        getNextPassSalary(month);
+        getDate(month);
 
     }
 
@@ -84,7 +89,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         }
     }
 
-    public void getMonthSalary(int month) {
+
+    public void getMonthSalary(double month) {
         database = new SQLiteDB(MainActivity.this);
 
         ArrayList<WorkpassModel> workpassModels;
@@ -106,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
         }
         String sal = String.valueOf(salary);
-        fragment.setTextTvSalary(sal);
+        fragment.setTextTvSalary(sal + " Kr ");
     }
 
     public void getHours(double month) {
@@ -131,8 +137,80 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
         }
         String sal = String.valueOf(hours);
-        fragment.setTextTvHours(sal);
+        fragment.setTextTvHours(sal + " h ");
     }
+    public void getNextPassHour(double month) {
+        database = new SQLiteDB(MainActivity.this);
+
+        ArrayList<WorkpassModel> workpassModels;
+        workpassModels = database.getNextPassHour();
+
+
+        double hours = 0;
+
+        ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
+
+        for (int i = 0; i < workpassModels.size(); i++) {
+            if (workpassModels.get(i).getEndDateTime().getMonth() == month) {
+                list.add(workpassModels.get(i));
+            }
+
+        }
+        for (int i = 0; i < list.size(); i++) {
+            hours = list.get(i).getWorkingHours();
+
+        }
+        String sal = String.valueOf(hours);
+        fragment.setTextTvHoursPass(sal + " h ");
+    }
+    public void getNextPassSalary(double month) {
+        database = new SQLiteDB(MainActivity.this);
+
+        ArrayList<WorkpassModel> workpassModels;
+        workpassModels = database.getNextPassSalary();
+
+
+        double salary = 0;
+
+        ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
+
+        for (int i = 0; i < workpassModels.size(); i++) {
+            if (workpassModels.get(i).getEndDateTime().getMonth() == month) {
+                list.add(workpassModels.get(i));
+            }
+
+        }
+        for (int i = 0; i < list.size(); i++) {
+            salary = list.get(i).getSalary();
+
+        }
+        String sal = String.valueOf(salary);
+        fragment.setTextTvSalaryPass(sal + " Kr ");
+    }
+    public void getDate(double month) {
+        database = new SQLiteDB(MainActivity.this);
+
+        ArrayList<WorkpassModel> workpassModels;
+        workpassModels = database.showDate();
+        Timestamp startTime=null ;
+
+        ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
+
+        for (int i = 0; i < workpassModels.size(); i++) {
+            if (workpassModels.get(i).getStartDateTime().getMonth() == month) {
+                list.add(workpassModels.get(i));
+            }
+
+        }
+        for (int i = 0; i < list.size(); i++) {
+            startTime = list.get(i).getStartDateTime();
+
+        }
+
+        fragment.setTextTvNextPass(startTime.toString());
+    }
+
+
 
 }
 

@@ -95,9 +95,10 @@
             android:layout_height="wrap_content"
             android:text="fredag 23/7"
             android:id="@+id/tvNextPass"
-            android:layout_alignBottom="@+id/textView6"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/textView6"
+            android:layout_alignParentStart="false" />
 
         <TextView
             android:layout_width="wrap_content"
