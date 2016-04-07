@@ -68,7 +68,7 @@
     <string name="delete">DELETE</string>
     <string name="change">CHANGE</string>
     <string name="back">BACK</string>
-    <string name="txt_company">Remove/Change Company</string>
+    <string name="txt_company">Company</string>
 
 
     <string name="company"></string>

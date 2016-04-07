@@ -51,7 +51,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
                         "id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT," +
                         "companyId INTEGER, " +
                         "userID INTEGER, " +
-                        "companyName TEXT NOT NULL, " +
+                        "companyName TEXT UNIQUE NOT NULL, " +
                         "Hourlywage REAL NOT NULL)");
         Log.d("Table 2", "created");
 
@@ -403,6 +403,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
 
     }
+
     public ArrayList<WorkpassModel> showDate() {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<WorkpassModel> list = new ArrayList<>();
