@@ -139,11 +139,11 @@ public class SQLiteDB extends SQLiteOpenHelper {
     public void addCompanyLocal(Company company) {
         String companyName = company.getCompanyName();
         double hourtlyWage = company.getHourlyWage();
-
+        int userid = company.getUserId();
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues content = new ContentValues();
-
+        content.put("userID", userid);
         content.put("Hourlywage", hourtlyWage);
         content.put("companyName", companyName);
 

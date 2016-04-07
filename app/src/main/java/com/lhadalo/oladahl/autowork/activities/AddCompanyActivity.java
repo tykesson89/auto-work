@@ -49,7 +49,10 @@ public class AddCompanyActivity extends AppCompatActivity implements AddCompanyF
 public void onClickBtnAddCompany(String companyName, double hourly){
 
     Company company = new Company(companyName, hourly);
+
     SQLiteDB db = new SQLiteDB(AddCompanyActivity.this);
+    int myID = db.getUserId(AddCompanyActivity.this);
+    company.setUserId(myID);
     db.addCompanyLocal(company);
 
 
