@@ -19,6 +19,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import UserPackage.Company;
 import UserPackage.User;
 
 public class AddCompanyActivity extends AppCompatActivity implements AddCompanyFragment.OnFragmentInteraction {
@@ -42,8 +43,18 @@ public class AddCompanyActivity extends AppCompatActivity implements AddCompanyF
         super.onStart();
 
 
-    }
 
+
+    }
+public void onClickBtnAddCompany(String companyName, double hourly){
+
+    Company company = new Company(companyName, hourly);
+    SQLiteDB db = new SQLiteDB(AddCompanyActivity.this);
+    db.addCompanyLocal(company);
+
+
+
+}
 
 
 }

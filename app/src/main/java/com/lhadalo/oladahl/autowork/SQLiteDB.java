@@ -48,8 +48,8 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.execSQL(
                 "create table if not exists Company( " +
                         "id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT," +
-                        "companyId INTEGER UNIQUE NOT NULL, " +
-                        "userID INTEGER NOT NULL, " +
+                        "companyId INTEGER, " +
+                        "userID INTEGER, " +
                         "companyName TEXT NOT NULL, " +
                         "Hourlywage REAL NOT NULL)");
         Log.d("Table 2", "created");
@@ -136,7 +136,23 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
 
     }
+    public void addCompanyLocal(Company company) {
+        String companyName = company.getCompanyName();
+        double hourtlyWage = company.getHourlyWage();
 
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues content = new ContentValues();
+
+        content.put("Hourlywage", hourtlyWage);
+        content.put("companyName", companyName);
+
+        db.insert("Company", null, content);
+
+        db.close();
+
+
+    }
     public List<Company> getAllCompanies() {
         Cursor cursor = this.getReadableDatabase().rawQuery("SELECT * FROM Company", null);
         List<Company> companies = new ArrayList<>();

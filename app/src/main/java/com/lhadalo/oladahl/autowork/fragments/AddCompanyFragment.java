@@ -22,11 +22,8 @@ public class AddCompanyFragment extends Fragment {
     private Spinner spinner;
 
 
-
-
-
     public interface OnFragmentInteraction {
-
+        void onClickBtnAddCompany(String company, double hourly);
     }
 
     @Nullable
@@ -40,9 +37,25 @@ public class AddCompanyFragment extends Fragment {
 
     private void initComponents(View view) {
 
+        btnAdd = (Button) view.findViewById(R.id.btn_addCompany);
+        btnDelete = (Button) view.findViewById(R.id.btn_delete);
+        btnChange = (Button) view.findViewById(R.id.btn_change);
+        edCompany = (EditText) view.findViewById((R.id.etCompany));
+        edHourly = (EditText) view.findViewById(R.id.etHourly);
+
+
     }
 
     private void initListeners() {
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                callback.onClickBtnAddCompany(getCompany(),getHourly());
+            }
+        });
+
 
     }
 
@@ -57,6 +70,13 @@ public class AddCompanyFragment extends Fragment {
         }
     }
 
+    public String getCompany() {
 
+        return edCompany.getText().toString();
+    }
+
+    public double getHourly(){
+        return Double.parseDouble(edHourly.getText().toString());
+    }
 
 }
