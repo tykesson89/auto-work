@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         getHours(month);
         getNextPassHour(month);
         getNextPassSalary(month);
-        getDate(month);
+      //  getDate(month);
 
     }
 
@@ -72,6 +72,13 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+    }
+
+    public void onButtonClickTry(){
+
+        Intent a = new Intent(MainActivity.this, AddCompanyActivity.class);
+        startActivity(a);
+
     }
 
     @Override

@@ -24,11 +24,14 @@ public class MainFragment extends Fragment {
     private OnFragmentInteraction callback;
     private TextView tvSalary,tvSalaryPass,tvNextPass,tvHours,tvHoursPass;
     private Toolbar toolbar;
+    private Button btnTry;
 
     public interface OnFragmentInteraction{
         void onActionSettingsPressed();
         void onActionLogOutPressed();
         void onActionAddWorkpassPressed();
+        void onButtonClickTry();
+
     }
 
     @Override
@@ -52,6 +55,7 @@ public class MainFragment extends Fragment {
         tvNextPass = (TextView)view.findViewById(R.id.tvNextPass);
         tvHours = (TextView)view.findViewById(R.id.tvHours);
         tvHoursPass = (TextView)view.findViewById(R.id.tvHoursPass);
+        btnTry=(Button)view.findViewById(R.id.button_addCompany_try);
 
         toolbar = (Toolbar)view.findViewById(R.id.toolbar_main);
         AppCompatActivity activity = (AppCompatActivity)getActivity();
@@ -61,6 +65,13 @@ public class MainFragment extends Fragment {
     }
 
     private void initListeners(){
+
+        btnTry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callback.onButtonClickTry();
+            }
+        });
 
     }
 

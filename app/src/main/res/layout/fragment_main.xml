@@ -139,6 +139,17 @@
             android:layout_alignRight="@+id/textView10"
             android:layout_alignEnd="@+id/textView10" />
 
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Company"
+            android:id="@+id/button_addCompany_try"
+            android:layout_marginBottom="83dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/tvHoursPass"
+            android:layout_alignEnd="@+id/tvHoursPass" />
+
 
     </RelativeLayout>
 

@@ -42,7 +42,7 @@ public class AddCompanyFragment extends Fragment {
         btnChange = (Button) view.findViewById(R.id.btn_change);
         edCompany = (EditText) view.findViewById((R.id.etCompany));
         edHourly = (EditText) view.findViewById(R.id.etHourly);
-
+        initListeners();
 
     }
 
