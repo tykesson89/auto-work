@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.lhadalo.oladahl.autowork.R;
@@ -18,6 +20,8 @@ import com.lhadalo.oladahl.autowork.fragments.SettingsFragment;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 import UserPackage.Company;
 import UserPackage.User;
@@ -54,10 +58,17 @@ public void onClickBtnAddCompany(String companyName, double hourly){
     int myID = db.getUserId(AddCompanyActivity.this);
     company.setUserId(myID);
     db.addCompanyLocal(company);
+    fragment.spinner();
+    CharSequence text = "Company added";
+    int duration = Toast.LENGTH_SHORT;
+    Toast toast = Toast.makeText(AddCompanyActivity.this, text, duration);
+    toast.show();
 
 
 
 }
+
+
 
 
 }
