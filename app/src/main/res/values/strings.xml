@@ -80,6 +80,7 @@
     </string-array>
     <string name="title_activity_add_company">AddCompanyActivity</string>
     <string name="title_activity_static">StaticActivity</string>
+    <string name="add">Add Company</string>
 
 
 </resources>
