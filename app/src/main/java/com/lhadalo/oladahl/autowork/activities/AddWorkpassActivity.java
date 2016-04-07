@@ -20,8 +20,11 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -60,8 +63,6 @@ public class AddWorkpassActivity extends AppCompatActivity
         setContentView(R.layout.activity_add_workpass);
 
         initFragment();
-
-
 
         database = new SQLiteDB(this);
         model = new WorkpassModel();
@@ -121,7 +122,6 @@ public class AddWorkpassActivity extends AppCompatActivity
         setSalary();
     }
 
-
     @Override
     public void onClickWorkplace() {
         createCompaniesDialog();
@@ -168,6 +168,16 @@ public class AddWorkpassActivity extends AppCompatActivity
             setResult(RESULT_OK, data);
             finish();
         }
+
+        /*populateModelFromInterface();
+
+        GregorianCalendar test = model.getStartDateTime();
+        String str = formatCalendarToString(test);
+
+        GregorianCalendar result = formatStringToCalendar(str);
+
+        Log.v(Tag.LOGTAG, String.valueOf(
+                result.get(Calendar.YEAR)) + " " + result.get(Calendar.HOUR_OF_DAY));*/
     }
 
     private boolean populateModelFromInterface() {
@@ -209,10 +219,10 @@ public class AddWorkpassActivity extends AppCompatActivity
             return false;
         }
         else {
-            Timestamp start = formatDateTime(startDate, startTime);
+            GregorianCalendar start = joinDateTime(startDate, startTime);
             model.setStartDateTime(start);
 
-            Timestamp end = formatDateTime(endDate, endTime);
+            GregorianCalendar end = joinDateTime(endDate, endTime);
             model.setEndDateTime(end);
 
             return true;
@@ -237,10 +247,13 @@ public class AddWorkpassActivity extends AppCompatActivity
         model.setSalary(salary);
     }
 
-    private Timestamp formatDateTime(GregorianCalendar date, GregorianCalendar time) {
-        return new Timestamp(date.get(Calendar.YEAR), date.get(Calendar.MONTH),
-                date.get(Calendar.DAY_OF_MONTH), time.get(Calendar.HOUR_OF_DAY),
-                time.get(Calendar.MINUTE), 0, 0);
+    private GregorianCalendar joinDateTime(GregorianCalendar date, GregorianCalendar time){
+        return new GregorianCalendar(
+                date.get(Calendar.YEAR),
+                date.get(Calendar.MONTH),
+                date.get(Calendar.DAY_OF_MONTH),
+                time.get(Calendar.HOUR_OF_DAY),
+                time.get(Calendar.MINUTE));
     }
 
     private String formatDate(int year, int month, int dayOfMonth) {
@@ -257,8 +270,31 @@ public class AddWorkpassActivity extends AppCompatActivity
             fragment.setTxtDateEnd(formatDate(year, month, day));
             endDate = new GregorianCalendar(year, month, day);
         }
+    }
 
-        Toast.makeText(this, String.valueOf(dialogSource), Toast.LENGTH_SHORT).show();
+    private String formatCalendarToString(GregorianCalendar cal) {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy MM dd HH:mm");
+
+        String dateFormatted = fmt.format(cal.getTime());
+
+        return dateFormatted;
+    }
+
+    private GregorianCalendar formatStringToCalendar(String str) {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy MM dd HH:mm");
+
+        Date date = null;
+        try {
+            date = fmt.parse(str);
+
+        } catch (ParseException ex){
+            ex.printStackTrace();
+        }
+
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(date);
+
+        return cal;
     }
 
     @Override

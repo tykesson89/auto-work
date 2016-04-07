@@ -13,8 +13,12 @@ import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.fragments.MainFragment;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import UserPackage.Company;
@@ -25,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     private ArrayList<Long> ids = new ArrayList<>();
     private int companyId;
     private String nameCompany;
-    private SQLiteDB database;
+    private SQLiteDB database = new SQLiteDB(this);
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         initFragment();
 
     }
-
 
     private void initFragment() {
         fragment = new MainFragment();
@@ -55,8 +58,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         getHours(month);
         getNextPassHour(month);
         getNextPassSalary(month);
-      //  getDate(month);
-
+        //getDate(month);
     }
 
     @Override
@@ -89,15 +91,20 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        List<WorkpassModel> workpassModels;
+
         if (resultCode == RESULT_OK) {
             if (requestCode == Tag.ADD_WORKPASS_REQUEST) {
-                companyId = data.getIntExtra(Tag.WORKPASS_ID, -1);
+                workpassModels = database.getAllWorkpasses();
+
+                for(WorkpassModel m : workpassModels){
+                    Log.v(Tag.LOGTAG, m.toString());
+                }
             }
         }
     }
 
-
-    public void getMonthSalary(double month) {
+    public void getMonthSalary(int month) {
         database = new SQLiteDB(MainActivity.this);
 
         ArrayList<WorkpassModel> workpassModels;
@@ -109,7 +116,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
 
         for (int i = 0; i < workpassModels.size(); i++) {
-            if (workpassModels.get(i).getEndDateTime().getMonth() == month) {
+            int modelMonth = workpassModels.get(i).getEndDateTime().get(Calendar.MONTH);
+            if (modelMonth == month) {
                 list.add(workpassModels.get(i));
             }
 
@@ -122,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         fragment.setTextTvSalary(sal + " Kr ");
     }
 
-    public void getHours(double month) {
+    public void getHours(int month) {
         database = new SQLiteDB(MainActivity.this);
 
         ArrayList<WorkpassModel> workpassModels;
@@ -134,7 +142,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
 
         for (int i = 0; i < workpassModels.size(); i++) {
-            if (workpassModels.get(i).getEndDateTime().getMonth() == month) {
+            int modelMonth = workpassModels.get(i).getEndDateTime().get(Calendar.MONTH);
+            if (modelMonth == month) {
                 list.add(workpassModels.get(i));
             }
 
@@ -146,7 +155,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         String sal = String.valueOf(hours);
         fragment.setTextTvHours(sal + " h ");
     }
-    public void getNextPassHour(double month) {
+
+    public void getNextPassHour(int month) {
         database = new SQLiteDB(MainActivity.this);
 
         ArrayList<WorkpassModel> workpassModels;
@@ -158,10 +168,11 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
 
         for (int i = 0; i < workpassModels.size(); i++) {
-            if (workpassModels.get(i).getEndDateTime().getMonth() == month) {
+
+            int modelMonth = workpassModels.get(i).getEndDateTime().get(Calendar.MONTH);
+            if (modelMonth == month) {
                 list.add(workpassModels.get(i));
             }
-
         }
         for (int i = 0; i < list.size(); i++) {
             hours = list.get(i).getWorkingHours();
@@ -170,7 +181,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         String sal = String.valueOf(hours);
         fragment.setTextTvHoursPass(sal + " h ");
     }
-    public void getNextPassSalary(double month) {
+
+    public void getNextPassSalary(int month) {
         database = new SQLiteDB(MainActivity.this);
 
         ArrayList<WorkpassModel> workpassModels;
@@ -182,10 +194,11 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
 
         for (int i = 0; i < workpassModels.size(); i++) {
-            if (workpassModels.get(i).getEndDateTime().getMonth() == month) {
+
+            int modelMonth = workpassModels.get(i).getEndDateTime().get(Calendar.MONTH);
+            if (modelMonth == month) {
                 list.add(workpassModels.get(i));
             }
-
         }
         for (int i = 0; i < list.size(); i++) {
             salary = list.get(i).getSalary();
@@ -194,30 +207,56 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         String sal = String.valueOf(salary);
         fragment.setTextTvSalaryPass(sal + " Kr ");
     }
-    public void getDate(double month) {
+
+    public void getDate(int month) {
         database = new SQLiteDB(MainActivity.this);
 
         ArrayList<WorkpassModel> workpassModels;
         workpassModels = database.showDate();
-        Timestamp startTime=null ;
+        GregorianCalendar startTime = null ;
 
         ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
 
         for (int i = 0; i < workpassModels.size(); i++) {
-            if (workpassModels.get(i).getStartDateTime().getMonth() == month) {
+
+            int modelMonth = workpassModels.get(i).getEndDateTime().get(Calendar.MONTH);
+            if (modelMonth == month) {
                 list.add(workpassModels.get(i));
             }
 
         }
         for (int i = 0; i < list.size(); i++) {
             startTime = list.get(i).getStartDateTime();
-
         }
 
-        fragment.setTextTvNextPass(startTime.toString());
+        String strStartTime = formatCalendarToString(startTime);
+        fragment.setTextTvNextPass(strStartTime);
     }
 
+    private String formatCalendarToString(GregorianCalendar cal) {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy MM dd HH:mm");
 
+        String dateFormatted = fmt.format(cal.getTime());
+
+        return dateFormatted;
+    }
+
+    private GregorianCalendar formatStringToCalendar(String str) {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy MM dd HH:mm");
+
+        Date date = null;
+        try {
+            date = fmt.parse(str);
+
+        } catch (ParseException ex){
+            ex.printStackTrace();
+        }
+
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(date);
+
+        return cal;
+    }
 
 }
 

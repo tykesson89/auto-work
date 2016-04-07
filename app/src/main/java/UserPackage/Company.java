@@ -63,4 +63,9 @@ public class Company implements CompanyInterface {
     public int getUserId() {
         return userId;
     }
+
+    @Override
+    public String toString() {
+        return companyName;
+    }
 }

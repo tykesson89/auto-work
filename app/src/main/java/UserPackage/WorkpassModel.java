@@ -3,6 +3,7 @@ package UserPackage;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import UserPackage.Company;
 
@@ -15,8 +16,8 @@ public class WorkpassModel implements Serializable{
     private int userId;
     private Company company;
     private String title;
-    private Timestamp startDateTime;
-    private Timestamp endDateTime;
+    private GregorianCalendar startDateTime;
+    private GregorianCalendar endDateTime;
     private double breaktime;
     private double workingHours;
     private double salary;
@@ -29,8 +30,8 @@ public class WorkpassModel implements Serializable{
                 ", userId=" + userId +
                 ", company=" + company +
                 ", title='" + title + '\'' +
-                ", startDateTime=" + startDateTime +
-                ", endDateTime=" + endDateTime +
+                ", startDateTime=" + startDateTime.toString() +
+                ", endDateTime=" + endDateTime.toString() +
                 ", breaktime=" + breaktime +
                 ", workingHours=" + workingHours +
                 ", salary=" + salary +
@@ -38,8 +39,7 @@ public class WorkpassModel implements Serializable{
                 '}';
     }
 
-    public WorkpassModel(String title, double salary, Company company, Timestamp startDateTime,
-                         Timestamp endDateTime, double breaktime, double workingHours, String note) {
+    public WorkpassModel(String title, double salary, Company company, GregorianCalendar startDateTime, GregorianCalendar endDateTime, double breaktime, double workingHours, String note) {
         this.title = title;
         this.company = company;
         this.startDateTime = startDateTime;
@@ -61,19 +61,19 @@ public class WorkpassModel implements Serializable{
         return company;
     }
 
-    public void setStartDateTime(Timestamp startDateTime){
+    public void setStartDateTime(GregorianCalendar startDateTime){
         this.startDateTime = startDateTime;
     }
 
-    public Timestamp getStartDateTime() {
+    public GregorianCalendar getStartDateTime() {
         return startDateTime;
     }
 
-    public void setEndDateTime(Timestamp endDateTime) {
+    public void setEndDateTime(GregorianCalendar endDateTime) {
         this.endDateTime = endDateTime;
     }
 
-    public Timestamp getEndDateTime() {
+    public GregorianCalendar getEndDateTime() {
         return endDateTime;
     }
 
@@ -132,6 +132,4 @@ public class WorkpassModel implements Serializable{
     public void setWorkingHours(double workingHours) {
         this.workingHours = workingHours;
     }
-
-
 }

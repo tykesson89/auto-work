@@ -17,7 +17,7 @@ public class SQLiteCommand {
                     + WorkpassEntry.WORKPASS_ID + " INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT" + COMMA_SEP
                     + WorkpassEntry.COLUMN_USER_ID + INT_TYPE + COMMA_SEP
                     + WorkpassEntry.COLUMN_TITLE + TEXT_TYPE + COMMA_SEP
-                    + WorkpassEntry.COLUMN_WORKPLACE_ID + TEXT_TYPE + COMMA_SEP
+                    + WorkpassEntry.COLUMN_COMPANY_ID + TEXT_TYPE + COMMA_SEP
                     + WorkpassEntry.COLUMN_START_DATE_TIME + TEXT_TYPE + COMMA_SEP
                     + WorkpassEntry.COLUMN_END_DATE_TIME + TEXT_TYPE + COMMA_SEP
                     + WorkpassEntry.COLUMN_SALARY + REAL_TYPE + COMMA_SEP

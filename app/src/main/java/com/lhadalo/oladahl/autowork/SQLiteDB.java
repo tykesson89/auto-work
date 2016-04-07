@@ -8,13 +8,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 
+import java.util.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
-
-import java.util.ArrayList;
-import java.util.List;
 
 import UserPackage.Company;
 import UserPackage.User;
@@ -27,7 +28,7 @@ import com.lhadalo.oladahl.autowork.WorkpassContract.WorkpassEntry;
  */
 public class SQLiteDB extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "AutoWork_DB";
 
     public SQLiteDB(Context context) {
@@ -56,8 +57,6 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
         db.execSQL(SQLiteCommand.DB_CREATE_WORKPASS_TABLE);
         Log.d("Table 3", "created");
-
-
     }
 
     @Override
@@ -150,9 +149,8 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.insert("Company", null, content);
 
         db.close();
-
-
     }
+
     public List<Company> getAllCompanies() {
         Cursor cursor = this.getReadableDatabase().rawQuery("SELECT * FROM Company", null);
         List<Company> companies = new ArrayList<>();
@@ -188,8 +186,6 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
         db.close();
         return company;
-
-
     }
 
 
@@ -198,9 +194,10 @@ public class SQLiteDB extends SQLiteOpenHelper {
     public void addloginWorkpass(WorkpassModel model) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+
         values.put(WorkpassEntry.COLUMN_USER_ID, model.getUserId());
         values.put(WorkpassEntry.COLUMN_TITLE, model.getTitle());
-        values.put(WorkpassEntry.COLUMN_WORKPLACE_ID, model.getId());
+        values.put(WorkpassEntry.COLUMN_COMPANY_ID, model.getId());
         values.put(WorkpassEntry.COLUMN_START_DATE_TIME, model.getStartDateTime().toString());
         values.put(WorkpassEntry.COLUMN_END_DATE_TIME, model.getEndDateTime().toString());
         values.put(WorkpassEntry.COLUMN_SALARY, model.getSalary());
@@ -266,13 +263,23 @@ public class SQLiteDB extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(WorkpassEntry.COLUMN_USER_ID, model.getUserId());
-        values.put(WorkpassEntry.COLUMN_WORKPLACE_ID, 1);
+
+        values.put(WorkpassEntry.COLUMN_COMPANY_ID, model.getCompany().getCompanyId());
+
         values.put(WorkpassEntry.COLUMN_TITLE, model.getTitle());
-        values.put(WorkpassEntry.COLUMN_START_DATE_TIME, model.getStartDateTime().toString());
-        values.put(WorkpassEntry.COLUMN_END_DATE_TIME, model.getEndDateTime().toString());
+
+        String formattedStartDateTime = formatCalendarToString(model.getStartDateTime());
+        values.put(WorkpassEntry.COLUMN_START_DATE_TIME, formattedStartDateTime);
+
+        String formattedEndDateTime = formatCalendarToString(model.getEndDateTime());
+        values.put(WorkpassEntry.COLUMN_END_DATE_TIME, formattedEndDateTime);
+
         values.put(WorkpassEntry.COLUMN_BRAKE_TIME, model.getBreaktime());
+
         values.put(WorkpassEntry.COLUMN_SALARY, model.getSalary());
+
         values.put(WorkpassEntry.COLUMN_HOURS, model.getWorkingHours());
+
         values.put(WorkpassEntry.COLUMN_NOTE, model.getNote());
 
         return this.getWritableDatabase().insert(WorkpassEntry.TABLE_NAME, null, values);
@@ -295,13 +302,24 @@ public class SQLiteDB extends SQLiteOpenHelper {
         WorkpassModel model = new WorkpassModel();
 
         model.setUserId(c.getColumnIndex(WorkpassEntry.COLUMN_USER_ID));
-        model.setCompany(null);
+
+        Company company = getCompany(c.getInt(c.getColumnIndex(WorkpassEntry.COLUMN_COMPANY_ID)));
+        model.setCompany(company);
+
         model.setTitle(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_TITLE)));
-        model.setStartDateTime(Timestamp.valueOf(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_START_DATE_TIME))));
-        model.setEndDateTime(Timestamp.valueOf(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME))));
+
+        GregorianCalendar startDateTime = formatStringToCalendar(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_START_DATE_TIME)));
+        model.setStartDateTime(startDateTime);
+
+        GregorianCalendar endDateTime = formatStringToCalendar(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME)));
+        model.setEndDateTime(endDateTime);
+
         model.setBreaktime(c.getInt(c.getColumnIndex(WorkpassEntry.COLUMN_BRAKE_TIME)));
+
         model.setSalary(c.getDouble(c.getColumnIndex(WorkpassEntry.COLUMN_SALARY)));
+
         model.setNote(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_NOTE)));
+
         model.setWorkingHours(c.getInt(c.getColumnIndex(WorkpassEntry.COLUMN_HOURS)));
 
         return model;
@@ -315,7 +333,9 @@ public class SQLiteDB extends SQLiteOpenHelper {
         WorkpassModel workpass;
         while (c.moveToNext()) {
             workpass = new WorkpassModel();
-            workpass.setEndDateTime(Timestamp.valueOf(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME))));
+
+            GregorianCalendar endDateTime = formatStringToCalendar(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME)));
+            workpass.setEndDateTime(endDateTime);
             workpass.setSalary(c.getDouble(c.getColumnIndex(WorkpassEntry.COLUMN_SALARY)));
             list.add(workpass);
 
@@ -335,7 +355,9 @@ public class SQLiteDB extends SQLiteOpenHelper {
         WorkpassModel workpass;
         while (c.moveToNext()) {
             workpass = new WorkpassModel();
-            workpass.setEndDateTime(Timestamp.valueOf(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME))));
+
+            GregorianCalendar endDateTime = formatStringToCalendar(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME)));
+            workpass.setEndDateTime(endDateTime);
             workpass.setWorkingHours(c.getInt(c.getColumnIndex(WorkpassEntry.COLUMN_HOURS)));
             wpm.add(workpass);
         }
@@ -351,7 +373,9 @@ public class SQLiteDB extends SQLiteOpenHelper {
         WorkpassModel workpass;
         while (c.moveToNext()) {
             workpass = new WorkpassModel();
-            workpass.setEndDateTime(Timestamp.valueOf(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME))));
+
+            GregorianCalendar endDateTime = formatStringToCalendar(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME)));
+            workpass.setEndDateTime(endDateTime);
             workpass.setWorkingHours(c.getInt(c.getColumnIndex(WorkpassEntry.COLUMN_HOURS)));
             wpm.add(workpass);
         }
@@ -366,7 +390,9 @@ public class SQLiteDB extends SQLiteOpenHelper {
         WorkpassModel workpass;
         while (c.moveToNext()) {
             workpass = new WorkpassModel();
-            workpass.setEndDateTime(Timestamp.valueOf(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME))));
+
+            GregorianCalendar endDateTime = formatStringToCalendar(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME)));
+            workpass.setEndDateTime(endDateTime);
             workpass.setSalary(c.getDouble(c.getColumnIndex(WorkpassEntry.COLUMN_SALARY)));
             list.add(workpass);
 
@@ -384,7 +410,9 @@ public class SQLiteDB extends SQLiteOpenHelper {
         WorkpassModel workpass;
         while (c.moveToNext()) {
             workpass = new WorkpassModel();
-            workpass.setStartDateTime(Timestamp.valueOf(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_START_DATE_TIME))));
+
+            GregorianCalendar endDateTime = formatStringToCalendar(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME)));
+            workpass.setStartDateTime(endDateTime);
 
             list.add(workpass);
 
@@ -395,6 +423,32 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
 
     }
+
+    private String formatCalendarToString(GregorianCalendar cal) {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy MM dd HH:mm");
+
+        String dateFormatted = fmt.format(cal.getTime());
+
+        return dateFormatted;
+    }
+
+    private GregorianCalendar formatStringToCalendar(String str) {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy MM dd HH:mm");
+
+        Date date = null;
+        try {
+            date = fmt.parse(str);
+
+        } catch (ParseException ex){
+            ex.printStackTrace();
+        }
+
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(date);
+
+        return cal;
+    }
+
 // Show workpass ---------------------------------------------------------------------------
 
 }
