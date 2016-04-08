@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lhadalo.oladahl.autowork.R;
@@ -29,6 +30,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import UserPackage.Company;
+import UserPackage.User;
 import UserPackage.WorkpassModel;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteraction {
@@ -52,6 +54,18 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         setSupportActionBar(toolbar);
 
         navigationView = (NavigationView)findViewById(R.id.navigation_view);
+        View headerLayout = navigationView.getHeaderView(0);
+
+        User user = database.getUser();
+        TextView headerName = (TextView)headerLayout.findViewById(R.id.header_name);
+        TextView headerEmail = (TextView)headerLayout.findViewById(R.id.header_email);
+
+
+        headerName.setText(String.format("%1$s %2$s", user.getFirstname(), user.getLastname()));
+        headerEmail.setText(user.getEmail());
+
+
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
