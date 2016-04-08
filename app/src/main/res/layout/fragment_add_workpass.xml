@@ -47,7 +47,6 @@
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -63,8 +62,7 @@
                 android:layout_height="wrap_content"
                 android:divider="?android:dividerHorizontal"
                 android:showDividers="middle"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <include
                     android:id="@+id/txt_layout_workplace"
@@ -82,15 +80,11 @@
                     <include
                         android:id="@+id/txt_layout_stop"
                         layout="@layout/add_workpass_list_item_time"/>
-
                 </LinearLayout>
-
-
 
                 <include
                     android:id="@+id/txt_layout_lunch"
                     layout="@layout/add_workpass_list_item"/>
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -113,13 +107,12 @@
                         android:textSize="15sp"
                         android:hint="Add note"
                         style="@style/edit_text_style"/>
-
-                    <!-- Dummy för att skapa divider -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
                 </LinearLayout>
+
+                <!-- Dummy för att skapa divider -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
         </LinearLayout>
