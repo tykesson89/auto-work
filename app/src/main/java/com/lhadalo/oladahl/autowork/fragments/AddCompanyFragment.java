@@ -32,7 +32,8 @@ public class AddCompanyFragment extends Fragment {
 
     public interface OnFragmentInteraction {
         void onClickBtnAddCompany(String company, double hourly);
-
+        void onClickBtnChangeCompany(String company, double hourly);
+        void onClickBtnDeleteCompany(String company, double hourly);
     }
 
     @Nullable
@@ -59,6 +60,7 @@ public class AddCompanyFragment extends Fragment {
 
     private void initListeners() {
 
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +69,21 @@ public class AddCompanyFragment extends Fragment {
             }
         });
 
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                callback.onClickBtnDeleteCompany(getCompany(), getHourly());
+            }
+        });
+
+        btnChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callback.onClickBtnChangeCompany(getCompany(), getHourly());
+            }
+        });
 
     }
 
@@ -87,8 +104,12 @@ public class AddCompanyFragment extends Fragment {
     }
 
     public double getHourly(){
+
         return Double.parseDouble(edHourly.getText().toString());
     }
+
+
+
     public void showMessage(String title, String Message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
         builder.setCancelable(true);

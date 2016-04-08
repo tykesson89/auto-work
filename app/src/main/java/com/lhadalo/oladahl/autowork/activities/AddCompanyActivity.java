@@ -46,9 +46,6 @@ public class AddCompanyActivity extends AppCompatActivity implements AddCompanyF
     protected void onStart() {
         super.onStart();
 
-
-
-
     }
 public void onClickBtnAddCompany(String companyName, double hourly){
 
@@ -67,9 +64,15 @@ public void onClickBtnAddCompany(String companyName, double hourly){
 
 
 }
+    public void onClickBtnChangeCompany(String companyName, double hourly){
 
 
+    }
 
+    public void onClickBtnDeleteCompany(String companyName, double hourly){
+
+
+    }
 
 }
 
