@@ -4,9 +4,6 @@
     android:layout_height="match_parent"
     android:background="#f4eeee">
 
-    <include
-        android:id="@+id/toolbar_main"
-        layout="@layout/toolbar"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

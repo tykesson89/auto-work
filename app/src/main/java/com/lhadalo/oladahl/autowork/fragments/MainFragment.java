@@ -34,11 +34,13 @@ public class MainFragment extends Fragment {
         void onActionLaunchTestActivityPressed();
     }
 
+    /*
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true); //För att berätta att det finns en meny
     }
+    */
 
     @Nullable
     @Override
@@ -57,9 +59,6 @@ public class MainFragment extends Fragment {
         tvHoursPass = (TextView)view.findViewById(R.id.tvHoursPass);
         btnTry=(Button)view.findViewById(R.id.button_addCompany_try);
 
-        toolbar = (Toolbar)view.findViewById(R.id.toolbar_main);
-        AppCompatActivity activity = (AppCompatActivity)getActivity();
-        activity.setSupportActionBar(toolbar);
 
         initListeners();
     }
@@ -73,33 +72,6 @@ public class MainFragment extends Fragment {
             }
         });
 
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_main, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.action_settings:
-                callback.onActionSettingsPressed();
-                break;
-
-            case R.id.action_log_out:
-                callback.onActionLogOutPressed();
-                break;
-            case R.id.action_add_workpass:
-                callback.onActionAddWorkpassPressed();
-                break;
-            case R.id.action_launch_test:
-                callback.onActionLaunchTestActivityPressed();
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

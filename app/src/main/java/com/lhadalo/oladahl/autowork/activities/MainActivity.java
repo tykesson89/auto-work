@@ -1,9 +1,16 @@
 package com.lhadalo.oladahl.autowork.activities;
 
 import android.content.Intent;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -31,12 +38,93 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     private String nameCompany;
     private SQLiteDB database = new SQLiteDB(this);
 
+    private Toolbar toolbar;
+    private NavigationView navigationView;
+    private DrawerLayout drawerLayout;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initFragment();
 
+        toolbar = (Toolbar)findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+
+        navigationView = (NavigationView)findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                if(menuItem.isChecked()){
+                    menuItem.setChecked(false);
+                }
+                else{
+                    menuItem.setChecked(true);
+                }
+
+                switch(menuItem.getItemId()){
+                    case R.id.drawer_jan:
+                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[0], Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.drawer_feb:
+                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[1], Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.drawer_mar:
+                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[2], Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.drawer_apr:
+                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[3], Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.drawer_may:
+                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[4], Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.drawer_jun:
+                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[5], Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.drawer_jul:
+                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[6], Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.drawer_aug:
+                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[7], Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.drawer_sep:
+                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[8], Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.drawer_oct:
+                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[9], Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.drawer_nov:
+                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[10], Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.drawer_dec:
+                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[11], Toast.LENGTH_SHORT).show();
+                        return true;
+                }
+                return false;
+            }
+        });
+
+        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_main);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.openDrawer, R.string.closeDrawer){
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, 0);
+            }
+        };
+
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
     }
 
     private void initFragment() {
@@ -74,6 +162,36 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+
+        inflater.inflate(R.menu.menu_main, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_settings:
+                //callback.onActionSettingsPressed();
+                break;
+
+            case R.id.action_log_out:
+                //callback.onActionLogOutPressed();
+                break;
+            case R.id.action_add_workpass:
+                //callback.onActionAddWorkpassPressed();
+                break;
+            case R.id.action_launch_test:
+                //callback.onActionLaunchTestActivityPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void onButtonClickTry(){
