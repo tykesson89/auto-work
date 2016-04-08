@@ -1,6 +1,7 @@
 package com.lhadalo.oladahl.autowork.fragments;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -41,6 +43,11 @@ public class AddWorkpassFragment extends Fragment {
     private TextView txtDateEnd;
     private TextView txtTimeEnd;
     private TextView txtBrake;
+
+    private ImageView imgWorkplace;
+    private ImageView imgDateStart;
+    private ImageView imgBrake;
+    private ImageView imgNote;
 
 
     public interface OnFragmentInteraction {
@@ -80,7 +87,6 @@ public class AddWorkpassFragment extends Fragment {
         Toolbar toolbar = (Toolbar)view.findViewById(R.id.toolbar_1);
         AppCompatActivity activity = (AppCompatActivity)getActivity();
         activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         activity.setTitle("Add workpass");
 
         etTitle = (EditText)view.findViewById(R.id.et_title);
@@ -102,6 +108,15 @@ public class AddWorkpassFragment extends Fragment {
 
         txtWorkplace.setText("Workplace");
         txtBrake.setText("Add brake");
+
+        imgWorkplace = (ImageView)layoutWorkplace.getChildAt(0);
+        imgDateStart = (ImageView)layoutStart.getChildAt(0);
+        imgBrake = (ImageView)layoutBreak.getChildAt(0);
+        //imgNote = (ImageView)layoutAddNote.getChildAt(0);
+
+        imgWorkplace.setImageDrawable(getResources().getDrawable(R.drawable.ic_business_center_black_24dp));
+        imgDateStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_query_builder_black_24dp));
+        imgBrake.setImageDrawable(getResources().getDrawable(R.drawable.ic_av_timer_black_24dp));
 
         initListeners();
     }

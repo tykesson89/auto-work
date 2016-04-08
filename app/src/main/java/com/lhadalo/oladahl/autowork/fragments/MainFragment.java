@@ -31,7 +31,7 @@ public class MainFragment extends Fragment {
         void onActionLogOutPressed();
         void onActionAddWorkpassPressed();
         void onButtonClickTry();
-
+        void onActionLaunchTestActivityPressed();
     }
 
     @Override
@@ -94,6 +94,9 @@ public class MainFragment extends Fragment {
                 break;
             case R.id.action_add_workpass:
                 callback.onActionAddWorkpassPressed();
+                break;
+            case R.id.action_launch_test:
+                callback.onActionLaunchTestActivityPressed();
         }
 
         return super.onOptionsItemSelected(item);

@@ -84,6 +84,13 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     }
 
     @Override
+    public void onActionLaunchTestActivityPressed() {
+        Intent intent = new Intent(this, TestActivity.class);
+        startActivity(intent);
+
+    }
+
+    @Override
     public void onActionAddWorkpassPressed() {
         Intent intent = new Intent(this, AddWorkpassActivity.class);
         startActivityForResult(intent, Tag.ADD_WORKPASS_REQUEST);
@@ -110,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         ArrayList<WorkpassModel> workpassModels;
         workpassModels = database.getSalaryAndDate();
 
-
         double salary = 0;
 
         ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
@@ -120,11 +126,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
             if (modelMonth == month) {
                 list.add(workpassModels.get(i));
             }
-
         }
         for (int i = 0; i < list.size(); i++) {
             salary += list.get(i).getSalary();
-
         }
         String sal = String.valueOf(salary);
         fragment.setTextTvSalary(sal + " Kr ");

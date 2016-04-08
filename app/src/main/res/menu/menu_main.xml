@@ -20,4 +20,11 @@
         android:orderInCategory="3"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/action_launch_test"
+        android:title="Starta TestActivity"
+        android:orderInCategory="4"
+        app:showAsAction="never"/>
+
+
 </menu>
