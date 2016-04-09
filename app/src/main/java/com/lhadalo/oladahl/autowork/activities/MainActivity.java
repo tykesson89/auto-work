@@ -12,9 +12,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lhadalo.oladahl.autowork.ListAdapter;
 import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
@@ -33,12 +36,14 @@ import UserPackage.Company;
 import UserPackage.User;
 import UserPackage.WorkpassModel;
 
-public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteraction {
+public class MainActivity extends AppCompatActivity
+        implements MainFragment.OnFragmentInteraction, ListAdapter.ItemClickListener {
     private MainFragment fragment;
     private ArrayList<Long> ids = new ArrayList<>();
     private int companyId;
     private String nameCompany;
     private SQLiteDB database = new SQLiteDB(this);
+    private List<WorkpassModel> content;
 
     private Toolbar toolbar;
     private NavigationView navigationView;
@@ -54,16 +59,51 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         setSupportActionBar(toolbar);
 
         navigationView = (NavigationView)findViewById(R.id.navigation_view);
-        View headerLayout = navigationView.getHeaderView(0);
 
+        //Får referens till header för att sätta namn och email på användare
+        View headerLayout = navigationView.getHeaderView(0);
         User user = database.getUser();
         TextView headerName = (TextView)headerLayout.findViewById(R.id.header_name);
         TextView headerEmail = (TextView)headerLayout.findViewById(R.id.header_email);
 
-
         headerName.setText(String.format("%1$s %2$s", user.getFirstname(), user.getLastname()));
         headerEmail.setText(user.getEmail());
 
+        //Får referens till inställningslayout
+        LinearLayout settingsLayout = (LinearLayout)navigationView.findViewById(R.id.settings_row);
+
+        //Sätter eventlistener till inställningslayout
+        settingsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Settings Clicked!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //Hämtar textview i inställningslayout och sätter rätt text.
+        TextView txtSettings = (TextView)settingsLayout.getChildAt(0);
+        txtSettings.setText("Settings");
+
+        ImageView imgSettings = (ImageView)settingsLayout.getChildAt(1);
+        imgSettings.setImageDrawable(getResources().getDrawable(R.drawable.ic_settings_black_18dp));
+
+        //Får referens till logga ut-layout
+        LinearLayout logOutLayout = (LinearLayout)navigationView.findViewById(R.id.log_out_row);
+
+        //Sätter eventlistener till lagga ut-layout
+        logOutLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        //Hämtar textview i logga ut-layout och sätter rätt text
+        TextView txtLogOut = (TextView)logOutLayout.getChildAt(0);
+        txtLogOut.setText("Log out");
+
+        ImageView imgLogOut = (ImageView)logOutLayout.getChildAt(1);
+        imgLogOut.setImageDrawable(getResources().getDrawable(R.drawable.ic_exit_to_app_black_18dp));
 
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -139,6 +179,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+
+        content = database.getAllWorkpasses();
     }
 
     private void initFragment() {
@@ -161,6 +203,11 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         getNextPassHour(month);
         getNextPassSalary(month);
         //getDate(month);
+
+        if(content != null){
+            ListAdapter adapter = new ListAdapter(this, content);
+            fragment.setListAdapter(adapter);
+        }
     }
 
     @Override
@@ -394,6 +441,10 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         return cal;
     }
 
+    @Override
+    public void onItemClick(int position) {
+        Toast.makeText(this, "Clicked position: " + String.valueOf(position), Toast.LENGTH_SHORT).show();
+    }
 }
 
 

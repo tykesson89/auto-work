@@ -33,7 +33,32 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/drawer_header"
-        app:menu="@menu/drawer"/>
+        app:menu="@menu/drawer">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <!--<TextView
+                android:id="@+id/empty_spacer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:clickable="false"/>-->
+
+            <include
+                android:id="@+id/settings_row"
+                layout="@layout/settings_row"/>
+
+            <include
+                android:id="@+id/log_out_row"
+                layout="@layout/settings_row"/>
+        </LinearLayout>
+
+    </android.support.design.widget.NavigationView>
 
 
 </android.support.v4.widget.DrawerLayout>

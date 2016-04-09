@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/drawer_jan"
@@ -60,6 +61,20 @@
             android:id="@+id/drawer_dec"
             android:checked="false"
             android:title="December"/>
+
+
+        <item
+            android:title=""
+            android:checkable="false"
+            android:enabled="false"
+            android:orderInCategory="200"/>
+
+        <item
+            android:title=""
+            android:enabled="false"
+            android:orderInCategory="200"/>
+
     </group>
+
 
 </menu>
