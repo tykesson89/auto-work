@@ -19,4 +19,6 @@
     <dimen name="list_icon_horizontal_margin">72dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+    <dimen name="status_bar_height">24dp</dimen>
+
 </resources>

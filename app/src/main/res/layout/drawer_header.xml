@@ -6,8 +6,6 @@
                 android:orientation="vertical"
                 android:weightSum="1">
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -21,25 +19,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:textColor="#ffffff"
-            android:text="Akash Bangad"
+            android:textColor="@android:color/white"
             android:textSize="14sp"
-            android:textStyle="bold"
-
-            />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/header_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#ffffff"
+            android:textColor="@android:color/white"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="5dp"
-            android:text="akash.bangad93@gmail.com"
             android:textSize="14sp"
-            android:textStyle="normal"
-
-            />
+            android:textStyle="normal"/>
     </LinearLayout>
 
 </RelativeLayout>
