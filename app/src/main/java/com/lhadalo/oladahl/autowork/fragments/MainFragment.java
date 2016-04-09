@@ -3,18 +3,15 @@ package com.lhadalo.oladahl.autowork.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.lhadalo.oladahl.autowork.ListAdapter;
@@ -28,14 +25,11 @@ public class MainFragment extends Fragment {
     private TextView tvSalary,tvSalaryPass,tvHours,tvHoursPass;
     private Toolbar toolbar;
     private RecyclerView mainRecyclerList;
+    private FloatingActionButton fab;
     //private Button btnTry;
 
     public interface OnFragmentInteraction{
-        void onActionSettingsPressed();
-        void onActionLogOutPressed();
-        void onActionAddWorkpassPressed();
-        void onButtonClickTry();
-        void onActionLaunchTestActivityPressed();
+        void onFABPressed();
     }
 
     /*
@@ -70,11 +64,19 @@ public class MainFragment extends Fragment {
         RecyclerView.LayoutManager mLinearLayoutManager = new LinearLayoutManager(context);
         mainRecyclerList.setLayoutManager(mLinearLayoutManager);
 
+        fab = (FloatingActionButton)view.findViewById(R.id.fab);
+
         initListeners();
     }
 
     private void initListeners(){
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callback.onFABPressed();
+            }
+        });
         /*btnTry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

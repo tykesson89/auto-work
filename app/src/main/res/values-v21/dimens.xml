@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:app="http://schemas.android.com/tools">
 	<dimen name="toolbar_top_padding">24dp</dimen>
 	<dimen name="horizontal_margin">16dp</dimen>
 	<dimen name="item_vertical_margin">16dp</dimen>
 
 	<dimen name="status_bar_height">24dp</dimen>
+
+	<dimen
+		name="fab_compat_margin"
+		app:borderWidth="16dp">20dp</dimen>
 </resources>

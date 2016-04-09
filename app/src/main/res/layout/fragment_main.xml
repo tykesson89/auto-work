@@ -10,7 +10,7 @@
         android:id="@+id/layout_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
         android:background="#ffffff"
         android:layout_below="@id/toolbar_main"
         >
@@ -19,7 +19,9 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:text="Månad"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
@@ -30,6 +32,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_marginLeftPercent="10%"
             android:gravity="center_horizontal"
             android:text="Lön"
             android:id="@+id/textView2"
@@ -43,13 +46,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_widthPercent="50%"
+            app:layout_marginLeftPercent="50%"
 
             android:text="Timmar"
             android:layout_marginBottom="5dp"
             android:id="@+id/textView4"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
+
             android:layout_alignTop="@+id/textView2"
             android:textSize="20dp"/>
 
@@ -66,6 +68,8 @@
             android:id="@+id/tv_title_next_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:text="Nästa pass: fredag 23/7"
             android:layout_below="@+id/tvSalary"
             android:layout_marginBottom="8dp"
@@ -76,7 +80,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            app:layout_marginLeftPercent="10%"
             android:text="Lön"
             android:id="@+id/rrr"
             android:layout_marginBottom="5dp"
@@ -118,12 +122,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_widthPercent="50%"
+            app:layout_marginLeftPercent="50%"
             android:text="Timmar"
             android:id="@+id/textView10"
             android:layout_marginBottom="5dp"
             android:layout_above="@+id/tvSalaryPass"
-            android:layout_alignParentRight="true"
+
             android:textSize="20dp" />
 
         <TextView
@@ -175,5 +179,16 @@
         android:layout_below="@id/layout_title_main_list">
 
     </android.support.v7.widget.RecyclerView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/fab_compat_margin"
+        android:src="@drawable/ic_add_black_24dp"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"/>
 
 </RelativeLayout>

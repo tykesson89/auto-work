@@ -1,9 +1,11 @@
 package com.lhadalo.oladahl.autowork.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -76,7 +78,7 @@ public class MainActivity extends AppCompatActivity
         settingsLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Settings Clicked!", Toast.LENGTH_SHORT).show();
+                onActionSettingsPressed();
             }
         });
 
@@ -210,13 +212,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
+
     public void onActionSettingsPressed() {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 
-    @Override
+
     public void onActionLogOutPressed() {
         SQLiteDB sqLiteDB = new SQLiteDB(MainActivity.this);
         sqLiteDB.deleteAll();
@@ -238,18 +240,9 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.action_settings:
-                //callback.onActionSettingsPressed();
-                break;
-
             case R.id.action_log_out:
-                //callback.onActionLogOutPressed();
+                onActionLogOutPressed();
                 break;
-            case R.id.action_add_workpass:
-                //callback.onActionAddWorkpassPressed();
-                break;
-            case R.id.action_launch_test:
-                //callback.onActionLaunchTestActivityPressed();
         }
 
         return super.onOptionsItemSelected(item);
@@ -262,17 +255,21 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    @Override
     public void onActionLaunchTestActivityPressed() {
         Intent intent = new Intent(this, TestActivity.class);
         startActivity(intent);
 
     }
 
-    @Override
+
     public void onActionAddWorkpassPressed() {
         Intent intent = new Intent(this, AddWorkpassActivity.class);
         startActivityForResult(intent, Tag.ADD_WORKPASS_REQUEST);
+    }
+
+    @Override
+    public void onFABPressed() {
+        createOptionsDialog();
     }
 
     @Override
@@ -444,6 +441,28 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onItemClick(int position) {
         Toast.makeText(this, "Clicked position: " + String.valueOf(position), Toast.LENGTH_SHORT).show();
+    }
+
+    private void createOptionsDialog(){
+        AlertDialog.Builder optionDialog = new AlertDialog.Builder(this);
+
+        String[] options = new String[]{"Add Company", "Add Workpass"};
+        optionDialog.setTitle("Choose action");
+        optionDialog.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int position) {
+                switch(position) {
+                    case 0:
+                        onButtonClickTry();
+                        break;
+                    case 1:
+                        onActionAddWorkpassPressed();
+                        break;
+                }
+            }
+        });
+
+        optionDialog.show();
     }
 }
 
