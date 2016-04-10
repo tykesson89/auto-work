@@ -44,74 +44,78 @@ public class AddCompanyActivity extends AppCompatActivity implements AddCompanyF
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container_add_company, fragment).commit();
     }
+
     protected void onStart() {
         super.onStart();
 
     }
-public void onClickBtnAddCompany(String companyName, double hourly){
-    SQLiteDB db = new SQLiteDB(AddCompanyActivity.this);
 
-    List<Company> list = new ArrayList<>();
-    boolean exists = false;
+    public void onClickBtnAddCompany(String companyName, double hourly) {
+        SQLiteDB db = new SQLiteDB(AddCompanyActivity.this);
 
-    list = db.getAllCompanies();
-
-    for(int i=0; i < list.size(); i ++){
-        String str =  list.get(i).getCompanyName();
-        Log.v(companyName, str);
-        if(str.equals(companyName)){
-            exists = true;
-
-        }
-    }
-Log.v("ddd", "gdgd");
-    if(exists == true){
-
-        CharSequence text = "Company already exists";
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(AddCompanyActivity.this, text, duration);
-        toast.show();
-    }else {
-
-
-        Company company = new Company(companyName, hourly);
-
-
-        int myID = db.getUserId(AddCompanyActivity.this);
-        company.setUserId(myID);
-        db.addCompanyLocal(company);
-        fragment.spinner();
-        CharSequence text = "Company added";
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(AddCompanyActivity.this, text, duration);
-        toast.show();
-        fragment.setTextCompany(companyName);
-        fragment.setTextHourly(String.valueOf(hourly));
-
-    }
-
-}
-    public void onClickBtnChangeCompany(String companyName, double hourly){
-       SQLiteDB db = new SQLiteDB(AddCompanyActivity.this);
         List<Company> list = new ArrayList<>();
         boolean exists = false;
 
         list = db.getAllCompanies();
 
-        for(int i=0; i < list.size(); i ++){
-            String str =  list.get(i).getCompanyName();
+        for(int i = 0; i < list.size(); i++) {
+            String str = list.get(i).getCompanyName();
+            Log.v(companyName, str);
+            if(str.equals(companyName)) {
+                exists = true;
 
-            if(companyName.equals(str)){
+            }
+        }
+        Log.v("ddd", "gdgd");
+        if(exists == true) {
+
+            CharSequence text = "Company already exists";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(AddCompanyActivity.this, text, duration);
+            toast.show();
+        }
+        else {
+
+
+            Company company = new Company(companyName, hourly);
+
+
+            int myID = db.getUserId(AddCompanyActivity.this);
+            company.setUserId(myID);
+            db.addCompanyLocal(company);
+            fragment.spinner();
+            CharSequence text = "Company added";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(AddCompanyActivity.this, text, duration);
+            toast.show();
+            fragment.setTextCompany(companyName);
+            fragment.setTextHourly(String.valueOf(hourly));
+
+        }
+    }
+
+    public void onClickBtnChangeCompany(String companyName, double hourly) {
+        SQLiteDB db = new SQLiteDB(AddCompanyActivity.this);
+        List<Company> list = new ArrayList<>();
+        boolean exists = false;
+
+        list = db.getAllCompanies();
+
+        for(int i = 0; i < list.size(); i++) {
+            String str = list.get(i).getCompanyName();
+
+            if(companyName.equals(str)) {
                 exists = true;
             }
         }
-        if(exists ==false){
+        if(exists == false) {
 
             CharSequence text = "Company doesn't exists";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(AddCompanyActivity.this, text, duration);
             toast.show();
-        }else {
+        }
+        else {
 
             db.changeCompany(companyName, hourly);
             fragment.setTextHourly(String.valueOf(hourly));
@@ -123,28 +127,29 @@ Log.v("ddd", "gdgd");
         }
     }
 
-    public void onClickBtnDeleteCompany(String companyName){
+    public void onClickBtnDeleteCompany(String companyName) {
         SQLiteDB db = new SQLiteDB(AddCompanyActivity.this);
         List<Company> list = new ArrayList<>();
         boolean exists = false;
 
         list = db.getAllCompanies();
 
-        for(int i=0; i < list.size(); i ++){
-            String str =  list.get(i).getCompanyName();
+        for(int i = 0; i < list.size(); i++) {
+            String str = list.get(i).getCompanyName();
 
 
-            if(companyName.equals(str)){
+            if(companyName.equals(str)) {
                 exists = true;
             }
         }
-        if(exists ==false){
+        if(exists == false) {
 
             CharSequence text = "Company not deleted";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(AddCompanyActivity.this, text, duration);
             toast.show();
-        }else {
+        }
+        else {
 
             db.deleteCompany(companyName);
 

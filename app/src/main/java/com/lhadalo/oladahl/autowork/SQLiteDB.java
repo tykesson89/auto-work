@@ -9,7 +9,6 @@ import android.util.Log;
 
 
 import java.util.Date;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -336,15 +335,37 @@ public class SQLiteDB extends SQLiteOpenHelper {
         List<WorkpassModel> workpassModels = new ArrayList<>();
 
         while (cursor.moveToNext()) {
-            WorkpassModel model = populateModel(cursor);
+            WorkpassModel model = populateModelFromCursor(cursor);
             workpassModels.add(model);
         }
 
         return workpassModels;
     }
 
-    private WorkpassModel populateModel(Cursor c) {
+    public WorkpassModel getLastAddedWorkpass(){
+        String command = "SELECT * FROM " + WorkpassEntry.TABLE_NAME + " WHERE " + WorkpassEntry.WORKPASS_ID
+                + " = (SELECT MAX(" + WorkpassEntry.WORKPASS_ID + ") FROM " + WorkpassEntry.TABLE_NAME + ");";
+
+
+        Cursor c = this.getReadableDatabase().rawQuery(command, null);
+
+        c.moveToFirst();
+        return this.populateModelFromCursor(c);
+    }
+
+    public boolean deleteWorkpass(long id){
+        int result = this.getWritableDatabase().delete(WorkpassEntry.TABLE_NAME,
+                WorkpassEntry.WORKPASS_ID + "=?", new String[]{String.valueOf(id)});
+
+        Log.v(Tag.LOGTAG, "Resultat från delete: " + String.valueOf(result));
+        return result > 0;
+    }
+
+
+    private WorkpassModel populateModelFromCursor(Cursor c) {
         WorkpassModel model = new WorkpassModel();
+
+        model.setId(c.getLong(c.getColumnIndex(WorkpassEntry.WORKPASS_ID)));
 
         model.setUserId(c.getColumnIndex(WorkpassEntry.COLUMN_USER_ID));
 

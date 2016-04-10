@@ -8,5 +8,5 @@
 
 	<dimen
 		name="fab_compat_margin"
-		app:borderWidth="16dp">20dp</dimen>
+		app:borderWidth="16dp">16dp</dimen>
 </resources>

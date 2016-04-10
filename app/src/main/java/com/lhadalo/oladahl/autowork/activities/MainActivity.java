@@ -25,7 +25,6 @@ import com.lhadalo.oladahl.autowork.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.fragments.MainFragment;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,7 +33,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import UserPackage.Company;
 import UserPackage.User;
 import UserPackage.WorkpassModel;
 
@@ -45,7 +43,7 @@ public class MainActivity extends AppCompatActivity
     private int companyId;
     private String nameCompany;
     private SQLiteDB database = new SQLiteDB(this);
-    private List<WorkpassModel> content;
+    private List<WorkpassModel> workpassList;
     private ListAdapter adapter;
 
     private Toolbar toolbar;
@@ -111,14 +109,14 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                if(menuItem.isChecked()){
+                if(menuItem.isChecked()) {
                     menuItem.setChecked(false);
                 }
-                else{
+                else {
                     menuItem.setChecked(true);
                 }
 
-                switch(menuItem.getItemId()){
+                switch(menuItem.getItemId()) {
                     case R.id.drawer_jan:
                         Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[0], Toast.LENGTH_SHORT).show();
                         return true;
@@ -162,7 +160,7 @@ public class MainActivity extends AppCompatActivity
 
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_main);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
-                R.string.openDrawer, R.string.closeDrawer){
+                R.string.openDrawer, R.string.closeDrawer) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -182,10 +180,10 @@ public class MainActivity extends AppCompatActivity
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        content = database.getAllWorkpasses();
+        workpassList = database.getAllWorkpasses();
 
-        if(content != null){
-            adapter = new ListAdapter(this, content);
+        if(workpassList != null) {
+            adapter = new ListAdapter(this, workpassList);
         }
     }
 
@@ -210,7 +208,7 @@ public class MainActivity extends AppCompatActivity
         getNextPassSalary(month);
         //getDate(month);
 
-        if(content != null){
+        if(workpassList != null) {
             fragment.setListAdapter(adapter);
         }
     }
@@ -242,16 +240,22 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch (id) {
+        switch(id) {
             case R.id.action_log_out:
                 onActionLogOutPressed();
+                break;
+            case R.id.test:
+                List<WorkpassModel> testList = database.getAllWorkpasses();
+                for(WorkpassModel m : testList){
+                    Log.v(Tag.LOGTAG, m.toString());
+                }
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void onButtonClickTry(){
+    public void onButtonClickTry() {
 
         Intent a = new Intent(MainActivity.this, AddCompanyActivity.class);
         startActivity(a);
@@ -267,25 +271,23 @@ public class MainActivity extends AppCompatActivity
 
     public void onActionAddWorkpassPressed() {
         Intent intent = new Intent(this, AddWorkpassActivity.class);
+        intent.putExtra(Tag.REQUEST_CODE, Tag.ADD_WORKPASS_REQUEST);
         startActivityForResult(intent, Tag.ADD_WORKPASS_REQUEST);
     }
 
     @Override
     public void onFABPressed() {
-        createOptionsDialog();
+        createOptionsDialog("Choose action", new String[]{"Add Company", "Add workpass"}, 1, -1);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        List<WorkpassModel> workpassModels;
+        if(resultCode == RESULT_OK) {
+            if(requestCode == Tag.ADD_WORKPASS_REQUEST) {
+                WorkpassModel lastAdded = database.getLastAddedWorkpass();
+                workpassList.add(lastAdded);
 
-        if (resultCode == RESULT_OK) {
-            if (requestCode == Tag.ADD_WORKPASS_REQUEST) {
-                workpassModels = database.getAllWorkpasses();
-
-                for(WorkpassModel m : workpassModels){
-                    Log.v(Tag.LOGTAG, m.toString());
-                }
+                adapter.notifyDataSetChanged();
             }
         }
     }
@@ -300,13 +302,13 @@ public class MainActivity extends AppCompatActivity
 
         ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
 
-        for (int i = 0; i < workpassModels.size(); i++) {
+        for(int i = 0; i < workpassModels.size(); i++) {
             int modelMonth = workpassModels.get(i).getEndDateTime().get(Calendar.MONTH);
-            if (modelMonth == month) {
+            if(modelMonth == month) {
                 list.add(workpassModels.get(i));
             }
         }
-        for (int i = 0; i < list.size(); i++) {
+        for(int i = 0; i < list.size(); i++) {
             salary += list.get(i).getSalary();
         }
         String sal = String.valueOf(salary);
@@ -324,14 +326,14 @@ public class MainActivity extends AppCompatActivity
 
         ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
 
-        for (int i = 0; i < workpassModels.size(); i++) {
+        for(int i = 0; i < workpassModels.size(); i++) {
             int modelMonth = workpassModels.get(i).getEndDateTime().get(Calendar.MONTH);
-            if (modelMonth == month) {
+            if(modelMonth == month) {
                 list.add(workpassModels.get(i));
             }
 
         }
-        for (int i = 0; i < list.size(); i++) {
+        for(int i = 0; i < list.size(); i++) {
             hours += list.get(i).getWorkingHours();
 
         }
@@ -350,14 +352,14 @@ public class MainActivity extends AppCompatActivity
 
         ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
 
-        for (int i = 0; i < workpassModels.size(); i++) {
+        for(int i = 0; i < workpassModels.size(); i++) {
 
             int modelMonth = workpassModels.get(i).getEndDateTime().get(Calendar.MONTH);
-            if (modelMonth == month) {
+            if(modelMonth == month) {
                 list.add(workpassModels.get(i));
             }
         }
-        for (int i = 0; i < list.size(); i++) {
+        for(int i = 0; i < list.size(); i++) {
             hours = list.get(i).getWorkingHours();
 
         }
@@ -376,14 +378,14 @@ public class MainActivity extends AppCompatActivity
 
         ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
 
-        for (int i = 0; i < workpassModels.size(); i++) {
+        for(int i = 0; i < workpassModels.size(); i++) {
 
             int modelMonth = workpassModels.get(i).getEndDateTime().get(Calendar.MONTH);
-            if (modelMonth == month) {
+            if(modelMonth == month) {
                 list.add(workpassModels.get(i));
             }
         }
-        for (int i = 0; i < list.size(); i++) {
+        for(int i = 0; i < list.size(); i++) {
             salary = list.get(i).getSalary();
 
         }
@@ -396,19 +398,19 @@ public class MainActivity extends AppCompatActivity
 
         ArrayList<WorkpassModel> workpassModels;
         workpassModels = database.showDate();
-        GregorianCalendar startTime = null ;
+        GregorianCalendar startTime = null;
 
         ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
 
-        for (int i = 0; i < workpassModels.size(); i++) {
+        for(int i = 0; i < workpassModels.size(); i++) {
 
             int modelMonth = workpassModels.get(i).getEndDateTime().get(Calendar.MONTH);
-            if (modelMonth == month) {
+            if(modelMonth == month) {
                 list.add(workpassModels.get(i));
             }
 
         }
-        for (int i = 0; i < list.size(); i++) {
+        for(int i = 0; i < list.size(); i++) {
             startTime = list.get(i).getStartDateTime();
         }
 
@@ -431,7 +433,7 @@ public class MainActivity extends AppCompatActivity
         try {
             date = fmt.parse(str);
 
-        } catch (ParseException ex){
+        } catch (ParseException ex) {
             ex.printStackTrace();
         }
 
@@ -443,24 +445,50 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(this, "Clicked position: " + String.valueOf(position), Toast.LENGTH_SHORT).show();
+        createOptionsDialog("Choose action", new String[]{"Delete item", "Change item"}, 2, position);
+
+        //Toast.makeText(this, "Clicked position: " + String.valueOf(position), Toast.LENGTH_SHORT).show();
     }
 
-    private void createOptionsDialog(){
+    private void createOptionsDialog(String title, String[] options, final int source,
+                                     final int listPosition) {
         AlertDialog.Builder optionDialog = new AlertDialog.Builder(this);
 
-        String[] options = new String[]{"Add Company", "Add Workpass"};
-        optionDialog.setTitle("Choose action");
+        optionDialog.setTitle(title);
+
         optionDialog.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int position) {
-                switch(position) {
-                    case 0:
-                        onButtonClickTry();
-                        break;
-                    case 1:
-                        onActionAddWorkpassPressed();
-                        break;
+                if(source == 1) {
+                    switch(position) {
+                        case 0:
+                            onButtonClickTry();
+                            break;
+                        case 1:
+                            onActionAddWorkpassPressed();
+                            break;
+                    }
+                }
+                else if(source == 2) {
+                    switch(position) {
+                        case 0:
+
+                            WorkpassModel modelToDelete = workpassList.get(listPosition);
+
+                            if(database.deleteWorkpass(modelToDelete.getId())) {
+                                workpassList.remove(listPosition);
+                                adapter.notifyDataSetChanged();
+                                Toast.makeText(MainActivity.this, "Workpass Deleted",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+
+                            break;
+                        case 1:
+                            WorkpassModel modelToChange = workpassList.get(listPosition);
+                            
+
+                            break;
+                    }
                 }
             }
         });

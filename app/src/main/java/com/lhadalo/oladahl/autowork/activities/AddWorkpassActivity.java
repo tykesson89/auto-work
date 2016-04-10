@@ -57,6 +57,10 @@ public class AddWorkpassActivity extends AppCompatActivity
 
     private List<WorkpassModel> workpassModels = new ArrayList<>();
 
+    //----------------------------------------------------------------------------
+    // Initierare
+    //----------------------------------------------------------------------------
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,53 +78,65 @@ public class AddWorkpassActivity extends AppCompatActivity
                 .replace(R.id.container_add_workpass, fragment).commit();
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();
 
-        companies = database.getAllCompanies();
-        selectedCompany = companies.get(0);
+        int requestCode = getIntent().getIntExtra(Tag.REQUEST_CODE, -1);
 
-        //Om det finns några arbetsplatser sätts det till interface och modell
-        if (companies != null) {
-            fragment.setWorkplaceName(selectedCompany.getCompanyName());
-            model.setCompany(selectedCompany);
+        if(requestCode > 0) {
+            if(requestCode == Tag.ADD_WORKPASS_REQUEST) {
+                companies = database.getAllCompanies();
+                selectedCompany = companies.get(0);
+
+                //Om det finns några arbetsplatser sätts det till interface och modell
+                if(companies != null) {
+                    fragment.setWorkplaceName(selectedCompany.getCompanyName());
+                    model.setCompany(selectedCompany);
+                }
+                else {
+                    fragment.setWorkplaceName("ERROR!");
+                }
+
+                //Hämtar nuvarande tid
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+                int hourOfDay = cal.get(Calendar.HOUR_OF_DAY);
+                int minute = cal.get(Calendar.MINUTE);
+
+                //Sätter tid till interface
+                startDate = new GregorianCalendar(year, month, dayOfMonth);
+                fragment.setTxtDateStart(formatDate(year, month, dayOfMonth));
+
+                startTime = new GregorianCalendar(0, 0, 0, hourOfDay, minute);
+                fragment.setTxtTimeStart(String.valueOf(DateFormat.format("kk:mm", startTime)));
+
+
+                endDate = new GregorianCalendar(year, month, dayOfMonth);
+                fragment.setTxtDateEnd(formatDate(year, month, dayOfMonth));
+
+
+                endTime = new GregorianCalendar(0, 0, 0, hourOfDay + 3, minute);
+                fragment.setTxtTimeEnd(String.valueOf(DateFormat.format("kk:mm", endTime)));
+
+                //Sätter paustid till noll i modellen.
+                model.setBreaktime(0.0);
+
+                //Beräknar timmar och lön och sätter i modellen.
+                calculateHours();
+                setSalary();
+            }
+            else if(requestCode == Tag.CHANGE_WORKPASS_REQUEST){
+
+            }
         }
-        else {
-            fragment.setWorkplaceName("ERROR!");
-        }
-
-        //Hämtar nuvarande tid
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-        int hourOfDay = cal.get(Calendar.HOUR_OF_DAY);
-        int minute = cal.get(Calendar.MINUTE);
-
-        //Sätter tid till interface
-        startDate = new GregorianCalendar(year, month, dayOfMonth);
-        fragment.setTxtDateStart(formatDate(year, month, dayOfMonth));
-
-        startTime = new GregorianCalendar(0, 0, 0, hourOfDay, minute);
-        fragment.setTxtTimeStart(String.valueOf(DateFormat.format("kk:mm", startTime)));
-
-
-        endDate = new GregorianCalendar(year, month, dayOfMonth);
-        fragment.setTxtDateEnd(formatDate(year, month, dayOfMonth));
-
-
-        endTime = new GregorianCalendar(0, 0, 0, hourOfDay + 3, minute);
-        fragment.setTxtTimeEnd(String.valueOf(DateFormat.format("kk:mm", endTime)));
-
-        //Sätter paustid till noll i modellen.
-        model.setBreaktime(0.0);
-
-        //Beräknar timmar och lön och sätter i modellen.
-        calculateHours();
-        setSalary();
     }
+
+    //----------------------------------------------------------------------------
+    // Action Events
+    //----------------------------------------------------------------------------
 
     @Override
     public void onClickWorkplace() {
@@ -163,21 +179,13 @@ public class AddWorkpassActivity extends AppCompatActivity
         if(populateModelFromInterface()){
             long id = database.addWorkpass(model);
             model.setId(id);
+
             Intent data = new Intent();
             data.putExtra(Tag.WORKPASS_ID, id);
+
             setResult(RESULT_OK, data);
             finish();
         }
-
-        /*populateModelFromInterface();
-
-        GregorianCalendar test = model.getStartDateTime();
-        String str = formatCalendarToString(test);
-
-        GregorianCalendar result = formatStringToCalendar(str);
-
-        Log.v(Tag.LOGTAG, String.valueOf(
-                result.get(Calendar.YEAR)) + " " + result.get(Calendar.HOUR_OF_DAY));*/
     }
 
     @Override
@@ -185,6 +193,40 @@ public class AddWorkpassActivity extends AppCompatActivity
         setResult(RESULT_CANCELED);
         finish();
     }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+        if (dialogSource == Tag.START_DATE_TIME) {
+            fragment.setTxtDateStart(formatDate(year, month, day));
+            startDate = new GregorianCalendar(year, month, day);
+        }
+        else if (dialogSource == Tag.END_DATE_TIME) {
+            fragment.setTxtDateEnd(formatDate(year, month, day));
+            endDate = new GregorianCalendar(year, month, day);
+        }
+    }
+
+    @Override
+    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+        if (dialogSource == Tag.START_DATE_TIME) {
+            fragment.setTxtTimeStart(String.valueOf(DateFormat.format("kk:mm",
+                    new GregorianCalendar(0, 0, 0, hour, minute))));
+            startTime = new GregorianCalendar(0, 0, 0, hour, minute);
+            calculateHours();
+            setSalary();
+        }
+        else if (dialogSource == Tag.END_DATE_TIME) {
+            fragment.setTxtTimeEnd(String.valueOf(DateFormat.format("kk:mm",
+                    new GregorianCalendar(0, 0, 0, hour, minute))));
+            endTime = new GregorianCalendar(0, 0, 0, hour, minute);
+            calculateHours();
+            setSalary();
+        }
+    }
+
+    //----------------------------------------------------------------------------
+    // Logik
+    //----------------------------------------------------------------------------
 
     private boolean populateModelFromInterface() {
         if (validTitle() && validDateTime()) {
@@ -266,35 +308,9 @@ public class AddWorkpassActivity extends AppCompatActivity
         return getResources().getStringArray(R.array.months)[month] + " " + dayOfMonth + ", " + year;
     }
 
-    @Override
-    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        if (dialogSource == Tag.START_DATE_TIME) {
-            fragment.setTxtDateStart(formatDate(year, month, day));
-            startDate = new GregorianCalendar(year, month, day);
-        }
-        else if (dialogSource == Tag.END_DATE_TIME) {
-            fragment.setTxtDateEnd(formatDate(year, month, day));
-            endDate = new GregorianCalendar(year, month, day);
-        }
-    }
-
-    @Override
-    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-        if (dialogSource == Tag.START_DATE_TIME) {
-            fragment.setTxtTimeStart(String.valueOf(DateFormat.format("kk:mm",
-                    new GregorianCalendar(0, 0, 0, hour, minute))));
-            startTime = new GregorianCalendar(0, 0, 0, hour, minute);
-            calculateHours();
-            setSalary();
-        }
-        else if (dialogSource == Tag.END_DATE_TIME) {
-            fragment.setTxtTimeEnd(String.valueOf(DateFormat.format("kk:mm",
-                    new GregorianCalendar(0, 0, 0, hour, minute))));
-            endTime = new GregorianCalendar(0, 0, 0, hour, minute);
-            calculateHours();
-            setSalary();
-        }
-    }
+    //----------------------------------------------------------------------------
+    // Dialoger
+    //----------------------------------------------------------------------------
 
     private void createAlertDialog(String title, String message) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
@@ -368,10 +384,8 @@ public class AddWorkpassActivity extends AppCompatActivity
     public static class TimePickerFragment extends DialogFragment {
         private TimePickerDialog.OnTimeSetListener listener;
 
-        static TimePickerFragment newInstance() {
-            TimePickerFragment f = new TimePickerFragment();
-
-            return f;
+        public static TimePickerFragment newInstance() {
+            return new TimePickerFragment();
         }
 
         @Override
@@ -395,11 +409,8 @@ public class AddWorkpassActivity extends AppCompatActivity
     public static class DatePickerFragment extends DialogFragment {
         private DatePickerDialog.OnDateSetListener listener;
 
-
-        static DatePickerFragment newInstance() {
-            DatePickerFragment f = new DatePickerFragment();
-
-            return f;
+        public static DatePickerFragment newInstance() {
+            return new DatePickerFragment();
         }
 
         @Override
