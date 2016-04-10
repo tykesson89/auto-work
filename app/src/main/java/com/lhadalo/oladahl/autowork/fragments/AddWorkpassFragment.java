@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,6 +50,9 @@ public class AddWorkpassFragment extends Fragment {
     private ImageView imgBrake;
     private ImageView imgNote;
 
+    private Button btnSave;
+    private Button btnCancel;
+
 
     public interface OnFragmentInteraction {
         void onClickWorkplace();
@@ -63,15 +67,10 @@ public class AddWorkpassFragment extends Fragment {
 
         void onClickBreak();
 
-        void onClickAdd();
+        void onClickSave();
 
-    }
+        void onClickCancel();
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -118,6 +117,9 @@ public class AddWorkpassFragment extends Fragment {
         imgDateStart.setImageDrawable(getResources().getDrawable(R.drawable.ic_query_builder_black_24dp));
         imgBrake.setImageDrawable(getResources().getDrawable(R.drawable.ic_av_timer_black_24dp));
 
+        btnSave = (Button)view.findViewById(R.id.btn_save);
+        btnCancel = (Button)view.findViewById(R.id.btn_cancel);
+
         initListeners();
     }
 
@@ -128,6 +130,9 @@ public class AddWorkpassFragment extends Fragment {
         txtDateEnd.setOnClickListener(listener);
         txtTimeEnd.setOnClickListener(listener);
         txtBrake.setOnClickListener(listener);
+
+        btnSave.setOnClickListener(listener);
+        btnCancel.setOnClickListener(listener);
     }
 
     @Override
@@ -139,22 +144,6 @@ public class AddWorkpassFragment extends Fragment {
             Log.e("", context.getClass().getCanonicalName() +
                     " must implement OnFragmentInteraction");
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_add_workpass, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_add) {
-            callback.onClickAdd();
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     //Title
@@ -204,18 +193,29 @@ public class AddWorkpassFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            if (view.equals(txtWorkplace)) {
+            if(view.equals(txtWorkplace)) {
                 callback.onClickWorkplace();
-            } else if (view.equals(txtDateStart)) {
+            }
+            else if(view.equals(txtDateStart)) {
                 callback.onClickDateStart();
-            } else if (view.equals(txtTimeStart)) {
+            }
+            else if(view.equals(txtTimeStart)) {
                 callback.onClickTimeStart();
-            } else if (view.equals(txtDateEnd)) {
+            }
+            else if(view.equals(txtDateEnd)) {
                 callback.onClickDateEnd();
-            } else if (view.equals(txtTimeEnd)) {
+            }
+            else if(view.equals(txtTimeEnd)) {
                 callback.onClickTimeEnd();
-            } else if (view.equals(txtBrake)) {
+            }
+            else if(view.equals(txtBrake)) {
                 callback.onClickBreak();
+            }
+            else if(view.equals(btnSave)){
+                callback.onClickSave();
+            }
+            else if(view.equals(btnCancel)){
+                callback.onClickCancel();
             }
         }
 

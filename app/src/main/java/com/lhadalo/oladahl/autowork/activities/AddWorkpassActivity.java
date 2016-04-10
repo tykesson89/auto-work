@@ -157,7 +157,7 @@ public class AddWorkpassActivity extends AppCompatActivity
     }
 
     @Override
-    public void onClickAdd() {
+    public void onClickSave() {
         //Ifall all information kunde läggas till, läggs modellen till i databasen
         //och activityn avslutas.
         if(populateModelFromInterface()){
@@ -178,6 +178,12 @@ public class AddWorkpassActivity extends AppCompatActivity
 
         Log.v(Tag.LOGTAG, String.valueOf(
                 result.get(Calendar.YEAR)) + " " + result.get(Calendar.HOUR_OF_DAY));*/
+    }
+
+    @Override
+    public void onClickCancel() {
+        setResult(RESULT_CANCELED);
+        finish();
     }
 
     private boolean populateModelFromInterface() {
@@ -270,31 +276,6 @@ public class AddWorkpassActivity extends AppCompatActivity
             fragment.setTxtDateEnd(formatDate(year, month, day));
             endDate = new GregorianCalendar(year, month, day);
         }
-    }
-
-    private String formatCalendarToString(GregorianCalendar cal) {
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy MM dd HH:mm");
-
-        String dateFormatted = fmt.format(cal.getTime());
-
-        return dateFormatted;
-    }
-
-    private GregorianCalendar formatStringToCalendar(String str) {
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy MM dd HH:mm");
-
-        Date date = null;
-        try {
-            date = fmt.parse(str);
-
-        } catch (ParseException ex){
-            ex.printStackTrace();
-        }
-
-        GregorianCalendar cal = new GregorianCalendar();
-        cal.setTime(date);
-
-        return cal;
     }
 
     @Override

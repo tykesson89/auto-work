@@ -46,11 +46,11 @@ public class MainActivity extends AppCompatActivity
     private String nameCompany;
     private SQLiteDB database = new SQLiteDB(this);
     private List<WorkpassModel> content;
+    private ListAdapter adapter;
 
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,6 +183,10 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         content = database.getAllWorkpasses();
+
+        if(content != null){
+            adapter = new ListAdapter(this, content);
+        }
     }
 
     private void initFragment() {
@@ -207,7 +211,6 @@ public class MainActivity extends AppCompatActivity
         //getDate(month);
 
         if(content != null){
-            ListAdapter adapter = new ListAdapter(this, content);
             fragment.setListAdapter(adapter);
         }
     }
