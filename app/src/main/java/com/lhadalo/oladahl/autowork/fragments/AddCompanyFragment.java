@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +34,9 @@ public class AddCompanyFragment extends Fragment {
     public interface OnFragmentInteraction {
         void onClickBtnAddCompany(String company, double hourly);
 
+        void onClickBtnChangeCompany(String company, double hourly);
+
+        void onClickBtnDeleteCompany(String company);
     }
 
     @Nullable
@@ -42,6 +46,8 @@ public class AddCompanyFragment extends Fragment {
 
         initComponents(view);
         spinner();
+        spinneronClick();
+
         return view;
     }
 
@@ -52,12 +58,13 @@ public class AddCompanyFragment extends Fragment {
         btnChange = (Button) view.findViewById(R.id.btn_change);
         edCompany = (EditText) view.findViewById((R.id.etCompany));
         edHourly = (EditText) view.findViewById(R.id.etHourly);
-        spinner = (Spinner)view.findViewById(R.id.spinner);
+        spinner = (Spinner) view.findViewById(R.id.spinner);
         initListeners();
 
     }
 
     private void initListeners() {
+
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +74,23 @@ public class AddCompanyFragment extends Fragment {
             }
         });
 
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                callback.onClickBtnDeleteCompany(getCompany());
+
+
+            }
+        });
+
+        btnChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+             callback.onClickBtnChangeCompany(getCompany(), getHourly());
+            }
+        });
 
     }
 
@@ -86,9 +110,20 @@ public class AddCompanyFragment extends Fragment {
         return edCompany.getText().toString();
     }
 
-    public double getHourly(){
+    public double getHourly() {
+
         return Double.parseDouble(edHourly.getText().toString());
     }
+
+    public void setTextCompany(String company) {
+        edCompany.setText(company);
+    }
+
+    public void setTextHourly(String hourly) {
+        edHourly.setText(hourly);
+    }
+
+
     public void showMessage(String title, String Message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
         builder.setCancelable(true);
@@ -97,7 +132,8 @@ public class AddCompanyFragment extends Fragment {
         builder.show();
 
     }
-    public void spinner(){
+
+    public void spinner() {
         SQLiteDB db = new SQLiteDB(this.getActivity());
         List<Company> listpro = new ArrayList<>();
         listpro = db.getAllCompanies();
@@ -106,9 +142,9 @@ public class AddCompanyFragment extends Fragment {
             showMessage("Error", "Nothing found");
 
         }
-        for(int j=0; j<listpro.size(); j++){
+        for (int i = 0; i < listpro.size(); i++) {
 
-            list.add(listpro.get(j).getCompanyName());
+            list.add(listpro.get(i).getCompanyName());
         }
 
 
@@ -116,6 +152,30 @@ public class AddCompanyFragment extends Fragment {
 
         adapter.setDropDownViewResource(R.layout.spinner_dropdown);
         spinner.setAdapter(adapter);
+    }
+
+    public void spinneronClick() {
+        final SQLiteDB db = new SQLiteDB(this.getActivity());
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                String str = null;
+
+                str = spinner.getItemAtPosition(position).toString();
+                double wage = db.getHourlyWage(str);
+                setTextCompany(str);
+                setTextHourly(String.valueOf(wage));
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
 }

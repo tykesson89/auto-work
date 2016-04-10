@@ -23,6 +23,10 @@ public class Company implements CompanyInterface {
         this.companyId = companyId;
     }
 
+    public Company() {
+
+    }
+
 
     @Override
     public void setCompanyName(String companyName) {

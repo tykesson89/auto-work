@@ -95,6 +95,8 @@ public class SQLiteDB extends SQLiteOpenHelper {
         data.put("email", email);
         db.update("users", data, "userid=" + id, null);
         db.close();
+
+
     }
 
     public boolean loginUser(User user) {
@@ -134,7 +136,21 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.close();
 
 
+
     }
+    public double getHourlyWage(String companyName){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("select hourlyWage from Company where companyName = ?",
+                new String[]{companyName});
+
+        cursor.moveToFirst();
+       double hourlyWage= cursor.getDouble(0);
+       return hourlyWage;
+
+    }
+
+
     public void addCompanyLocal(Company company) {
         String companyName = company.getCompanyName();
         double hourtlyWage = company.getHourlyWage();
@@ -257,6 +273,35 @@ public class SQLiteDB extends SQLiteOpenHelper {
         }
 
     }
+
+
+    public void changeCompany(String companyName, double hourly){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+
+        String strSQL = "UPDATE Company SET HourlyWage= " + hourly + " WHERE companyName= '"+ companyName+"'";
+
+        db.execSQL(strSQL);
+        db.close();
+
+
+    }
+
+
+    public void deleteCompany(String companyName) {
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            try {
+                db.delete("Company", "companyName = ?", new String[]{companyName});
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                db.close();
+            }
+        }
+
+    }
+
 
     //Workpass-----------------------------------------------------------------------------------
     public long addWorkpass(WorkpassModel model) {
