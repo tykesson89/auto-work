@@ -147,12 +147,16 @@ public class AddWorkpassFragment extends Fragment {
     }
 
     //Title
+    public void setTitle(String str){
+        etTitle.setText(str);
+    }
+
     public String getTitle() {
         return etTitle.getText().toString();
     }
 
     //Workplace
-    public void setWorkplaceName(String str) {
+    public void setCompanyName(String str) {
         txtWorkplace.setText(str);
     }
 
@@ -184,8 +188,16 @@ public class AddWorkpassFragment extends Fragment {
     }
 
     //Note---------------------------------
+    public void setTxtNote(String str){
+        etAddNote.setText(str);
+    }
+
     public String getNote() {
         return etAddNote.getText().toString();
+    }
+
+    public void setBtnSave(String option){
+        btnSave.setText(option);
     }
 
 

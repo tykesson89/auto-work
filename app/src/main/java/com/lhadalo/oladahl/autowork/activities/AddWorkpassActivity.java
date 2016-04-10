@@ -29,6 +29,7 @@ import com.lhadalo.oladahl.autowork.Tag;
 import UserPackage.User;
 import UserPackage.WorkpassModel;
 
+import com.lhadalo.oladahl.autowork.WorkpassContract.WorkpassEntry;
 import com.lhadalo.oladahl.autowork.fragments.AddWorkpassFragment;
 
 import UserPackage.Company;
@@ -82,8 +83,6 @@ public class AddWorkpassActivity extends AppCompatActivity
         if(requestCode > 0) {
             if(requestCode == Tag.ADD_WORKPASS_REQUEST) {
                 model = new WorkpassModel();
-
-
                 selectedCompany = companies.get(0);
 
                 //Om det finns några arbetsplatser sätts det till interface och modell
@@ -114,9 +113,12 @@ public class AddWorkpassActivity extends AppCompatActivity
                 //Beräknar timmar och lön och sätter i modellen.
                 calculateHours();
                 setSalary();
+
+                fragment.setBtnSave("Add");
+
             }
-            else if(requestCode == Tag.CHANGE_WORKPASS_REQUEST) {
-                model = database.getWorkpass(getIntent().getLongExtra(Tag.WORKPASS_ID, -1));
+            else if(requestCode == Tag.UPDATE_WORKPASS_REQUEST) {
+                model = database.getWorkpass(getIntent().getLongExtra(WorkpassEntry.WORKPASS_ID, -1));
 
                 //Sätta alla fält från modellen
                 fragment.setTitle(model.getTitle());
@@ -125,10 +127,23 @@ public class AddWorkpassActivity extends AppCompatActivity
                 fragment.setCompanyName(selectedCompany.getCompanyName());
 
                 setTimeDate(model.getStartDateTime(), Tag.START_DATE_TIME);
-                fragment.setTxtDateStart(formatDate(startDate.get(Calendar.YEAR),
-                        startDate.get(Calendar.MONTH), startDate.get(Calendar.DAY_OF_MONTH)));
+                setTimeDate(model.getEndDateTime(), Tag.END_DATE_TIME);
 
+                fragment.setTxtDateStart(formatDate(startDate));
+                fragment.setTxtTimeStart(String.valueOf(DateFormat.format("kk:mm", startTime)));
 
+                fragment.setTxtDateEnd(formatDate(endDate));
+                fragment.setTxtTimeEnd(String.valueOf(DateFormat.format("kk:mm", endTime)));
+
+                if(model.getBreaktime() > 0){
+                    fragment.setTxtBrake(String.valueOf(model.getBreaktime()));
+                }
+
+                if(model.getNote() != null){
+                    fragment.setTxtNote(model.getNote());
+                }
+
+                fragment.setBtnSave("Update");
             }
         }
     }
@@ -199,17 +214,29 @@ public class AddWorkpassActivity extends AppCompatActivity
 
     @Override
     public void onClickSave() {
-        //Ifall all information kunde läggas till, läggs modellen till i databasen
-        //och activityn avslutas.
-        if(populateModelFromInterface()) {
-            long id = database.addWorkpass(model);
-            model.setId(id);
+        if(requestCode == Tag.ADD_WORKPASS_REQUEST) {
+            //Ifall all information kunde läggas till, läggs modellen till i databasen
+            //och activityn avslutas.
+            if(populateModelFromInterface()) {
+                long id = database.addWorkpass(model);
+                model.setId(id);
 
-            Intent data = new Intent();
-            data.putExtra(Tag.WORKPASS_ID, id);
+                Intent data = new Intent();
+                data.putExtra(WorkpassEntry.WORKPASS_ID, id);
 
-            setResult(RESULT_OK, data);
-            finish();
+                setResult(RESULT_OK, data);
+                finish();
+            }
+        }
+        else {
+            if(populateModelFromInterface()){
+                if(database.updateWorkpass(model)){
+                    Intent data = new Intent();
+                    data.putExtra(Tag.LIST_POSITION, getIntent().getIntExtra(Tag.LIST_POSITION, -1));
+                    setResult(RESULT_OK, data);
+                    finish();
+                }
+            }
         }
     }
 

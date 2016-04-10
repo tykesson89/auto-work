@@ -304,6 +304,64 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
     //Workpass-----------------------------------------------------------------------------------
     public long addWorkpass(WorkpassModel model) {
+        ContentValues values = populateContentValuesFromModel(model);
+
+        return this.getWritableDatabase().insert(WorkpassEntry.TABLE_NAME, null, values);
+    }
+
+    public List<WorkpassModel> getAllWorkpasses() {
+        Cursor cursor = this.getReadableDatabase().rawQuery(
+                "SELECT * FROM " + WorkpassEntry.TABLE_NAME, null);
+        List<WorkpassModel> workpassModels = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            WorkpassModel model = populateModelFromCursor(cursor);
+            workpassModels.add(model);
+        }
+
+        return workpassModels;
+    }
+
+    public WorkpassModel getWorkpass(long id){
+        String command = "SELECT * FROM " + WorkpassEntry.TABLE_NAME + " WHERE "
+                + WorkpassEntry.WORKPASS_ID + "=" + String.valueOf(id);
+
+        Cursor c = this.getReadableDatabase().rawQuery(command, null);
+
+        c.moveToFirst();
+        return this.populateModelFromCursor(c);
+    }
+
+    public WorkpassModel getLastAddedWorkpass(){
+        String command = "SELECT * FROM " + WorkpassEntry.TABLE_NAME + " WHERE " + WorkpassEntry.WORKPASS_ID
+                + " = (SELECT MAX(" + WorkpassEntry.WORKPASS_ID + ") FROM " + WorkpassEntry.TABLE_NAME + ");";
+
+
+        Cursor c = this.getReadableDatabase().rawQuery(command, null);
+
+        c.moveToFirst();
+        return this.populateModelFromCursor(c);
+    }
+
+    public boolean deleteWorkpass(long id){
+        int result = this.getWritableDatabase().delete(WorkpassEntry.TABLE_NAME,
+                WorkpassEntry.WORKPASS_ID + "=?", new String[]{String.valueOf(id)});
+
+        return result > 0;
+    }
+
+    public boolean updateWorkpass(WorkpassModel model){
+        ContentValues values = populateContentValuesFromModel(model);
+        int result = this.getWritableDatabase().update(
+                WorkpassEntry.TABLE_NAME,
+                values,
+                WorkpassEntry.WORKPASS_ID + "=?",
+                new String[]{String.valueOf(model.getId())});
+
+        return result > 0;
+    }
+
+    private ContentValues populateContentValuesFromModel(WorkpassModel model){
         ContentValues values = new ContentValues();
 
         values.put(WorkpassEntry.COLUMN_USER_ID, model.getUserId());
@@ -326,39 +384,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
         values.put(WorkpassEntry.COLUMN_NOTE, model.getNote());
 
-        return this.getWritableDatabase().insert(WorkpassEntry.TABLE_NAME, null, values);
-    }
-
-    public List<WorkpassModel> getAllWorkpasses() {
-        Cursor cursor = this.getReadableDatabase().rawQuery(
-                "SELECT * FROM " + WorkpassEntry.TABLE_NAME, null);
-        List<WorkpassModel> workpassModels = new ArrayList<>();
-
-        while (cursor.moveToNext()) {
-            WorkpassModel model = populateModelFromCursor(cursor);
-            workpassModels.add(model);
-        }
-
-        return workpassModels;
-    }
-
-    public WorkpassModel getLastAddedWorkpass(){
-        String command = "SELECT * FROM " + WorkpassEntry.TABLE_NAME + " WHERE " + WorkpassEntry.WORKPASS_ID
-                + " = (SELECT MAX(" + WorkpassEntry.WORKPASS_ID + ") FROM " + WorkpassEntry.TABLE_NAME + ");";
-
-
-        Cursor c = this.getReadableDatabase().rawQuery(command, null);
-
-        c.moveToFirst();
-        return this.populateModelFromCursor(c);
-    }
-
-    public boolean deleteWorkpass(long id){
-        int result = this.getWritableDatabase().delete(WorkpassEntry.TABLE_NAME,
-                WorkpassEntry.WORKPASS_ID + "=?", new String[]{String.valueOf(id)});
-
-        Log.v(Tag.LOGTAG, "Resultat från delete: " + String.valueOf(result));
-        return result > 0;
+        return values;
     }
 
 
@@ -391,7 +417,6 @@ public class SQLiteDB extends SQLiteOpenHelper {
         return model;
     }
 
-    //Workpass-----------------------------------------------------------------------------------
     public ArrayList<WorkpassModel> getSalaryAndDate() {
         SQLiteDatabase db = this.getReadableDatabase();
         ArrayList<WorkpassModel> list = new ArrayList<>();
@@ -409,8 +434,6 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.close();
 
         return list;
-
-
     }
 
     public ArrayList<WorkpassModel> getHours() {
@@ -466,8 +489,6 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.close();
 
         return list;
-
-
     }
 
     public ArrayList<WorkpassModel> showDate() {
@@ -487,8 +508,6 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.close();
 
         return list;
-
-
     }
 
     private String formatCalendarToString(GregorianCalendar cal) {
@@ -515,7 +534,4 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
         return cal;
     }
-
-// Show workpass ---------------------------------------------------------------------------
-
 }

@@ -35,6 +35,7 @@ import java.util.List;
 
 import UserPackage.User;
 import UserPackage.WorkpassModel;
+import com.lhadalo.oladahl.autowork.WorkpassContract.WorkpassEntry;
 
 public class MainActivity extends AppCompatActivity
         implements MainFragment.OnFragmentInteraction, ListAdapter.ItemClickListener {
@@ -277,7 +278,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onFABPressed() {
-        createOptionsDialog("Choose action", new String[]{"Add Company", "Add workpass"}, 1, -1);
+        createOptionsDialog("Choose action", new String[]{"Add Company", "Add Workpass"}, 1, -1);
     }
 
     @Override
@@ -288,6 +289,15 @@ public class MainActivity extends AppCompatActivity
                 workpassList.add(lastAdded);
 
                 adapter.notifyDataSetChanged();
+            }
+            else if(requestCode == Tag.UPDATE_WORKPASS_REQUEST){
+                int listPosition = data.getIntExtra(Tag.LIST_POSITION, -1);
+                if(listPosition != -1){
+                    long workpassId = workpassList.get(listPosition).getId();
+                    WorkpassModel changedModel = database.getWorkpass(workpassId);
+                    workpassList.set(listPosition, changedModel);
+                    adapter.notifyDataSetChanged();
+                }
             }
         }
     }
@@ -485,8 +495,16 @@ public class MainActivity extends AppCompatActivity
                             break;
                         case 1:
                             WorkpassModel modelToChange = workpassList.get(listPosition);
-                            
 
+
+                            Intent intent = new Intent(getApplicationContext(),
+                                    AddWorkpassActivity.class);
+
+                            intent.putExtra(WorkpassEntry.WORKPASS_ID, modelToChange.getId());
+                            intent.putExtra(Tag.REQUEST_CODE, Tag.UPDATE_WORKPASS_REQUEST);
+                            intent.putExtra(Tag.LIST_POSITION, listPosition);
+
+                            startActivityForResult(intent, Tag.UPDATE_WORKPASS_REQUEST);
                             break;
                     }
                 }

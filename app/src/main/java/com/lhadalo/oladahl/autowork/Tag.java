@@ -21,9 +21,10 @@ public class Tag {
     public static final int END_DATE_TIME = 2;
 
     public static final String REQUEST_CODE = "requestcode";
+    public static final String LIST_POSITION = "listposition";
     public static final int ADD_WORKPASS_REQUEST = 1000;
-    public static final int CHANGE_WORKPASS_REQUEST = 2000;
-    public static final String WORKPASS_ID = "workpassid";
+    public static final int UPDATE_WORKPASS_REQUEST = 2000;
+
 
     public static final String LOGTAG = "com.lhadalo.tagvalue";
 }
