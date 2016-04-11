@@ -272,6 +272,20 @@ public class SQLiteDB extends SQLiteOpenHelper {
         }
 
     }
+    public Boolean haveWorkpass() {
+        String countQuery = "SELECT  * FROM workpass";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int cnt = cursor.getCount();
+        cursor.close();
+        db.close();
+        if (cnt == 0) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
 
 
     public void changeCompany(String companyName, double hourly){

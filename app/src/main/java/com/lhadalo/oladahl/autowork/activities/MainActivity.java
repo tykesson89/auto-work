@@ -200,6 +200,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+        SQLiteDB sqLiteDB = new SQLiteDB(this);
         Calendar cal = Calendar.getInstance();
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -209,7 +210,9 @@ public class MainActivity extends AppCompatActivity
         getHours(month);
         getNextPassHour(month);
         getNextPassSalary(month);
-        getDate(month,day);
+        if(sqLiteDB.haveWorkpass()== true) {
+            getDate(month, day);
+        }
 
         if(workpassList != null) {
             fragment.setListAdapter(adapter);
