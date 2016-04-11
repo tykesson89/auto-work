@@ -202,12 +202,14 @@ public class MainActivity extends AppCompatActivity
         super.onStart();
         Calendar cal = Calendar.getInstance();
         int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
 
         getMonthSalary(month);
         getHours(month);
         getNextPassHour(month);
         getNextPassSalary(month);
-        //getDate(month);
+        getDate(month,day);
 
         if(workpassList != null) {
             fragment.setListAdapter(adapter);
@@ -403,7 +405,7 @@ public class MainActivity extends AppCompatActivity
         fragment.setTextTvSalaryPass(sal + " Kr ");
     }
 
-    public void getDate(int month) {
+    public void getDate(int month, int day) {
         database = new SQLiteDB(MainActivity.this);
 
         ArrayList<WorkpassModel> workpassModels;
@@ -414,8 +416,10 @@ public class MainActivity extends AppCompatActivity
 
         for(int i = 0; i < workpassModels.size(); i++) {
 
-            int modelMonth = workpassModels.get(i).getEndDateTime().get(Calendar.MONTH);
-            if(modelMonth == month) {
+            int modelMonth = workpassModels.get(i).getStartDateTime().get(Calendar.MONTH);
+            int modelDay = workpassModels.get(i).getStartDateTime().get(Calendar.DAY_OF_MONTH);
+            int modelHour = workpassModels.get(i).getStartDateTime().get(Calendar.HOUR);
+            if(modelMonth == month && modelDay == day ) {
                 list.add(workpassModels.get(i));
             }
 
@@ -425,7 +429,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         String strStartTime = formatCalendarToString(startTime);
-        fragment.setTextTvNextPass(strStartTime);
+        fragment.setTextTvNextPass(" Next pass: " + strStartTime);
     }
 
     private String formatCalendarToString(GregorianCalendar cal) {

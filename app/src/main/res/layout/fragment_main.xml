@@ -97,17 +97,17 @@
             android:id="@+id/tvSalaryPass"
             android:layout_below="@+id/rrr"/>
 
-        <!--<TextView
+        <TextView
             android:id="@+id/tvNextPass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="4dp"
             android:layout_marginLeft="@dimen/item_horizontal_margin"
             android:gravity="bottom"
-            android:text="fredag 23/7"
+
             android:layout_below="@id/tv_title_next_pass"
 
-            />        -->
+            />
 
         <TextView
             android:id="@+id/tvHours"

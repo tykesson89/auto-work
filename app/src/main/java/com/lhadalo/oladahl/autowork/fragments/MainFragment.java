@@ -22,7 +22,7 @@ import com.lhadalo.oladahl.autowork.R;
  */
 public class MainFragment extends Fragment {
     private OnFragmentInteraction callback;
-    private TextView tvSalary,tvSalaryPass,tvHours,tvHoursPass;
+    private TextView tvSalary,tvSalaryPass,tvHours,tvHoursPass,tv_title_next_pass;
     private Toolbar toolbar;
     private RecyclerView mainRecyclerList;
     private FloatingActionButton fab;
@@ -52,7 +52,7 @@ public class MainFragment extends Fragment {
     private void initComponents(View view){
         tvSalary = (TextView)view.findViewById(R.id.tvSalary);
         tvSalaryPass = (TextView)view.findViewById(R.id.tvSalaryPass);
-        //tvNextPass = (TextView)view.findViewById(R.id.tvNextPass);
+        tv_title_next_pass = (TextView)view.findViewById(R.id.tv_title_next_pass);
         tvHours = (TextView)view.findViewById(R.id.tvHours);
         tvHoursPass = (TextView)view.findViewById(R.id.tvHoursPass);
         //btnTry=(Button)view.findViewById(R.id.button_addCompany_try);
@@ -106,7 +106,7 @@ public class MainFragment extends Fragment {
     }
     public void setTextTvNextPass(String str){
 
-        //tvNextPass.setText(str);
+        tv_title_next_pass.setText(str);
     }
     public void setTextTvHours(String str){
 

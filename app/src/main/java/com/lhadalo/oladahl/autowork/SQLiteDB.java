@@ -499,8 +499,8 @@ public class SQLiteDB extends SQLiteOpenHelper {
         while (c.moveToNext()) {
             workpass = new WorkpassModel();
 
-            GregorianCalendar endDateTime = formatStringToCalendar(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME)));
-            workpass.setStartDateTime(endDateTime);
+            GregorianCalendar startDateTime = formatStringToCalendar(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_START_DATE_TIME)));
+            workpass.setStartDateTime(startDateTime);
 
             list.add(workpass);
 
