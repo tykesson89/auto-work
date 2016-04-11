@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:text="Nästa pass: fredag 23/7"
+            android:text="Nästa pass: "
             android:layout_below="@+id/tvSalary"
             android:layout_marginBottom="8dp"
             android:layout_alignParentLeft="true"
