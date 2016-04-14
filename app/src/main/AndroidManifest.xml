@@ -20,7 +20,8 @@
         </activity>
         <activity
             android:name=".activities.RegistrationActivity"
-            android:parentActivityName=".activities.LoginActivity" />
+            android:parentActivityName=".activities.LoginActivity"
+            android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.AddCompanyActivity"

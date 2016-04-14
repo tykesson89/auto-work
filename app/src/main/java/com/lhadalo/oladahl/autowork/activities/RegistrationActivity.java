@@ -30,28 +30,12 @@ import com.lhadalo.oladahl.autowork.fragments.RegistrationFragment;
  */
 public class RegistrationActivity extends AppCompatActivity implements RegistrationFragment.OnFragmentInteraction{
     private RegistrationFragment fragment;
-    private String ip;
-    private int port;
-
+    private boolean inputOk = false;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         initFragment();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //ip = prefs.getString("pref_key_ip", null);
-        //port = Integer.parseInt(prefs.getString("pref_key_port", null));
-
-//        Log.v(Tag.LOGTAG, ip);
-   //     Log.v(Tag.LOGTAG, String.valueOf(port));
-
-
     }
 
     private void initFragment(){
@@ -69,31 +53,74 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     public void onClickBtnRegister(String firstName, String lastName, String email, String password,
                                    String wage, String companyName) {
         double hourlyWage = 0;
+        fragment.resetError();
 
         try {
             hourlyWage = Double.parseDouble(wage);
         } catch (NumberFormatException w) {
-            CharSequence text = getString(R.string.toast_wage_number_error);
+            /*CharSequence text = getString(R.string.toast_wage_number_error);
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
-            toast.show();
+            toast.show();*/
+
         }
+
+
+
         if (password.length() < 6) {
             CharSequence text = getString(R.string.toast_password_error);
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
             toast.show();
-        } else if (!email.contains("@")) {
+            fragment.setLayoutPassError(true);
+
+        }
+        else{
+            fragment.setLayoutPassError(false);
+        }
+
+        if (!email.contains("@")) {
             CharSequence text = getString(R.string.toast_email_error);
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
             toast.show();
-        } else if (firstName.length() < 1 || lastName.length() < 1 || hourlyWage < 1 || companyName.length() < 1) {
-            CharSequence text = getString(R.string.toast_all_fields_error);
+            fragment.setLayoutEmailError(true);
+
+
+        }
+        if (firstName.length() < 1) {
+            CharSequence text = "You must fill in your first name";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
             toast.show();
-        } else {
+            fragment.setFirstNameError(true);
+
+
+        }
+        if(lastName.length() < 1){
+            CharSequence text = "You must fill in your last name";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
+            toast.show();
+            fragment.setLayoutLastNameError(true);
+
+        }
+        if (companyName.length() < 1){
+            CharSequence text = "You must fill in a company name";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
+            toast.show();
+            fragment.setLayoutCompanyError(true);
+
+        }
+        if(hourlyWage < 1) {
+            CharSequence text = "You must fill in your hourly wage";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(RegistrationActivity.this, text, duration);
+            toast.show();
+            fragment.setLayoutWageError(true);
+
+        }else {
             User user = new User(firstName, lastName, email, password);
             Company company = new Company(companyName, hourlyWage);
             new CreateUser(RegistrationActivity.this).execute(user, company);

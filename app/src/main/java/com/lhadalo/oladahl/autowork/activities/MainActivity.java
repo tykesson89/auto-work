@@ -210,6 +210,7 @@ public class MainActivity extends AppCompatActivity
         getHours(month);
         getNextPassHour(month);
         getNextPassSalary(month);
+
         if(sqLiteDB.haveWorkpass()== true) {
             getDate(month, day);
         }

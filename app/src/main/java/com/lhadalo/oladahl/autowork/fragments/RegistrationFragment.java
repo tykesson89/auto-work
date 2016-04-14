@@ -3,6 +3,8 @@ package com.lhadalo.oladahl.autowork.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 
 import com.lhadalo.oladahl.autowork.R;
 
@@ -21,6 +24,12 @@ public class RegistrationFragment extends Fragment {
     private Button btnBackToLogin, btnRegister;
     private EditText etFirstName, etLastName, etEmail, etPassword, etHoulyWage, etCompany;
     private String email;
+
+    ScrollView scrollView;
+    TextInputLayout etLayoutFirstName, etLayoutLastName, etLayoutEmail, etLayoutPass,
+            etLayoutCompany, etLayoutWage;
+
+    int counter = 1;
 
     public interface OnFragmentInteraction {
         void onClickBtnRegister(String firstName, String lastName, String email,
@@ -46,13 +55,35 @@ public class RegistrationFragment extends Fragment {
         activity.setTitle(getResources().getString(R.string.registration_title));
 
         btnRegister = (Button)view.findViewById(R.id.btnRegister);
-        etFirstName = (EditText)view.findViewById(R.id.etFirstName);
+        etFirstName = (TextInputEditText)view.findViewById(R.id.etFirstName);
         etLastName = (EditText)view.findViewById(R.id.etLastName);
         etEmail = (EditText)view.findViewById(R.id.et_email);
         etPassword = (EditText)view.findViewById(R.id.etPassword);
         etHoulyWage = (EditText)view.findViewById(R.id.etHourlyWage);
         etCompany = (EditText)view.findViewById(R.id.etCompany);
 
+        etLayoutFirstName = (TextInputLayout)view.findViewById(R.id.et_layout_first_name);
+        etLayoutLastName = (TextInputLayout)view.findViewById(R.id.et_layout_last_name);
+        etLayoutEmail = (TextInputLayout)view.findViewById(R.id.et_layout_email);
+        etLayoutPass = (TextInputLayout)view.findViewById(R.id.et_layout_password);
+        etLayoutCompany = (TextInputLayout)view.findViewById(R.id.et_layout_company);
+        etLayoutWage = (TextInputLayout)view.findViewById(R.id.et_layout_wage);
+
+        scrollView = (ScrollView)view.findViewById(R.id.scrollView);
+
+        /*etEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                scrollView.smoothScrollTo(0, 1);
+            }
+        });*/
+
+        etPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                scrollView.smoothScrollTo(0, 500);
+            }
+        });
 
         initListeners();
     }
@@ -61,6 +92,7 @@ public class RegistrationFragment extends Fragment {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 callback.onClickBtnRegister(
                         etFirstName.getText().toString(),
                         etLastName.getText().toString(),
@@ -69,22 +101,87 @@ public class RegistrationFragment extends Fragment {
                         etHoulyWage.getText().toString(),
                         etCompany.getText().toString()
                 );
+
             }
         });
+    }
+
+    public void resetError(){
+        if(etLayoutFirstName.isErrorEnabled())  etLayoutFirstName.setError(null);
+        if(etLayoutLastName.isErrorEnabled()) etLayoutLastName.setError(null);
+        if(etLayoutEmail.isErrorEnabled()) etLayoutEmail.setError(null);
+        if(etLayoutPass.isErrorEnabled()) etLayoutPass.setError(null);
+        if(etLayoutCompany.isErrorEnabled()) etLayoutCompany.setError(null);
+        if(etLayoutWage.isErrorEnabled()) etLayoutWage.setError(null);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            callback = (OnFragmentInteraction) context;
+            callback = (OnFragmentInteraction)context;
         } catch (ClassCastException e) {
             Log.e("", context.getClass().getCanonicalName() +
                     " must implement OnFragmentInteraction");
         }
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return etEmail.getText().toString();
+    }
+
+
+    public void setFirstNameError(boolean error){
+        if(error){
+            etLayoutFirstName.setError("Wrong input");
+        }
+        else {
+            etLayoutFirstName.setError(null);
+        }
+    }
+
+    public void setLayoutLastNameError(boolean error){
+        if(error){
+            etLayoutLastName.setError("Wrong input");
+        }
+        else {
+            etLayoutLastName.setError(null);
+        }
+    }
+
+    public void setLayoutEmailError(boolean error){
+        if(error){
+            etLayoutEmail.setError("Wrong input");
+        }
+        else {
+            etLayoutEmail.setError(null);
+        }
+    }
+
+    public void setLayoutPassError(boolean error){
+        if(error){
+            etLayoutPass.setError("Wrong input");
+        }
+        else {
+            etLayoutPass.setError(null);
+        }
+    }
+
+    public void setLayoutCompanyError(boolean error){
+        if(error){
+            etLayoutCompany.setError("Wrong input");
+        }
+        else {
+            etLayoutCompany.setError(null);
+        }
+    }
+
+    public void setLayoutWageError(boolean error){
+        if(error){
+            etLayoutWage.setError("Wrong input");
+        }
+        else {
+            etLayoutWage.setError(null);
+        }
     }
 }
