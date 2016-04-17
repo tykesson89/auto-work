@@ -27,7 +27,7 @@ import com.lhadalo.oladahl.autowork.WorkpassContract.WorkpassEntry;
  */
 public class SQLiteDB extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "AutoWork_DB";
 
     public SQLiteDB(Context context) {
@@ -513,13 +513,15 @@ public class SQLiteDB extends SQLiteOpenHelper {
         while (c.moveToNext()) {
             workpass = new WorkpassModel();
 
-            GregorianCalendar startDateTime = formatStringToCalendar(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_START_DATE_TIME)));
+            GregorianCalendar startDateTime = formatStringToCalendar(c.getString(
+                    c.getColumnIndex(WorkpassEntry.COLUMN_START_DATE_TIME)));
             workpass.setStartDateTime(startDateTime);
 
             list.add(workpass);
 
         }
         db.close();
+
 
         return list;
     }

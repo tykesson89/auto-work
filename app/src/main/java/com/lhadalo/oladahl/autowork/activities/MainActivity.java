@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity
         //Får referens till logga ut-layout
         LinearLayout logOutLayout = (LinearLayout)navigationView.findViewById(R.id.log_out_row);
 
-        //Sätter eventlistener till lagga ut-layout
+        //Sätter eventlistener till logga ut-layout
         logOutLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -210,7 +210,8 @@ public class MainActivity extends AppCompatActivity
         getHours(month);
         getNextPassHour(month);
         getNextPassSalary(month);
-        if(sqLiteDB.haveWorkpass()== true) {
+
+        if(sqLiteDB.haveWorkpass() == true) {
             getDate(month, day);
         }
 

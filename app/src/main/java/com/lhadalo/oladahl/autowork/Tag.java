@@ -16,7 +16,7 @@ public class Tag {
     public static final String CHANGE_USER_INFO = "Change User Info";
     public static final String DELETE_USER = "Delete User";
     public static final int PORT = 45001;
-    public static final String IP = "85.235.21.222";
+    public static final String IP = "90.230.140.110";
     public static final int START_DATE_TIME = 1;
     public static final int END_DATE_TIME = 2;
 
