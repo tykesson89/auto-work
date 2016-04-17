@@ -39,7 +39,7 @@
     <string name="toast_all_fields_error">You have to fill all the fields</string>
 
     <!-- RegistrationFragment -->
-    <string name="registration_title">Title on page</string>
+    <string name="registration_title">Create Account</string>
     <string name="et_first_name_hint">First name</string>
     <string name="et_last_name_hint">Last name</string>
     <string name="et_email_hint">Email</string>

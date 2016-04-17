@@ -10,28 +10,57 @@
         android:id="@+id/toolbar_registration"
         layout="@layout/toolbar"/>
 
+    <LinearLayout
+        android:id="@+id/layout_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:elevation="4dp"
+        android:background="?android:colorBackground"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentBottom="true"
+            android:text="@string/btn_register"
+            android:textSize="15sp"/>
+    </LinearLayout>
+
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/layout_btn"
         android:fillViewport="true"
         android:scrollbars = "vertical"
         android:scrollbarStyle="insideInset"
         android:descendantFocusability="beforeDescendants"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
+
         android:layout_below="@id/toolbar_registration">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@android:drawable/divider_horizontal_bright"
+            android:showDividers="end"
             android:layout_margin="@dimen/activity_horizontal_margin"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_width="0dp"
+                android:layout_height="0dp"/>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/et_layout_first_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hintEnabled="false"
+                android:hint="@string/et_first_name_hint"
+                app:hintEnabled="true"
                 app:errorEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
@@ -39,7 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:hint="@string/et_first_name_hint"/>
+                    />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -48,7 +77,7 @@
                 android:id="@+id/et_layout_last_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hintEnabled="false"
+                app:hintEnabled="true"
                 app:errorEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
@@ -63,7 +92,7 @@
                 android:id="@+id/et_layout_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hintEnabled="false"
+                app:hintEnabled="true"
                 app:errorEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
@@ -80,7 +109,7 @@
                 android:id="@+id/et_layout_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hintEnabled="false"
+                app:hintEnabled="true"
                 app:errorEnabled="true"
                 app:counterEnabled="true">
 
@@ -99,7 +128,7 @@
                 android:id="@+id/et_layout_company"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hintEnabled="false"
+                app:hintEnabled="true"
                 app:errorEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
@@ -117,7 +146,7 @@
                 android:id="@+id/et_layout_wage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hintEnabled="false"
+                app:hintEnabled="true"
                 app:errorEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
@@ -133,20 +162,10 @@
             </android.support.design.widget.TextInputLayout>
 
 
-            <Button
-                android:id="@+id/btnRegister"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="40dp"
-                android:text="@string/btn_register"
-                android:textSize="15sp"/>
+
 
         </LinearLayout>
 
     </ScrollView>
-
-
-
 
 </RelativeLayout>

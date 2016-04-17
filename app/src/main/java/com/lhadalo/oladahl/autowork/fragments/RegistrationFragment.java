@@ -106,8 +106,8 @@ public class RegistrationFragment extends Fragment {
         });
     }
 
-    public void resetError(){
-        if(etLayoutFirstName.isErrorEnabled())  etLayoutFirstName.setError(null);
+    public void resetError() {
+        if(etLayoutFirstName.isErrorEnabled()) etLayoutFirstName.setError(null);
         if(etLayoutLastName.isErrorEnabled()) etLayoutLastName.setError(null);
         if(etLayoutEmail.isErrorEnabled()) etLayoutEmail.setError(null);
         if(etLayoutPass.isErrorEnabled()) etLayoutPass.setError(null);
@@ -131,54 +131,54 @@ public class RegistrationFragment extends Fragment {
     }
 
 
-    public void setFirstNameError(boolean error){
-        if(error){
-            etLayoutFirstName.setError("Wrong input");
+    public void setFirstNameError(boolean error, String message) {
+        if(error) {
+            etLayoutFirstName.setError(message);
         }
         else {
             etLayoutFirstName.setError(null);
         }
     }
 
-    public void setLayoutLastNameError(boolean error){
-        if(error){
-            etLayoutLastName.setError("Wrong input");
+    public void setLastNameError(boolean error, String message) {
+        if(error) {
+            etLayoutLastName.setError(message);
         }
         else {
             etLayoutLastName.setError(null);
         }
     }
 
-    public void setLayoutEmailError(boolean error){
-        if(error){
-            etLayoutEmail.setError("Wrong input");
+    public void setEmailError(boolean error, String message) {
+        if(error) {
+            etLayoutEmail.setError(message);
         }
         else {
             etLayoutEmail.setError(null);
         }
     }
 
-    public void setLayoutPassError(boolean error){
-        if(error){
-            etLayoutPass.setError("Wrong input");
+    public void setPasswError(boolean error, String message) {
+        if(error) {
+            etLayoutPass.setError(message);
         }
         else {
             etLayoutPass.setError(null);
         }
     }
 
-    public void setLayoutCompanyError(boolean error){
-        if(error){
-            etLayoutCompany.setError("Wrong input");
+    public void setCompanyError(boolean error, String message) {
+        if(error) {
+            etLayoutCompany.setError(message);
         }
         else {
             etLayoutCompany.setError(null);
         }
     }
 
-    public void setLayoutWageError(boolean error){
-        if(error){
-            etLayoutWage.setError("Wrong input");
+    public void setWageError(boolean error, String message) {
+        if(error) {
+            etLayoutWage.setError(message);
         }
         else {
             etLayoutWage.setError(null);
