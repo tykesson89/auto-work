@@ -142,7 +142,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
 
         Toast.makeText(RegistrationActivity.this, firstName, Toast.LENGTH_SHORT).show();
         //Ifall alla villkor ej är sanna, är inputOk = true
-        /*if (inputOk) {
+        if (inputOk) {
             User user = new User(firstName, lastName, email, password);
             Company company = new Company(companyName, hourlyWage);
             new CreateUser(RegistrationActivity.this).execute(user, company);
@@ -151,7 +151,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
             Toast toast = Toast.makeText(RegistrationActivity.this,
                     "Something went wrong, please check all fields", duration);
             toast.show();
-        }*/
+        }
     }
 
     @Override

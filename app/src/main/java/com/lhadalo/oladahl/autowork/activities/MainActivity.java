@@ -212,9 +212,9 @@ public class MainActivity extends AppCompatActivity
         getNextPassSalary(month);
 
 
-        if(sqLiteDB.haveWorkpass()== true) {
+        /*if(sqLiteDB.haveWorkpass()== true) {
             getDate(month, day);
-        }
+        }*/
 
         if(workpassList != null) {
             fragment.setListAdapter(adapter);
