@@ -21,7 +21,7 @@ import com.lhadalo.oladahl.autowork.R;
 public class RegistrationFragment extends Fragment {
     private OnFragmentInteraction callback;
     private Toolbar toolbar;
-    private Button btnBackToLogin, btnRegister;
+    private Button btnCancel, btnRegister;
     private EditText etFirstName, etLastName, etEmail, etPassword, etHoulyWage, etCompany;
     private String email;
 
@@ -34,6 +34,8 @@ public class RegistrationFragment extends Fragment {
     public interface OnFragmentInteraction {
         void onClickBtnRegister(String firstName, String lastName, String email,
                                 String password, String hourlyWage, String companyName);
+
+        void onClickCancel();
     }
 
     @Nullable
@@ -55,6 +57,8 @@ public class RegistrationFragment extends Fragment {
         activity.setTitle(getResources().getString(R.string.registration_title));
 
         btnRegister = (Button)view.findViewById(R.id.btnRegister);
+        btnCancel = (Button)view.findViewById(R.id.btn_cancel);
+
         etFirstName = (TextInputEditText)view.findViewById(R.id.etFirstName);
         etLastName = (EditText)view.findViewById(R.id.etLastName);
         etEmail = (EditText)view.findViewById(R.id.et_email);
@@ -89,6 +93,13 @@ public class RegistrationFragment extends Fragment {
     }
 
     private void initListeners() {
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callback.onClickCancel();
+            }
+        });
+
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -169,6 +169,12 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         }
     }
 
+    @Override
+    public void onClickCancel() {
+        setResult(RESULT_CANCELED);
+        finish();
+    }
+
     public boolean hasSpaceBefore(String str) {
         return Character.isWhitespace(str.charAt(0));
     }
@@ -176,11 +182,11 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     public String removeSpaceBefore(String str){
         String res = str;
         for(int i = 0; i < str.length() && Character.isWhitespace(res.charAt(0)); i++){
-            res = str.substring(1);
-
+            res = res.substring(1);
         }
         return res;
     }
+
     public boolean containsDigit(String str) {
         for(int i = 0; i < str.length(); i++) {
             if(Character.isDigit(str.charAt(i))) {
