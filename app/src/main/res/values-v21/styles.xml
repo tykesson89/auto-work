@@ -5,7 +5,13 @@
         <!-- Customize your theme here. -->
         <item name="android:colorPrimary">@color/colorPrimary</item>
         <item name="android:colorPrimaryDark">@color/ColorPrimaryDark</item>
+<<<<<<< HEAD
         <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+||||||| merged common ancestors
+        <item name="android:statusBarColor">@android:color/transparent</item>
+=======
+
+>>>>>>> textinputlayout-test
 
         <!--
 		<item name="android:colorPrimary">@color/colorPrimary</item>
