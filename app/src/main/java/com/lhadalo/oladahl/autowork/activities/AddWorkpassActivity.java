@@ -421,18 +421,31 @@ public class AddWorkpassActivity extends AppCompatActivity
     }
 
     private void createCompaniesDialog() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("Choose a workplace");
 
-        String[] companyStrings = new String[companies.size()];
+        final String[] companyStrings = new String[companies.size()+1];
         for(int i = 0; i < companies.size(); i++) {
             companyStrings[i] = companies.get(i).getCompanyName();
         }
+        companyStrings[companyStrings.length-1] = "Add Company";
+
 
         dialog.setItems(companyStrings, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int position) {
-                selectedCompany = companies.get(position);
+                if(position == companyStrings.length-1){
+
+                    Intent intent = new Intent(AddWorkpassActivity.this, AddCompanyActivity.class);
+                    startActivity(intent);
+
+
+
+
+
+                }
+                else
+                    selectedCompany = companies.get(position);
                 model.setCompany(selectedCompany);
                 fragment.setCompanyName(selectedCompany.getCompanyName());
             }
