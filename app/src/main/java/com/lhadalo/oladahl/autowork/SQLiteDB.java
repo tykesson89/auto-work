@@ -26,7 +26,6 @@ import com.lhadalo.oladahl.autowork.WorkpassContract.WorkpassEntry;
  * Created by Henrik on 2016-02-29.
  */
 public class SQLiteDB extends SQLiteOpenHelper {
-
     private static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "AutoWork_DB";
 
@@ -135,17 +134,17 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.close();
 
 
-
     }
-    public double getHourlyWage(String companyName){
+
+    public double getHourlyWage(String companyName) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery("select hourlyWage from Company where companyName = ?",
                 new String[]{companyName});
 
         cursor.moveToFirst();
-       double hourlyWage= cursor.getDouble(0);
-       return hourlyWage;
+        double hourlyWage = cursor.getDouble(0);
+        return hourlyWage;
 
     }
 
@@ -272,6 +271,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         }
 
     }
+
     public Boolean haveWorkpass() {
         String countQuery = "SELECT  * FROM workpass";
         SQLiteDatabase db = this.getReadableDatabase();
@@ -288,11 +288,11 @@ public class SQLiteDB extends SQLiteOpenHelper {
     }
 
 
-    public void changeCompany(String companyName, double hourly){
+    public void changeCompany(String companyName, double hourly) {
         SQLiteDatabase db = this.getWritableDatabase();
 
 
-        String strSQL = "UPDATE Company SET HourlyWage= " + hourly + " WHERE companyName= '"+ companyName+"'";
+        String strSQL = "UPDATE Company SET HourlyWage= " + hourly + " WHERE companyName= '" + companyName + "'";
 
         db.execSQL(strSQL);
         db.close();
@@ -336,7 +336,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         return workpassModels;
     }
 
-    public WorkpassModel getWorkpass(long id){
+    public WorkpassModel getWorkpass(long id) {
         String command = "SELECT * FROM " + WorkpassEntry.TABLE_NAME + " WHERE "
                 + WorkpassEntry.WORKPASS_ID + "=" + String.valueOf(id);
 
@@ -346,7 +346,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         return this.populateModelFromCursor(c);
     }
 
-    public WorkpassModel getLastAddedWorkpass(){
+    public WorkpassModel getLastAddedWorkpass() {
         String command = "SELECT * FROM " + WorkpassEntry.TABLE_NAME + " WHERE " + WorkpassEntry.WORKPASS_ID
                 + " = (SELECT MAX(" + WorkpassEntry.WORKPASS_ID + ") FROM " + WorkpassEntry.TABLE_NAME + ");";
 
@@ -357,14 +357,14 @@ public class SQLiteDB extends SQLiteOpenHelper {
         return this.populateModelFromCursor(c);
     }
 
-    public boolean deleteWorkpass(long id){
+    public boolean deleteWorkpass(long id) {
         int result = this.getWritableDatabase().delete(WorkpassEntry.TABLE_NAME,
                 WorkpassEntry.WORKPASS_ID + "=?", new String[]{String.valueOf(id)});
 
         return result > 0;
     }
 
-    public boolean updateWorkpass(WorkpassModel model){
+    public boolean updateWorkpass(WorkpassModel model) {
         ContentValues values = populateContentValuesFromModel(model);
         int result = this.getWritableDatabase().update(
                 WorkpassEntry.TABLE_NAME,
@@ -375,7 +375,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         return result > 0;
     }
 
-    private ContentValues populateContentValuesFromModel(WorkpassModel model){
+    private ContentValues populateContentValuesFromModel(WorkpassModel model) {
         ContentValues values = new ContentValues();
 
         values.put(WorkpassEntry.COLUMN_USER_ID, model.getUserId());
@@ -541,7 +541,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         try {
             date = fmt.parse(str);
 
-        } catch (ParseException ex){
+        } catch (ParseException ex) {
             ex.printStackTrace();
         }
 
