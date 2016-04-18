@@ -96,7 +96,7 @@ public class AddWorkpassFragment extends Fragment {
         layoutStart = (LinearLayout)view.findViewById(R.id.txt_layout_start);
         layoutStop = (LinearLayout)view.findViewById(R.id.txt_layout_stop);
         layoutBreak = (LinearLayout)view.findViewById(R.id.txt_layout_lunch);
-        layoutAddNote = (LinearLayout)view.findViewById(R.id.txt_layout_add_notes);
+        //layoutAddNote = (LinearLayout)view.findViewById(R.id.txt_layout_add_notes);
 
         txtWorkplace = (TextView)layoutWorkplace.getChildAt(1);
         txtDateStart = (TextView)layoutStart.getChildAt(1);

@@ -55,98 +55,84 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
 
         isEmpty = firstName.length() < 1;
         hasDigit = containsDigit(firstName);
-        if(isEmpty || hasDigit) {
+        if (isEmpty || hasDigit) {
 
-            if(isEmpty) {
+            if (isEmpty) {
                 text = "You must fill in your first name";
                 fragment.setFirstNameError(true, "No name");
-            }
-            else if(hasDigit) {
+            } else if (hasDigit) {
                 text = "Firstname cannot contain digits";
                 fragment.setFirstNameError(true, "Digits not allowed");
             }
             inputOk = false;
 
-        }
-        else {
-            if(hasSpaceBefore(firstName)) {
-                firstName = removeSpaceBefore(firstName);
-            }
+        } else {
+            firstName = removeSpaceBefore(firstName);
             fragment.setFirstNameError(false, null);
         }
 
         isEmpty = lastName.length() < 1;
         hasDigit = containsDigit(lastName);
-        if(isEmpty || hasDigit) {
-            if(isEmpty) {
+        if (isEmpty || hasDigit) {
+            if (isEmpty) {
                 text = "You must fill in your last name";
                 fragment.setLastNameError(true, "No name");
-            }
-            else if(hasDigit) {
+            } else if (hasDigit) {
                 text = "Lastname cannot contain digits";
                 fragment.setLastNameError(true, "Digits not allowed");
             }
 
 
             inputOk = false;
-        }
-        else {
-            if(hasSpaceBefore(lastName)) {
-                //Ta bort space
-            }
+        } else {
+            lastName = removeSpaceBefore(lastName);
             fragment.setLastNameError(false, null);
         }
 
 
         isEmpty = email.isEmpty();
         boolean isntEmail = !email.contains("@");
-        if(isntEmail || isEmpty) {
-            if(isntEmail) {
+        if (isntEmail || isEmpty) {
+            if (isntEmail) {
                 text = getString(R.string.toast_email_error);
                 fragment.setEmailError(true, "Isn't a email adress");
-            }
-            else if(isEmpty) {
+            } else if (isEmpty) {
                 text = "Email cannot be empty";
                 fragment.setEmailError(true, "No email");
             }
 
             inputOk = false;
-        }
-        else {
-            if(hasSpaceBefore(email)) {
-                //Ta bort space
-            }
+        } else {
+            email = removeSpaceBefore(email);
             fragment.setEmailError(false, null);
         }
 
-        if(password.length() < 6) {
+        if (password.length() < 6) {
             text = getString(R.string.toast_password_error);
             fragment.setPasswError(true, "Password must be 6 characters");
             inputOk = false;
-        }
-        else {
+        } else {
             fragment.setPasswError(false, null);
         }
 
 
-        if(companyName.length() < 1) {
+        if (companyName.length() < 1) {
             text = "You must fill in a company name";
             fragment.setCompanyError(true, "Empty name");
             inputOk = false;
-        }
-        else {
+        } else {
+            companyName = removeSpaceBefore(companyName);
             fragment.setCompanyError(false, null);
         }
 
         try {
             hourlyWage = Double.parseDouble(wage);
-            if(wage.length() < 1) {
+            if (wage.length() < 1) {
                 text = "You must fill in your hourly wage";
                 fragment.setWageError(true, "No wage");
                 inputOk = false;
 
-            }
-            else {
+            } else {
                 fragment.setWageError(false, null);
             }
         } catch (NumberFormatException w) {
@@ -154,19 +140,18 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
             inputOk = false;
         }
 
-        Log.v(Tag.LOGTAG, firstName);
+        Toast.makeText(RegistrationActivity.this, firstName, Toast.LENGTH_SHORT).show();
         //Ifall alla villkor ej är sanna, är inputOk = true
-        if(inputOk) {
+        /*if (inputOk) {
             User user = new User(firstName, lastName, email, password);
             Company company = new Company(companyName, hourlyWage);
             new CreateUser(RegistrationActivity.this).execute(user, company);
-        }
-        else {
+        } else {
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(RegistrationActivity.this,
                     "Something went wrong, please check all fields", duration);
             toast.show();
-        }
+        }*/
     }
 
     @Override
@@ -179,17 +164,18 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         return Character.isWhitespace(str.charAt(0));
     }
 
-    public String removeSpaceBefore(String str){
+    public String removeSpaceBefore(String str) {
         String res = str;
-        for(int i = 0; i < str.length() && Character.isWhitespace(res.charAt(0)); i++){
+        for (int i = 0; i < str.length() && Character.isWhitespace(res.charAt(0)); i++) {
             res = res.substring(1);
         }
+
         return res;
     }
 
     public boolean containsDigit(String str) {
-        for(int i = 0; i < str.length(); i++) {
-            if(Character.isDigit(str.charAt(i))) {
+        for (int i = 0; i < str.length(); i++) {
+            if (Character.isDigit(str.charAt(i))) {
                 return true;
             }
         }
@@ -215,8 +201,8 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         protected String doInBackground(Object... params) {
             Company company;
             User user;
-            user = (User)params[0];
-            company = (Company)params[1];
+            user = (User) params[0];
+            company = (Company) params[1];
             try {
                 Socket socket = new Socket(Tag.IP, Tag.PORT);
                 objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -241,13 +227,12 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
 
         protected void onPostExecute(String res) {
             progressDialog.dismiss();
-            if(res.equals(Tag.USER_ALREADY_EXISTS)) {
+            if (res.equals(Tag.USER_ALREADY_EXISTS)) {
                 CharSequence text = getString(R.string.toast_user_exists);
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
-            }
-            else if(res.contains(Tag.SUCCESS)) { //Stod "succes" innan.
+            } else if (res.contains(Tag.SUCCESS)) { //Stod "succes" innan.
                 CharSequence text = getString(R.string.toast_account_created);
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
