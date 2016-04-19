@@ -48,6 +48,9 @@ public class SettingsFragment extends Fragment {
 
         initListeners();
     }
+    public void setChangeInfoLayout(){
+
+    }
 
     private void initListeners() {
         btnChangeUserInfo.setOnClickListener(new View.OnClickListener() {

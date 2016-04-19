@@ -15,111 +15,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Change your account info"
+        android:text="Account Settings"
         android:layout_gravity="center"
         android:textSize="26dp" />
 
-    <TextView
-        android:layout_marginTop="15sp"
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="First Name:" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/etFirstName"
+        android:text="New Button"
+        android:id="@+id/button"
         android:layout_gravity="center_horizontal" />
-
-    <TextView
-        android:layout_marginTop="10sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Last Name:" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/etLastName" />
-
-    <TextView
-        android:layout_marginTop="10sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Email:" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/et_email" />
-
-    <TextView
-        android:layout_marginTop="10sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Old password:" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/etOldPassword" />
-
-    <TextView
-        android:layout_marginTop="10sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="New password:" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/etNewPassword" />
-
-    <TextView
-        android:layout_marginTop="10sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Password confirmation" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/etNewPasswordCheck"
-        android:ems="10"
-        android:inputType="textPassword"/>
 
     <Button
-        android:layout_marginTop="10sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Change Info"
-        android:id="@+id/btnChangeUserInfo"
+        android:text="New Button"
+        android:id="@+id/button2"
         android:layout_gravity="center_horizontal" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Press here to delete your accont"
-            android:id="@+id/tvDeleteAccount"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10sp"
-            android:layout_centerHorizontal="true"
-            android:clickable="true" />
-    </RelativeLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/button3"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>
