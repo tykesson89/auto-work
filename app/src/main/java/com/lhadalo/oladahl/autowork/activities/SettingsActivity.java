@@ -94,6 +94,37 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                String firstname = firstName.getText().toString();
+                String lastname = lastName.getText().toString();
+                String Email = email.getText().toString();
+                String Password = password.getText().toString();
+                user = new User(firstname, lastname, Email, Password, userId);
+                new ChangeUserInfo().execute(user);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+
+    }
+    public void onClickBtnChangePassword() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Change Info");
+        Context context = this;
+        LinearLayout layout = new LinearLayout(context);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        builder.setView(layout);
+
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
             }
         });
@@ -107,18 +138,15 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
         builder.show();
 
     }
-    public void onClickBtnbtnChangePassword() {
-
+    public void onClickBtnChangeCompanyInfo() {
+        // TODO: 2016-04-19 Christoffer lägger till sitt här
     }
-    public void onClickbtnChangeCompanyInfo() {
-
-    }
-    public void onClickbtnDeleteCompany() {
-
+    public void onClickBtnDeleteCompany() {
+        // TODO: 2016-04-19 Christoffer lägger till sitt här
     }
 
 
-    public void onClickbtnDeleteAccount() {
+    public void onClickBtnDeleteAccount() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("Are your sure you want to delete your account");
 
@@ -183,9 +211,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
     class ChangeUserInfo extends AsyncTask<User, Void, String>{
         private ObjectInputStream objectInputStream;
         private ObjectOutputStream objectOutputStream;
-        private ProgressDialog progressDialog;
-
-
 
 
         protected String doInBackground(User... params) {
@@ -225,9 +250,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
                 toast.show();
-              //  fragment.setTextEmail(user.getEmail());
-               // fragment.setTextFirstName(user.getFirstname());
-              //  fragment.setTextLastName(user.getLastname());
+
 
             }
         }

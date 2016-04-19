@@ -21,10 +21,10 @@ public class SettingsFragment extends Fragment {
 
     public interface OnFragmentInteraction {
         void onClickBtnChangeUserInfo();
-        void onClickBtnbtnChangePassword();
-        void onClickbtnChangeCompanyInfo();
-        void onClickbtnDeleteAccount();
-        void onClickbtnDeleteCompany();
+        void onClickBtnChangePassword();
+        void onClickBtnChangeCompanyInfo();
+        void onClickBtnDeleteAccount();
+        void onClickBtnDeleteCompany();
     }
 
     @Nullable
@@ -61,26 +61,26 @@ public class SettingsFragment extends Fragment {
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callback.onClickBtnbtnChangePassword();
+                callback.onClickBtnChangePassword();
             }
         });
 
         btnChangeCompanyInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callback.onClickbtnChangeCompanyInfo();
+                callback.onClickBtnChangeCompanyInfo();
             }
         });
         btnDeleteAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callback.onClickbtnDeleteAccount();
+                callback.onClickBtnDeleteAccount();
             }
         });
         btnDeleteCompany.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callback.onClickbtnDeleteCompany();
+                callback.onClickBtnDeleteCompany();
             }
         });
     }
