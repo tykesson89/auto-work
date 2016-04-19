@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import UserPackage.User;
@@ -77,6 +78,16 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
         email.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
         email.setText(this.email.toString());
         layout.addView(email);
+        builder.setView(layout);
+        final TextView passwordText = new TextView(this);
+        passwordText.setPadding(0, 60, 0, 60);
+        passwordText.setText("Please input your password to change your info");
+        layout.addView(passwordText);
+        final EditText password = new EditText(this);
+        password.setHint("Password");
+
+        password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        layout.addView(password);
         builder.setView(layout);
 
 
