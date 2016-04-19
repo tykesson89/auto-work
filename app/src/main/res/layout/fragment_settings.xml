@@ -22,22 +22,36 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"
+        android:text="Change UserInfo"
+        android:id="@+id/btnChangeUserInfo"
         android:layout_gravity="center_horizontal" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button2"
+        android:text="Change Password"
+        android:id="@+id/btnChangePassword"
         android:layout_gravity="center_horizontal" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button3"
+        android:text="Delete Account"
+        android:id="@+id/btnDeleteAccount"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change CompanyInfo"
+        android:id="@+id/btnChangeCompanyInfo"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Company"
+        android:id="@+id/btnDeleteCompany"
         android:layout_gravity="center_horizontal" />
 
 </LinearLayout>
