@@ -16,14 +16,15 @@ import com.lhadalo.oladahl.autowork.R;
 
 public class SettingsFragment extends Fragment {
     private OnFragmentInteraction callback;
-    private Button btnChangeUserInfo;
-    private EditText etFirstName, etLastName, etEmail, etOldPassword, etNewPassword, etNewPasswordCheck;
-    private TextView tvDeleteAccount;
+    private Button btnChangeUserInfo, btnChangePassword, btnChangeCompanyInfo, btnDeleteAccount, btnDeleteCompany;
+
 
     public interface OnFragmentInteraction {
-        void onClickBtnChangeUserInfo(String firstName, String lastName, String email,
-                                      String oldPassword, String newPassword, String newPasswordCheck);
-        void onClickDeleteAccount();
+        void onClickBtnChangeUserInfo();
+        void onClickBtnbtnChangePassword();
+        void onClickbtnChangeCompanyInfo();
+        void onClickbtnDeleteAccount();
+        void onClickbtnDeleteCompany();
     }
 
     @Nullable
@@ -36,40 +37,50 @@ public class SettingsFragment extends Fragment {
     }
 
     private void initComponents(View view) {
-        btnChangeUserInfo = (Button)view.findViewById(R.id.btnChangeUserInfo);
+        btnChangeUserInfo = (Button) view.findViewById(R.id.btnChangeUserInfo);
+        btnChangePassword = (Button) view.findViewById(R.id.btnChangePassword);
+        btnChangeCompanyInfo = (Button) view.findViewById(R.id.btnChangeCompanyInfo);
+        btnDeleteAccount = (Button) view.findViewById(R.id.btnDeleteAccount);
+        btnDeleteCompany = (Button) view.findViewById(R.id.btnDeleteCompany);
 
-        etFirstName = (EditText)view.findViewById(R.id.etFirstName);
-        etLastName = (EditText)view.findViewById(R.id.etLastName);
-        etEmail = (EditText)view.findViewById(R.id.et_email);
-        etOldPassword = (EditText)view.findViewById(R.id.etOldPassword);
-        etNewPassword = (EditText)view.findViewById(R.id.etNewPassword);
-        etNewPasswordCheck = (EditText)view.findViewById(R.id.etNewPasswordCheck);
-        tvDeleteAccount = (TextView)view.findViewById(R.id.tvDeleteAccount);
 
         initListeners();
     }
-    public void setChangeInfoLayout(){
 
-    }
+
 
     private void initListeners() {
         btnChangeUserInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callback.onClickBtnChangeUserInfo(
-                        getFirstName(),
-                        getLastName(),
-                        getEmail(),
-                        getOldPassword(),
-                        getNewPassword(),
-                        getNewPasswordCheck());
+                callback.onClickBtnChangeUserInfo();
+
             }
         });
 
-        tvDeleteAccount.setOnClickListener(new View.OnClickListener() {
+        btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callback.onClickDeleteAccount();
+                callback.onClickBtnbtnChangePassword();
+            }
+        });
+
+        btnChangeCompanyInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callback.onClickbtnChangeCompanyInfo();
+            }
+        });
+        btnDeleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callback.onClickbtnDeleteAccount();
+            }
+        });
+        btnDeleteCompany.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callback.onClickbtnDeleteCompany();
             }
         });
     }
@@ -85,32 +96,5 @@ public class SettingsFragment extends Fragment {
         }
     }
 
-    public String getFirstName() {
-        return etFirstName.getText().toString();
-    }
-    public String getLastName() {
-        return etLastName.getText().toString();
-    }
-    public String getEmail() {
-        return etEmail.getText().toString();
-    }
-    public String getNewPassword() {
-        return etNewPassword.getText().toString();
-    }
-    public String getOldPassword() {
-        return etOldPassword.getText().toString();
-    }
-    public String getNewPasswordCheck() {
-        return etNewPasswordCheck.getText().toString();
-    }
-    public void setTextFirstName(String str){
-        etFirstName.setText(str);
-    }
-    public void setTextLastName(String str){
-        etLastName.setText(str);
-    }
-    public void setTextEmail(String str){
-        etEmail.setText(str);
-    }
 
 }

@@ -51,52 +51,24 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
     }
     protected void onStart() {
         super.onStart();
-        fragment.setTextFirstName(firstName);
-        fragment.setTextLastName(lastName);
-        fragment.setTextEmail(email);
-
     }
 
     @Override
-    public void onClickBtnChangeUserInfo(String firstName, String lastName, String email,
-                                         String oldPassword, String newPassword, String newPasswordCheck) {
-        user = new User(firstName, lastName, email, oldPassword, userId, newPassword);
+    public void onClickBtnChangeUserInfo() {
 
-        if(!newPassword.equals(newPasswordCheck)) {
-                CharSequence text = "Password does not match";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
-                toast.show();
+    }
+    public void onClickBtnbtnChangePassword() {
 
-        }else if(firstName.isEmpty()){
-            CharSequence text = "Please enter your first name";
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
-            toast.show();
-        }else if(lastName.isEmpty()){
-            CharSequence text = "Please enter your last name";
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
-            toast.show();
-        }else if(email.isEmpty()){
-            CharSequence text = "Please enter your email";
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
-            toast.show();
-        }else if(oldPassword.isEmpty()){
-            CharSequence text = "Please enter your password";
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
-            toast.show();
+    }
+    public void onClickbtnChangeCompanyInfo() {
 
-        }else{
-            new ChangeUserInfo().execute(user);
-        }
+    }
+    public void onClickbtnDeleteCompany() {
 
     }
 
-    @Override
-    public void onClickDeleteAccount() {
+
+    public void onClickbtnDeleteAccount() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage("Are your sure you want to delete your account");
 
@@ -203,9 +175,9 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
                 toast.show();
-                fragment.setTextEmail(user.getEmail());
-                fragment.setTextFirstName(user.getFirstname());
-                fragment.setTextLastName(user.getLastname());
+              //  fragment.setTextEmail(user.getEmail());
+               // fragment.setTextFirstName(user.getFirstname());
+              //  fragment.setTextLastName(user.getLastname());
 
             }
         }
