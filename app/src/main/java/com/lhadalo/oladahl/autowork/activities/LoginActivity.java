@@ -155,10 +155,10 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                     db.addCompany(companyArrayList.get(i));
                 }
                 
-                workpassModelArrayList = (ArrayList<WorkpassModel>)objectIn.readObject();
-                for(int i = 0; i < workpassModelArrayList.size(); i++){
-                    db.addloginWorkpass(workpassModelArrayList.get(i));
-                }
+//                workpassModelArrayList = (ArrayList<WorkpassModel>)objectIn.readObject();
+//                for(int i = 0; i < workpassModelArrayList.size(); i++){
+//                    db.addloginWorkpass(workpassModelArrayList.get(i));
+//                }
 
 
             } catch (Exception e){

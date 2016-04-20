@@ -235,7 +235,6 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
                         objectOutputStream.writeObject(Tag.CREATE_USER);
                         objectOutputStream.writeObject(user);
                         objectOutputStream.writeObject(company);
-                        progressDialog.dismiss();
                         String response = (String) objectInputStream.readObject();
                         return response;
                     } catch (SocketTimeoutException s) {
