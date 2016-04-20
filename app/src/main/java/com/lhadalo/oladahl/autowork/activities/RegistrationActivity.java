@@ -140,8 +140,8 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
             inputOk = false;
         }
 
-        Toast.makeText(RegistrationActivity.this, firstName, Toast.LENGTH_SHORT).show();
-        //Ifall alla villkor ej är sanna, är inputOk = true
+
+        //Ifall alla villkor är sanna, är inputOk = true
         if (inputOk) {
             User user = new User(firstName, lastName, email, password);
             Company company = new Company(companyName, hourlyWage);
