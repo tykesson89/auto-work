@@ -107,7 +107,7 @@ public class User implements UserInterface {
 
     @Override
     public void setNewPassword(String newPassword) {
-
+        this.newPassword = newPassword;
     }
 
     @Override
@@ -116,7 +116,7 @@ public class User implements UserInterface {
     }
 
     @Override
-    public void setOldPassword(String password) {
+    public void setOldPassword(String oldPassword) {
         this.oldPassword = oldPassword;
     }
 

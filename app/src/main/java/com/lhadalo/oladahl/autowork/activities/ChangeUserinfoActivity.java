@@ -1,9 +1,14 @@
 package com.lhadalo.oladahl.autowork.activities;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.SQLiteDB;
@@ -12,18 +17,24 @@ import com.lhadalo.oladahl.autowork.fragments.ChangeUserinfoFragment;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
+import UserPackage.Company;
 import UserPackage.User;
 
 
 public class ChangeUserinfoActivity extends AppCompatActivity implements ChangeUserinfoFragment.OnFragmentInteraction {
-    private ChangeUserinfoFragment fragment;
-    private User user;
-    private int userId;
-    private String firstName;
-    private String lastName;
-    private String email;
+
+        private ChangeUserinfoFragment fragment;
+        private User user;
+        private int userId;
+        private String firstName;
+        private String lastName;
+        private String email;
+    private Context context = this;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +50,23 @@ public class ChangeUserinfoActivity extends AppCompatActivity implements ChangeU
         Log.d(email, " ");
 
     }
-
-    @Override
     protected void onStart() {
         super.onStart();
-
-        fragment.setTextetEmail("hej");
+        SQLiteDB sqLiteDB = new SQLiteDB(this);
+        user = sqLiteDB.getUser();
+        firstName = user.getFirstname();
+        lastName = user.getLastname();
+        email = user.getEmail();
+        userId = user.getUserid();
+        fragment.setTextetEmail(email);
         fragment.setTextetFirstname(firstName);
         fragment.setTextetLastname(lastName);
-
     }
+
+
+
+
+
 
     private void initFragment() {
         fragment = new ChangeUserinfoFragment();
@@ -121,6 +139,10 @@ public class ChangeUserinfoActivity extends AppCompatActivity implements ChangeU
             fragment.setPasswError(false, null);
         }
 
+        if (inputOk) {
+            user = new User(firstname, lastname, email, password, userId);
+            new ChangeUserInfo().execute(user);
+        }
 
     }
 
@@ -146,7 +168,19 @@ public class ChangeUserinfoActivity extends AppCompatActivity implements ChangeU
 
         return res;
     }
-
+    public static boolean isConnected(Context context) {
+        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null) {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null) {
+                for (int i = 0; i < info.length; i++) {
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED)
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
 
     class ChangeUserInfo extends AsyncTask<User, Void, String> {
         private ObjectInputStream objectInputStream;
@@ -154,26 +188,53 @@ public class ChangeUserinfoActivity extends AppCompatActivity implements ChangeU
 
 
         protected String doInBackground(User... params) {
-            User user = params[0];
-            try {
-                Socket socket = new Socket(Tag.IP, Tag.PORT);
-                objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-                objectInputStream = new ObjectInputStream(socket.getInputStream());
-                objectOutputStream.writeObject(Tag.CHANGE_USER_INFO);
-                objectOutputStream.writeObject(user);
 
-                String response = (String) objectInputStream.readObject();
-                return response;
+            if(isConnected(context)==true) {
+                User user = params[0];
+                try {
+                    try {
+                        Socket socket = new Socket();
+                        socket.connect(new InetSocketAddress(Tag.IP, Tag.PORT), 4000);
+                        objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                        objectInputStream = new ObjectInputStream(socket.getInputStream());
+                        objectOutputStream.writeObject(Tag.CHANGE_USER_INFO);
+                        objectOutputStream.writeObject(user);
 
-            } catch (Exception e) {
+                        String response = (String) objectInputStream.readObject();
+                        return response;
+                    } catch (SocketTimeoutException e) {
+                        return "Server is offline";
+                    }
 
+                } catch (Exception e) {
+                    return "Server is offline";
+                }
+            }else{
+                return "No Internet Connection";
             }
-            return null;
         }
 
         @Override
         protected void onPostExecute(String s) {
-
+                if(s.equals("Password is incorrect")){
+                    fragment.setPasswError(true, "Password is incorrect");
+                }else if(s.equals("Server is offline")){
+                    Toast.makeText(context, "Server is offline",
+                            Toast.LENGTH_SHORT).show();
+                }else if(s.equals("No Internet Connection")){
+                    Toast.makeText(context, "You have no Internet Connection",
+                            Toast.LENGTH_SHORT).show();
+                }else if(s.equals("Something went wrong")){
+                    Toast.makeText(context, "Something went wrong",
+                            Toast.LENGTH_SHORT).show();
+                }else if(s.equals("Success")){
+                    SQLiteDB sqLiteDB = new SQLiteDB(context);
+                    sqLiteDB.updateUser(user);
+                    Toast.makeText(context, "User info changed",
+                            Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ChangeUserinfoActivity.this, SettingsActivity.class);
+                    startActivity(intent);
+                }
 
         }
     }

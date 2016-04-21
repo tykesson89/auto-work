@@ -39,6 +39,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     private SQLiteDB db = new SQLiteDB(this);
     private String ip;
     private int port;
+    private Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -242,34 +243,49 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
         @Override
         protected String doInBackground(String... strings) {
-            String str = strings[0];
-            try {
-                socket = new Socket(Tag.IP, Tag.PORT);
-                objectOut = new ObjectOutputStream(socket.getOutputStream());
-                objectIn = new ObjectInputStream(socket.getInputStream());
+            if(isConnected(context)==true) {
+                String str = strings[0];
+                try {
+                    try {
+                        Socket socket = new Socket();
+                        socket.connect(new InetSocketAddress(Tag.IP, Tag.PORT), 4000);
+                        objectOut = new ObjectOutputStream(socket.getOutputStream());
+                        objectIn = new ObjectInputStream(socket.getInputStream());
 
-                objectOut.writeObject(Tag.New_Password);
-                objectOut.writeObject(str);
-                String response;
-                response = (String)objectIn.readObject();
-                return response;
-            }catch (Exception e){
+                        objectOut.writeObject(Tag.New_Password);
+                        objectOut.writeObject(str);
+                        String response;
+                        response = (String) objectIn.readObject();
+                        return response;
+                    } catch (SocketTimeoutException we) {
+                        return "Server is offline";
+                    }
 
+                } catch (Exception e) {
+                    return "Someting went wrong";
+                }
+            }else{
+                return "No Internet Connection";
             }
-            return "fail";
+
         }
 
         @Override
-        protected void onPostExecute(String res) {
-              if(res == null){
-                  Toast.makeText(LoginActivity.this, getString(R.string.toast_user_not_found),
-                          Toast.LENGTH_SHORT).show();
-              }
-            else if(res.equals("fail")){
-                Toast.makeText(LoginActivity.this, getString(R.string.toast_user_not_found),
+        protected void onPostExecute(String s) {
+            if(s.equals("No Email")){
+                Toast.makeText(context, "Email does not exists",
                         Toast.LENGTH_SHORT).show();
-            } else if(res.equals(Tag.SUCCESS)){
-                Toast.makeText(LoginActivity.this, "Password sent",
+            }else if(s.equals("Server is offline")){
+                Toast.makeText(context, "Server is offline",
+                        Toast.LENGTH_SHORT).show();
+            }else if(s.equals("No Internet Connection")){
+                Toast.makeText(context, "You have no Internet Connection",
+                        Toast.LENGTH_SHORT).show();
+            }else if(s.equals("Something went wrong")){
+                Toast.makeText(context, "Something went wrong",
+                        Toast.LENGTH_SHORT).show();
+            }else if(s.equals("Email sent")){
+                Toast.makeText(context, "Password Changed",
                         Toast.LENGTH_SHORT).show();
             }
         }

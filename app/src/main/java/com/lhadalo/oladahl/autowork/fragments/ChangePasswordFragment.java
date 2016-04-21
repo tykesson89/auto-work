@@ -74,6 +74,33 @@ public class ChangePasswordFragment extends Fragment {
         }
     }
 
+    public void setNewPasswordError(boolean error, String message) {
+        if(error) {
+            newPassword.setError(message);
+        }
+        else {
+            newPassword.setError(null);
+        }
+    }
+
+    public void setNewPasswordConfirmationError(boolean error, String message) {
+        if(error) {
+            newPasswordConfirmation.setError(message);
+        }
+        else {
+            newPasswordConfirmation.setError(null);
+        }
+    }
+
+    public void setOldPasswordError(boolean error, String message) {
+        if(error) {
+            oldPassword.setError(message);
+        }
+        else {
+            oldPassword.setError(null);
+        }
+    }
+
 
 
 
