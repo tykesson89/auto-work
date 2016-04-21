@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +22,9 @@ import android.widget.Toast;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
 import UserPackage.Company;
@@ -112,6 +116,19 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
         startActivityForResult(intent, requestCode);
     }
+    public static boolean isConnected(Context context) {
+        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null) {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null) {
+                for (int i = 0; i < info.length; i++) {
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED)
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
 
 
 
@@ -136,33 +153,44 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         protected String doInBackground(User... users) {
             ArrayList<Company> companyArrayList = new ArrayList<>();
             ArrayList<WorkpassModel>workpassModelArrayList = new ArrayList<>();
-           
-            User user = users[0];
-            try{
-                socket = new Socket(Tag.IP, Tag.PORT);
-                objectOut = new ObjectOutputStream(socket.getOutputStream());
-                objectIn = new ObjectInputStream(socket.getInputStream());
+            if(isConnected(this.context)==true) {
+                User user = users[0];
+                try {
+                    try {
+                        Socket socket = new Socket();
+                        socket.connect(new InetSocketAddress(Tag.IP, Tag.PORT), 4000);
+                        objectOut = new ObjectOutputStream(socket.getOutputStream());
+                        objectIn = new ObjectInputStream(socket.getInputStream());
 
-                objectOut.writeObject(Tag.LOGIN);
-                objectOut.writeObject(user);
+                        objectOut.writeObject(Tag.LOGIN);
+                        objectOut.writeObject(user);
 
-                progressDialog.dismiss();
+                        progressDialog.dismiss();
+                        Object obj = objectIn.readObject();
+                        if (obj instanceof String) {
+                            String response = (String) obj;
+                            return response;
+                        } else {
+                            user = (User)obj;
+                            db.loginUser(user);
+                            companyArrayList = (ArrayList<Company>) objectIn.readObject();
+                            for (int i = 0; i < companyArrayList.size(); i++) {
+                                db.addCompany(companyArrayList.get(i));
+                            }
 
-                user = (User)objectIn.readObject();
-                db.loginUser(user);
-                companyArrayList = (ArrayList<Company>)objectIn.readObject();
-                for(int i = 0; i < companyArrayList.size(); i++){
-                    db.addCompany(companyArrayList.get(i));
-                }
-                
 //                workpassModelArrayList = (ArrayList<WorkpassModel>)objectIn.readObject();
 //                for(int i = 0; i < workpassModelArrayList.size(); i++){
 //                    db.addloginWorkpass(workpassModelArrayList.get(i));
 //                }
-
-
-            } catch (Exception e){
-                return Tag.USER_NOT_FOUND;
+                        }
+                    } catch (SocketTimeoutException s) {
+                        return "The server is offline";
+                    }
+                } catch (Exception e) {
+                    return "Something went wrong";
+                }
+            }else{
+                return "You have no internet connection";
             }
 
             return Tag.SUCCESS;
@@ -173,8 +201,20 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         protected void onPostExecute(String res) {
             progressDialog.dismiss();
 
-            if(res.equals(Tag.USER_NOT_FOUND)){
-                Toast.makeText(context, getString(R.string.toast_user_not_found),
+            if(res.equals("Something went wrong")){
+                Toast.makeText(context, "Something went wrong",
+                        Toast.LENGTH_SHORT).show();
+            }else if(res.equals("Wrong Email")){
+                Toast.makeText(context, "Email does not exists",
+                        Toast.LENGTH_SHORT).show();
+            }else if(res.equals("Wrong password")){
+                Toast.makeText(context, "Wrong password",
+                        Toast.LENGTH_SHORT).show();
+            }else if(res.equals("The server is offline")){
+                Toast.makeText(context, "The server is offline",
+                        Toast.LENGTH_SHORT).show();
+            }else if(res.equals("You have no internet connection")){
+                Toast.makeText(context, "You have no internet connection",
                         Toast.LENGTH_SHORT).show();
             }
             else if(res.equals(Tag.SUCCESS)){
