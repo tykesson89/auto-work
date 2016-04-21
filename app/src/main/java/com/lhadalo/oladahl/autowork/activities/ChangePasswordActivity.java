@@ -163,8 +163,6 @@ public class ChangePasswordActivity extends AppCompatActivity implements ChangeP
                 Toast.makeText(context, "Something went wrong",
                         Toast.LENGTH_SHORT).show();
             }else if(s.equals("Success")){
-                SQLiteDB sqLiteDB = new SQLiteDB(context);
-                sqLiteDB.updateUser(user);
                 Toast.makeText(context, "Password Changed",
                         Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(ChangePasswordActivity.this, SettingsActivity.class);
