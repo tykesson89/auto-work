@@ -114,7 +114,7 @@ public class User implements UserInterface {
     }
 
     @Override
-    public void setOldPassword(String password) {
+    public void setOldPassword(String oldPassword) {
         this.oldPassword = oldPassword;
     }
 
