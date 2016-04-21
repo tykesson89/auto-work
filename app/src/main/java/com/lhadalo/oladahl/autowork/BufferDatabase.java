@@ -6,12 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 
 import UserPackage.BufferModel;
-import UserPackage.WorkpassModel;
 
 /**
  * Created by Henrik on 2016-04-05.

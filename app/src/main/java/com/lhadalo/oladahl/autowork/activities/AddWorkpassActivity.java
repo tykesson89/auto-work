@@ -28,7 +28,7 @@ import com.lhadalo.oladahl.autowork.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
 
 import UserPackage.User;
-import UserPackage.WorkpassModel;
+import UserPackage.Workpass;
 
 import com.lhadalo.oladahl.autowork.WorkpassContract.WorkpassEntry;
 import com.lhadalo.oladahl.autowork.fragments.AddWorkpassFragment;
@@ -46,12 +46,12 @@ public class AddWorkpassActivity extends AppCompatActivity
     private int requestCode;
     private int dialogSource = 0;
 
-    private WorkpassModel model;
+    private Workpass model;
     private List<Company> companies;
     private Company selectedCompany;
     private GregorianCalendar startDate, startTime, endDate, endTime;
 
-    private List<WorkpassModel> workpassModels = new ArrayList<>();
+    private List<Workpass> workpasses = new ArrayList<>();
 
     //----------------------------------------------------------------------------
     // Initierare
@@ -83,7 +83,7 @@ public class AddWorkpassActivity extends AppCompatActivity
 
         if(requestCode > 0) {
             if(requestCode == Tag.ADD_WORKPASS_REQUEST) {
-                model = new WorkpassModel();
+                model = new Workpass();
                 selectedCompany = companies.get(0);
 
                 //Om det finns några arbetsplatser sätts det till interface och modell

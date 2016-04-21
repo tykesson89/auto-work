@@ -34,7 +34,8 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import UserPackage.User;
-import UserPackage.WorkpassModel;
+import UserPackage.Workpass;
+
 import com.lhadalo.oladahl.autowork.WorkpassContract.WorkpassEntry;
 
 public class MainActivity extends AppCompatActivity
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity
     private int companyId;
     private String nameCompany;
     private SQLiteDB database = new SQLiteDB(this);
-    private List<WorkpassModel> workpassList;
+    private List<Workpass> workpassList;
     private ListAdapter adapter;
 
     private Toolbar toolbar;
@@ -253,8 +254,8 @@ public class MainActivity extends AppCompatActivity
                 onActionLogOutPressed();
                 break;
             case R.id.test:
-                List<WorkpassModel> testList = database.getAllWorkpasses();
-                for(WorkpassModel m : testList){
+                List<Workpass> testList = database.getAllWorkpasses();
+                for(Workpass m : testList){
                     Log.v(Tag.LOGTAG, m.toString());
                 }
                 break;
@@ -292,7 +293,7 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == RESULT_OK) {
             if(requestCode == Tag.ADD_WORKPASS_REQUEST) {
-                WorkpassModel lastAdded = database.getLastAddedWorkpass();
+                Workpass lastAdded = database.getLastAddedWorkpass();
                 workpassList.add(lastAdded);
 
                 adapter.notifyDataSetChanged();
@@ -301,7 +302,7 @@ public class MainActivity extends AppCompatActivity
                 int listPosition = data.getIntExtra(Tag.LIST_POSITION, -1);
                 if(listPosition != -1){
                     long workpassId = workpassList.get(listPosition).getId();
-                    WorkpassModel changedModel = database.getWorkpass(workpassId);
+                    Workpass changedModel = database.getWorkpass(workpassId);
                     workpassList.set(listPosition, changedModel);
                     adapter.notifyDataSetChanged();
                 }
@@ -312,17 +313,17 @@ public class MainActivity extends AppCompatActivity
     public void getMonthSalary(int month) {
         database = new SQLiteDB(MainActivity.this);
 
-        ArrayList<WorkpassModel> workpassModels;
-        workpassModels = database.getSalaryAndDate();
+        ArrayList<Workpass> workpasses;
+        workpasses = database.getSalaryAndDate();
 
         double salary = 0;
 
-        ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
+        ArrayList<Workpass> list = new ArrayList<Workpass>();
 
-        for(int i = 0; i < workpassModels.size(); i++) {
-            int modelMonth = workpassModels.get(i).getEndDateTime().get(Calendar.MONTH);
+        for(int i = 0; i < workpasses.size(); i++) {
+            int modelMonth = workpasses.get(i).getEndDateTime().get(Calendar.MONTH);
             if(modelMonth == month) {
-                list.add(workpassModels.get(i));
+                list.add(workpasses.get(i));
             }
         }
         for(int i = 0; i < list.size(); i++) {
@@ -335,18 +336,18 @@ public class MainActivity extends AppCompatActivity
     public void getHours(int month) {
         database = new SQLiteDB(MainActivity.this);
 
-        ArrayList<WorkpassModel> workpassModels;
-        workpassModels = database.getHours();
+        ArrayList<Workpass> workpasses;
+        workpasses = database.getHours();
 
 
         double hours = 0;
 
-        ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
+        ArrayList<Workpass> list = new ArrayList<Workpass>();
 
-        for(int i = 0; i < workpassModels.size(); i++) {
-            int modelMonth = workpassModels.get(i).getEndDateTime().get(Calendar.MONTH);
+        for(int i = 0; i < workpasses.size(); i++) {
+            int modelMonth = workpasses.get(i).getEndDateTime().get(Calendar.MONTH);
             if(modelMonth == month) {
-                list.add(workpassModels.get(i));
+                list.add(workpasses.get(i));
             }
 
         }
@@ -361,19 +362,19 @@ public class MainActivity extends AppCompatActivity
     public void getNextPassHour(int month) {
         database = new SQLiteDB(MainActivity.this);
 
-        ArrayList<WorkpassModel> workpassModels;
-        workpassModels = database.getNextPassHour();
+        ArrayList<Workpass> workpasses;
+        workpasses = database.getNextPassHour();
 
 
         double hours = 0;
 
-        ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
+        ArrayList<Workpass> list = new ArrayList<Workpass>();
 
-        for(int i = 0; i < workpassModels.size(); i++) {
+        for(int i = 0; i < workpasses.size(); i++) {
 
-            int modelMonth = workpassModels.get(i).getEndDateTime().get(Calendar.MONTH);
+            int modelMonth = workpasses.get(i).getEndDateTime().get(Calendar.MONTH);
             if(modelMonth == month) {
-                list.add(workpassModels.get(i));
+                list.add(workpasses.get(i));
             }
         }
         for(int i = 0; i < list.size(); i++) {
@@ -387,19 +388,19 @@ public class MainActivity extends AppCompatActivity
     public void getNextPassSalary(int month) {
         database = new SQLiteDB(MainActivity.this);
 
-        ArrayList<WorkpassModel> workpassModels;
-        workpassModels = database.getNextPassSalary();
+        ArrayList<Workpass> workpasses;
+        workpasses = database.getNextPassSalary();
 
 
         double salary = 0;
 
-        ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
+        ArrayList<Workpass> list = new ArrayList<Workpass>();
 
-        for(int i = 0; i < workpassModels.size(); i++) {
+        for(int i = 0; i < workpasses.size(); i++) {
 
-            int modelMonth = workpassModels.get(i).getEndDateTime().get(Calendar.MONTH);
+            int modelMonth = workpasses.get(i).getEndDateTime().get(Calendar.MONTH);
             if(modelMonth == month) {
-                list.add(workpassModels.get(i));
+                list.add(workpasses.get(i));
             }
         }
         for(int i = 0; i < list.size(); i++) {
@@ -413,19 +414,19 @@ public class MainActivity extends AppCompatActivity
     public void getDate(int month, int day) {
         database = new SQLiteDB(MainActivity.this);
 
-        ArrayList<WorkpassModel> workpassModels;
-        workpassModels = database.showDate();
+        ArrayList<Workpass> workpasses;
+        workpasses = database.showDate();
         GregorianCalendar startTime = null;
 
-        ArrayList<WorkpassModel> list = new ArrayList<WorkpassModel>();
+        ArrayList<Workpass> list = new ArrayList<Workpass>();
 
-        for(int i = 0; i < workpassModels.size(); i++) {
+        for(int i = 0; i < workpasses.size(); i++) {
 
-            int modelMonth = workpassModels.get(i).getStartDateTime().get(Calendar.MONTH);
-            int modelDay = workpassModels.get(i).getStartDateTime().get(Calendar.DAY_OF_MONTH);
-            int modelHour = workpassModels.get(i).getStartDateTime().get(Calendar.HOUR);
+            int modelMonth = workpasses.get(i).getStartDateTime().get(Calendar.MONTH);
+            int modelDay = workpasses.get(i).getStartDateTime().get(Calendar.DAY_OF_MONTH);
+            int modelHour = workpasses.get(i).getStartDateTime().get(Calendar.HOUR);
             if(modelMonth == month && modelDay == day ) {
-                list.add(workpassModels.get(i));
+                list.add(workpasses.get(i));
             }
 
         }
@@ -492,7 +493,7 @@ public class MainActivity extends AppCompatActivity
                     switch(position) {
                         case 0:
 
-                            WorkpassModel modelToDelete = workpassList.get(listPosition);
+                            Workpass modelToDelete = workpassList.get(listPosition);
 
                             if(database.deleteWorkpass(modelToDelete.getId())) {
                                 workpassList.remove(listPosition);
@@ -503,7 +504,7 @@ public class MainActivity extends AppCompatActivity
 
                             break;
                         case 1:
-                            WorkpassModel modelToChange = workpassList.get(listPosition);
+                            Workpass modelToChange = workpassList.get(listPosition);
 
 
                             Intent intent = new Intent(getApplicationContext(),

@@ -9,6 +9,7 @@ import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.fragments.ChangeUserinfoFragment;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -17,36 +18,43 @@ import UserPackage.User;
 
 
 public class ChangeUserinfoActivity extends AppCompatActivity implements ChangeUserinfoFragment.OnFragmentInteraction {
-        private ChangeUserinfoFragment fragment;
-        private User user;
-        private int userId;
-        private String firstName;
-        private String lastName;
-        private String email;
+    private ChangeUserinfoFragment fragment;
+    private User user;
+    private int userId;
+    private String firstName;
+    private String lastName;
+    private String email;
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_change_userinfo);
-            initFragment();
-            SQLiteDB sqLiteDB = new SQLiteDB(this);
-            user = sqLiteDB.getUser();
-            firstName = user.getFirstname();
-            lastName = user.getLastname();
-            email = user.getEmail();
-            userId = user.getUserid();
-            Log.d(email, " ");
-            fragment.setTextetEmail("hej");
-            fragment.setTextetFirstname(firstName);
-            fragment.setTextetLastname(lastName);
-        }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_change_userinfo);
+        initFragment();
+        SQLiteDB sqLiteDB = new SQLiteDB(this);
+        user = sqLiteDB.getUser();
+        firstName = user.getFirstname();
+        lastName = user.getLastname();
+        email = user.getEmail();
+        userId = user.getUserid();
+        Log.d(email, " ");
 
+    }
 
-        private void initFragment() {
-            fragment = new ChangeUserinfoFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container_Change_Userinfo, fragment).commit();
-        }
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        fragment.setTextetEmail("hej");
+        fragment.setTextetFirstname(firstName);
+        fragment.setTextetLastname(lastName);
+
+    }
+
+    private void initFragment() {
+        fragment = new ChangeUserinfoFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container_Change_Userinfo, fragment).commit();
+    }
 
 
     @Override
@@ -114,14 +122,12 @@ public class ChangeUserinfoActivity extends AppCompatActivity implements ChangeU
         }
 
 
-
-
-
-
     }
+
     public boolean hasSpaceBefore(String str) {
         return Character.isWhitespace(str.charAt(0));
     }
+
     public boolean containsDigit(String str) {
         for (int i = 0; i < str.length(); i++) {
             if (Character.isDigit(str.charAt(i))) {
@@ -131,6 +137,7 @@ public class ChangeUserinfoActivity extends AppCompatActivity implements ChangeU
 
         return false;
     }
+
     public String removeSpaceBefore(String str) {
         String res = str;
         for (int i = 0; i < str.length() && Character.isWhitespace(res.charAt(0)); i++) {
@@ -155,10 +162,10 @@ public class ChangeUserinfoActivity extends AppCompatActivity implements ChangeU
                 objectOutputStream.writeObject(Tag.CHANGE_USER_INFO);
                 objectOutputStream.writeObject(user);
 
-                String response =(String) objectInputStream.readObject();
+                String response = (String) objectInputStream.readObject();
                 return response;
 
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
             return null;
@@ -168,8 +175,7 @@ public class ChangeUserinfoActivity extends AppCompatActivity implements ChangeU
         protected void onPostExecute(String s) {
 
 
-
-            }
         }
     }
+}
 

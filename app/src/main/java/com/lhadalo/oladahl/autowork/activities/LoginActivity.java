@@ -5,18 +5,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputType;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -26,6 +19,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.concurrent.Exchanger;
 
 import UserPackage.Company;
 import UserPackage.User;
@@ -36,7 +30,7 @@ import com.lhadalo.oladahl.autowork.InternetSettingsActivity;
 import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
-import UserPackage.WorkpassModel;
+import UserPackage.Workpass;
 import com.lhadalo.oladahl.autowork.fragments.LoginFragment;
 
 public class LoginActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteraction{
@@ -152,7 +146,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         @Override
         protected String doInBackground(User... users) {
             ArrayList<Company> companyArrayList = new ArrayList<>();
-            ArrayList<WorkpassModel>workpassModelArrayList = new ArrayList<>();
+            ArrayList<Workpass> workpassArrayList = new ArrayList<>();
             if(isConnected(this.context)==true) {
                 User user = users[0];
                 try {
@@ -173,21 +167,28 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                         } else {
                             user = (User)obj;
                             db.loginUser(user);
-                            companyArrayList = (ArrayList<Company>) objectIn.readObject();
+                            try {
+                                companyArrayList = (ArrayList<Company>) objectIn.readObject();
+                            } catch (Exception e){
+                                return "Något blev fel här";
+                            }
                             for (int i = 0; i < companyArrayList.size(); i++) {
-                                db.addCompany(companyArrayList.get(i));
+                                Company companyToAdd = companyArrayList.get(i);
+                                long id = db.addCompany(companyToAdd);
+                                companyToAdd.setCompanyId(id);
+
                             }
 
-//                workpassModelArrayList = (ArrayList<WorkpassModel>)objectIn.readObject();
-//                for(int i = 0; i < workpassModelArrayList.size(); i++){
-//                    db.addloginWorkpass(workpassModelArrayList.get(i));
+//                workpassArrayList = (ArrayList<Workpass>)objectIn.readObject();
+//                for(int i = 0; i < workpassArrayList.size(); i++){
+//                    db.addloginWorkpass(workpassArrayList.get(i));
 //                }
                         }
                     } catch (SocketTimeoutException s) {
                         return "The server is offline";
                     }
                 } catch (Exception e) {
-                    return "Something went wrong";
+                    //return "Something went wrong";
                 }
             }else{
                 return "You have no internet connection";

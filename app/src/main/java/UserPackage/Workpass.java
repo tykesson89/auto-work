@@ -6,7 +6,7 @@ import java.util.GregorianCalendar;
 /**
  * Created by oladahl on 16-03-28.
  */
-public class WorkpassModel implements Serializable{
+public class Workpass implements Serializable{
     private static final long serialVersionUID = 1L;
     private long id;
     private int mySQLId;
@@ -23,8 +23,8 @@ public class WorkpassModel implements Serializable{
     private String ACTION_TAG;
 
 
-    public WorkpassModel(String title, double salary, Company company, GregorianCalendar startDateTime,
-                         GregorianCalendar endDateTime, double breaktime, double workingHours, String note) {
+    public Workpass(String title, double salary, Company company, GregorianCalendar startDateTime,
+                    GregorianCalendar endDateTime, double breaktime, double workingHours, String note) {
         this.title = title;
         this.company = company;
         this.startDateTime = startDateTime;
@@ -35,7 +35,7 @@ public class WorkpassModel implements Serializable{
         this.note = note;
     }
 
-    public WorkpassModel(){
+    public Workpass(){
     }
 
     public void setCompany(Company company) {

@@ -1,18 +1,15 @@
 package com.lhadalo.oladahl.autowork;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import UserPackage.WorkpassModel;
+import UserPackage.Workpass;
 
 /**
  * Created by oladahl on 16-04-07.
@@ -23,9 +20,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     }
 
     ItemClickListener clickListener;
-    List<WorkpassModel> content;
+    List<Workpass> content;
 
-    public ListAdapter(ItemClickListener clickListener, List<WorkpassModel> content) {
+    public ListAdapter(ItemClickListener clickListener, List<Workpass> content) {
         this.clickListener = clickListener;
         this.content = content;
     }

@@ -1,5 +1,7 @@
 package UserPackage;
 
+import java.io.Serializable;
+
 import UserPackage.UserInterface;
 
 /**

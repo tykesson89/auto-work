@@ -12,7 +12,7 @@ import com.lhadalo.oladahl.autowork.SQLiteDB;
 
 import java.util.List;
 
-import UserPackage.WorkpassModel;
+import UserPackage.Workpass;
 
 /**
  * Created by oladahl on 16-04-07.
@@ -20,7 +20,7 @@ import UserPackage.WorkpassModel;
 public class TestActivity extends AppCompatActivity implements ListAdapter.ItemClickListener{
     private SQLiteDB database = new SQLiteDB(this);
     private ListAdapter mListAdapter;
-    private List<WorkpassModel> workpassList;
+    private List<Workpass> workpassList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

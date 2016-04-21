@@ -11,14 +11,13 @@ import android.support.annotation.Nullable;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import UserPackage.BufferModel;
 import UserPackage.Company;
-import UserPackage.WorkpassModel;
+import UserPackage.Workpass;
 
 
 /**
@@ -117,9 +116,9 @@ public class InternetService extends Service {
                     if(response instanceof Company){
                         Company company = (Company)response;
                       sqLiteDB.addCompany(company);
-                    }else if(response instanceof WorkpassModel){
-                        WorkpassModel workpassModel = (WorkpassModel)response;
-                        sqLiteDB.addWorkpass(workpassModel);
+                    }else if(response instanceof Workpass){
+                        Workpass workpass = (Workpass)response;
+                        sqLiteDB.addWorkpass(workpass);
                     }
 
 
