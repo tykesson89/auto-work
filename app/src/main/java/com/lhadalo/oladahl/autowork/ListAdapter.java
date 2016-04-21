@@ -41,7 +41,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int pos) {
         //Sätt information från modell
         holder.txtTitleList.setText(content.get(pos).getTitle());
-
+    
         GregorianCalendar start = content.get(pos).getStartDateTime();
         GregorianCalendar end = content.get(pos).getEndDateTime();
 

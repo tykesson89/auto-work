@@ -29,7 +29,7 @@ import UserPackage.User;
 
 public class AddCompanyActivity extends AppCompatActivity implements AddCompanyFragment.OnFragmentInteraction {
     private AddCompanyFragment fragment;
-
+    SQLiteDB db = new SQLiteDB(AddCompanyActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class AddCompanyActivity extends AppCompatActivity implements AddCompanyF
     }
 
     public void onClickBtnAddCompany(String companyName, double hourly) {
-        SQLiteDB db = new SQLiteDB(AddCompanyActivity.this);
+
 
         List<Company> list = new ArrayList<>();
         boolean exists = false;
@@ -79,10 +79,10 @@ public class AddCompanyActivity extends AppCompatActivity implements AddCompanyF
 
             Company company = new Company(companyName, hourly);
 
-
-            int myID = db.getUserId(AddCompanyActivity.this);
+            User user = db.getUser();
+            int myID = user.getUserid();
             company.setUserId(myID);
-            db.addCompanyLocal(company);
+            db.addCompany(company);
             fragment.spinner();
             CharSequence text = "Company added";
             int duration = Toast.LENGTH_SHORT;
@@ -99,7 +99,6 @@ public class AddCompanyActivity extends AppCompatActivity implements AddCompanyF
     }
 
     public void onClickBtnChangeCompany(String companyName, double hourly) {
-        SQLiteDB db = new SQLiteDB(AddCompanyActivity.this);
         List<Company> list = new ArrayList<>();
         boolean exists = false;
 
@@ -120,8 +119,8 @@ public class AddCompanyActivity extends AppCompatActivity implements AddCompanyF
             toast.show();
         }
         else {
-
-            db.changeCompany(companyName, hourly);
+            Company company = new Company(companyName, hourly);
+            db.changeCompany(company);
             fragment.setTextHourly(String.valueOf(hourly));
 
             CharSequence text = "Company updated";
@@ -132,7 +131,6 @@ public class AddCompanyActivity extends AppCompatActivity implements AddCompanyF
     }
 
     public void onClickBtnDeleteCompany(String companyName) {
-        SQLiteDB db = new SQLiteDB(AddCompanyActivity.this);
         List<Company> list = new ArrayList<>();
         boolean exists = false;
 

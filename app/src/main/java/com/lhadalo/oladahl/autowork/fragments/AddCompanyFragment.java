@@ -164,11 +164,10 @@ public class AddCompanyFragment extends Fragment {
                 String str = null;
 
                 str = spinner.getItemAtPosition(position).toString();
+
                 double wage = db.getHourlyWage(str);
                 setTextCompany(str);
                 setTextHourly(String.valueOf(wage));
-
-
             }
 
             @Override

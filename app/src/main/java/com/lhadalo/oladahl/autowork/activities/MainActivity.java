@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lhadalo.oladahl.autowork.DatabaseContract;
 import com.lhadalo.oladahl.autowork.ListAdapter;
 import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.SQLiteDB;
@@ -36,7 +37,6 @@ import java.util.List;
 import UserPackage.User;
 import UserPackage.Workpass;
 
-import com.lhadalo.oladahl.autowork.WorkpassContract.WorkpassEntry;
 
 public class MainActivity extends AppCompatActivity
         implements MainFragment.OnFragmentInteraction, ListAdapter.ItemClickListener {
@@ -184,6 +184,8 @@ public class MainActivity extends AppCompatActivity
 
         workpassList = database.getAllWorkpasses();
 
+        Log.v(Tag.LOGTAG, workpassList.get(2).toString());
+
         if(workpassList != null) {
             adapter = new ListAdapter(this, workpassList);
         }
@@ -286,7 +288,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onFABPressed() {
-        createOptionsDialog("Choose action", new String[]{"Add Company", "Add Workpass"}, 1, -1);
+        onActionAddWorkpassPressed();
+        //createOptionsDialog("Choose action", new String[]{"Add Company", "Add Workpass"}, 1, -1);
     }
 
     @Override
@@ -301,7 +304,7 @@ public class MainActivity extends AppCompatActivity
             else if(requestCode == Tag.UPDATE_WORKPASS_REQUEST){
                 int listPosition = data.getIntExtra(Tag.LIST_POSITION, -1);
                 if(listPosition != -1){
-                    long workpassId = workpassList.get(listPosition).getId();
+                    long workpassId = workpassList.get(listPosition).getWorkpassID();
                     Workpass changedModel = database.getWorkpass(workpassId);
                     workpassList.set(listPosition, changedModel);
                     adapter.notifyDataSetChanged();
@@ -313,17 +316,17 @@ public class MainActivity extends AppCompatActivity
     public void getMonthSalary(int month) {
         database = new SQLiteDB(MainActivity.this);
 
-        ArrayList<Workpass> workpasses;
-        workpasses = database.getSalaryAndDate();
+        //ArrayList<Workpass> workpasses;
+        //workpasses = database.getSalaryAndDate();
 
         double salary = 0;
 
         ArrayList<Workpass> list = new ArrayList<Workpass>();
 
-        for(int i = 0; i < workpasses.size(); i++) {
-            int modelMonth = workpasses.get(i).getEndDateTime().get(Calendar.MONTH);
+        for(int i = 0; i < workpassList.size(); i++) {
+            int modelMonth = workpassList.get(i).getEndDateTime().get(Calendar.MONTH);
             if(modelMonth == month) {
-                list.add(workpasses.get(i));
+                list.add(workpassList.get(i));
             }
         }
         for(int i = 0; i < list.size(); i++) {
@@ -336,18 +339,18 @@ public class MainActivity extends AppCompatActivity
     public void getHours(int month) {
         database = new SQLiteDB(MainActivity.this);
 
-        ArrayList<Workpass> workpasses;
-        workpasses = database.getHours();
+        //ArrayList<Workpass> workpasses;
+        //workpasses = database.getHours();
 
 
         double hours = 0;
 
         ArrayList<Workpass> list = new ArrayList<Workpass>();
 
-        for(int i = 0; i < workpasses.size(); i++) {
-            int modelMonth = workpasses.get(i).getEndDateTime().get(Calendar.MONTH);
+        for(int i = 0; i < workpassList.size(); i++) {
+            int modelMonth = workpassList.get(i).getEndDateTime().get(Calendar.MONTH);
             if(modelMonth == month) {
-                list.add(workpasses.get(i));
+                list.add(workpassList.get(i));
             }
 
         }
@@ -362,19 +365,19 @@ public class MainActivity extends AppCompatActivity
     public void getNextPassHour(int month) {
         database = new SQLiteDB(MainActivity.this);
 
-        ArrayList<Workpass> workpasses;
-        workpasses = database.getNextPassHour();
+        //ArrayList<Workpass> workpasses;
+        //workpasses = database.getNextPassHour();
 
 
         double hours = 0;
 
         ArrayList<Workpass> list = new ArrayList<Workpass>();
 
-        for(int i = 0; i < workpasses.size(); i++) {
+        for(int i = 0; i < workpassList.size(); i++) {
 
-            int modelMonth = workpasses.get(i).getEndDateTime().get(Calendar.MONTH);
+            int modelMonth = workpassList.get(i).getEndDateTime().get(Calendar.MONTH);
             if(modelMonth == month) {
-                list.add(workpasses.get(i));
+                list.add(workpassList.get(i));
             }
         }
         for(int i = 0; i < list.size(); i++) {
@@ -388,19 +391,19 @@ public class MainActivity extends AppCompatActivity
     public void getNextPassSalary(int month) {
         database = new SQLiteDB(MainActivity.this);
 
-        ArrayList<Workpass> workpasses;
-        workpasses = database.getNextPassSalary();
+        //ArrayList<Workpass> workpasses;
+        //workpasses = database.getNextPassSalary();
 
 
         double salary = 0;
 
         ArrayList<Workpass> list = new ArrayList<Workpass>();
 
-        for(int i = 0; i < workpasses.size(); i++) {
+        for(int i = 0; i < workpassList.size(); i++) {
 
-            int modelMonth = workpasses.get(i).getEndDateTime().get(Calendar.MONTH);
+            int modelMonth = workpassList.get(i).getEndDateTime().get(Calendar.MONTH);
             if(modelMonth == month) {
-                list.add(workpasses.get(i));
+                list.add(workpassList.get(i));
             }
         }
         for(int i = 0; i < list.size(); i++) {
@@ -414,19 +417,20 @@ public class MainActivity extends AppCompatActivity
     public void getDate(int month, int day) {
         database = new SQLiteDB(MainActivity.this);
 
-        ArrayList<Workpass> workpasses;
-        workpasses = database.showDate();
+        //ArrayList<Workpass> workpasses;
+        //workpasses = database.showDate();
+
         GregorianCalendar startTime = null;
 
         ArrayList<Workpass> list = new ArrayList<Workpass>();
 
-        for(int i = 0; i < workpasses.size(); i++) {
+        for(int i = 0; i < workpassList.size(); i++) {
 
-            int modelMonth = workpasses.get(i).getStartDateTime().get(Calendar.MONTH);
-            int modelDay = workpasses.get(i).getStartDateTime().get(Calendar.DAY_OF_MONTH);
-            int modelHour = workpasses.get(i).getStartDateTime().get(Calendar.HOUR);
+            int modelMonth = workpassList.get(i).getStartDateTime().get(Calendar.MONTH);
+            int modelDay = workpassList.get(i).getStartDateTime().get(Calendar.DAY_OF_MONTH);
+            int modelHour = workpassList.get(i).getStartDateTime().get(Calendar.HOUR);
             if(modelMonth == month && modelDay == day ) {
-                list.add(workpasses.get(i));
+                list.add(workpassList.get(i));
             }
 
         }
@@ -466,8 +470,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onItemClick(int position) {
         createOptionsDialog("Choose action", new String[]{"Delete item", "Change item"}, 2, position);
-
-        //Toast.makeText(this, "Clicked position: " + String.valueOf(position), Toast.LENGTH_SHORT).show();
     }
 
     private void createOptionsDialog(String title, String[] options, final int source,
@@ -495,7 +497,7 @@ public class MainActivity extends AppCompatActivity
 
                             Workpass modelToDelete = workpassList.get(listPosition);
 
-                            if(database.deleteWorkpass(modelToDelete.getId())) {
+                            if(database.deleteWorkpass(modelToDelete.getWorkpassID())) {
                                 workpassList.remove(listPosition);
                                 adapter.notifyDataSetChanged();
                                 Toast.makeText(MainActivity.this, "Workpass Deleted",
@@ -510,7 +512,7 @@ public class MainActivity extends AppCompatActivity
                             Intent intent = new Intent(getApplicationContext(),
                                     AddWorkpassActivity.class);
 
-                            intent.putExtra(WorkpassEntry.WORKPASS_ID, modelToChange.getId());
+                            intent.putExtra(DatabaseContract.WorkpassEntry.WORKPASS_ID, modelToChange.getWorkpassID());
                             intent.putExtra(Tag.REQUEST_CODE, Tag.UPDATE_WORKPASS_REQUEST);
                             intent.putExtra(Tag.LIST_POSITION, listPosition);
 

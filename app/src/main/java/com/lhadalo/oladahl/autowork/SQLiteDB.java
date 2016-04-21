@@ -20,7 +20,7 @@ import UserPackage.Company;
 import UserPackage.User;
 import UserPackage.Workpass;
 
-import com.lhadalo.oladahl.autowork.WorkpassContract.WorkpassEntry;
+import com.lhadalo.oladahl.autowork.DatabaseContract.WorkpassEntry;
 import com.lhadalo.oladahl.autowork.DatabaseContract.UserEntry;
 import com.lhadalo.oladahl.autowork.DatabaseContract.CompanyEntry;
 
@@ -39,27 +39,13 @@ public class SQLiteDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQLiteCommand.DB_CREATE_USER_TABLE);
-        db.execSQL(SQLiteCommand.DB_CREATE_COMPANY_TABLE);
+        Log.d("User Table", "created");
 
-        /*db.execSQL(
-                "create table if not exists Users( " +
-                        "id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT," +
-                        "userID INTEGER NOT NULL," +
-                        "firstname TEXT NOT NULL, " +
-                        "lastname TEXT NOT NULL, " +
-                        "email TEXT NOT NULL)");
-        Log.d("Table 1", "created");*/
-        /*db.execSQL(
-                "create table if not exists Company( " +
-                        "id INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT," +
-                        "companyId INTEGER, " +
-                        "userID INTEGER, " +
-                        "companyName TEXT UNIQUE NOT NULL, " +
-                        "Hourlywage REAL NOT NULL)");
-        Log.d("Table 2", "created");*/
+        db.execSQL(SQLiteCommand.DB_CREATE_COMPANY_TABLE);
+        Log.d("Company Table", "created");
 
         db.execSQL(SQLiteCommand.DB_CREATE_WORKPASS_TABLE);
-        Log.d("Table 3", "created");
+        Log.d("Workpass Table", "created");
     }
 
     @Override
@@ -137,72 +123,24 @@ public class SQLiteDB extends SQLiteOpenHelper {
         return db.insert(CompanyEntry.TABLE_NAME, null, content);
     }
 
-    /*public long addCompany(Company company) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues content = new ContentValues();
-
-        content.put(CompanyEntry.USER_ID, company.getUserId());
-        content.put(CompanyEntry.COMPANY_MY_SQL_ID, company.getServerID());
-        content.put(CompanyEntry.COMPANY_NAME, company.getCompanyName());
-        content.put(CompanyEntry.WAGE, company.getHourlyWage());
-
-        return db.insert(CompanyEntry.TABLE_NAME, null, content);
-    }*/
-
-    /*public void addCompany(Company company) {
-        long companyId = company.getCompanyId();
-        String companyName = company.getCompanyName();
-        double hourtlyWage = company.getHourlyWage();
-        int userid = company.getUserId();
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues content = new ContentValues();
-        content.put("userID", userid);
-        content.put("companyId", companyId);
-        content.put("Hourlywage", hourtlyWage);
-        content.put("companyName", companyName);
-
-        db.insert("Company", null, content);
-
-        db.close();
-
-
-    }*/
-
     public double getHourlyWage(String companyName) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor c = db.rawQuery("select " + CompanyEntry.WAGE +
-                " from " + CompanyEntry.TABLE_NAME + " where " + CompanyEntry.COMPANY_NAME +
-                "=" + companyName, null);
-        Cursor cursor = db.rawQuery("select hourlyWage from Company where companyName = ?",
-                new String[]{companyName});
 
-        cursor.moveToFirst();
-        double hourlyWage = cursor.getDouble(0);
+        String query = "select " + CompanyEntry.WAGE + " from " + CompanyEntry.TABLE_NAME +
+                " where " + CompanyEntry.COMPANY_NAME + "=?";
+
+        Cursor c = db.rawQuery(query, new String[]{companyName});
+
+        c.moveToFirst();
+        double hourlyWage = c.getDouble(0);
         return hourlyWage;
 
     }
 
-
-    public void addCompanyLocal(Company company) {
-        String companyName = company.getCompanyName();
-        double hourtlyWage = company.getHourlyWage();
-        int userid = company.getUserId();
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues content = new ContentValues();
-        content.put("userID", userid);
-        content.put("Hourlywage", hourtlyWage);
-        content.put("companyName", companyName);
-
-        db.insert("Company", null, content);
-
-        db.close();
-    }
-
     public List<Company> getAllCompanies() {
-        Cursor cursor = this.getReadableDatabase().rawQuery("SELECT * FROM " + CompanyEntry.TABLE_NAME, null);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + CompanyEntry.TABLE_NAME, null);
         List<Company> companies = new ArrayList<>();
 
         while (cursor.moveToNext()) {
@@ -219,30 +157,13 @@ public class SQLiteDB extends SQLiteOpenHelper {
             companies.add(company);
         }
 
+        db.close();
+        cursor.close();
+
         return companies;
     }
 
-    /*public List<Company> getAllCompanies() {
-        Cursor cursor = this.getReadableDatabase().rawQuery("SELECT * FROM " + CompanyEntry.TABLE_NAME, null);
-        List<Company> companies = new ArrayList<>();
-
-        while (cursor.moveToNext()) {
-            Company company = new Company(
-                    cursor.getLong(cursor.getColumnIndex(CompanyEntry.COMPANY_ID)),
-                    cursor.getInt(cursor.getColumnIndex(CompanyEntry.COMPANY_MY_SQL_ID)),
-                    cursor.getInt(cursor.getColumnIndex(CompanyEntry.USER_ID)),
-                    cursor.getString(cursor.getColumnIndex(CompanyEntry.COMPANY_NAME)),
-                    cursor.getDouble(cursor.getColumnIndex(CompanyEntry.WAGE))
-            );
-
-            companies.add(company);
-        }
-
-        return companies;
-    }*/
-
-
-    public Company getCompany(int id) {
+    public Company getCompany(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery("select * from " + CompanyEntry.TABLE_NAME + " where "
@@ -261,28 +182,13 @@ public class SQLiteDB extends SQLiteOpenHelper {
         );
 
         db.close();
+        cursor.close();
+
         return company;
     }
 
 
     //Company---------------------------------------------------------------------------------
-
-    public void addloginWorkpass(Workpass model) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-
-        values.put(WorkpassEntry.COLUMN_USER_ID, model.getUserId());
-        values.put(WorkpassEntry.COLUMN_TITLE, model.getTitle());
-        values.put(WorkpassEntry.COLUMN_COMPANY_ID, model.getId());
-        values.put(WorkpassEntry.COLUMN_START_DATE_TIME, model.getStartDateTime().toString());
-        values.put(WorkpassEntry.COLUMN_END_DATE_TIME, model.getEndDateTime().toString());
-        values.put(WorkpassEntry.COLUMN_SALARY, model.getSalary());
-        values.put(WorkpassEntry.COLUMN_BRAKE_TIME, model.getBreaktime());
-        values.put(WorkpassEntry.COLUMN_NOTE, model.getNote());
-
-        db.insert("workpass", null, values);
-        db.close();
-    }
 
     public User getUser() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -298,27 +204,6 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.close();
         return user;
     }
-
-    public int getUserId(Context context) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        int s;
-        Cursor c = db.rawQuery("SELECT userID FROM Users", null);
-        c.moveToFirst();
-        s = c.getInt(c.getColumnIndex("userID"));
-        db.close();
-        return s;
-    }
-
-    public String getFirstName() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String string;
-        Cursor c = db.rawQuery("SELECT firstname FROM Users", null);
-        c.moveToFirst();
-        string = c.getString(c.getColumnIndex("firstname"));
-        db.close();
-        return string;
-    }
-
 
     public Boolean isLoggedIn() {
         String countQuery = "SELECT * FROM " + UserEntry.TABLE_NAME;
@@ -337,40 +222,24 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
     }
 
-    public Boolean haveWorkpass() {
-        String countQuery = "SELECT  * FROM workpass";
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-        int cnt = cursor.getCount();
-        cursor.close();
-        db.close();
-        if (cnt == 0) {
-            return false;
-        } else {
-            return true;
-        }
-
-    }
-
-
-    public void changeCompany(String companyName, double hourly) {
+    public void changeCompany(Company company){
         SQLiteDatabase db = this.getWritableDatabase();
 
+        ContentValues values = new ContentValues();
 
-        String strSQL = "UPDATE Company SET HourlyWage= " + hourly + " WHERE companyName= '" + companyName + "'";
+        values.put(CompanyEntry.WAGE, company.getHourlyWage());
 
-        db.execSQL(strSQL);
+        db.update(CompanyEntry.TABLE_NAME, values, CompanyEntry.COMPANY_NAME + "=?",
+                new String[]{company.getCompanyName()});
+
         db.close();
-
-
     }
-
 
     public void deleteCompany(String companyName) {
         {
             SQLiteDatabase db = this.getWritableDatabase();
             try {
-                db.delete("Company", "companyName = ?", new String[]{companyName});
+                db.delete(CompanyEntry.TABLE_NAME, CompanyEntry.COMPANY_NAME + "=?", new String[]{companyName});
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -434,7 +303,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
                 WorkpassEntry.TABLE_NAME,
                 values,
                 WorkpassEntry.WORKPASS_ID + "=?",
-                new String[]{String.valueOf(model.getId())});
+                new String[]{String.valueOf(model.getWorkpassID())});
 
         return result > 0;
     }
@@ -442,25 +311,31 @@ public class SQLiteDB extends SQLiteOpenHelper {
     private ContentValues populateContentValuesFromModel(Workpass model) {
         ContentValues values = new ContentValues();
 
-        values.put(WorkpassEntry.COLUMN_USER_ID, model.getUserId());
+        values.put(WorkpassEntry.WORKPASS_MY_SQL_ID, model.getServerID());
 
-        values.put(WorkpassEntry.COLUMN_COMPANY_ID, model.getCompany().getCompanyId());
+        values.put(WorkpassEntry.COMPANY_ID, model.getCompanyID());
+        values.put(WorkpassEntry.COMPANY_MY_SQL_ID, model.getCompanyServerID());
 
-        values.put(WorkpassEntry.COLUMN_TITLE, model.getTitle());
+        values.put(WorkpassEntry.USER_ID, model.getUserId());
+        values.put(WorkpassEntry.TITLE, model.getTitle());
 
         String formattedStartDateTime = formatCalendarToString(model.getStartDateTime());
-        values.put(WorkpassEntry.COLUMN_START_DATE_TIME, formattedStartDateTime);
+        values.put(WorkpassEntry.START_TIME, formattedStartDateTime);
 
         String formattedEndDateTime = formatCalendarToString(model.getEndDateTime());
-        values.put(WorkpassEntry.COLUMN_END_DATE_TIME, formattedEndDateTime);
+        values.put(WorkpassEntry.END_TIME, formattedEndDateTime);
 
-        values.put(WorkpassEntry.COLUMN_BRAKE_TIME, model.getBreaktime());
+        values.put(WorkpassEntry.BREAK_TIME, model.getBreaktime());
 
-        values.put(WorkpassEntry.COLUMN_SALARY, model.getSalary());
+        values.put(WorkpassEntry.SALARY, model.getSalary());
 
-        values.put(WorkpassEntry.COLUMN_HOURS, model.getWorkingHours());
+        values.put(WorkpassEntry.WORKED_HOURS, model.getWorkingHours());
 
-        values.put(WorkpassEntry.COLUMN_NOTE, model.getNote());
+        values.put(WorkpassEntry.NOTE, model.getNote());
+
+        values.put(WorkpassEntry.IS_SYNCED, model.getIsSynced());
+
+        values.put(WorkpassEntry.ACTION_TAG, model.getActionTag());
 
         return values;
     }
@@ -469,125 +344,36 @@ public class SQLiteDB extends SQLiteOpenHelper {
     private Workpass populateModelFromCursor(Cursor c) {
         Workpass model = new Workpass();
 
-        model.setId(c.getLong(c.getColumnIndex(WorkpassEntry.WORKPASS_ID)));
+        model.setWorkpassID(c.getLong(c.getColumnIndex(WorkpassEntry.WORKPASS_ID)));
 
-        model.setUserId(c.getColumnIndex(WorkpassEntry.COLUMN_USER_ID));
+        model.setServerID(c.getInt(c.getColumnIndex(WorkpassEntry.WORKPASS_MY_SQL_ID)));
 
-        Company company = getCompany(c.getInt(c.getColumnIndex(WorkpassEntry.COLUMN_COMPANY_ID)));
-        model.setCompany(company);
+        model.setUserId(c.getColumnIndex(WorkpassEntry.USER_ID));
 
-        model.setTitle(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_TITLE)));
 
-        GregorianCalendar startDateTime = formatStringToCalendar(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_START_DATE_TIME)));
+        model.setCompanyID(c.getLong(c.getColumnIndex(WorkpassEntry.COMPANY_ID)));
+
+        model.setTitle(c.getString(c.getColumnIndex(WorkpassEntry.TITLE)));
+
+        GregorianCalendar startDateTime = formatStringToCalendar(c.getString(c.getColumnIndex(WorkpassEntry.START_TIME)));
         model.setStartDateTime(startDateTime);
 
-        GregorianCalendar endDateTime = formatStringToCalendar(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME)));
+        GregorianCalendar endDateTime = formatStringToCalendar(c.getString(c.getColumnIndex(WorkpassEntry.END_TIME)));
         model.setEndDateTime(endDateTime);
 
-        model.setBreaktime(c.getInt(c.getColumnIndex(WorkpassEntry.COLUMN_BRAKE_TIME)));
+        model.setBreaktime(c.getInt(c.getColumnIndex(WorkpassEntry.BREAK_TIME)));
 
-        model.setSalary(c.getDouble(c.getColumnIndex(WorkpassEntry.COLUMN_SALARY)));
+        model.setSalary(c.getDouble(c.getColumnIndex(WorkpassEntry.SALARY)));
 
-        model.setNote(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_NOTE)));
+        model.setNote(c.getString(c.getColumnIndex(WorkpassEntry.NOTE)));
 
-        model.setWorkingHours(c.getInt(c.getColumnIndex(WorkpassEntry.COLUMN_HOURS)));
+        model.setWorkingHours(c.getInt(c.getColumnIndex(WorkpassEntry.WORKED_HOURS)));
+
+        model.setIsSynced(c.getInt(c.getColumnIndex(WorkpassEntry.IS_SYNCED)));
+
+        model.setActionTag(c.getString(c.getColumnIndex(WorkpassEntry.ACTION_TAG)));
 
         return model;
-    }
-
-    public ArrayList<Workpass> getSalaryAndDate() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<Workpass> list = new ArrayList<>();
-        Cursor c = db.rawQuery("SELECT salary,enddatetime FROM Workpass", null);
-        Workpass workpass;
-        while (c.moveToNext()) {
-            workpass = new Workpass();
-
-            GregorianCalendar endDateTime = formatStringToCalendar(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME)));
-            workpass.setEndDateTime(endDateTime);
-            workpass.setSalary(c.getDouble(c.getColumnIndex(WorkpassEntry.COLUMN_SALARY)));
-            list.add(workpass);
-
-        }
-        db.close();
-
-        return list;
-    }
-
-    public ArrayList<Workpass> getHours() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<Workpass> wpm = new ArrayList<>();
-        Cursor c = db.rawQuery("SELECT hours,enddatetime FROM Workpass", null);
-
-        Workpass workpass;
-        while (c.moveToNext()) {
-            workpass = new Workpass();
-
-            GregorianCalendar endDateTime = formatStringToCalendar(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME)));
-            workpass.setEndDateTime(endDateTime);
-            workpass.setWorkingHours(c.getInt(c.getColumnIndex(WorkpassEntry.COLUMN_HOURS)));
-            wpm.add(workpass);
-        }
-        db.close();
-        return wpm;
-    }
-
-    public ArrayList<Workpass> getNextPassHour() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<Workpass> wpm = new ArrayList<>();
-        Cursor c = db.rawQuery("SELECT hours,enddatetime FROM Workpass", null);
-
-        Workpass workpass;
-        while (c.moveToNext()) {
-            workpass = new Workpass();
-
-            GregorianCalendar endDateTime = formatStringToCalendar(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME)));
-            workpass.setEndDateTime(endDateTime);
-            workpass.setWorkingHours(c.getInt(c.getColumnIndex(WorkpassEntry.COLUMN_HOURS)));
-            wpm.add(workpass);
-        }
-        db.close();
-        return wpm;
-    }
-
-    public ArrayList<Workpass> getNextPassSalary() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<Workpass> list = new ArrayList<>();
-        Cursor c = db.rawQuery("SELECT salary,enddatetime FROM Workpass", null);
-        Workpass workpass;
-        while (c.moveToNext()) {
-            workpass = new Workpass();
-
-            GregorianCalendar endDateTime = formatStringToCalendar(c.getString(c.getColumnIndex(WorkpassEntry.COLUMN_END_DATE_TIME)));
-            workpass.setEndDateTime(endDateTime);
-            workpass.setSalary(c.getDouble(c.getColumnIndex(WorkpassEntry.COLUMN_SALARY)));
-            list.add(workpass);
-
-        }
-        db.close();
-
-        return list;
-    }
-
-    public ArrayList<Workpass> showDate() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<Workpass> list = new ArrayList<>();
-        Cursor c = db.rawQuery("SELECT startdatetime FROM Workpass", null);
-        Workpass workpass;
-        while (c.moveToNext()) {
-            workpass = new Workpass();
-
-            GregorianCalendar startDateTime = formatStringToCalendar(c.getString(
-                    c.getColumnIndex(WorkpassEntry.COLUMN_START_DATE_TIME)));
-            workpass.setStartDateTime(startDateTime);
-
-            list.add(workpass);
-
-        }
-        db.close();
-
-
-        return list;
     }
 
     private String formatCalendarToString(GregorianCalendar cal) {

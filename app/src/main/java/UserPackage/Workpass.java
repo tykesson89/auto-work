@@ -8,25 +8,45 @@ import java.util.GregorianCalendar;
  */
 public class Workpass implements Serializable{
     private static final long serialVersionUID = 1L;
-    private long id;
-    private int mySQLId;
+    private long workpassID;
+    private int serverID;
     private int userId;
     private String title;
-    private Company company; //TODO Ändra till long som lokalt id.
-    private int companyMySQL;
+    private long companyId; //TODO Ändra till long som lokalt id.
+    private int companyServerID;
     private GregorianCalendar startDateTime;
     private GregorianCalendar endDateTime;
     private double breaktime;
     private double salary;
     private String note;
     private double workingHours;
-    private String ACTION_TAG;
+    private int isSynced;
+    private String actionTag;
 
+    @Override
+    public String toString() {
+        return "Workpass{" +
+                "workpassID=" + workpassID +
+                ", serverID=" + serverID +
+                ", userId=" + userId +
+                ", title='" + title + '\'' +
+                ", companyId=" + companyId +
+                ", companyServerID=" + companyServerID +
+                ", startDateTime=" + startDateTime +
+                ", endDateTime=" + endDateTime +
+                ", breaktime=" + breaktime +
+                ", salary=" + salary +
+                ", note='" + note + '\'' +
+                ", workingHours=" + workingHours +
+                ", isSynced=" + isSynced +
+                ", actionTag='" + actionTag + '\'' +
+                '}';
+    }
 
-    public Workpass(String title, double salary, Company company, GregorianCalendar startDateTime,
+    public Workpass(String title, double salary, long companyId, GregorianCalendar startDateTime,
                     GregorianCalendar endDateTime, double breaktime, double workingHours, String note) {
         this.title = title;
-        this.company = company;
+        this.companyId = companyId;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
         this.breaktime = breaktime;
@@ -38,12 +58,12 @@ public class Workpass implements Serializable{
     public Workpass(){
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setCompanyID(long companyId) {
+        this.companyId = companyId;
     }
 
-    public Company getCompany(){
-        return company;
+    public long getCompanyID(){
+        return companyId;
     }
 
     public void setStartDateTime(GregorianCalendar startDateTime){
@@ -102,12 +122,12 @@ public class Workpass implements Serializable{
         this.breaktime = breaktime;
     }
 
-    public long getId() {
-        return id;
+    public long getWorkpassID() {
+        return workpassID;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setWorkpassID(long workpassID) {
+        this.workpassID = workpassID;
     }
 
     public double getWorkingHours() {
@@ -118,19 +138,36 @@ public class Workpass implements Serializable{
         this.workingHours = workingHours;
     }
 
-    public int getMySQLId() {
-        return mySQLId;
+
+    public int getServerID() {
+        return serverID;
     }
 
-    public void setMySQLId(int mySQLId) {
-        this.mySQLId = mySQLId;
+    public void setServerID(int serverID) {
+        this.serverID = serverID;
     }
 
-    public String getACTION_TAG() {
-        return ACTION_TAG;
+    public String getActionTag() {
+        return actionTag;
     }
 
-    public void setACTION_TAG(String ACTION_TAG) {
-        this.ACTION_TAG = ACTION_TAG;
+    public void setActionTag(String actionTag) {
+        this.actionTag = actionTag;
+    }
+
+    public int getCompanyServerID() {
+        return companyServerID;
+    }
+
+    public void setCompanyServerID(int companyServerID) {
+        this.companyServerID = companyServerID;
+    }
+
+    public int getIsSynced() {
+        return isSynced;
+    }
+
+    public void setIsSynced(int isSynced) {
+        this.isSynced = isSynced;
     }
 }
