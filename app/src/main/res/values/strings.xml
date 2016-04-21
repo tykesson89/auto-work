@@ -82,6 +82,10 @@
     <string name="title_activity_static">StaticActivity</string>
     <string name="add">Add Company</string>
     <string name="btn_cancel">Cancel</string>
+    <string name="ChangePassword">Change Password</string>
+    <string name="NewPassword">New Password</string>
+    <string name="NewPasswordConfirmation">New Password Confirmation</string>
+    <string name="OldPassword">Old Password</string>
 
 
 </resources>

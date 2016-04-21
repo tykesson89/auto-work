@@ -11,7 +11,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -60,82 +63,14 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
 
     @Override
     public void onClickBtnChangeUserInfo() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Change Info");
-        Context context = this;
-        LinearLayout layout = new LinearLayout(context);
-        layout.setOrientation(LinearLayout.VERTICAL);
-
-        final EditText firstName = new EditText(this);
-        firstName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-        firstName.setText(this.firstName.toString());
-        layout.addView(firstName);
-        final EditText lastName = new EditText(this);
-        lastName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-        lastName.setText(this.lastName.toString());
-        layout.addView(lastName);
-        final EditText email = new EditText(this);
-        email.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-        email.setText(this.email.toString());
-        layout.addView(email);
-        builder.setView(layout);
-        final TextView passwordText = new TextView(this);
-        passwordText.setPadding(0, 60, 0, 60);
-        passwordText.setText("Please input your password to change your info");
-        layout.addView(passwordText);
-        final EditText password = new EditText(this);
-        password.setHint("Password");
-
-        password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        layout.addView(password);
-        builder.setView(layout);
-
-
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String firstname = firstName.getText().toString();
-                String lastname = lastName.getText().toString();
-                String Email = email.getText().toString();
-                String Password = password.getText().toString();
-                user = new User(firstname, lastname, Email, Password, userId);
-                new ChangeUserInfo().execute(user);
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
+    Intent intent = new Intent(SettingsActivity.this, ChangeUserinfoActivity.class);
+        startActivity(intent);
 
     }
     public void onClickBtnChangePassword() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Change Info");
-        Context context = this;
-        LinearLayout layout = new LinearLayout(context);
-        layout.setOrientation(LinearLayout.VERTICAL);
+        Intent intent = new Intent(SettingsActivity.this, ChangePasswordActivity.class);
+        startActivity(intent);
 
-        builder.setView(layout);
-
-
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
 
     }
     public void onClickBtnChangeCompanyInfo() {

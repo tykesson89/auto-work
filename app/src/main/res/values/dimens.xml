@@ -21,8 +21,6 @@
 
     <dimen name="status_bar_height">24dp</dimen>
 
-    <dimen
-        name="fab_compat_margin"
-        app:borderWidth="0dp">0dp</dimen>
+    <dimen name="fab_compat_margin" app:borderWidth="0dp">0dp</dimen>
 
 </resources>
