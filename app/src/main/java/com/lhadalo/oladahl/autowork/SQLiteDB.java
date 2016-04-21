@@ -92,11 +92,13 @@ public class SQLiteDB extends SQLiteOpenHelper {
         String lastname = user.getLastname();
         String email = user.getEmail();
         int id = user.getUserid();
+
         ContentValues data = new ContentValues();
         data.put(UserEntry.FIRST_NAME, firstname);
         data.put(UserEntry.LAST_NAME, lastname);
         data.put(UserEntry.EMAIL, email);
-        db.update(UserEntry.TABLE_NAME, data, "userid=" + id, null);
+
+        db.update(UserEntry.TABLE_NAME, data, UserEntry.USER_ID + "=" + id, null);
         db.close();
 
 

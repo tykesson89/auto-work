@@ -31,7 +31,7 @@ public class SQLiteCommand {
 
     public static final String DB_CREATE_USER_TABLE =
             "create table if not exists " + UserEntry.TABLE_NAME + " ("
-                    + UserEntry.USER_ID + " INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT" + COMMA_SEP
+                    + UserEntry.USER_ID + " INTEGER UNIQUE PRIMARY KEY" + COMMA_SEP
                     + UserEntry.EMAIL + TEXT_TYPE + NOT_NULL + COMMA_SEP
                     + UserEntry.FIRST_NAME + TEXT_TYPE + NOT_NULL + COMMA_SEP
                     + UserEntry.LAST_NAME + TEXT_TYPE + NOT_NULL
