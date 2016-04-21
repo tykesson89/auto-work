@@ -88,8 +88,12 @@ public class AddCompanyActivity extends AppCompatActivity implements AddCompanyF
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(AddCompanyActivity.this, text, duration);
             toast.show();
+
+
             fragment.setTextCompany(companyName);
             fragment.setTextHourly(String.valueOf(hourly));
+
+
 
         }
     }

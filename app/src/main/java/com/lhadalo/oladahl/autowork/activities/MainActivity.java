@@ -300,7 +300,7 @@ public class MainActivity extends AppCompatActivity
             else if(requestCode == Tag.UPDATE_WORKPASS_REQUEST){
                 int listPosition = data.getIntExtra(Tag.LIST_POSITION, -1);
                 if(listPosition != -1){
-                    long workpassId = workpassList.get(listPosition).getId();
+                    long workpassId = workpassList.get(listPosition).getWorkpassId();
                     WorkpassModel changedModel = database.getWorkpass(workpassId);
                     workpassList.set(listPosition, changedModel);
                     adapter.notifyDataSetChanged();
@@ -494,7 +494,7 @@ public class MainActivity extends AppCompatActivity
 
                             WorkpassModel modelToDelete = workpassList.get(listPosition);
 
-                            if(database.deleteWorkpass(modelToDelete.getId())) {
+                            if(database.deleteWorkpass(modelToDelete.getWorkpassId())) {
                                 workpassList.remove(listPosition);
                                 adapter.notifyDataSetChanged();
                                 Toast.makeText(MainActivity.this, "Workpass Deleted",
@@ -509,7 +509,7 @@ public class MainActivity extends AppCompatActivity
                             Intent intent = new Intent(getApplicationContext(),
                                     AddWorkpassActivity.class);
 
-                            intent.putExtra(WorkpassEntry.WORKPASS_ID, modelToChange.getId());
+                            intent.putExtra(WorkpassEntry.WORKPASS_ID, modelToChange.getWorkpassId());
                             intent.putExtra(Tag.REQUEST_CODE, Tag.UPDATE_WORKPASS_REQUEST);
                             intent.putExtra(Tag.LIST_POSITION, listPosition);
 

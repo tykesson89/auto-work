@@ -4,7 +4,7 @@
         android:title="Internet Settings"
         android:key="pref_key_internet">
         <EditTextPreference
-            android:id="@+id/pref_id_ip"
+            android:workpassId="@+workpassId/pref_id_ip"
             android:key="pref_key_ip"
             android:hint="Ip-adress"
             android:title="IP-adress"
@@ -12,7 +12,7 @@
             android:defaultValue="85.235.21.222"/>
 
         <EditTextPreference
-            android:id="@+id/pref_id_port"
+            android:workpassId="@+workpassId/pref_id_port"
             android:key="pref_key_port"
             android:hint="Port number"
             android:title="Port number"

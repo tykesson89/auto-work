@@ -5,18 +5,18 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/toolbar_login"
+        android:workpassId="@+workpassId/toolbar_login"
         layout="@layout/toolbar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar_login"
+        android:layout_below="@workpassId/toolbar_login"
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/info_text_view"
+            android:workpassId="@+workpassId/info_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -24,7 +24,7 @@
             style="@style/AppTheme.Title"/>
 
         <EditText
-            android:id="@+id/et_email"
+            android:workpassId="@+workpassId/et_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/item_vertical_margin"
@@ -33,7 +33,7 @@
             android:ems="10" />
 
         <EditText
-            android:id="@+id/et_password"
+            android:workpassId="@+workpassId/et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/item_vertical_margin"
@@ -42,7 +42,7 @@
             android:hint="@string/password_hint" />
 
         <Button
-            android:id="@+id/btn_login"
+            android:workpassId="@+workpassId/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/item_vertical_margin"
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Forgot your password? \n Press here"
-            android:id="@+id/tvNewPassword"
+            android:workpassId="@+workpassId/tvNewPassword"
             android:gravity="center"
             android:layout_gravity="center_horizontal"
             android:clickable="true" />
@@ -63,7 +63,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_create_user"
+        android:workpassId="@+workpassId/btn_create_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

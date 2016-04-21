@@ -24,12 +24,12 @@
             android:layout_alignParentLeft="true"
             android:textAppearance="?android:attr/textAppearanceLarge"
 
-            android:id="@+id/select_work"
+            android:workpassId="@+workpassId/select_work"
             android:layout_gravity="center_horizontal" />
 
 
         <Spinner
-            android:id="@+id/spinner"
+            android:workpassId="@+workpassId/spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
@@ -37,7 +37,7 @@
             android:spinnerMode="dropdown" />
 
         <EditText
-            android:id="@+id/etCompany"
+            android:workpassId="@+workpassId/etCompany"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/et_company_hint"
@@ -45,7 +45,7 @@
             android:layout_alignParentStart="true" />
 
         <EditText
-            android:id="@+id/etHourly"
+            android:workpassId="@+workpassId/etHourly"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/et_hourly_wage_hint"
@@ -54,7 +54,7 @@
 
 
         <Button
-            android:id="@+id/btn_addCompany"
+            android:workpassId="@+workpassId/btn_addCompany"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
@@ -62,7 +62,7 @@
             android:layout_marginBottom="0dp" />
 
         <Button
-            android:id="@+id/btn_change"
+            android:workpassId="@+workpassId/btn_change"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
@@ -70,7 +70,7 @@
             android:layout_marginBottom="0dp" />
 
         <Button
-            android:id="@+id/btn_delete"
+            android:workpassId="@+workpassId/btn_delete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"

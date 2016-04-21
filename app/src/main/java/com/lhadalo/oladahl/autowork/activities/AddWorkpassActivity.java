@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -87,6 +88,8 @@ public class AddWorkpassActivity extends AppCompatActivity
 
                 //Om det finns några arbetsplatser sätts det till interface och modell
                 if(companies != null) {
+                    Log.v(Tag.LOGTAG, "Namn: " + selectedCompany.getCompanyName()
+                            + " Id: " + selectedCompany.getCompanyId());
                     fragment.setCompanyName(selectedCompany.getCompanyName());
                     model.setCompany(selectedCompany);
                 }
@@ -219,7 +222,7 @@ public class AddWorkpassActivity extends AppCompatActivity
             //och activityn avslutas.
             if(populateModelFromInterface()) {
                 long id = database.addWorkpass(model);
-                model.setId(id);
+                model.setWorkpassId(id);
 
                 Intent data = new Intent();
                 data.putExtra(WorkpassEntry.WORKPASS_ID, id);

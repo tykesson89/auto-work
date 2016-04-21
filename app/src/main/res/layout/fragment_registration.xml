@@ -7,11 +7,11 @@
                 tools:context=".activities.RegistrationActivity">
 
     <include
-        android:id="@+id/toolbar_registration"
+        android:workpassId="@+workpassId/toolbar_registration"
         layout="@layout/toolbar"/>
 
     <LinearLayout
-        android:id="@+id/layout_btn"
+        android:workpassId="@+workpassId/layout_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
@@ -20,14 +20,14 @@
         android:layout_alignParentBottom="true">
 
         <Button
-            android:id="@+id/btn_cancel"
+            android:workpassId="@+workpassId/btn_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/btn_cancel"/>
 
         <Button
-            android:id="@+id/btnRegister"
+            android:workpassId="@+workpassId/btnRegister"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -35,19 +35,19 @@
     </LinearLayout>
 
     <ScrollView
-        android:id="@+id/scrollView"
+        android:workpassId="@+workpassId/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_above="@id/layout_btn"
+        android:layout_above="@workpassId/layout_btn"
         android:fillViewport="true"
         android:scrollbars = "vertical"
         android:scrollbarStyle="insideInset"
         android:descendantFocusability="beforeDescendants"
 
-        android:layout_below="@id/toolbar_registration">
+        android:layout_below="@workpassId/toolbar_registration">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,7 +66,7 @@
                 android:orientation="horizontal">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/et_layout_first_name"
+                    android:workpassId="@+workpassId/et_layout_first_name"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
                     app:errorEnabled="true">
 
                     <android.support.design.widget.TextInputEditText
-                        android:id="@+id/etFirstName"
+                        android:workpassId="@+workpassId/etFirstName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:singleLine="true"/>
@@ -84,7 +84,7 @@
 
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/et_layout_last_name"
+                    android:workpassId="@+workpassId/et_layout_last_name"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
                     app:errorEnabled="true">
 
                     <android.support.design.widget.TextInputEditText
-                        android:id="@+id/etLastName"
+                        android:workpassId="@+workpassId/etLastName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
@@ -104,14 +104,14 @@
 
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/et_layout_email"
+                android:workpassId="@+workpassId/et_layout_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintEnabled="true"
                 app:errorEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/et_email"
+                    android:workpassId="@+workpassId/et_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
@@ -121,7 +121,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/et_layout_password"
+                android:workpassId="@+workpassId/et_layout_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintEnabled="true"
@@ -129,7 +129,7 @@
                 app:counterEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/etPassword"
+                    android:workpassId="@+workpassId/etPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
@@ -140,14 +140,14 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/et_layout_company"
+                android:workpassId="@+workpassId/et_layout_company"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintEnabled="true"
                 app:errorEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/etCompany"
+                    android:workpassId="@+workpassId/etCompany"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
@@ -158,14 +158,14 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/et_layout_wage"
+                android:workpassId="@+workpassId/et_layout_wage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintEnabled="true"
                 app:errorEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/etHourlyWage"
+                    android:workpassId="@+workpassId/etHourlyWage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"

@@ -1,45 +1,30 @@
 package UserPackage;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.GregorianCalendar;
-
-import UserPackage.Company;
 
 /**
  * Created by oladahl on 16-03-28.
  */
 public class WorkpassModel implements Serializable{
     private static final long serialVersionUID = 1L;
-    private long id;
+    private long workpassId;
+    private int mySQLId;
     private int userId;
-    private Company company;
     private String title;
+    private Company company; //TODO Ändra till long som lokalt id.
+    private int companyMySQL;
     private GregorianCalendar startDateTime;
     private GregorianCalendar endDateTime;
     private double breaktime;
-    private double workingHours;
     private double salary;
     private String note;
+    private double workingHours;
+    private String ACTION_TAG;
 
-    @Override
-    public String toString() {
-        return "WorkpassModel{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", company=" + company +
-                ", title='" + title + '\'' +
-                ", startDateTime=" + startDateTime.toString() +
-                ", endDateTime=" + endDateTime.toString() +
-                ", breaktime=" + breaktime +
-                ", workingHours=" + workingHours +
-                ", salary=" + salary +
-                ", note='" + note + '\'' +
-                '}';
-    }
-
-    public WorkpassModel(String title, double salary, Company company, GregorianCalendar startDateTime, GregorianCalendar endDateTime, double breaktime, double workingHours, String note) {
+    
+    public WorkpassModel(String title, double salary, Company company, GregorianCalendar startDateTime,
+                         GregorianCalendar endDateTime, double breaktime, double workingHours, String note) {
         this.title = title;
         this.company = company;
         this.startDateTime = startDateTime;
@@ -117,12 +102,12 @@ public class WorkpassModel implements Serializable{
         this.breaktime = breaktime;
     }
 
-    public long getId() {
-        return id;
+    public long getWorkpassId() {
+        return workpassId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setWorkpassId(long workpassId) {
+        this.workpassId = workpassId;
     }
 
     public double getWorkingHours() {
@@ -131,5 +116,21 @@ public class WorkpassModel implements Serializable{
 
     public void setWorkingHours(double workingHours) {
         this.workingHours = workingHours;
+    }
+
+    public int getMySQLId() {
+        return mySQLId;
+    }
+
+    public void setMySQLId(int mySQLId) {
+        this.mySQLId = mySQLId;
+    }
+
+    public String getACTION_TAG() {
+        return ACTION_TAG;
+    }
+
+    public void setACTION_TAG(String ACTION_TAG) {
+        this.ACTION_TAG = ACTION_TAG;
     }
 }

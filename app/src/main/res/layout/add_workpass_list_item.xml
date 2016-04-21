@@ -7,7 +7,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
-        android:id="@+id/list_item_img"
+        android:workpassId="@+workpassId/list_item_img"
         android:layout_width="@dimen/list_icon_horizontal_margin"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"
@@ -16,7 +16,7 @@
         android:layout_height="@dimen/list_height_dense"-->
 
     <TextView
-        android:id="@+id/txt_workplace_name"
+        android:workpassId="@+workpassId/txt_workplace_name"
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_height_dense"
         android:background="?android:selectableItemBackground"

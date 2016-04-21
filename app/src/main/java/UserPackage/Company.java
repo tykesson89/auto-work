@@ -9,6 +9,7 @@ public class Company implements CompanyInterface {
     private double hourlyWage;
     private int userId;
     private int companyId;
+    private int mySQLid;
 
     public Company(String companyName, double hourlyWage){
         this.companyName = companyName;
@@ -71,5 +72,13 @@ public class Company implements CompanyInterface {
     @Override
     public String toString() {
         return companyName;
+    }
+
+    public int getMySQLid() {
+        return mySQLid;
+    }
+
+    public void setMySQLid(int mySQLid) {
+        this.mySQLid = mySQLid;
     }
 }
