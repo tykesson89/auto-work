@@ -2,7 +2,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:workpassId="@+workpassId/container_add_company"
+    android:id="@+id/container_add_company"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.SettingsActivity"/>

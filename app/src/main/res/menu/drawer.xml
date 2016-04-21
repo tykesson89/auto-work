@@ -3,62 +3,62 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:checkableBehavior="single">
         <item
-            android:workpassId="@+workpassId/drawer_jan"
+            android:id="@+id/drawer_jan"
             android:checked="false"
             android:title="January"/>
 
         <item
-            android:workpassId="@+workpassId/drawer_feb"
+            android:id="@+id/drawer_feb"
             android:checked="false"
             android:title="February"/>
 
         <item
-            android:workpassId="@+workpassId/drawer_mar"
+            android:id="@+id/drawer_mar"
             android:checked="false"
             android:title="Mars"/>
 
         <item
-            android:workpassId="@+workpassId/drawer_apr"
+            android:id="@+id/drawer_apr"
             android:checked="false"
             android:title="April"/>
 
         <item
-            android:workpassId="@+workpassId/drawer_may"
+            android:id="@+id/drawer_may"
             android:checked="false"
             android:title="May"/>
 
         <item
-            android:workpassId="@+workpassId/drawer_jun"
+            android:id="@+id/drawer_jun"
             android:checked="false"
             android:title="June"/>
 
         <item
-            android:workpassId="@+workpassId/drawer_jul"
+            android:id="@+id/drawer_jul"
             android:checked="false"
             android:title="July"/>
 
         <item
-            android:workpassId="@+workpassId/drawer_aug"
+            android:id="@+id/drawer_aug"
             android:checked="false"
             android:title="August"/>
 
         <item
-            android:workpassId="@+workpassId/drawer_sep"
+            android:id="@+id/drawer_sep"
             android:checked="false"
             android:title="September"/>
 
         <item
-            android:workpassId="@+workpassId/drawer_oct"
+            android:id="@+id/drawer_oct"
             android:checked="false"
             android:title="October"/>
 
         <item
-            android:workpassId="@+workpassId/drawer_nov"
+            android:id="@+id/drawer_nov"
             android:checked="false"
             android:title="November"/>
 
         <item
-            android:workpassId="@+workpassId/drawer_dec"
+            android:id="@+id/drawer_dec"
             android:checked="false"
             android:title="December"/>
 

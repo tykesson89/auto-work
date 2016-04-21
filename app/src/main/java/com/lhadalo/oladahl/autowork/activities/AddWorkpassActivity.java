@@ -222,7 +222,7 @@ public class AddWorkpassActivity extends AppCompatActivity
             //och activityn avslutas.
             if(populateModelFromInterface()) {
                 long id = database.addWorkpass(model);
-                model.setWorkpassId(id);
+                model.setId(id);
 
                 Intent data = new Intent();
                 data.putExtra(WorkpassEntry.WORKPASS_ID, id);

@@ -8,7 +8,7 @@ import java.util.GregorianCalendar;
  */
 public class WorkpassModel implements Serializable{
     private static final long serialVersionUID = 1L;
-    private long workpassId;
+    private long id;
     private int mySQLId;
     private int userId;
     private String title;
@@ -22,7 +22,7 @@ public class WorkpassModel implements Serializable{
     private double workingHours;
     private String ACTION_TAG;
 
-    
+
     public WorkpassModel(String title, double salary, Company company, GregorianCalendar startDateTime,
                          GregorianCalendar endDateTime, double breaktime, double workingHours, String note) {
         this.title = title;
@@ -102,12 +102,12 @@ public class WorkpassModel implements Serializable{
         this.breaktime = breaktime;
     }
 
-    public long getWorkpassId() {
-        return workpassId;
+    public long getId() {
+        return id;
     }
 
-    public void setWorkpassId(long workpassId) {
-        this.workpassId = workpassId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public double getWorkingHours() {

@@ -9,7 +9,7 @@
     android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
-        android:workpassId="@+workpassId/appbar"
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -20,7 +20,7 @@
             app:expandedTitleTextAppearance="@style/Widget.AppCompat.ActionBar.TabText">
 
             <android.support.v7.widget.Toolbar
-                android:workpassId="@+workpassId/toolbar_1"
+                android:id="@+id/toolbar_1"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/colorPrimary"
@@ -29,7 +29,7 @@
             </android.support.v7.widget.Toolbar>
 
             <android.support.v7.widget.Toolbar
-                android:workpassId="@+workpassId/toolbar_add_workplace"
+                android:id="@+id/toolbar_add_workplace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
@@ -37,7 +37,7 @@
                 android:theme="@style/ThemeOverlay.AppCompat">
 
                 <EditText
-                    android:workpassId="@+workpassId/et_title"
+                    android:id="@+id/et_title"
                     style="@style/edit_text_style"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
@@ -54,7 +54,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@workpassId/appbar">
+        android:layout_below="@id/appbar">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -69,7 +69,7 @@
                 android:showDividers="middle">
 
                 <include
-                    android:workpassId="@+workpassId/txt_layout_workplace"
+                    android:id="@+id/txt_layout_workplace"
                     layout="@layout/add_workpass_list_item"/>
 
                 <LinearLayout
@@ -78,16 +78,16 @@
                     android:orientation="vertical">
 
                     <include
-                        android:workpassId="@+workpassId/txt_layout_start"
+                        android:id="@+id/txt_layout_start"
                         layout="@layout/add_workpass_list_item_time"/>
 
                     <include
-                        android:workpassId="@+workpassId/txt_layout_stop"
+                        android:id="@+id/txt_layout_stop"
                         layout="@layout/add_workpass_list_item_time"/>
                 </LinearLayout>
 
                 <include
-                    android:workpassId="@+workpassId/txt_layout_lunch"
+                    android:id="@+id/txt_layout_lunch"
                     layout="@layout/add_workpass_list_item"/>
 
                 <LinearLayout
@@ -96,14 +96,14 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:workpassId="@+workpassId/img_note"
+                        android:id="@+id/img_note"
                         android:layout_width="@dimen/list_icon_horizontal_margin"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|center_horizontal"
                         android:src="@drawable/ic_note_black_24dp"/>
 
                     <EditText
-                        android:workpassId="@+workpassId/et_add_note"
+                        android:id="@+id/et_add_note"
                         style="@style/edit_text_style"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
         android:background="?android:colorBackground">
 
         <Button
-            android:workpassId="@+workpassId/btn_cancel"
+            android:id="@+id/btn_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -145,7 +145,7 @@
             style="?attr/buttonBarNegativeButtonStyle"/>
 
         <Button
-            android:workpassId="@+workpassId/btn_save"
+            android:id="@+id/btn_save"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

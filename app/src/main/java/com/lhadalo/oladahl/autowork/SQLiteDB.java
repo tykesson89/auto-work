@@ -211,7 +211,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
         values.put(WorkpassEntry.COLUMN_USER_ID, model.getUserId());
         values.put(WorkpassEntry.COLUMN_TITLE, model.getTitle());
-        values.put(WorkpassEntry.COLUMN_COMPANY_ID, model.getWorkpassId());
+        values.put(WorkpassEntry.COLUMN_COMPANY_ID, model.getId());
         values.put(WorkpassEntry.COLUMN_START_DATE_TIME, model.getStartDateTime().toString());
         values.put(WorkpassEntry.COLUMN_END_DATE_TIME, model.getEndDateTime().toString());
         values.put(WorkpassEntry.COLUMN_SALARY, model.getSalary());
@@ -370,7 +370,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
                 WorkpassEntry.TABLE_NAME,
                 values,
                 WorkpassEntry.WORKPASS_ID + "=?",
-                new String[]{String.valueOf(model.getWorkpassId())});
+                new String[]{String.valueOf(model.getId())});
 
         return result > 0;
     }
@@ -405,7 +405,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
     private WorkpassModel populateModelFromCursor(Cursor c) {
         WorkpassModel model = new WorkpassModel();
 
-        model.setWorkpassId(c.getLong(c.getColumnIndex(WorkpassEntry.WORKPASS_ID)));
+        model.setId(c.getLong(c.getColumnIndex(WorkpassEntry.WORKPASS_ID)));
 
         model.setUserId(c.getColumnIndex(WorkpassEntry.COLUMN_USER_ID));
 

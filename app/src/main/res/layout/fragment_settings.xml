@@ -23,35 +23,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Change UserInfo"
-        android:workpassId="@+workpassId/btnChangeUserInfo"
+        android:id="@+id/btnChangeUserInfo"
         android:layout_gravity="center_horizontal" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Change Password"
-        android:workpassId="@+workpassId/btnChangePassword"
+        android:id="@+id/btnChangePassword"
         android:layout_gravity="center_horizontal" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delete Account"
-        android:workpassId="@+workpassId/btnDeleteAccount"
+        android:id="@+id/btnDeleteAccount"
         android:layout_gravity="center_horizontal" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Change CompanyInfo"
-        android:workpassId="@+workpassId/btnChangeCompanyInfo"
+        android:id="@+id/btnChangeCompanyInfo"
         android:layout_gravity="center_horizontal" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delete Company"
-        android:workpassId="@+workpassId/btnDeleteCompany"
+        android:id="@+id/btnDeleteCompany"
         android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

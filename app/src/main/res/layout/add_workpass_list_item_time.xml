@@ -13,7 +13,7 @@
         android:gravity="center_vertical" />
 
     <TextView
-        android:workpassId="@+workpassId/txt_workplace_name"
+        android:id="@+id/txt_workplace_name"
         android:layout_width="0dp"
         android:layout_height="@dimen/list_height_dense"
         android:layout_weight="1"
@@ -22,7 +22,7 @@
         android:text="Sun, Mar 27, 2016"/>
 
     <TextView
-        android:workpassId="@+workpassId/txt_workplace_name2"
+        android:id="@+id/txt_workplace_name2"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/list_height_dense"
         android:background="?android:selectableItemBackground"
