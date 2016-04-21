@@ -63,7 +63,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
 
     @Override
     public void onClickBtnChangeUserInfo() {
-    Intent intent = new Intent(SettingsActivity.this, ChangeUserinfoActivity.class);
+        Intent intent = new Intent(SettingsActivity.this, ChangeUserinfoActivity.class);
         startActivity(intent);
 
     }
@@ -143,53 +143,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
 
 
 
-    class ChangeUserInfo extends AsyncTask<User, Void, String>{
-        private ObjectInputStream objectInputStream;
-        private ObjectOutputStream objectOutputStream;
 
-
-        protected String doInBackground(User... params) {
-            User user = params[0];
-            try {
-                Socket socket = new Socket(Tag.IP, Tag.PORT);
-                objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-                objectInputStream = new ObjectInputStream(socket.getInputStream());
-                objectOutputStream.writeObject(Tag.CHANGE_USER_INFO);
-                objectOutputStream.writeObject(user);
-
-                String response =(String) objectInputStream.readObject();
-                return response;
-
-            }catch (Exception e){
-
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            if(s.equals("Password is incorrect")){
-                CharSequence text = "Password is incorrect";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
-                toast.show();
-            }else if(s.equals("Something went wrong")){
-                CharSequence text = "Something went wrong";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
-                toast.show();
-            }else if(s.equals("Success")){
-                SQLiteDB sqLiteDB = new SQLiteDB(SettingsActivity.this);
-                sqLiteDB.updateUser(user);
-                CharSequence text = "User Info is changed";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(SettingsActivity.this, text, duration);
-                toast.show();
-
-
-            }
-        }
-    }
 
 
 

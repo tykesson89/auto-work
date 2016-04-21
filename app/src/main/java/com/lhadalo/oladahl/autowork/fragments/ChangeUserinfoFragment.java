@@ -1,7 +1,7 @@
 package com.lhadalo.oladahl.autowork.fragments;
 
 import android.content.Context;
-import android.net.Uri;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -33,7 +33,7 @@ public class ChangeUserinfoFragment extends Fragment {
         btnChangeUserInfo = (Button) view.findViewById(R.id.btnChangeUserInfo);
         etFirstname = (EditText) view.findViewById(R.id.etFirstname);
         etLastname = (EditText) view.findViewById(R.id.etLastname);
-        etEmail = (EditText) view.findViewById(R.id.etEmail);
+        etEmail = (EditText) view.findViewById(R.id.etEmail1);
         etPassword = (EditText) view.findViewById(R.id.etPassword);
         initListeners();
     }
@@ -81,6 +81,42 @@ public class ChangeUserinfoFragment extends Fragment {
         } catch (ClassCastException e) {
             Log.e("", context.getClass().getCanonicalName() +
                     " must implement OnFragmentInteraction");
+        }
+    }
+
+    public void setFirstNameError(boolean error, String message) {
+        if(error) {
+            etFirstname.setError(message);
+        }
+        else {
+            etFirstname.setError(null);
+        }
+    }
+
+    public void setLastNameError(boolean error, String message) {
+        if(error) {
+            etLastname.setError(message);
+        }
+        else {
+            etLastname.setError(null);
+        }
+    }
+
+    public void setEmailError(boolean error, String message) {
+        if(error) {
+            etEmail.setError(message);
+        }
+        else {
+            etEmail.setError(null);
+        }
+    }
+
+    public void setPasswError(boolean error, String message) {
+        if(error) {
+            etPassword.setError(message);
+        }
+        else {
+            etPassword.setError(null);
         }
     }
 
