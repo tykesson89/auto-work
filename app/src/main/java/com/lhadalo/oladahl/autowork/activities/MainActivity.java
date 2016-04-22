@@ -184,7 +184,6 @@ public class MainActivity extends AppCompatActivity
 
         workpassList = database.getAllWorkpasses();
 
-        Log.v(Tag.LOGTAG, workpassList.get(2).toString());
 
         if(workpassList != null) {
             adapter = new ListAdapter(this, workpassList);
