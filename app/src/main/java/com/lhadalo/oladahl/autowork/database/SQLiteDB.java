@@ -285,15 +285,20 @@ public class SQLiteDB extends SQLiteOpenHelper {
         String command = "SELECT * FROM " + WorkpassEntry.TABLE_NAME + " WHERE " + WorkpassEntry.WORKPASS_ID
                 + " = (SELECT MAX(" + WorkpassEntry.WORKPASS_ID + ") FROM " + WorkpassEntry.TABLE_NAME + ");";
 
-
-        Cursor c = this.getReadableDatabase().rawQuery(command, null);
-
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(command, null);
         c.moveToFirst();
-        return this.populateModelFromCursor(c);
+        Workpass model = populateModelFromCursor(c);
+
+        c.close();
+        db.close();
+
+        return model;
     }
 
     public List<Workpass> getWorkpassMonth(int month) {
-        Cursor cursor = this.getReadableDatabase().rawQuery("SELECT * FROM " + WorkpassEntry.TABLE_NAME
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + WorkpassEntry.TABLE_NAME
                 + " WHERE " + WorkpassEntry.MONTH + "=?", new String[]{String.valueOf(month)});
         List<Workpass> workpasses = new ArrayList<>();
 
@@ -304,6 +309,9 @@ public class SQLiteDB extends SQLiteOpenHelper {
             }
             return workpasses;
         }
+
+        cursor.close();
+        db.close();
 
         return workpasses;
     }

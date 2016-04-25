@@ -21,9 +21,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lhadalo.oladahl.autowork.DrawerListener;
 import com.lhadalo.oladahl.autowork.database.DatabaseContract;
 import com.lhadalo.oladahl.autowork.ListAdapter;
 import com.lhadalo.oladahl.autowork.R;
+import com.lhadalo.oladahl.autowork.database.FetchWorkpasses;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.fragments.MainFragment;
@@ -112,51 +114,8 @@ public class MainActivity extends AppCompatActivity
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                drawerLayout.closeDrawers();
-                switch (menuItem.getItemId()) {
-                    case R.id.drawer_jan:
-                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.JANUARY);
-                        return true;
-                    case R.id.drawer_feb:
-                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.FEBRUARY);
-                        return true;
-                    case R.id.drawer_mar:
-                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.MARCH);
-                        return true;
-                    case R.id.drawer_apr:
-                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.APRIL);
-                        return true;
-                    case R.id.drawer_may:
-                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.MAY);
-                        return true;
-                    case R.id.drawer_jun:
-                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.JUNE);
-                        return true;
-                    case R.id.drawer_jul:
-                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.JULY);
-                        return true;
-                    case R.id.drawer_aug:
-                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.AUGUST);
-                        return true;
-                    case R.id.drawer_sep:
-                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.SEPTEMBER);
-                        return true;
-                    case R.id.drawer_oct:
-                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.OCTOBER);
-                        return true;
-                    case R.id.drawer_nov:
-                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.NOVEMBER);
-                        return true;
-                    case R.id.drawer_dec:
-                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.DECEMBER);
-                        return true;
-                }
-                return false;
-            }
-        });
+        navigationView.setNavigationItemSelectedListener(new DrawerListener(this));
+
     }
 
     private void initFragment() {
@@ -177,6 +136,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    public void closeDrawer(){
+        drawerLayout.closeDrawers();
+    }
 
     public void onActionSettingsPressed() {
         Intent intent = new Intent(this, SettingsActivity.class);
@@ -335,6 +297,8 @@ public class MainActivity extends AppCompatActivity
                             if (database.deleteWorkpass(modelToDelete.getWorkpassID())) {
                                 workpassList.remove(listPosition);
                                 adapter.notifyDataSetChanged();
+                                getStatistics();
+
                                 Toast.makeText(MainActivity.this, "Workpass Deleted",
                                         Toast.LENGTH_SHORT).show();
                             }
@@ -369,6 +333,7 @@ public class MainActivity extends AppCompatActivity
 
         adapter = new ListAdapter(this, workpassList);
         fragment.setListAdapter(adapter);
+        getStatistics();
     }
 
     public void updateList(List<Workpass> workpasses) {
@@ -383,36 +348,6 @@ public class MainActivity extends AppCompatActivity
         adapter.notifyDataSetChanged();
 
         getStatistics();
-    }
-
-    private static class FetchWorkpasses extends AsyncTask<Integer, Void, List<Workpass>> {
-        private MainActivity activity;
-        int source;
-        private SQLiteDB db;
-
-        public static FetchWorkpasses newInstance(Context context, int source) {
-            return new FetchWorkpasses(context, source);
-        }
-
-        private FetchWorkpasses(Context context, int source) {
-            this.activity = (MainActivity) context;
-            this.source = source;
-            db = new SQLiteDB(context);
-        }
-
-        @Override
-        protected List<Workpass> doInBackground(Integer... integers) {
-            return db.getWorkpassMonth(integers[0]);
-        }
-
-        @Override
-        protected void onPostExecute(List<Workpass> workpasses) {
-            if (source == 1) {
-                activity.onCreateList(workpasses);
-            } else {
-                activity.updateList(workpasses);
-            }
-        }
     }
 }
 

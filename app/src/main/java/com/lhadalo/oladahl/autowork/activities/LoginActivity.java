@@ -248,7 +248,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                         objectOut = new ObjectOutputStream(socket.getOutputStream());
                         objectIn = new ObjectInputStream(socket.getInputStream());
 
-                        objectOut.writeObject(Tag.New_Password);
+                        objectOut.writeObject(Tag.NEW_PASSWORD);
                         objectOut.writeObject(str);
                         String response;
                         response = (String) objectIn.readObject();
