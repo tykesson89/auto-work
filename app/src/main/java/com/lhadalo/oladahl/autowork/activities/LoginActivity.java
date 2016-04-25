@@ -284,7 +284,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                 Toast.makeText(context, "Something went wrong",
                         Toast.LENGTH_SHORT).show();
             }else if(s.equals("Email sent")){
-                Toast.makeText(context, "Password Changed",
+                Toast.makeText(context, "Password Sent",
                         Toast.LENGTH_SHORT).show();
             }
         }
