@@ -261,7 +261,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                     }
 
                 } catch (Exception e) {
-                    return "Someting went wrong";
+                    return "Something went wrong";
                 }
             }else{
                 return "No Internet Connection";

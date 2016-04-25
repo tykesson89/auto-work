@@ -1,7 +1,9 @@
 package com.lhadalo.oladahl.autowork.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -41,12 +43,14 @@ import UserPackage.Workpass;
 public class MainActivity extends AppCompatActivity
         implements MainFragment.OnFragmentInteraction, ListAdapter.ItemClickListener {
     private MainFragment fragment;
-    private ArrayList<Long> ids = new ArrayList<>();
-    private int companyId;
-    private String nameCompany;
-    private SQLiteDB database = new SQLiteDB(this);
     private List<Workpass> workpassList;
+    private SQLiteDB database = new SQLiteDB(this);
+
     private ListAdapter adapter;
+    ActionBarDrawerToggle drawerToggle;
+
+    private boolean startUp = true;
+
 
     private Toolbar toolbar;
     private NavigationView navigationView;
@@ -57,22 +61,23 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         initFragment();
 
-        toolbar = (Toolbar)findViewById(R.id.toolbar_main);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
-        navigationView = (NavigationView)findViewById(R.id.navigation_view);
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
         //Får referens till header för att sätta namn och email på användare
         View headerLayout = navigationView.getHeaderView(0);
         User user = database.getUser();
-        TextView headerName = (TextView)headerLayout.findViewById(R.id.header_name);
-        TextView headerEmail = (TextView)headerLayout.findViewById(R.id.header_email);
+        TextView headerName = (TextView) headerLayout.findViewById(R.id.header_name);
+        TextView headerEmail = (TextView) headerLayout.findViewById(R.id.header_email);
 
         headerName.setText(String.format("%1$s %2$s", user.getFirstname(), user.getLastname()));
         headerEmail.setText(user.getEmail());
 
         //Får referens till inställningslayout
-        LinearLayout settingsLayout = (LinearLayout)navigationView.findViewById(R.id.settings_row);
+        LinearLayout settingsLayout = (LinearLayout) navigationView.findViewById(R.id.settings_row);
 
         //Sätter eventlistener till inställningslayout
         settingsLayout.setOnClickListener(new View.OnClickListener() {
@@ -83,85 +88,14 @@ public class MainActivity extends AppCompatActivity
         });
 
         //Hämtar textview i inställningslayout och sätter rätt text.
-        TextView txtSettings = (TextView)settingsLayout.getChildAt(0);
+        TextView txtSettings = (TextView) settingsLayout.getChildAt(0);
         txtSettings.setText("Settings");
 
-        ImageView imgSettings = (ImageView)settingsLayout.getChildAt(1);
+        ImageView imgSettings = (ImageView) settingsLayout.getChildAt(1);
         imgSettings.setImageDrawable(getResources().getDrawable(R.drawable.ic_settings_black_18dp));
 
-        //Får referens till logga ut-layout
-        LinearLayout logOutLayout = (LinearLayout)navigationView.findViewById(R.id.log_out_row);
-
-        //Sätter eventlistener till logga ut-layout
-        logOutLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        //Hämtar textview i logga ut-layout och sätter rätt text
-        TextView txtLogOut = (TextView)logOutLayout.getChildAt(0);
-        txtLogOut.setText("Log out");
-
-        ImageView imgLogOut = (ImageView)logOutLayout.getChildAt(1);
-        imgLogOut.setImageDrawable(getResources().getDrawable(R.drawable.ic_exit_to_app_black_18dp));
-
-
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                if(menuItem.isChecked()) {
-                    menuItem.setChecked(false);
-                }
-                else {
-                    menuItem.setChecked(true);
-                }
-
-                switch(menuItem.getItemId()) {
-                    case R.id.drawer_jan:
-                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[0], Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.drawer_feb:
-                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[1], Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.drawer_mar:
-                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[2], Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.drawer_apr:
-                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[3], Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.drawer_may:
-                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[4], Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.drawer_jun:
-                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[5], Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.drawer_jul:
-                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[6], Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.drawer_aug:
-                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[7], Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.drawer_sep:
-                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[8], Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.drawer_oct:
-                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[9], Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.drawer_nov:
-                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[10], Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.drawer_dec:
-                        Toast.makeText(getApplicationContext(), getResources().getStringArray(R.array.months)[11], Toast.LENGTH_SHORT).show();
-                        return true;
-                }
-                return false;
-            }
-        });
-
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_main);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_main);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.openDrawer, R.string.closeDrawer) {
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -179,14 +113,56 @@ public class MainActivity extends AppCompatActivity
             }
         };
 
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
 
-        workpassList = database.getAllWorkpasses();
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                //menuItem.setChecked(true);
 
-        if(workpassList != null) {
-            adapter = new ListAdapter(this, workpassList);
-        }
+                drawerLayout.closeDrawers();
+                switch (menuItem.getItemId()) {
+                    case R.id.drawer_jan:
+                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.JANUARY);
+                        return true;
+                    case R.id.drawer_feb:
+                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.FEBRUARY);
+                        return true;
+                    case R.id.drawer_mar:
+                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.MARCH);
+                        return true;
+                    case R.id.drawer_apr:
+                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.APRIL);
+                        return true;
+                    case R.id.drawer_may:
+                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.MAY);
+                        return true;
+                    case R.id.drawer_jun:
+                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.JUNE);
+                        return true;
+                    case R.id.drawer_jul:
+                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.JULY);
+                        return true;
+                    case R.id.drawer_aug:
+                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.AUGUST);
+                        return true;
+                    case R.id.drawer_sep:
+                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.SEPTEMBER);
+                        return true;
+                    case R.id.drawer_oct:
+                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.OCTOBER);
+                        return true;
+                    case R.id.drawer_nov:
+                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.NOVEMBER);
+                        return true;
+                    case R.id.drawer_dec:
+                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.DECEMBER);
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void initFragment() {
@@ -201,25 +177,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        SQLiteDB sqLiteDB = new SQLiteDB(this);
         Calendar cal = Calendar.getInstance();
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
 
-        getMonthSalary(month);
-        getHours(month);
-        getNextPassHour(month);
-        getNextPassSalary(month);
+        //Hämtar arbetspass baserat på månad.
+        FetchWorkpasses.newInstance(this, month, day).execute(cal.get(Calendar.MONTH));
 
-
-        /*if(sqLiteDB.haveWorkpass()== true) {
-            getDate(month, day);
-        }*/
-
-        if(workpassList != null) {
-            fragment.setListAdapter(adapter);
-        }
     }
 
 
@@ -249,16 +214,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch(id) {
+        switch (id) {
             case R.id.action_log_out:
                 onActionLogOutPressed();
                 break;
             case R.id.test:
-                List<Workpass> april = database.getWorkpassMonth(Calendar.APRIL);
-
-                for(Workpass pass : april){
-                    Log.v(Tag.LOGTAG, pass.toString());
-                }
 
                 break;
         }
@@ -279,7 +239,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
     public void onActionAddWorkpassPressed() {
         Intent intent = new Intent(this, AddWorkpassActivity.class);
         intent.putExtra(Tag.REQUEST_CODE, Tag.ADD_WORKPASS_REQUEST);
@@ -294,16 +253,15 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK) {
-            if(requestCode == Tag.ADD_WORKPASS_REQUEST) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == Tag.ADD_WORKPASS_REQUEST) {
                 Workpass lastAdded = database.getLastAddedWorkpass();
                 workpassList.add(lastAdded);
 
                 adapter.notifyDataSetChanged();
-            }
-            else if(requestCode == Tag.UPDATE_WORKPASS_REQUEST){
+            } else if (requestCode == Tag.UPDATE_WORKPASS_REQUEST) {
                 int listPosition = data.getIntExtra(Tag.LIST_POSITION, -1);
-                if(listPosition != -1){
+                if (listPosition != -1) {
                     long workpassId = workpassList.get(listPosition).getWorkpassID();
                     Workpass changedModel = database.getWorkpass(workpassId);
                     workpassList.set(listPosition, changedModel);
@@ -313,133 +271,38 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void getMonthSalary(int month) {
-        database = new SQLiteDB(MainActivity.this);
+    private void getStatistics() {
+        Workpass nextPass = null;
+        double salary = 0, hours = 0;
 
-        //ArrayList<Workpass> workpasses;
-        //workpasses = database.getSalaryAndDate();
+        int today = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        for (Workpass workpass : workpassList) {
+            salary += workpass.getSalary();
+            hours += workpass.getWorkingHours();
+        }
 
-        double salary = 0;
+        fragment.setTextTvSalary(String.valueOf(salary));
+        fragment.setTextTvHours(String.valueOf(hours));
 
-        ArrayList<Workpass> list = new ArrayList<Workpass>();
-
-        for(int i = 0; i < workpassList.size(); i++) {
-            int modelMonth = workpassList.get(i).getEndDateTime().get(Calendar.MONTH);
-            if(modelMonth == month) {
-                list.add(workpassList.get(i));
+        List<Workpass> allWorkpasses = database.getAllWorkpasses();
+        boolean noNextPass = true;
+        for (int i = 0; i < allWorkpasses.size() && noNextPass; i++) {
+            if (allWorkpasses.get(i).getStartDateTime().get(Calendar.DAY_OF_MONTH) >= today) {
+                nextPass = allWorkpasses.get(i);
+                noNextPass = false;
             }
         }
-        for(int i = 0; i < list.size(); i++) {
-            salary += list.get(i).getSalary();
+
+        if (nextPass != null) {
+            fragment.setTextTvSalaryPass(String.valueOf(nextPass.getSalary()) + " Kr");
+            fragment.setTextTvHoursPass(String.valueOf(nextPass.getWorkingHours()) + " h");
+            fragment.setTextTvNextPass("Next pass: " + formatCalendarToString(nextPass.getStartDateTime()));
         }
-        String sal = String.valueOf(salary);
-        fragment.setTextTvSalary(sal + " Kr ");
-    }
-
-    public void getHours(int month) {
-        database = new SQLiteDB(MainActivity.this);
-
-        //ArrayList<Workpass> workpasses;
-        //workpasses = database.getHours();
-
-
-        double hours = 0;
-
-        ArrayList<Workpass> list = new ArrayList<Workpass>();
-
-        for(int i = 0; i < workpassList.size(); i++) {
-            int modelMonth = workpassList.get(i).getEndDateTime().get(Calendar.MONTH);
-            if(modelMonth == month) {
-                list.add(workpassList.get(i));
-            }
-
+        else{
+            fragment.setTextTvSalaryPass("0.0 Kr");
+            fragment.setTextTvHoursPass("0.0 h");
+            fragment.setTextTvNextPass("Next pass:");
         }
-        for(int i = 0; i < list.size(); i++) {
-            hours += list.get(i).getWorkingHours();
-
-        }
-        String sal = String.valueOf(hours);
-        fragment.setTextTvHours(sal + " h ");
-    }
-
-    public void getNextPassHour(int month) {
-        database = new SQLiteDB(MainActivity.this);
-
-        //ArrayList<Workpass> workpasses;
-        //workpasses = database.getNextPassHour();
-
-
-        double hours = 0;
-
-        ArrayList<Workpass> list = new ArrayList<Workpass>();
-
-        for(int i = 0; i < workpassList.size(); i++) {
-
-            int modelMonth = workpassList.get(i).getEndDateTime().get(Calendar.MONTH);
-            if(modelMonth == month) {
-                list.add(workpassList.get(i));
-            }
-        }
-        for(int i = 0; i < list.size(); i++) {
-            hours = list.get(i).getWorkingHours();
-
-        }
-        String sal = String.valueOf(hours);
-        fragment.setTextTvHoursPass(sal + " h ");
-    }
-
-    public void getNextPassSalary(int month) {
-        database = new SQLiteDB(MainActivity.this);
-
-        //ArrayList<Workpass> workpasses;
-        //workpasses = database.getNextPassSalary();
-
-
-        double salary = 0;
-
-        ArrayList<Workpass> list = new ArrayList<Workpass>();
-
-        for(int i = 0; i < workpassList.size(); i++) {
-
-            int modelMonth = workpassList.get(i).getEndDateTime().get(Calendar.MONTH);
-            if(modelMonth == month) {
-                list.add(workpassList.get(i));
-            }
-        }
-        for(int i = 0; i < list.size(); i++) {
-            salary = list.get(i).getSalary();
-
-        }
-        String sal = String.valueOf(salary);
-        fragment.setTextTvSalaryPass(sal + " Kr ");
-    }
-
-    public void getDate(int month, int day) {
-        database = new SQLiteDB(MainActivity.this);
-
-        //ArrayList<Workpass> workpasses;
-        //workpasses = database.showDate();
-
-        GregorianCalendar startTime = null;
-
-        ArrayList<Workpass> list = new ArrayList<Workpass>();
-
-        for(int i = 0; i < workpassList.size(); i++) {
-
-            int modelMonth = workpassList.get(i).getStartDateTime().get(Calendar.MONTH);
-            int modelDay = workpassList.get(i).getStartDateTime().get(Calendar.DAY_OF_MONTH);
-            int modelHour = workpassList.get(i).getStartDateTime().get(Calendar.HOUR);
-            if(modelMonth == month && modelDay == day ) {
-                list.add(workpassList.get(i));
-            }
-
-        }
-        for(int i = 0; i < list.size(); i++) {
-            startTime = list.get(i).getStartDateTime();
-        }
-
-        String strStartTime = formatCalendarToString(startTime);
-        fragment.setTextTvNextPass(" Next pass: " + strStartTime);
     }
 
     private String formatCalendarToString(GregorianCalendar cal) {
@@ -481,8 +344,8 @@ public class MainActivity extends AppCompatActivity
         optionDialog.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int position) {
-                if(source == 1) {
-                    switch(position) {
+                if (source == 1) {
+                    switch (position) {
                         case 0:
                             onButtonClickTry();
                             break;
@@ -490,14 +353,13 @@ public class MainActivity extends AppCompatActivity
                             onActionAddWorkpassPressed();
                             break;
                     }
-                }
-                else if(source == 2) {
-                    switch(position) {
+                } else if (source == 2) {
+                    switch (position) {
                         case 0:
 
                             Workpass modelToDelete = workpassList.get(listPosition);
 
-                            if(database.deleteWorkpass(modelToDelete.getWorkpassID())) {
+                            if (database.deleteWorkpass(modelToDelete.getWorkpassID())) {
                                 workpassList.remove(listPosition);
                                 adapter.notifyDataSetChanged();
                                 Toast.makeText(MainActivity.this, "Workpass Deleted",
@@ -524,6 +386,63 @@ public class MainActivity extends AppCompatActivity
         });
 
         optionDialog.show();
+    }
+
+    public void updateList(List<Workpass> workpasses, int month, int day) {
+        if (startUp) {
+            this.workpassList = workpasses;
+
+            if (workpassList != null) {
+                adapter = new ListAdapter(this, workpassList);
+            }
+
+            //Sätter adapter till listan
+            if (workpassList != null) {
+                fragment.setListAdapter(adapter);
+            }
+
+
+            startUp = false;
+        } else {
+            workpassList.clear();
+
+            if (workpasses != null) {
+                workpassList.addAll(workpasses);
+            } else {
+                Toast.makeText(MainActivity.this, "Inga pass hittades", Toast.LENGTH_SHORT).show();
+            }
+
+            adapter.notifyDataSetChanged();
+        }
+
+        getStatistics();
+    }
+
+    private static class FetchWorkpasses extends AsyncTask<Integer, Void, List<Workpass>> {
+        private MainActivity activity;
+        private int month, day;
+        private SQLiteDB db;
+
+        public static FetchWorkpasses newInstance(Context context, int month, int day) {
+            return new FetchWorkpasses(context, month, day);
+        }
+
+        private FetchWorkpasses(Context context, int month, int day) {
+            this.activity = (MainActivity) context;
+            this.month = month;
+            this.day = day;
+            db = new SQLiteDB(context);
+        }
+
+        @Override
+        protected List<Workpass> doInBackground(Integer... integers) {
+            return db.getWorkpassMonth(integers[0]);
+        }
+
+        @Override
+        protected void onPostExecute(List<Workpass> workpasses) {
+            activity.updateList(workpasses, month, day);
+        }
     }
 }
 

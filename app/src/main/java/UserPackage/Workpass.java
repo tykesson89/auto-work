@@ -1,6 +1,7 @@
 package UserPackage;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
@@ -32,8 +33,8 @@ public class Workpass implements Serializable{
                 ", title='" + title + '\'' +
                 ", companyId=" + companyId +
                 ", companyServerID=" + companyServerID +
-                ", startDateTime=" + startDateTime +
-                ", endDateTime=" + endDateTime +
+                ", startDateTime=" + startDateTime.get(Calendar.DATE) +
+                ", endDateTime=" + endDateTime.get(Calendar.DATE) +
                 ", breaktime=" + breaktime +
                 ", salary=" + salary +
                 ", note='" + note + '\'' +

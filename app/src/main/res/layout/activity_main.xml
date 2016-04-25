@@ -53,9 +53,6 @@
                 android:id="@+id/settings_row"
                 layout="@layout/settings_row"/>
 
-            <include
-                android:id="@+id/log_out_row"
-                layout="@layout/settings_row"/>
         </LinearLayout>
 
     </android.support.design.widget.NavigationView>

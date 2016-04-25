@@ -69,11 +69,6 @@
             android:enabled="false"
             android:orderInCategory="200"/>
 
-        <item
-            android:title=""
-            android:enabled="false"
-            android:orderInCategory="200"/>
-
     </group>
 
 
