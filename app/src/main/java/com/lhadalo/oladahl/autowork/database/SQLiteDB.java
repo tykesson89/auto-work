@@ -370,7 +370,6 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
         model.setUserId(c.getColumnIndex(WorkpassEntry.USER_ID));
 
-
         model.setCompanyID(c.getLong(c.getColumnIndex(WorkpassEntry.COMPANY_ID)));
 
         model.setTitle(c.getString(c.getColumnIndex(WorkpassEntry.TITLE)));

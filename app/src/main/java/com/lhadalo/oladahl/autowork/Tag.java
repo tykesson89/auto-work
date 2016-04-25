@@ -24,6 +24,10 @@ public class Tag {
     public static final String LIST_POSITION = "listposition";
     public static final int ADD_WORKPASS_REQUEST = 1000;
     public static final int UPDATE_WORKPASS_REQUEST = 2000;
+    public static final int ON_CREATE_LIST = 1;
+    public static final int ON_UPDATE_LIST = 2;
+
+
 
 
     public static final String LOGTAG = "com.lhadalo.tagvalue";

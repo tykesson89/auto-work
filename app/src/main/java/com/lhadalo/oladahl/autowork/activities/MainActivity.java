@@ -49,9 +49,6 @@ public class MainActivity extends AppCompatActivity
     private ListAdapter adapter;
     ActionBarDrawerToggle drawerToggle;
 
-    private boolean startUp;
-
-
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
@@ -60,9 +57,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initFragment();
-
-
-        startUp = true;
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
@@ -180,10 +174,9 @@ public class MainActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
 
-        Calendar cal = Calendar.getInstance();
+        //Hämtar arbetspass baserat på vilken månad det är.
+        FetchWorkpasses.newInstance(this, 1).execute(Calendar.getInstance().get(Calendar.MONTH));
 
-        //Hämtar arbetspass baserat på månad.
-        FetchWorkpasses.newInstance(this, 1).execute(cal.get(Calendar.MONTH));
     }
 
 
@@ -221,21 +214,17 @@ public class MainActivity extends AppCompatActivity
 
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     public void onButtonClickTry() {
-
         Intent a = new Intent(MainActivity.this, AddCompanyActivity.class);
         startActivity(a);
-
     }
 
     public void onActionLaunchTestActivityPressed() {
         Intent intent = new Intent(this, TestActivity.class);
         startActivity(intent);
-
     }
 
     public void onActionAddWorkpassPressed() {
@@ -260,15 +249,13 @@ public class MainActivity extends AppCompatActivity
                         Workpass lastAdded = database.getLastAddedWorkpass();
                         workpassList.add(lastAdded);
                         adapter.notifyDataSetChanged();
+                        getStatistics();
                     }
                 }
             } else if (requestCode == Tag.UPDATE_WORKPASS_REQUEST) {
                 int listPosition = data.getIntExtra(Tag.LIST_POSITION, -1);
                 if (listPosition != -1) {
-                    long workpassId = workpassList.get(listPosition).getWorkpassID();
-                    Workpass changedModel = database.getWorkpass(workpassId);
-                    workpassList.set(listPosition, changedModel);
-                    adapter.notifyDataSetChanged();
+                    FetchWorkpasses.newInstance(this, Tag.ON_UPDATE_LIST); //Känns lite dumt att hämta allt på nytt, får ändra sedan.
                 }
             }
         }
@@ -384,27 +371,18 @@ public class MainActivity extends AppCompatActivity
 
         adapter = new ListAdapter(this, workpassList);
         fragment.setListAdapter(adapter);
-
-        getStatistics();
     }
 
     public void updateList(List<Workpass> workpasses) {
-        if (startUp) {
-            this.workpassList = workpasses;
-            startUp = false;
+        workpassList.clear();
 
+        if (workpasses != null) {
+            workpassList.addAll(workpasses);
         } else {
-
-            workpassList.clear();
-
-            if (workpasses != null) {
-                workpassList.addAll(workpasses);
-            } else {
-                Toast.makeText(MainActivity.this, "Inga pass hittades", Toast.LENGTH_SHORT).show();
-            }
-
-            adapter.notifyDataSetChanged();
+            Toast.makeText(MainActivity.this, "Inga pass hittades", Toast.LENGTH_SHORT).show();
         }
+
+        adapter.notifyDataSetChanged();
 
         getStatistics();
     }
