@@ -1,6 +1,6 @@
 package com.lhadalo.oladahl.autowork.database;
 
-import com.lhadalo.oladahl.autowork.database.DatabaseContract.BufferEntry;
+
 
 import com.lhadalo.oladahl.autowork.database.DatabaseContract.UserEntry;
 import com.lhadalo.oladahl.autowork.database.DatabaseContract.CompanyEntry;
@@ -56,21 +56,6 @@ public class SQLiteCommand {
                     + CompanyEntry.ACTION_TAG + TEXT_TYPE
                     + ");";
 
-    public static final String DB_CREATE_BUFFER_TABLE =
-            "CREATE TABLE if not exists " + BufferEntry.TABLE_NAME + " ("
-                    + BufferEntry.WORKPASS_ID + " INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT" + COMMA_SEP
-                    + BufferEntry.COLUMN_USER_ID + INT_TYPE + COMMA_SEP
-                    + BufferEntry.COLUMN_TITLE + TEXT_TYPE + COMMA_SEP
-                    + BufferEntry.COLUMN_WORKPLACE_ID + TEXT_TYPE + COMMA_SEP
-                    + BufferEntry.COLUMN_START_DATE_TIME + TEXT_TYPE + COMMA_SEP
-                    + BufferEntry.COLUMN_END_DATE_TIME + TEXT_TYPE + COMMA_SEP
-                    + BufferEntry.COLUMN_SALARY + REAL_TYPE + COMMA_SEP
-                    + BufferEntry.COLUMN_BRAKE_TIME + REAL_TYPE + COMMA_SEP
-                    + BufferEntry.COLUMN_HOURS + REAL_TYPE + COMMA_SEP
-                    + BufferEntry.COLUMN_COMPANY_ID + INT_TYPE + COMMA_SEP
-                    + BufferEntry.COLUMN_COMPANY_NAME + TEXT_TYPE + COMMA_SEP
-                    + BufferEntry.COLUMN_HOURLY_WAGE + REAL_TYPE + COMMA_SEP
-                    + BufferEntry.COLUMN_TAG + TEXT_TYPE + COMMA_SEP
-                    + BufferEntry.COLUMN_NOTE + TEXT_TYPE + ");";
+
 
 }

@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import UserPackage.Company;
 import UserPackage.User;
 
-import com.lhadalo.oladahl.autowork.database.BufferDatabase;
 import com.lhadalo.oladahl.autowork.InternetService;
 import com.lhadalo.oladahl.autowork.InternetSettingsActivity;
 import com.lhadalo.oladahl.autowork.R;
@@ -45,8 +44,6 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         super.onCreate(savedInstanceState);
         SQLiteDB sqLiteDB = new SQLiteDB(this);
         sqLiteDB.getWritableDatabase();
-        BufferDatabase bufferDatabase = new BufferDatabase(this);
-        bufferDatabase.getWritableDatabase();
         Intent service = new Intent(this, InternetService.class);
         startService(service);
 
@@ -284,7 +281,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                 Toast.makeText(context, "Something went wrong",
                         Toast.LENGTH_SHORT).show();
             }else if(s.equals("Email sent")){
-                Toast.makeText(context, "Password Changed",
+                Toast.makeText(context, "Password Sent",
                         Toast.LENGTH_SHORT).show();
             }
         }
