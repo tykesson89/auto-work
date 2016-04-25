@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity
         initFragment();
 
 
-
         startUp = true;
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
@@ -185,11 +184,6 @@ public class MainActivity extends AppCompatActivity
 
         //Hämtar arbetspass baserat på månad.
         FetchWorkpasses.newInstance(this, 1).execute(cal.get(Calendar.MONTH));
-
-        //Sätter adapter till listan
-        if (workpassList != null) {
-
-        }
     }
 
 
@@ -260,10 +254,14 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == Tag.ADD_WORKPASS_REQUEST) {
-                Workpass lastAdded = database.getLastAddedWorkpass();
-                workpassList.add(lastAdded);
-
-                adapter.notifyDataSetChanged();
+                int month = data.getIntExtra(DatabaseContract.WorkpassEntry.MONTH, -1);
+                if (month != -1) {
+                    if (month == Calendar.getInstance().get(Calendar.MONTH)) {
+                        Workpass lastAdded = database.getLastAddedWorkpass();
+                        workpassList.add(lastAdded);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
             } else if (requestCode == Tag.UPDATE_WORKPASS_REQUEST) {
                 int listPosition = data.getIntExtra(Tag.LIST_POSITION, -1);
                 if (listPosition != -1) {

@@ -222,6 +222,7 @@ public class AddWorkpassActivity extends AppCompatActivity
                 model.setWorkpassID(id);
 
                 Intent data = new Intent();
+                data.putExtra(WorkpassEntry.MONTH, model.getStartDateTime().get(Calendar.MONTH));
                 data.putExtra(WorkpassEntry.WORKPASS_ID, id);
 
 
