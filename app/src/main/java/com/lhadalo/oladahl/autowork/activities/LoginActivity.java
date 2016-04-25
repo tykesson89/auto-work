@@ -19,16 +19,15 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
-import java.util.concurrent.Exchanger;
 
 import UserPackage.Company;
 import UserPackage.User;
 
-import com.lhadalo.oladahl.autowork.BufferDatabase;
+import com.lhadalo.oladahl.autowork.database.BufferDatabase;
 import com.lhadalo.oladahl.autowork.InternetService;
 import com.lhadalo.oladahl.autowork.InternetSettingsActivity;
 import com.lhadalo.oladahl.autowork.R;
-import com.lhadalo.oladahl.autowork.SQLiteDB;
+import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
 import UserPackage.Workpass;
 import com.lhadalo.oladahl.autowork.fragments.LoginFragment;

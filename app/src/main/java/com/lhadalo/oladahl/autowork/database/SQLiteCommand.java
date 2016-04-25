@@ -1,12 +1,10 @@
-package com.lhadalo.oladahl.autowork;
+package com.lhadalo.oladahl.autowork.database;
 
-import com.lhadalo.oladahl.autowork.DatabaseContract.BufferEntry;
+import com.lhadalo.oladahl.autowork.database.DatabaseContract.BufferEntry;
 
-import com.lhadalo.oladahl.autowork.DatabaseContract.UserEntry;
-import com.lhadalo.oladahl.autowork.DatabaseContract.CompanyEntry;
-import com.lhadalo.oladahl.autowork.DatabaseContract.WorkpassEntry;
-
-import UserPackage.Workpass;
+import com.lhadalo.oladahl.autowork.database.DatabaseContract.UserEntry;
+import com.lhadalo.oladahl.autowork.database.DatabaseContract.CompanyEntry;
+import com.lhadalo.oladahl.autowork.database.DatabaseContract.WorkpassEntry;
 
 /**
  * Created by oladahl on 16-03-26.
@@ -34,12 +32,13 @@ public class SQLiteCommand {
                     + WorkpassEntry.SALARY + REAL_TYPE + COMMA_SEP
                     + WorkpassEntry.NOTE + TEXT_TYPE + COMMA_SEP
                     + WorkpassEntry.IS_SYNCED + INT_TYPE + COMMA_SEP
-                    + WorkpassEntry.ACTION_TAG + TEXT_TYPE
+                    + WorkpassEntry.ACTION_TAG + TEXT_TYPE + COMMA_SEP
+                    + WorkpassEntry.MONTH + INT_TYPE
                     + ");";
 
     public static final String DB_CREATE_USER_TABLE =
             "create table if not exists " + UserEntry.TABLE_NAME + " ("
-                    + UserEntry.USER_ID + " INTEGER UNIQUE PRIMARY KEY" + COMMA_SEP
+                    + UserEntry.USER_ID + PRIMARY_KEY + COMMA_SEP
                     + UserEntry.EMAIL + TEXT_TYPE + NOT_NULL + COMMA_SEP
                     + UserEntry.FIRST_NAME + TEXT_TYPE + NOT_NULL + COMMA_SEP
                     + UserEntry.LAST_NAME + TEXT_TYPE + NOT_NULL
@@ -48,7 +47,7 @@ public class SQLiteCommand {
 
     public static final String DB_CREATE_COMPANY_TABLE =
             "create table if not exists " + CompanyEntry.TABLE_NAME + " ("
-                    + CompanyEntry.COMPANY_ID + " INTEGER UNIQUE PRIMARY KEY AUTOINCREMENT" + COMMA_SEP
+                    + CompanyEntry.COMPANY_ID + PRIMARY_KEY + COMMA_SEP
                     + CompanyEntry.COMPANY_MY_SQL_ID + INT_TYPE + COMMA_SEP
                     + CompanyEntry.USER_ID + INT_TYPE + NOT_NULL + COMMA_SEP
                     + CompanyEntry.COMPANY_NAME + TEXT_TYPE + NOT_NULL + COMMA_SEP

@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.lhadalo.oladahl.autowork.ListAdapter;
 import com.lhadalo.oladahl.autowork.R;
-import com.lhadalo.oladahl.autowork.SQLiteDB;
+import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 
 import java.util.List;
 

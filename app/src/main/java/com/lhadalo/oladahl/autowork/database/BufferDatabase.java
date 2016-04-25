@@ -1,4 +1,4 @@
-package com.lhadalo.oladahl.autowork;
+package com.lhadalo.oladahl.autowork.database;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -10,7 +10,7 @@ import java.util.Stack;
 
 import UserPackage.BufferModel;
 
-import com.lhadalo.oladahl.autowork.DatabaseContract.BufferEntry;
+import com.lhadalo.oladahl.autowork.database.DatabaseContract.BufferEntry;
 
 /**
  * Created by Henrik on 2016-04-05.

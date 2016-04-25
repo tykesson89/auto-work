@@ -14,10 +14,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.lhadalo.oladahl.autowork.R;
-import com.lhadalo.oladahl.autowork.SQLiteDB;
+import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 
 import java.util.ArrayList;
 import java.util.List;

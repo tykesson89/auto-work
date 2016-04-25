@@ -1,4 +1,4 @@
-package com.lhadalo.oladahl.autowork;
+package com.lhadalo.oladahl.autowork.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 
+import java.util.Calendar;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,9 +21,10 @@ import UserPackage.Company;
 import UserPackage.User;
 import UserPackage.Workpass;
 
-import com.lhadalo.oladahl.autowork.DatabaseContract.WorkpassEntry;
-import com.lhadalo.oladahl.autowork.DatabaseContract.UserEntry;
-import com.lhadalo.oladahl.autowork.DatabaseContract.CompanyEntry;
+import com.lhadalo.oladahl.autowork.database.DatabaseContract.WorkpassEntry;
+import com.lhadalo.oladahl.autowork.database.DatabaseContract.UserEntry;
+import com.lhadalo.oladahl.autowork.database.DatabaseContract.CompanyEntry;
+import com.lhadalo.oladahl.autowork.database.SQLiteCommand;
 
 /**
  * Created by Henrik on 2016-02-29.
@@ -222,7 +224,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
     }
 
-    public void changeCompany(Company company){
+    public void changeCompany(Company company) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -290,6 +292,22 @@ public class SQLiteDB extends SQLiteOpenHelper {
         return this.populateModelFromCursor(c);
     }
 
+    public List<Workpass> getWorkpassMonth(int month) {
+        Cursor cursor = this.getReadableDatabase().rawQuery("SELECT * FROM " + WorkpassEntry.TABLE_NAME
+                + " WHERE " + WorkpassEntry.MONTH + "=?", new String[]{String.valueOf(month)});
+        List<Workpass> workpasses = new ArrayList<>();
+
+        if (cursor.getCount() != 0) {
+            while (cursor.moveToNext()) {
+                Workpass model = populateModelFromCursor(cursor);
+                workpasses.add(model);
+            }
+            return workpasses;
+        }
+
+        return null;
+    }
+
     public boolean deleteWorkpass(long id) {
         int result = this.getWritableDatabase().delete(WorkpassEntry.TABLE_NAME,
                 WorkpassEntry.WORKPASS_ID + "=?", new String[]{String.valueOf(id)});
@@ -336,6 +354,8 @@ public class SQLiteDB extends SQLiteOpenHelper {
         values.put(WorkpassEntry.IS_SYNCED, model.getIsSynced());
 
         values.put(WorkpassEntry.ACTION_TAG, model.getActionTag());
+
+        values.put(WorkpassEntry.MONTH, model.getStartDateTime().get(Calendar.MONTH));
 
         return values;
     }

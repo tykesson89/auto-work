@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.lhadalo.oladahl.autowork.R;
-import com.lhadalo.oladahl.autowork.SQLiteDB;
+import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.fragments.ChangePasswordFragment;
 

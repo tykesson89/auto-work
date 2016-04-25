@@ -1,29 +1,18 @@
 package com.lhadalo.oladahl.autowork.activities;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import UserPackage.User;
 
 import com.lhadalo.oladahl.autowork.R;
-import com.lhadalo.oladahl.autowork.SQLiteDB;
+import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.fragments.SettingsFragment;
 

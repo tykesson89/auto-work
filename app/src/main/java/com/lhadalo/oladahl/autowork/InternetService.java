@@ -8,6 +8,9 @@ import android.net.NetworkInfo;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import com.lhadalo.oladahl.autowork.database.BufferDatabase;
+import com.lhadalo.oladahl.autowork.database.SQLiteDB;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;

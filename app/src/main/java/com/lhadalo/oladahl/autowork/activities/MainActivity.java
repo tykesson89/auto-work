@@ -19,10 +19,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lhadalo.oladahl.autowork.DatabaseContract;
+import com.lhadalo.oladahl.autowork.database.DatabaseContract;
 import com.lhadalo.oladahl.autowork.ListAdapter;
 import com.lhadalo.oladahl.autowork.R;
-import com.lhadalo.oladahl.autowork.SQLiteDB;
+import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.fragments.MainFragment;
 
@@ -184,7 +184,6 @@ public class MainActivity extends AppCompatActivity
 
         workpassList = database.getAllWorkpasses();
 
-
         if(workpassList != null) {
             adapter = new ListAdapter(this, workpassList);
         }
@@ -255,10 +254,12 @@ public class MainActivity extends AppCompatActivity
                 onActionLogOutPressed();
                 break;
             case R.id.test:
-                List<Workpass> testList = database.getAllWorkpasses();
-                for(Workpass m : testList){
-                    Log.v(Tag.LOGTAG, m.toString());
+                List<Workpass> april = database.getWorkpassMonth(Calendar.APRIL);
+
+                for(Workpass pass : april){
+                    Log.v(Tag.LOGTAG, pass.toString());
                 }
+
                 break;
         }
 

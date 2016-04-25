@@ -1,4 +1,4 @@
-package com.lhadalo.oladahl.autowork;
+package com.lhadalo.oladahl.autowork.database;
 
 import android.provider.BaseColumns;
 
@@ -42,6 +42,7 @@ public class DatabaseContract {
         public static final String NOTE = "note";
         public static final String IS_SYNCED = "IS_SYNCED";
         public static final String ACTION_TAG = "ACTION_TAG";
+        public static final String MONTH = "month";
     }
 
     public static abstract class BufferEntry implements BaseColumns{
