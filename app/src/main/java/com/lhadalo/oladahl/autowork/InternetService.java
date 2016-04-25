@@ -8,19 +8,13 @@ import android.net.NetworkInfo;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-import com.lhadalo.oladahl.autowork.database.BufferDatabase;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import UserPackage.BufferModel;
-import UserPackage.Company;
-import UserPackage.Workpass;
 
 
 /**
@@ -29,7 +23,7 @@ import UserPackage.Workpass;
 public class InternetService extends Service {
     private Timer timer;
     private Context context = InternetService.this;
-    private Stack<BufferModel> models;
+
 
 
     @Nullable
@@ -58,15 +52,8 @@ public class InternetService extends Service {
         @Override
         public void run() {
             if (isConnected(context) == true) {
-                BufferDatabase bufferDatabase = new BufferDatabase(context);
-                if (bufferDatabase.isEmpty() == false) {
-                    models = bufferDatabase.getAllFromBuffer();
-                    while(!models.isEmpty()){
-                        new InternetConnection(models.pop());
-                    }
-                } else {
-                    // TODO: 2016-04-05 Lägga till vad som ska hända om databasen är tom. 
-                }
+
+
             } else {
                 // TODO: 2016-04-05 Vad ska hända om applikationen inte har internetuppkoppling. 
             }
@@ -92,11 +79,9 @@ public class InternetService extends Service {
         private Socket socket;
         private ObjectInputStream objectIn;
         private ObjectOutputStream objectOut;
-        private BufferModel bufferModel;
-        private Object response;
+
         
-        public InternetConnection(BufferModel bufferModel){
-            this.bufferModel = bufferModel;
+        public InternetConnection(){
             Thread thread = new Thread();
             try {
                 socket = new Socket(Tag.IP, Tag.PORT);
@@ -111,23 +96,7 @@ public class InternetService extends Service {
         @Override
         public void run() {
             SQLiteDB sqLiteDB = new SQLiteDB(context);
-                try{
-                    objectOut.writeObject(bufferModel.getTag());
-                    objectOut.writeObject(bufferModel);
 
-                response = objectIn.readObject();
-                    if(response instanceof Company){
-                        Company company = (Company)response;
-                      sqLiteDB.addCompany(company);
-                    }else if(response instanceof Workpass){
-                        Workpass workpass = (Workpass)response;
-                        sqLiteDB.addWorkpass(workpass);
-                    }
-
-
-                }catch (Exception e){
-
-                }
 
             // TODO: 2016-04-05 Lägga till vad som ska hända i tråden.  
             
