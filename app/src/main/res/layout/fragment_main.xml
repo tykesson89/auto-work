@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/textView2"
-            android:text="5000"
+            android:text="Hej"
             android:id="@+id/tvSalary"
             android:layout_below="@+id/textView2"
             android:layout_marginBottom="@dimen/activity_horizontal_margin"/>
@@ -93,7 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/rrr"
-            android:text="429 kr"
+            android:text="Hej"
             android:id="@+id/tvSalaryPass"
             android:layout_below="@+id/rrr"/>
 
@@ -114,8 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:text="37h"
-
+            android:text="Hej"
             android:layout_below="@+id/textView4"
             android:layout_alignLeft="@id/textView4"/>
 
@@ -134,7 +133,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:text="3 h"
+            android:text="Hej"
             android:id="@+id/tvHoursPass"
             android:layout_alignLeft="@+id/textView10"
             android:layout_alignStart="@+id/textView10"

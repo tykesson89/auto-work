@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity
     private ListAdapter adapter;
     ActionBarDrawerToggle drawerToggle;
 
-    private boolean startUp = true;
+    private boolean startUp;
 
 
     private Toolbar toolbar;
@@ -61,6 +61,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         initFragment();
 
+
+
+        startUp = true;
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
@@ -124,40 +127,40 @@ public class MainActivity extends AppCompatActivity
                 drawerLayout.closeDrawers();
                 switch (menuItem.getItemId()) {
                     case R.id.drawer_jan:
-                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.JANUARY);
+                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.JANUARY);
                         return true;
                     case R.id.drawer_feb:
-                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.FEBRUARY);
+                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.FEBRUARY);
                         return true;
                     case R.id.drawer_mar:
-                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.MARCH);
+                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.MARCH);
                         return true;
                     case R.id.drawer_apr:
-                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.APRIL);
+                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.APRIL);
                         return true;
                     case R.id.drawer_may:
-                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.MAY);
+                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.MAY);
                         return true;
                     case R.id.drawer_jun:
-                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.JUNE);
+                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.JUNE);
                         return true;
                     case R.id.drawer_jul:
-                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.JULY);
+                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.JULY);
                         return true;
                     case R.id.drawer_aug:
-                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.AUGUST);
+                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.AUGUST);
                         return true;
                     case R.id.drawer_sep:
-                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.SEPTEMBER);
+                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.SEPTEMBER);
                         return true;
                     case R.id.drawer_oct:
-                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.OCTOBER);
+                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.OCTOBER);
                         return true;
                     case R.id.drawer_nov:
-                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.NOVEMBER);
+                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.NOVEMBER);
                         return true;
                     case R.id.drawer_dec:
-                        FetchWorkpasses.newInstance(MainActivity.this, 0, 0).execute(Calendar.DECEMBER);
+                        FetchWorkpasses.newInstance(MainActivity.this, 2).execute(Calendar.DECEMBER);
                         return true;
                 }
                 return false;
@@ -177,14 +180,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        Calendar cal = Calendar.getInstance();
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
 
+        Calendar cal = Calendar.getInstance();
 
         //Hämtar arbetspass baserat på månad.
-        FetchWorkpasses.newInstance(this, month, day).execute(cal.get(Calendar.MONTH));
+        FetchWorkpasses.newInstance(this, 1).execute(cal.get(Calendar.MONTH));
 
+        //Sätter adapter till listan
+        if (workpassList != null) {
+
+        }
     }
 
 
@@ -274,17 +279,20 @@ public class MainActivity extends AppCompatActivity
     private void getStatistics() {
         Workpass nextPass = null;
         double salary = 0, hours = 0;
-
         int today = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-        for (Workpass workpass : workpassList) {
-            salary += workpass.getSalary();
-            hours += workpass.getWorkingHours();
+
+        if (workpassList != null) {
+            for (Workpass workpass : workpassList) {
+                salary += workpass.getSalary();
+                hours += workpass.getWorkingHours();
+            }
+
+            fragment.setTextTvSalary(String.valueOf(salary));
+            fragment.setTextTvHours(String.valueOf(hours));
         }
 
-        fragment.setTextTvSalary(String.valueOf(salary));
-        fragment.setTextTvHours(String.valueOf(hours));
-
         List<Workpass> allWorkpasses = database.getAllWorkpasses();
+
         boolean noNextPass = true;
         for (int i = 0; i < allWorkpasses.size() && noNextPass; i++) {
             if (allWorkpasses.get(i).getStartDateTime().get(Calendar.DAY_OF_MONTH) >= today) {
@@ -297,8 +305,7 @@ public class MainActivity extends AppCompatActivity
             fragment.setTextTvSalaryPass(String.valueOf(nextPass.getSalary()) + " Kr");
             fragment.setTextTvHoursPass(String.valueOf(nextPass.getWorkingHours()) + " h");
             fragment.setTextTvNextPass("Next pass: " + formatCalendarToString(nextPass.getStartDateTime()));
-        }
-        else{
+        } else {
             fragment.setTextTvSalaryPass("0.0 Kr");
             fragment.setTextTvHoursPass("0.0 h");
             fragment.setTextTvNextPass("Next pass:");
@@ -311,23 +318,6 @@ public class MainActivity extends AppCompatActivity
         String dateFormatted = fmt.format(cal.getTime());
 
         return dateFormatted;
-    }
-
-    private GregorianCalendar formatStringToCalendar(String str) {
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy MM dd HH:mm");
-
-        Date date = null;
-        try {
-            date = fmt.parse(str);
-
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
-
-        GregorianCalendar cal = new GregorianCalendar();
-        cal.setTime(date);
-
-        return cal;
     }
 
     @Override
@@ -388,22 +378,25 @@ public class MainActivity extends AppCompatActivity
         optionDialog.show();
     }
 
-    public void updateList(List<Workpass> workpasses, int month, int day) {
+    public void onCreateList(List<Workpass> workpasses) {
+        workpassList = new ArrayList<>();
+        for (Workpass workpass : workpasses) {
+            workpassList.add(workpass);
+        }
+
+        adapter = new ListAdapter(this, workpassList);
+        fragment.setListAdapter(adapter);
+
+        getStatistics();
+    }
+
+    public void updateList(List<Workpass> workpasses) {
         if (startUp) {
             this.workpassList = workpasses;
-
-            if (workpassList != null) {
-                adapter = new ListAdapter(this, workpassList);
-            }
-
-            //Sätter adapter till listan
-            if (workpassList != null) {
-                fragment.setListAdapter(adapter);
-            }
-
-
             startUp = false;
+
         } else {
+
             workpassList.clear();
 
             if (workpasses != null) {
@@ -420,17 +413,16 @@ public class MainActivity extends AppCompatActivity
 
     private static class FetchWorkpasses extends AsyncTask<Integer, Void, List<Workpass>> {
         private MainActivity activity;
-        private int month, day;
+        int source;
         private SQLiteDB db;
 
-        public static FetchWorkpasses newInstance(Context context, int month, int day) {
-            return new FetchWorkpasses(context, month, day);
+        public static FetchWorkpasses newInstance(Context context, int source) {
+            return new FetchWorkpasses(context, source);
         }
 
-        private FetchWorkpasses(Context context, int month, int day) {
+        private FetchWorkpasses(Context context, int source) {
             this.activity = (MainActivity) context;
-            this.month = month;
-            this.day = day;
+            this.source = source;
             db = new SQLiteDB(context);
         }
 
@@ -441,7 +433,11 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(List<Workpass> workpasses) {
-            activity.updateList(workpasses, month, day);
+            if (source == 1) {
+                activity.onCreateList(workpasses);
+            } else {
+                activity.updateList(workpasses);
+            }
         }
     }
 }

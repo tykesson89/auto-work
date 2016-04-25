@@ -305,7 +305,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
             return workpasses;
         }
 
-        return null;
+        return workpasses;
     }
 
     public boolean deleteWorkpass(long id) {

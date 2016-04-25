@@ -23,14 +23,13 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import com.lhadalo.oladahl.autowork.database.DatabaseContract;
+import com.lhadalo.oladahl.autowork.database.DatabaseContract.WorkpassEntry;
 import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
 
 import UserPackage.User;
 import UserPackage.Workpass;
-
 
 import com.lhadalo.oladahl.autowork.fragments.AddWorkpassFragment;
 
@@ -120,7 +119,7 @@ public class AddWorkpassActivity extends AppCompatActivity
                 fragment.setBtnSave("Add");
 
             } else if (requestCode == Tag.UPDATE_WORKPASS_REQUEST) {
-                model = database.getWorkpass(getIntent().getLongExtra(DatabaseContract.WorkpassEntry.WORKPASS_ID, -1));
+                model = database.getWorkpass(getIntent().getLongExtra(WorkpassEntry.WORKPASS_ID, -1));
 
                 //Sätta alla fält från modellen
                 fragment.setTitle(model.getTitle());
@@ -223,7 +222,8 @@ public class AddWorkpassActivity extends AppCompatActivity
                 model.setWorkpassID(id);
 
                 Intent data = new Intent();
-                data.putExtra(DatabaseContract.WorkpassEntry.WORKPASS_ID, id);
+                data.putExtra(WorkpassEntry.WORKPASS_ID, id);
+
 
                 setResult(RESULT_OK, data);
                 finish();
