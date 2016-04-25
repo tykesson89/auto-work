@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public void closeDrawer(){
+    public void closeDrawer() {
         drawerLayout.closeDrawers();
     }
 
@@ -209,22 +209,22 @@ public class MainActivity extends AppCompatActivity
                         Workpass lastAdded = database.getLastAddedWorkpass();
                         workpassList.add(lastAdded);
                         adapter.notifyDataSetChanged();
-                        getStatistics();
+                        FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
                     }
                 }
             } else if (requestCode == Tag.UPDATE_WORKPASS_REQUEST) {
                 int listPosition = data.getIntExtra(Tag.LIST_POSITION, -1);
                 if (listPosition != -1) {
-                    FetchWorkpasses.newInstance(this, Tag.ON_UPDATE_LIST); //Känns lite dumt att hämta allt på nytt, får ändra sedan.
+                    FetchWorkpasses.newInstance(this, Tag.ON_UPDATE_LIST).execute(Calendar.getInstance().get(Calendar.MONTH)); //TODO Känns lite dumt att hämta allt på nytt, får ändra sedan.
                 }
             }
         }
     }
 
-    private void getStatistics() {
-        Workpass nextPass = null;
+
+    public void getStatistics(List<Workpass> allWorkpasses) {
+
         double salary = 0, hours = 0;
-        int today = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
         if (workpassList != null) {
             for (Workpass workpass : workpassList) {
@@ -236,11 +236,12 @@ public class MainActivity extends AppCompatActivity
             fragment.setTextTvHours(String.valueOf(hours));
         }
 
-        List<Workpass> allWorkpasses = database.getAllWorkpasses();
-
+        Workpass nextPass = null;
         boolean noNextPass = true;
         for (int i = 0; i < allWorkpasses.size() && noNextPass; i++) {
-            if (allWorkpasses.get(i).getStartDateTime().get(Calendar.DAY_OF_MONTH) >= today) {
+            if (allWorkpasses.get(i).getStartDateTime().get(Calendar.DAY_OF_MONTH)
+                    >= Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
+
                 nextPass = allWorkpasses.get(i);
                 noNextPass = false;
             }
@@ -297,7 +298,7 @@ public class MainActivity extends AppCompatActivity
                             if (database.deleteWorkpass(modelToDelete.getWorkpassID())) {
                                 workpassList.remove(listPosition);
                                 adapter.notifyDataSetChanged();
-                                getStatistics();
+                                FetchWorkpasses.newInstance(MainActivity.this, Tag.ON_GET_STATISTICS).execute(0);
 
                                 Toast.makeText(MainActivity.this, "Workpass Deleted",
                                         Toast.LENGTH_SHORT).show();
@@ -333,7 +334,7 @@ public class MainActivity extends AppCompatActivity
 
         adapter = new ListAdapter(this, workpassList);
         fragment.setListAdapter(adapter);
-        getStatistics();
+        FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
     }
 
     public void updateList(List<Workpass> workpasses) {
@@ -347,7 +348,8 @@ public class MainActivity extends AppCompatActivity
 
         adapter.notifyDataSetChanged();
 
-        getStatistics();
+        FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
+
     }
 }
 

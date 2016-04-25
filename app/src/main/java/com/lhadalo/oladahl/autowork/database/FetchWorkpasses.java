@@ -27,15 +27,22 @@ public class FetchWorkpasses extends AsyncTask<Integer, Void, List<Workpass>> {
 
     @Override
     protected List<Workpass> doInBackground(Integer... integers) {
-        return db.getWorkpassMonth(integers[0]);
+        if (source == 3) {
+            return db.getAllWorkpasses();
+        } else {
+            return db.getWorkpassMonth(integers[0]);
+        }
     }
 
     @Override
     protected void onPostExecute(List<Workpass> workpasses) {
         if (source == Tag.ON_CREATE_LIST) {
             activity.onCreateList(workpasses);
-        } else {
+        } else if (source == Tag.ON_UPDATE_LIST) {
             activity.updateList(workpasses);
+        } else{
+            activity.getStatistics(workpasses);
         }
+
     }
 }
