@@ -337,6 +337,17 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
         return result > 0;
     }
+    public boolean updateWorkpassFromMySQL(Workpass model) {
+        ContentValues values = populateContentValuesFromModel(model);
+        int result = this.getWritableDatabase().update(
+                WorkpassEntry.TABLE_NAME,
+                values,
+                WorkpassEntry.WORKPASS_MY_SQL_ID + "=?",
+                new String[]{String.valueOf(model.getServerID())});
+
+        return result > 0;
+    }
+
 
     public boolean updateWorkpass(Workpass model) {
         ContentValues values = populateContentValuesFromModel(model);

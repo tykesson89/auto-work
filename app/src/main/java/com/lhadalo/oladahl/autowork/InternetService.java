@@ -34,6 +34,7 @@ public class InternetService extends Service {
     private Context context = InternetService.this;
     private SQLiteDB db = new SQLiteDB(InternetService.this);
     private List<Workpass> workpasses;
+    private Workpass workpass;
 
 
     @Nullable
@@ -73,7 +74,9 @@ public class InternetService extends Service {
                         }
                     }
                     if (!workpasses.isEmpty()) {
-                        new InternetConnection().execute(createList.get(0));
+                        workpass = new Workpass();
+                        workpass = createList.get(0);
+                        new InternetConnection(workpass);
                     }
                 }
                 else {
@@ -101,55 +104,50 @@ public class InternetService extends Service {
         return false;
     }
 
-    class InternetConnection extends AsyncTask<Workpass, Void, Workpass> {
+    class InternetConnection extends Thread {
         Socket socket;
         private ObjectInputStream objectIn;
         private ObjectOutputStream objectOut;
+        private Workpass workpass;
 
-
-        public InternetConnection() {
+        public InternetConnection(Workpass workpass){
+            this.workpass = workpass;
             try {
                 socket = new Socket();
                 socket.connect(new InetSocketAddress(Tag.IP, Tag.PORT), 4000);
                 objectOut = new ObjectOutputStream(socket.getOutputStream());
-                objectIn = new ObjectInputStream(socket.getInputStream());
-            } catch (SocketTimeoutException e) {
 
-            } catch (IOException e) {
+            }catch (Exception e){
 
             }
+            start();
         }
 
-        @Override
-        protected Workpass doInBackground(Workpass... workpasses) {
-            Workpass pass = workpasses[0];
-            Workpass workpass = null;
-            try {
-                objectOut.writeObject(Tag.ON_CREATE_WORKPASS);
-                objectOut.writeObject(pass);
-                workpass = (Workpass) objectIn.readObject();
 
+        @Override
+        public void run() {
+        try{
+            objectOut.writeObject(Tag.ON_CREATE_WORKPASS);
+            objectOut.writeObject(workpass);
+            objectIn = new ObjectInputStream(socket.getInputStream());
+            String serverId =(String) objectIn.readObject();
+            workpass.setServerID(Integer.parseInt(serverId));
+            workpass.setIsSynced(1);
+            workpass.setActionTag(null);
+            db.updateWorkpass(workpass);
             } catch (Exception e) {
-                e.printStackTrace();
+
+            e.printStackTrace();
             }
 
-            try {
-                socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
-            return workpass;
-        }
 
-        @Override
-        protected void onPostExecute(Workpass workpass) {
-            super.onPostExecute(workpass);
-
-            Log.v(Tag.LOGTAG, workpass.toString());
 
         }
-    }
+
+
+}
+
 
 
 }
