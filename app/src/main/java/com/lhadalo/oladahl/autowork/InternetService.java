@@ -5,16 +5,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import UserPackage.Workpass;
 
 
 /**
@@ -23,7 +32,8 @@ import java.util.TimerTask;
 public class InternetService extends Service {
     private Timer timer;
     private Context context = InternetService.this;
-
+    private SQLiteDB db = new SQLiteDB(InternetService.this);
+    private List<Workpass> workpasses;
 
 
     @Nullable
@@ -35,7 +45,8 @@ public class InternetService extends Service {
     public void onCreate() {
         if (timer != null) {
             timer.cancel();
-        } else {
+        }
+        else {
             timer = new Timer();
         }
         timer.scheduleAtFixedRate(new Task(), 0, 60000);
@@ -47,14 +58,29 @@ public class InternetService extends Service {
 
     }
 
-
     class Task extends TimerTask {
         @Override
         public void run() {
             if (isConnected(context) == true) {
+                workpasses = db.getWorkpassesUnsynced();
 
+                List<Workpass> createList = new ArrayList<>(10);
+                if (!workpasses.isEmpty()) {
 
-            } else {
+                    for (Workpass workpass : workpasses) {
+                        if (workpass.getActionTag().equals(Tag.ON_CREATE_WORKPASS)) {
+                            createList.add(workpass);
+                        }
+                    }
+                    if (!workpasses.isEmpty()) {
+                        new InternetConnection().execute(createList.get(0));
+                    }
+                }
+                else {
+                    Log.v(Tag.LOGTAG, "Ingenting i listan");
+                }
+            }
+            else {
                 // TODO: 2016-04-05 Vad ska hända om applikationen inte har internetuppkoppling. 
             }
 
@@ -75,31 +101,53 @@ public class InternetService extends Service {
         return false;
     }
 
-    class InternetConnection extends Thread {
-        private Socket socket;
+    class InternetConnection extends AsyncTask<Workpass, Void, Workpass> {
+        Socket socket;
         private ObjectInputStream objectIn;
         private ObjectOutputStream objectOut;
 
-        
-        public InternetConnection(){
-            Thread thread = new Thread();
+
+        public InternetConnection() {
             try {
-                socket = new Socket(Tag.IP, Tag.PORT);
+                socket = new Socket();
+                socket.connect(new InetSocketAddress(Tag.IP, Tag.PORT), 4000);
                 objectOut = new ObjectOutputStream(socket.getOutputStream());
                 objectIn = new ObjectInputStream(socket.getInputStream());
-            }catch(Exception e){
-                
+            } catch (SocketTimeoutException e) {
+
+            } catch (IOException e) {
+
             }
-            thread.start();
         }
-        
+
         @Override
-        public void run() {
-            SQLiteDB sqLiteDB = new SQLiteDB(context);
+        protected Workpass doInBackground(Workpass... workpasses) {
+            Workpass pass = workpasses[0];
+            Workpass workpass = null;
+            try {
+                objectOut.writeObject(Tag.ON_CREATE_WORKPASS);
+                objectOut.writeObject(pass);
+                workpass = (Workpass) objectIn.readObject();
 
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-            // TODO: 2016-04-05 Lägga till vad som ska hända i tråden.  
-            
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return workpass;
+        }
+
+        @Override
+        protected void onPostExecute(Workpass workpass) {
+            super.onPostExecute(workpass);
+
+            Log.v(Tag.LOGTAG, workpass.toString());
+
         }
     }
 

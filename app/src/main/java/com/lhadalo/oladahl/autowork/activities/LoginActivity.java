@@ -44,8 +44,6 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         super.onCreate(savedInstanceState);
         SQLiteDB sqLiteDB = new SQLiteDB(this);
         sqLiteDB.getWritableDatabase();
-        Intent service = new Intent(this, InternetService.class);
-        startService(service);
 
         if (sqLiteDB.isLoggedIn() == true) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lhadalo.oladahl.autowork.DrawerListener;
+import com.lhadalo.oladahl.autowork.InternetService;
 import com.lhadalo.oladahl.autowork.database.DatabaseContract;
 import com.lhadalo.oladahl.autowork.ListAdapter;
 import com.lhadalo.oladahl.autowork.R;
@@ -203,6 +204,8 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == Tag.ADD_WORKPASS_REQUEST) {
+                Intent service = new Intent(this, InternetService.class);
+                startService(service);
                 int month = data.getIntExtra(DatabaseContract.WorkpassEntry.MONTH, -1);
                 if (month != -1) {
                     if (month == Calendar.getInstance().get(Calendar.MONTH)) {
@@ -220,7 +223,6 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
-
 
     public void getStatistics(List<Workpass> allWorkpasses) {
 

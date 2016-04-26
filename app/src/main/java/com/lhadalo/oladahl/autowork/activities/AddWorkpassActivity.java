@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.lhadalo.oladahl.autowork.InternetService;
 import com.lhadalo.oladahl.autowork.database.DatabaseContract.WorkpassEntry;
 import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
@@ -62,6 +63,7 @@ public class AddWorkpassActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_workpass);
 
+
         initFragment();
 
         database = new SQLiteDB(this);
@@ -88,8 +90,6 @@ public class AddWorkpassActivity extends AppCompatActivity
 
                 //Om det finns några arbetsplatser sätts det till interface och modell
                 if (companies != null) {
-                    Log.v(Tag.LOGTAG, "Namn: " + selectedCompany.getCompanyName()
-                            + " Id: " + selectedCompany.getCompanyId());
                     fragment.setCompanyName(selectedCompany.getCompanyName());
                     model.setCompanyID(selectedCompany.getCompanyId());
                 } else {
@@ -109,6 +109,7 @@ public class AddWorkpassActivity extends AppCompatActivity
                 fragment.setTxtDateEnd(formatDate(endDate));
                 fragment.setTxtTimeEnd(String.valueOf(DateFormat.format("kk:mm", endTime)));
 
+                model.setNote("Hej");
                 //Sätter paustid till noll i modellen.
                 model.setBreaktime(0.0);
 
@@ -218,13 +219,17 @@ public class AddWorkpassActivity extends AppCompatActivity
             //Ifall all information kunde läggas till, läggs modellen till i databasen
             //och activityn avslutas.
             if (populateModelFromInterface()) {
+                model.setActionTag(Tag.ON_CREATE_WORKPASS);
+                model.setIsSynced(0);
+                model.setNote("Hej");
+
                 long id = database.addWorkpass(model);
                 model.setWorkpassID(id);
+
 
                 Intent data = new Intent();
                 data.putExtra(WorkpassEntry.MONTH, model.getStartDateTime().get(Calendar.MONTH));
                 data.putExtra(WorkpassEntry.WORKPASS_ID, id);
-
 
                 setResult(RESULT_OK, data);
                 finish();

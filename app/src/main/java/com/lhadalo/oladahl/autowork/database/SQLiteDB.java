@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 
 
 import UserPackage.Company;
@@ -316,6 +317,20 @@ public class SQLiteDB extends SQLiteOpenHelper {
         return workpasses;
     }
 
+    public List<Workpass> getWorkpassesUnsynced(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + WorkpassEntry.TABLE_NAME
+            + " WHERE " + WorkpassEntry.IS_SYNCED + "=?", new String[]{String.valueOf(0)});
+
+        List<Workpass> workpasses = new ArrayList<>();
+        while(cursor.moveToNext()){
+            Workpass model = populateModelFromCursor(cursor);
+            workpasses.add(model);
+        }
+
+        return workpasses;
+    }
+
     public boolean deleteWorkpass(long id) {
         int result = this.getWritableDatabase().delete(WorkpassEntry.TABLE_NAME,
                 WorkpassEntry.WORKPASS_ID + "=?", new String[]{String.valueOf(id)});
@@ -379,6 +394,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         model.setUserId(c.getColumnIndex(WorkpassEntry.USER_ID));
 
         model.setCompanyID(c.getLong(c.getColumnIndex(WorkpassEntry.COMPANY_ID)));
+        model.setCompanyServerID(c.getInt(c.getColumnIndex(WorkpassEntry.COMPANY_MY_SQL_ID)));
 
         model.setTitle(c.getString(c.getColumnIndex(WorkpassEntry.TITLE)));
 
@@ -422,7 +438,8 @@ public class SQLiteDB extends SQLiteOpenHelper {
             ex.printStackTrace();
         }
 
-        GregorianCalendar cal = new GregorianCalendar();
+        TimeZone timeZone = TimeZone.getTimeZone("GMT+1");
+        GregorianCalendar cal = new GregorianCalendar(timeZone);
         cal.setTime(date);
 
         return cal;

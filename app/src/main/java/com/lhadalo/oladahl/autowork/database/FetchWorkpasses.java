@@ -29,7 +29,8 @@ public class FetchWorkpasses extends AsyncTask<Integer, Void, List<Workpass>> {
     protected List<Workpass> doInBackground(Integer... integers) {
         if (source == 3) {
             return db.getAllWorkpasses();
-        } else {
+        }
+        else {
             return db.getWorkpassMonth(integers[0]);
         }
     }
@@ -38,9 +39,11 @@ public class FetchWorkpasses extends AsyncTask<Integer, Void, List<Workpass>> {
     protected void onPostExecute(List<Workpass> workpasses) {
         if (source == Tag.ON_CREATE_LIST) {
             activity.onCreateList(workpasses);
-        } else if (source == Tag.ON_UPDATE_LIST) {
+        }
+        else if (source == Tag.ON_UPDATE_LIST) {
             activity.updateList(workpasses);
-        } else{
+        }
+        else {
             activity.getStatistics(workpasses);
         }
 

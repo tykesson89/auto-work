@@ -13,7 +13,7 @@ public class Workpass implements Serializable{
     private int serverID;
     private int userId;
     private String title;
-    private long companyId; //TODO Ändra till long som lokalt id.
+    private long companyId;
     private int companyServerID;
     private GregorianCalendar startDateTime;
     private GregorianCalendar endDateTime;
