@@ -100,7 +100,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         if (isntEmail || isEmpty) {
             if (isntEmail) {
                 text = getString(R.string.toast_email_error);
-                fragment.setEmailError(true, "Isn't a email adress");
+                fragment.setEmailError(true, "Isn't an email adress");
             } else if (isEmpty) {
                 text = "Email cannot be empty";
                 fragment.setEmailError(true, "No email");
