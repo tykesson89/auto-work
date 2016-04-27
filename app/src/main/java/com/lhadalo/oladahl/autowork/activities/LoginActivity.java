@@ -19,19 +19,28 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.List;
 
 import UserPackage.Company;
 import UserPackage.User;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.lhadalo.oladahl.autowork.InternetService;
 import com.lhadalo.oladahl.autowork.InternetSettingsActivity;
 import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
+
 import UserPackage.Workpass;
+
 import com.lhadalo.oladahl.autowork.fragments.LoginFragment;
 
-public class LoginActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteraction{
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+public class LoginActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteraction {
     private LoginFragment fragment;
     private final int requestCode = 1;
     private SQLiteDB db = new SQLiteDB(this);
@@ -49,13 +58,14 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
-        } else {
+        }
+        else {
             setContentView(R.layout.activity_login);
             initFragment();
         }
     }
 
-    private void initFragment(){
+    private void initFragment() {
         fragment = new LoginFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container_login, fragment)
@@ -68,6 +78,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         new Login(LoginActivity.this).execute(user);
 
     }
+
     public void onClickNewPassword() {
         final EditText txtEmail = new EditText(this);
 
@@ -105,6 +116,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
         startActivityForResult(intent, requestCode);
     }
+
     public static boolean isConnected(Context context) {
         ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivity != null) {
@@ -120,15 +132,14 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     }
 
 
-
-    private class Login extends AsyncTask<User, Void, String>{
+    private class Login extends AsyncTask<User, Void, String> {
         private Context context;
         private Socket socket;
         private ObjectOutputStream objectOut;
         private ObjectInputStream objectIn;
         private ProgressDialog progressDialog;
 
-        public Login(Context context){
+        public Login(Context context) {
             this.context = context;
         }
 
@@ -141,8 +152,8 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         @Override
         protected String doInBackground(User... users) {
             ArrayList<Company> companyArrayList = new ArrayList<>();
-            ArrayList<Workpass> workpassArrayList = new ArrayList<>();
-            if(isConnected(this.context)==true) {
+            List<Workpass> workpassArrayList = new ArrayList<>();
+            if (isConnected(this.context) == true) {
                 User user = users[0];
                 try {
                     try {
@@ -159,12 +170,13 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                         if (obj instanceof String) {
                             String response = (String) obj;
                             return response;
-                        } else {
-                            user = (User)obj;
+                        }
+                        else {
+                            user = (User) obj;
                             db.loginUser(user);
                             try {
                                 companyArrayList = (ArrayList<Company>) objectIn.readObject();
-                            } catch (Exception e){
+                            } catch (Exception e) {
                                 return "Något blev fel här";
                             }
                             for (int i = 0; i < companyArrayList.size(); i++) {
@@ -174,18 +186,27 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
                             }
 
-//                workpassArrayList = (ArrayList<Workpass>)objectIn.readObject();
-//                for(int i = 0; i < workpassArrayList.size(); i++){
-//                    db.addloginWorkpass(workpassArrayList.get(i));
-//                }
+                            List arr = (List)objectIn.readObject();
+
+                            //workpassArrayList = (List<Workpass>) objectIn.readObject();
+                            for (int i = 0; i < arr.size(); i++) {
+                                String jobj = (String) arr.get(i);
+                                Gson gson = new GsonBuilder().create();
+
+                                Workpass w = gson.fromJson(jobj, Workpass.class);
+                                w.setActionTag("Synced");
+                                w.setIsSynced(1);
+                                db.addWorkpass(w);
+                            }
                         }
                     } catch (SocketTimeoutException s) {
                         return "The server is offline";
                     }
                 } catch (Exception e) {
-                    //return "Something went wrong";
+                    e.printStackTrace();
                 }
-            }else{
+            }
+            else {
                 return "You have no internet connection";
             }
 
@@ -197,23 +218,27 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         protected void onPostExecute(String res) {
             progressDialog.dismiss();
 
-            if(res.equals("Something went wrong")){
+            if (res.equals("Something went wrong")) {
                 Toast.makeText(context, "Something went wrong",
                         Toast.LENGTH_SHORT).show();
-            }else if(res.equals("Wrong Email")){
+            }
+            else if (res.equals("Wrong Email")) {
                 Toast.makeText(context, "Email does not exists",
                         Toast.LENGTH_SHORT).show();
-            }else if(res.equals("Wrong password")){
+            }
+            else if (res.equals("Wrong password")) {
                 Toast.makeText(context, "Wrong password",
                         Toast.LENGTH_SHORT).show();
-            }else if(res.equals("The server is offline")){
+            }
+            else if (res.equals("The server is offline")) {
                 Toast.makeText(context, "The server is offline",
                         Toast.LENGTH_SHORT).show();
-            }else if(res.equals("You have no internet connection")){
+            }
+            else if (res.equals("You have no internet connection")) {
                 Toast.makeText(context, "You have no internet connection",
                         Toast.LENGTH_SHORT).show();
             }
-            else if(res.equals(Tag.SUCCESS)){
+            else if (res.equals(Tag.SUCCESS)) {
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
@@ -223,21 +248,22 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == this.requestCode){
-            if(resultCode == RESULT_OK){
+        if (requestCode == this.requestCode) {
+            if (resultCode == RESULT_OK) {
                 fragment.setTextetEmail(data.getStringExtra(Tag.EMAIL_INTENT));
             }
         }
 
     }
-    private class NewPassword extends AsyncTask<String, Void, String>{
+
+    private class NewPassword extends AsyncTask<String, Void, String> {
         private Socket socket;
         private ObjectOutputStream objectOut;
         private ObjectInputStream objectIn;
 
         @Override
         protected String doInBackground(String... strings) {
-            if(isConnected(context)==true) {
+            if (isConnected(context) == true) {
                 String str = strings[0];
                 try {
                     try {
@@ -258,7 +284,8 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                 } catch (Exception e) {
                     return "Something went wrong";
                 }
-            }else{
+            }
+            else {
                 return "No Internet Connection";
             }
 
@@ -266,19 +293,23 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
         @Override
         protected void onPostExecute(String s) {
-            if(s.equals("No Email")){
+            if (s.equals("No Email")) {
                 Toast.makeText(context, "Email does not exists",
                         Toast.LENGTH_SHORT).show();
-            }else if(s.equals("Server is offline")){
+            }
+            else if (s.equals("Server is offline")) {
                 Toast.makeText(context, "Server is offline",
                         Toast.LENGTH_SHORT).show();
-            }else if(s.equals("No Internet Connection")){
+            }
+            else if (s.equals("No Internet Connection")) {
                 Toast.makeText(context, "You have no Internet Connection",
                         Toast.LENGTH_SHORT).show();
-            }else if(s.equals("Something went wrong")){
+            }
+            else if (s.equals("Something went wrong")) {
                 Toast.makeText(context, "Something went wrong",
                         Toast.LENGTH_SHORT).show();
-            }else if(s.equals("Email sent")){
+            }
+            else if (s.equals("Email sent")) {
                 Toast.makeText(context, "Password Sent",
                         Toast.LENGTH_SHORT).show();
             }

@@ -1,18 +1,17 @@
 package com.lhadalo.oladahl.autowork;
 
+import android.app.IntentService;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
@@ -30,11 +29,12 @@ import UserPackage.Workpass;
  * Created by Henrik on 2016-04-05.
  */
 public class InternetService extends Service {
+
     private Timer timer;
     private Context context = InternetService.this;
     private SQLiteDB db = new SQLiteDB(InternetService.this);
-    private List<Workpass> workpasses;
     private Workpass workpass;
+    private List<Workpass> createList, changeList;
 
 
     @Nullable
@@ -50,7 +50,7 @@ public class InternetService extends Service {
         else {
             timer = new Timer();
         }
-        timer.scheduleAtFixedRate(new Task(), 0, 60000);
+        timer.scheduleAtFixedRate(new Task(), 0, 3000);
     }
 
     @Override
@@ -63,30 +63,19 @@ public class InternetService extends Service {
         @Override
         public void run() {
             if (isConnected(context) == true) {
-                workpasses = db.getWorkpassesUnsynced();
+                List<Workpass> workpasses = db.getWorkpassesUnsynced();
 
-                List<Workpass> createList = new ArrayList<>(10);
                 if (!workpasses.isEmpty()) {
-
-                    for (Workpass workpass : workpasses) {
-                        if (workpass.getActionTag().equals(Tag.ON_CREATE_WORKPASS)) {
-                            createList.add(workpass);
-                        }
-                    }
-                    if (!workpasses.isEmpty()) {
-                        workpass = new Workpass();
-                        workpass = createList.get(0);
-                        new InternetConnection(workpass);
-                    }
+                    new InternetConnection(workpasses);
                 }
                 else {
-                    Log.v(Tag.LOGTAG, "Ingenting i listan");
+                    Log.v(Tag.LOGTAG, "Inget mer i listan");
+
                 }
             }
             else {
-                // TODO: 2016-04-05 Vad ska hända om applikationen inte har internetuppkoppling. 
+                // TODO: 2016-04-05 Vad ska hända om applikationen inte har internetuppkoppling.
             }
-
         }
     }
 
@@ -109,47 +98,71 @@ public class InternetService extends Service {
         private ObjectInputStream objectIn;
         private ObjectOutputStream objectOut;
         private Workpass workpass;
+        private List<Workpass> list;
 
-        public InternetConnection(Workpass workpass){
-            this.workpass = workpass;
+        public InternetConnection(List<Workpass> list) {
+            this.list = list;
+
             try {
                 socket = new Socket();
                 socket.connect(new InetSocketAddress(Tag.IP, Tag.PORT), 4000);
                 objectOut = new ObjectOutputStream(socket.getOutputStream());
+                objectIn = new ObjectInputStream(socket.getInputStream());
 
-            }catch (Exception e){
+            } catch (SocketTimeoutException e){
+                interrupt();
+            } catch (Exception e) {
 
             }
             start();
         }
 
-
         @Override
         public void run() {
-        try{
-            objectOut.writeObject(Tag.ON_CREATE_WORKPASS);
-            objectOut.writeObject(workpass);
-            objectIn = new ObjectInputStream(socket.getInputStream());
-            String serverId =(String) objectIn.readObject();
-            workpass.setServerID(Integer.parseInt(serverId));
-            workpass.setIsSynced(1);
-            workpass.setActionTag(null);
-            db.updateWorkpass(workpass);
+            try {
+                objectOut.writeObject(Tag.ON_CREATE_WORKPASS);
+                objectOut.writeObject(String.valueOf(list.size()));
+
+                for (Workpass pass : list) {
+                    Log.v(Tag.LOGTAG, String.valueOf(pass.getServerID()));
+                    objectOut.writeObject(pass);
+
+                    String serverId = (String) objectIn.readObject();
+
+                    if (pass.getActionTag().equals(Tag.ON_DELETE_WORKPASS)) {
+                        db.deleteWorkpass(Long.parseLong(serverId));
+                    }
+                    else {
+                        pass.setServerID(Integer.parseInt(serverId));
+                        pass.setIsSynced(1);
+                        pass.setActionTag("Synced");
+                        db.updateWorkpass(pass);
+                    }
+                }
+
+                socket.close();
+
+                interrupt();
+                stopThisService();
+            } catch (SocketTimeoutException e){
+                interrupt();
             } catch (Exception e) {
 
-            e.printStackTrace();
+                e.printStackTrace();
             }
-
-
-
 
         }
 
+    }
 
-}
+    public void stopThisService(){
+        stopSelf();
+    }
 
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }
 
 

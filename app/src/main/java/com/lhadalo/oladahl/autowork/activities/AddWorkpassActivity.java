@@ -92,7 +92,8 @@ public class AddWorkpassActivity extends AppCompatActivity
                 if (companies != null) {
                     fragment.setCompanyName(selectedCompany.getCompanyName());
                     model.setCompanyID(selectedCompany.getCompanyId());
-                } else {
+                }
+                else {
                     fragment.setCompanyName("ERROR!");
                 }
 
@@ -119,7 +120,8 @@ public class AddWorkpassActivity extends AppCompatActivity
 
                 fragment.setBtnSave("Add");
 
-            } else if (requestCode == Tag.UPDATE_WORKPASS_REQUEST) {
+            }
+            else if (requestCode == Tag.UPDATE_WORKPASS_REQUEST) {
                 model = database.getWorkpass(getIntent().getLongExtra(WorkpassEntry.WORKPASS_ID, -1));
 
                 //Sätta alla fält från modellen
@@ -167,7 +169,8 @@ public class AddWorkpassActivity extends AppCompatActivity
                 if (requestCode == Tag.ADD_WORKPASS_REQUEST) {
                     endDate = new GregorianCalendar(year, month, dayOfMonth);
                     endTime = new GregorianCalendar(0, 0, 0, (hourOfDay + 3), minute);
-                } else {
+                }
+                else {
                     endDate = new GregorianCalendar(year, month, dayOfMonth);
                     endTime = new GregorianCalendar(0, 0, 0, hourOfDay, minute);
                 }
@@ -221,7 +224,7 @@ public class AddWorkpassActivity extends AppCompatActivity
             if (populateModelFromInterface()) {
                 model.setActionTag(Tag.ON_CREATE_WORKPASS);
                 model.setIsSynced(0);
-                model.setNote("Hej");
+                model.setCompanyServerID(selectedCompany.getServerID());
 
                 long id = database.addWorkpass(model);
                 model.setWorkpassID(id);
@@ -234,8 +237,15 @@ public class AddWorkpassActivity extends AppCompatActivity
                 setResult(RESULT_OK, data);
                 finish();
             }
-        } else {
+        }
+        else {
             if (populateModelFromInterface()) {
+                if (model.getIsSynced() == 1) {
+                    model.setActionTag(Tag.ON_CHANGE_WORKPASS);
+                    model.setIsSynced(0);
+                }
+
+                model.setCompanyServerID(selectedCompany.getServerID());
                 if (database.updateWorkpass(model)) {
                     Intent data = new Intent();
                     data.putExtra(Tag.LIST_POSITION, getIntent().getIntExtra(Tag.LIST_POSITION, -1));
@@ -257,7 +267,8 @@ public class AddWorkpassActivity extends AppCompatActivity
         if (dialogSource == Tag.START_DATE_TIME) {
             fragment.setTxtDateStart(formatDate(year, month, day));
             startDate = new GregorianCalendar(year, month, day);
-        } else if (dialogSource == Tag.END_DATE_TIME) {
+        }
+        else if (dialogSource == Tag.END_DATE_TIME) {
             fragment.setTxtDateEnd(formatDate(year, month, day));
             endDate = new GregorianCalendar(year, month, day);
         }
@@ -271,7 +282,8 @@ public class AddWorkpassActivity extends AppCompatActivity
             startTime = new GregorianCalendar(0, 0, 0, hour, minute);
             calculateHours();
             setSalary();
-        } else if (dialogSource == Tag.END_DATE_TIME) {
+        }
+        else if (dialogSource == Tag.END_DATE_TIME) {
             fragment.setTxtTimeEnd(String.valueOf(DateFormat.format("kk:mm",
                     new GregorianCalendar(0, 0, 0, hour, minute))));
             endTime = new GregorianCalendar(0, 0, 0, hour, minute);
@@ -291,7 +303,8 @@ public class AddWorkpassActivity extends AppCompatActivity
             model.setUserId(user.getUserid());
             model.setNote(fragment.getNote());
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }
@@ -301,7 +314,8 @@ public class AddWorkpassActivity extends AppCompatActivity
         if (res.isEmpty()) {
             createAlertDialog("No title", "The workpass must have a title");
             return false;
-        } else {
+        }
+        else {
             model.setTitle(res);
             return true;
         }
@@ -319,7 +333,8 @@ public class AddWorkpassActivity extends AppCompatActivity
         if (startTime.compareTo(endTime) > 0) {
             createAlertDialog("Wrong time", "The end time cannot be before the start time");
             return false;
-        } else {
+        }
+        else {
             GregorianCalendar start = joinDateTime(startDate, startTime);
             model.setStartDateTime(start);
 
@@ -441,7 +456,8 @@ public class AddWorkpassActivity extends AppCompatActivity
                     startActivity(intent);
 
 
-                } else {
+                }
+                else {
                     selectedCompany = companies.get(position);
                 }
 

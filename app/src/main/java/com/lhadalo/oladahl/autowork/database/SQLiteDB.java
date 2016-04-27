@@ -22,6 +22,7 @@ import UserPackage.Company;
 import UserPackage.User;
 import UserPackage.Workpass;
 
+import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.database.DatabaseContract.WorkpassEntry;
 import com.lhadalo.oladahl.autowork.database.DatabaseContract.UserEntry;
 import com.lhadalo.oladahl.autowork.database.DatabaseContract.CompanyEntry;
@@ -219,7 +220,8 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
         if (cnt == 0) {
             return false;
-        } else {
+        }
+        else {
             return true;
         }
 
@@ -251,11 +253,9 @@ public class SQLiteDB extends SQLiteOpenHelper {
         }
     }
 
-
     //Workpass-----------------------------------------------------------------------------------
     public long addWorkpass(Workpass model) {
         ContentValues values = populateContentValuesFromModel(model);
-
         return this.getWritableDatabase().insert(WorkpassEntry.TABLE_NAME, null, values);
     }
 
@@ -266,7 +266,9 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
         while (cursor.moveToNext()) {
             Workpass model = populateModelFromCursor(cursor);
+
             workpasses.add(model);
+
         }
 
         return workpasses;
@@ -306,8 +308,11 @@ public class SQLiteDB extends SQLiteOpenHelper {
         if (cursor.getCount() != 0) {
             while (cursor.moveToNext()) {
                 Workpass model = populateModelFromCursor(cursor);
-                workpasses.add(model);
+                if (!model.getActionTag().equals(Tag.ON_DELETE_WORKPASS)) {
+                    workpasses.add(model);
+                }
             }
+
             return workpasses;
         }
 
@@ -317,13 +322,13 @@ public class SQLiteDB extends SQLiteOpenHelper {
         return workpasses;
     }
 
-    public List<Workpass> getWorkpassesUnsynced(){
+    public List<Workpass> getWorkpassesUnsynced() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + WorkpassEntry.TABLE_NAME
-            + " WHERE " + WorkpassEntry.IS_SYNCED + "=?", new String[]{String.valueOf(0)});
+                + " WHERE " + WorkpassEntry.IS_SYNCED + "=?", new String[]{String.valueOf(0)});
 
         List<Workpass> workpasses = new ArrayList<>();
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             Workpass model = populateModelFromCursor(cursor);
             workpasses.add(model);
         }
@@ -445,4 +450,6 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
         return cal;
     }
+
+
 }

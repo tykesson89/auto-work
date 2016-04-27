@@ -1,8 +1,12 @@
 package com.lhadalo.oladahl.autowork.activities;
 
+import android.app.IntentService;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -21,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lhadalo.oladahl.autowork.ConnectivityChangedReceiver;
 import com.lhadalo.oladahl.autowork.DrawerListener;
 import com.lhadalo.oladahl.autowork.InternetService;
 import com.lhadalo.oladahl.autowork.database.DatabaseContract;
@@ -39,6 +44,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import UserPackage.Company;
 import UserPackage.User;
 import UserPackage.Workpass;
 
@@ -56,6 +62,7 @@ public class MainActivity extends AppCompatActivity
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
 
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -63,6 +70,8 @@ public class MainActivity extends AppCompatActivity
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
+
+        List<Workpass> list = database.getAllWorkpasses();
 
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
@@ -172,8 +181,12 @@ public class MainActivity extends AppCompatActivity
                 onActionLogOutPressed();
                 break;
             case R.id.test:
-
                 break;
+            case R.id.databasetest:
+                List<Workpass> list = database.getAllWorkpasses();
+                for (Workpass w : list) {
+                    Log.v(Tag.LOGTAG, String.valueOf(w.getServerID()));
+                }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -203,9 +216,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
+            Intent serviceIntent = new Intent(getBaseContext(), InternetService.class);
+            startService(serviceIntent);
             if (requestCode == Tag.ADD_WORKPASS_REQUEST) {
-                Intent service = new Intent(this, InternetService.class);
-                startService(service);
                 int month = data.getIntExtra(DatabaseContract.WorkpassEntry.MONTH, -1);
                 if (month != -1) {
                     if (month == Calendar.getInstance().get(Calendar.MONTH)) {
@@ -215,7 +228,8 @@ public class MainActivity extends AppCompatActivity
                         FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
                     }
                 }
-            } else if (requestCode == Tag.UPDATE_WORKPASS_REQUEST) {
+            }
+            else if (requestCode == Tag.UPDATE_WORKPASS_REQUEST) {
                 int listPosition = data.getIntExtra(Tag.LIST_POSITION, -1);
                 if (listPosition != -1) {
                     FetchWorkpasses.newInstance(this, Tag.ON_UPDATE_LIST).execute(Calendar.getInstance().get(Calendar.MONTH)); //TODO Känns lite dumt att hämta allt på nytt, får ändra sedan.
@@ -253,7 +267,8 @@ public class MainActivity extends AppCompatActivity
             fragment.setTextTvSalaryPass(String.valueOf(nextPass.getSalary()) + " Kr");
             fragment.setTextTvHoursPass(String.valueOf(nextPass.getWorkingHours()) + " h");
             fragment.setTextTvNextPass("Next pass: " + formatCalendarToString(nextPass.getStartDateTime()));
-        } else {
+        }
+        else {
             fragment.setTextTvSalaryPass("0.0 Kr");
             fragment.setTextTvHoursPass("0.0 h");
             fragment.setTextTvNextPass("Next pass:");
@@ -291,20 +306,32 @@ public class MainActivity extends AppCompatActivity
                             onActionAddWorkpassPressed();
                             break;
                     }
-                } else if (source == 2) {
+                }
+                else if (source == 2) {
                     switch (position) {
                         case 0:
+                            Intent serviceIntent = new Intent(getBaseContext(), InternetService.class);
+                            startService(serviceIntent);
 
-                            Workpass modelToDelete = workpassList.get(listPosition);
+                            Workpass modelToDelete =
+                                    database.getWorkpass(workpassList.get(listPosition).getWorkpassID());
 
-                            if (database.deleteWorkpass(modelToDelete.getWorkpassID())) {
-                                workpassList.remove(listPosition);
-                                adapter.notifyDataSetChanged();
-                                FetchWorkpasses.newInstance(MainActivity.this, Tag.ON_GET_STATISTICS).execute(0);
-
-                                Toast.makeText(MainActivity.this, "Workpass Deleted",
-                                        Toast.LENGTH_SHORT).show();
+                            if (modelToDelete.getIsSynced() == 0) {
+                                database.deleteWorkpass(modelToDelete.getWorkpassID());
                             }
+                            else {
+                                modelToDelete.setActionTag(Tag.ON_DELETE_WORKPASS);
+                                modelToDelete.setIsSynced(0);
+                                database.updateWorkpass(modelToDelete);
+                            }
+
+                            workpassList.remove(listPosition);
+                            adapter.notifyDataSetChanged();
+                            FetchWorkpasses.newInstance(MainActivity.this, Tag.ON_GET_STATISTICS).execute(0);
+
+                            Toast.makeText(MainActivity.this, "Workpass Deleted",
+                                    Toast.LENGTH_SHORT).show();
+
 
                             break;
                         case 1:
@@ -344,7 +371,8 @@ public class MainActivity extends AppCompatActivity
 
         if (workpasses != null) {
             workpassList.addAll(workpasses);
-        } else {
+        }
+        else {
             Toast.makeText(MainActivity.this, "Inga pass hittades", Toast.LENGTH_SHORT).show();
         }
 
