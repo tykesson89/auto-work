@@ -188,8 +188,8 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
                             List arr = (List)objectIn.readObject();
 
-                            //workpassArrayList = (List<Workpass>) objectIn.readObject();
                             for (int i = 0; i < arr.size(); i++) {
+                                //TODO 16-04-27 Måste synka companyServier id med lokala id
                                 String jobj = (String) arr.get(i);
                                 Gson gson = new GsonBuilder().create();
 

@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -159,6 +160,32 @@ public class SQLiteDB extends SQLiteOpenHelper {
             );
 
             companies.add(company);
+        }
+
+        db.close();
+        cursor.close();
+
+        return companies;
+    }
+
+    public HashMap<Integer, Company> getAllCompaniesHashMap() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + CompanyEntry.TABLE_NAME, null);
+
+        HashMap<Integer, Company> companies = new HashMap<>();
+
+        while (cursor.moveToNext()) {
+            Company company = new Company(
+                    cursor.getLong(cursor.getColumnIndex(CompanyEntry.COMPANY_ID)),
+                    cursor.getInt(cursor.getColumnIndex(CompanyEntry.COMPANY_MY_SQL_ID)),
+                    cursor.getInt(cursor.getColumnIndex(CompanyEntry.USER_ID)),
+                    cursor.getString(cursor.getColumnIndex(CompanyEntry.COMPANY_NAME)),
+                    cursor.getDouble(cursor.getColumnIndex(CompanyEntry.WAGE)),
+                    cursor.getInt(cursor.getColumnIndex(CompanyEntry.IS_SYNCED)),
+                    cursor.getString(cursor.getColumnIndex(CompanyEntry.ACTION_TAG))
+            );
+
+            companies.put((int) company.getCompanyId(), company);
         }
 
         db.close();
