@@ -71,7 +71,8 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
 
 
     public void onClickBtnDeleteAccount() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        final AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialogBuilder.setMessage("Are your sure you want to delete your account");
 
         alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
@@ -81,15 +82,16 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
             }
         });
 
-        alertDialogBuilder.setNegativeButton("NO",new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
+            alertDialog.dismiss();
             }
         });
 
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
+        final AlertDialog alersDialog = alertDialogBuilder.create();
+        alersDialog.show();
+
     }
 
 
