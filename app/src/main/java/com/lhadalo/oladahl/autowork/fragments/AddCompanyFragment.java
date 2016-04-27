@@ -25,17 +25,17 @@ import UserPackage.Company;
 
 public class AddCompanyFragment extends Fragment {
     private OnFragmentInteraction callback;
-    private Button btnAdd, btnChange, btnDelete;
+    private Button btnAdd;
     private EditText edCompany, edHourly;
-    private Spinner spinner;
+
 
 
     public interface OnFragmentInteraction {
         void onClickBtnAddCompany(String company, double hourly);
 
-        void onClickBtnChangeCompany(String company, double hourly);
+     //   void onClickBtnChangeCompany(String company, double hourly);
 
-        void onClickBtnDeleteCompany(String company);
+     //   void onClickBtnDeleteCompany(String company);
     }
 
     @Nullable
@@ -44,8 +44,7 @@ public class AddCompanyFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_add_company, container, false);
 
         initComponents(view);
-        spinner();
-        spinneronClick();
+
 
         return view;
     }
@@ -53,11 +52,11 @@ public class AddCompanyFragment extends Fragment {
     private void initComponents(View view) {
 
         btnAdd = (Button) view.findViewById(R.id.btn_addCompany);
-        btnDelete = (Button) view.findViewById(R.id.btn_delete);
-        btnChange = (Button) view.findViewById(R.id.btn_change);
+       // btnDelete = (Button) view.findViewById(R.id.btn_delete);
+       // btnChange = (Button) view.findViewById(R.id.btn_change);
         edCompany = (EditText) view.findViewById((R.id.etCompany));
         edHourly = (EditText) view.findViewById(R.id.etHourly);
-        spinner = (Spinner) view.findViewById(R.id.spinner);
+       // spinner = (Spinner) view.findViewById(R.id.spinner);
         initListeners();
 
     }
@@ -74,26 +73,26 @@ public class AddCompanyFragment extends Fragment {
         });
 
 
-        btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    //    btnDelete.setOnClickListener(new View.OnClickListener() {
 
-                callback.onClickBtnDeleteCompany(getCompany());
+        //    public void onClick(View v) {
 
+      //          callback.onClickBtnDeleteCompany(getCompany());
 
+//
             }
-        });
+  //      });
 
-        btnChange.setOnClickListener(new View.OnClickListener() {
+    //    btnChange.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-             callback.onClickBtnChangeCompany(getCompany(), getHourly());
-            }
-        });
+      //      public void onClick(View v) {
+        //     callback.onClickBtnChangeCompany(getCompany(), getHourly());
+          //  }
+       // });
 
-    }
+    //}
 
-    @Override
+
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
@@ -130,50 +129,6 @@ public class AddCompanyFragment extends Fragment {
         builder.setMessage(Message);
         builder.show();
 
-    }
-
-    public void spinner() {
-        SQLiteDB db = new SQLiteDB(this.getActivity());
-        List<Company> listpro = new ArrayList<>();
-        listpro = db.getAllCompanies();
-        ArrayList<String> list = new ArrayList<>();
-        if (listpro.size() == 0) {
-            showMessage("Error", "Nothing found");
-
-        }
-        for (int i = 0; i < listpro.size(); i++) {
-
-            list.add(listpro.get(i).getCompanyName());
-        }
-
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), R.layout.spinner_layout, R.id.txt, list);
-
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown);
-        spinner.setAdapter(adapter);
-    }
-
-    public void spinneronClick() {
-        final SQLiteDB db = new SQLiteDB(this.getActivity());
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                String str = null;
-
-                str = spinner.getItemAtPosition(position).toString();
-
-                double wage = db.getHourlyWage(str);
-                setTextCompany(str);
-                setTextHourly(String.valueOf(wage));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 
 }

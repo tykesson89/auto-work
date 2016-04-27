@@ -1,5 +1,6 @@
 package com.lhadalo.oladahl.autowork.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -50,9 +51,14 @@ public class AddCompanyActivity extends AppCompatActivity implements AddCompanyF
             String str = list.get(i).getCompanyName();
             Log.v(companyName, str);
             if(str.equals(companyName)) {
+
                 exists = true;
 
             }
+
+
+
+
         }
         Log.v("ddd", "gdgd");
         if(exists == true) {
@@ -71,11 +77,20 @@ public class AddCompanyActivity extends AppCompatActivity implements AddCompanyF
             int myID = user.getUserid();
             company.setUserId(myID);
             db.addCompany(company);
-            fragment.spinner();
+
             CharSequence text = "Company added";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(AddCompanyActivity.this, text, duration);
             toast.show();
+
+
+            if(companyName!=null){
+
+                Intent intent = new Intent(AddCompanyActivity.this, MainActivity.class);
+                startActivity(intent);
+
+
+            }
 
 
             fragment.setTextCompany(companyName);
@@ -147,7 +162,7 @@ public class AddCompanyActivity extends AppCompatActivity implements AddCompanyF
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(AddCompanyActivity.this, text, duration);
             toast.show();
-            fragment.spinner();
+
             fragment.setTextHourly("");
             fragment.setTextCompany("");
 
