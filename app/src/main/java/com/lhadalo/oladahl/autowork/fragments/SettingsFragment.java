@@ -41,7 +41,7 @@ public class SettingsFragment extends Fragment {
         btnChangePassword = (Button) view.findViewById(R.id.btnChangePassword);
         btnChangeCompanyInfo = (Button) view.findViewById(R.id.btnChangeCompanyInfo);
         btnDeleteAccount = (Button) view.findViewById(R.id.btnDeleteAccount);
-        btnDeleteCompany = (Button) view.findViewById(R.id.btnDeleteCompany);
+
 
 
         initListeners();
@@ -77,12 +77,7 @@ public class SettingsFragment extends Fragment {
                 callback.onClickBtnDeleteAccount();
             }
         });
-        btnDeleteCompany.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                callback.onClickBtnDeleteCompany();
-            }
-        });
+
     }
 
     @Override

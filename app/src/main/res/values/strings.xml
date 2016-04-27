@@ -86,6 +86,8 @@
     <string name="NewPassword">New Password</string>
     <string name="NewPasswordConfirmation">New Password Confirmation</string>
     <string name="OldPassword">Old Password</string>
+    <string name="add_title">Company</string>
+    <string name="add_desc">Hourly wage</string>
 
 
 </resources>
