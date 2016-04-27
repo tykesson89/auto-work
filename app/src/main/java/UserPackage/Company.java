@@ -15,6 +15,19 @@ public class Company implements Serializable{
     private int isSynced;
     private String actionTag;
 
+    @Override
+    public String toString() {
+        return "Company{" +
+                "companyId=" + companyId +
+                ", serverID=" + serverID +
+                ", userId=" + userId +
+                ", companyName='" + companyName + '\'' +
+                ", hourlyWage=" + hourlyWage +
+                ", isSynced=" + isSynced +
+                ", actionTag='" + actionTag + '\'' +
+                '}';
+    }
+
     public Company(long companyId, int serverID, int userId, String companyName, double hourlyWage, int isSynced, String actionTag) {
         this.companyId = companyId;
         this.serverID = serverID;
@@ -85,11 +98,6 @@ public class Company implements Serializable{
 
     public int getUserId() {
         return userId;
-    }
-
-    @Override
-    public String toString() {
-        return companyName;
     }
 
     public int getServerID() {

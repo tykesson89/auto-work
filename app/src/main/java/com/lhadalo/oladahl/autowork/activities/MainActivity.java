@@ -183,9 +183,13 @@ public class MainActivity extends AppCompatActivity
             case R.id.test:
                 break;
             case R.id.databasetest:
-                List<Workpass> list = database.getAllWorkpasses();
-                for (Workpass w : list) {
-                    Log.v(Tag.LOGTAG, String.valueOf(w.getServerID()));
+                List<Workpass> workpasses = database.getAllWorkpasses();
+                for (Workpass w : workpasses) {
+                    Log.v(Tag.LOGTAG, w.toString());
+                }
+                List<Company> companies = database.getAllCompanies();
+                for(Company c : companies){
+                    Log.v(Tag.LOGTAG, c.toString());
                 }
         }
         return super.onOptionsItemSelected(item);

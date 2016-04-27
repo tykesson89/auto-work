@@ -33,6 +33,7 @@ import UserPackage.User;
 import UserPackage.Workpass;
 
 import com.lhadalo.oladahl.autowork.fragments.AddWorkpassFragment;
+import com.lhadalo.oladahl.autowork.fragments.DatePickerFragment;
 
 import UserPackage.Company;
 
@@ -63,7 +64,6 @@ public class AddWorkpassActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_workpass);
 
-
         initFragment();
 
         database = new SQLiteDB(this);
@@ -83,72 +83,72 @@ public class AddWorkpassActivity extends AppCompatActivity
 
         requestCode = getIntent().getIntExtra(Tag.REQUEST_CODE, -1);
 
-        if (requestCode > 0) {
-            if (requestCode == Tag.ADD_WORKPASS_REQUEST) {
-                model = new Workpass();
-                selectedCompany = companies.get(0);
+        if (requestCode > 0) if (requestCode == Tag.ADD_WORKPASS_REQUEST) {
+            model = new Workpass();
+            selectedCompany = companies.get(0);
 
-                //Om det finns några arbetsplatser sätts det till interface och modell
-                if (companies != null) {
-                    fragment.setCompanyName(selectedCompany.getCompanyName());
-                    model.setCompanyID(selectedCompany.getCompanyId());
-                }
-                else {
-                    fragment.setCompanyName("ERROR!");
-                }
-
-                //Hämtar nuvarande tid
-                Calendar cal = Calendar.getInstance();
-
-                //Sätter tid till interface
-                setTimeDate(cal, Tag.START_DATE_TIME);
-                setTimeDate(cal, Tag.END_DATE_TIME);
-
-                fragment.setTxtDateStart(formatDate(startDate));
-                fragment.setTxtTimeStart(String.valueOf(DateFormat.format("kk:mm", startTime)));
-
-                fragment.setTxtDateEnd(formatDate(endDate));
-                fragment.setTxtTimeEnd(String.valueOf(DateFormat.format("kk:mm", endTime)));
-
-                model.setNote("Hej");
-                //Sätter paustid till noll i modellen.
-                model.setBreaktime(0.0);
-
-                //Beräknar timmar och lön och sätter i modellen.
-                calculateHours();
-                setSalary();
-
-                fragment.setBtnSave("Add");
-
-            }
-            else if (requestCode == Tag.UPDATE_WORKPASS_REQUEST) {
-                model = database.getWorkpass(getIntent().getLongExtra(WorkpassEntry.WORKPASS_ID, -1));
-
-                //Sätta alla fält från modellen
-                fragment.setTitle(model.getTitle());
-
-                selectedCompany = database.getCompany(model.getCompanyID());
+            //Om det finns några arbetsplatser sätts det till interface och modell
+            if (companies != null) {
                 fragment.setCompanyName(selectedCompany.getCompanyName());
-
-                setTimeDate(model.getStartDateTime(), Tag.START_DATE_TIME);
-                setTimeDate(model.getEndDateTime(), Tag.END_DATE_TIME);
-
-                fragment.setTxtDateStart(formatDate(startDate));
-                fragment.setTxtTimeStart(String.valueOf(DateFormat.format("kk:mm", startTime)));
-
-                fragment.setTxtDateEnd(formatDate(endDate));
-                fragment.setTxtTimeEnd(String.valueOf(DateFormat.format("kk:mm", endTime)));
-
-                if (model.getBreaktime() > 0) {
-                    fragment.setTxtBrake(String.valueOf(model.getBreaktime()));
-                }
-
-                if (model.getNote() != null) {
-                    fragment.setTxtNote(model.getNote());
-                }
-
-                fragment.setBtnSave("Update");
+                model.setCompanyID(selectedCompany.getCompanyId());
             }
+            else {
+                fragment.setCompanyName("ERROR!");
+            }
+
+            //Hämtar nuvarande tid
+            Calendar cal = Calendar.getInstance();
+
+            //Sätter tid till interface
+            setTimeDate(cal, Tag.START_DATE_TIME);
+            setTimeDate(cal, Tag.END_DATE_TIME);
+
+            fragment.setTxtDateStart(formatDate(startDate));
+            fragment.setTxtTimeStart(String.valueOf(DateFormat.format("kk:mm", startTime)));
+
+            fragment.setTxtDateEnd(formatDate(endDate));
+            fragment.setTxtTimeEnd(String.valueOf(DateFormat.format("kk:mm", endTime)));
+
+            model.setNote("Hej");
+            //Sätter paustid till noll i modellen.
+            model.setBreaktime(0.0);
+
+            //Beräknar timmar och lön och sätter i modellen.
+            calculateHours();
+            setSalary();
+
+            fragment.setBtnSave("Add");
+
+        }
+        else if (requestCode == Tag.UPDATE_WORKPASS_REQUEST) {
+            model = database.getWorkpass(getIntent().getLongExtra(WorkpassEntry.WORKPASS_ID, -1));
+
+            //Sätta alla fält från modellen
+            fragment.setTitle(model.getTitle());
+
+            //selectedCompany = database.getCompany(model.getCompanyID());
+            selectedCompany = companies.get(0);
+            fragment.setCompanyName(selectedCompany.getCompanyName());
+
+
+            setTimeDate(model.getStartDateTime(), Tag.START_DATE_TIME);
+            setTimeDate(model.getEndDateTime(), Tag.END_DATE_TIME);
+
+            fragment.setTxtDateStart(formatDate(startDate));
+            fragment.setTxtTimeStart(String.valueOf(DateFormat.format("kk:mm", startTime)));
+
+            fragment.setTxtDateEnd(formatDate(endDate));
+            fragment.setTxtTimeEnd(String.valueOf(DateFormat.format("kk:mm", endTime)));
+
+            if (model.getBreaktime() > 0) {
+                fragment.setTxtBrake(String.valueOf(model.getBreaktime()));
+            }
+
+            if (model.getNote() != null) {
+                fragment.setTxtNote(model.getNote());
+            }
+
+            fragment.setBtnSave("Update");
         }
     }
 
@@ -491,30 +491,5 @@ public class AddWorkpassActivity extends AppCompatActivity
             return new TimePickerDialog(getActivity(), listener, hour, minute,
                     DateFormat.is24HourFormat(getActivity()));
         }
-    }
-
-    public static class DatePickerFragment extends DialogFragment {
-        private DatePickerDialog.OnDateSetListener listener;
-
-        public static DatePickerFragment newInstance() {
-            return new DatePickerFragment();
-        }
-
-        @Override
-        public void onAttach(Context context) {
-            super.onAttach(context);
-            listener = (DatePickerDialog.OnDateSetListener) context;
-        }
-
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Calendar cal = Calendar.getInstance();
-            int year = cal.get(Calendar.YEAR);
-            int month = cal.get(Calendar.MONTH);
-            int day = cal.get(Calendar.DAY_OF_MONTH);
-
-            return new DatePickerDialog(getActivity(), listener, year, month, day);
-        }
-    }
+    }F
 }
