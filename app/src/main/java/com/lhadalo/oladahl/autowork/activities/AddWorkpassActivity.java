@@ -34,6 +34,7 @@ import UserPackage.Workpass;
 
 import com.lhadalo.oladahl.autowork.fragments.AddWorkpassFragment;
 import com.lhadalo.oladahl.autowork.fragments.DatePickerFragment;
+import com.lhadalo.oladahl.autowork.fragments.TimePickerFragment;
 
 import UserPackage.Company;
 
@@ -467,29 +468,4 @@ public class AddWorkpassActivity extends AppCompatActivity
 
         dialog.show();
     }
-
-    public static class TimePickerFragment extends DialogFragment {
-        private TimePickerDialog.OnTimeSetListener listener;
-
-        public static TimePickerFragment newInstance() {
-            return new TimePickerFragment();
-        }
-
-        @Override
-        public void onAttach(Context context) {
-            super.onAttach(context);
-            listener = (TimePickerDialog.OnTimeSetListener) context;
-        }
-
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Calendar cal = Calendar.getInstance();
-            int hour = cal.get(Calendar.HOUR_OF_DAY);
-            int minute = cal.get(Calendar.MINUTE);
-
-            return new TimePickerDialog(getActivity(), listener, hour, minute,
-                    DateFormat.is24HourFormat(getActivity()));
-        }
-    }F
 }
