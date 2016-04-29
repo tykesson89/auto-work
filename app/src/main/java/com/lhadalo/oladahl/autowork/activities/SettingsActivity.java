@@ -62,13 +62,13 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
 
 
     }
+
     public void onClickBtnChangeCompanyInfo() {
         // TODO: 2016-04-19 Christoffer lägger till sitt här
     }
     public void onClickBtnDeleteCompany() {
         // TODO: 2016-04-19 Christoffer lägger till sitt här
     }
-
 
     public void onClickBtnDeleteAccount() {
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);

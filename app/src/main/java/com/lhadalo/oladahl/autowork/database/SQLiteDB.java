@@ -168,6 +168,20 @@ public class SQLiteDB extends SQLiteOpenHelper {
         return companies;
     }
 
+    public long getLocalCompanyId(Workpass workpass){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String select = "select "
+                + CompanyEntry.COMPANY_ID
+                + " where "
+                + CompanyEntry.COMPANY_MY_SQL_ID + "=?";
+
+        Cursor cursor = db.rawQuery(select,
+                new String[]{String.valueOf(workpass.getCompanyServerID())});
+
+        cursor.moveToFirst();
+        return cursor.getLong(cursor.getColumnIndex(CompanyEntry.COMPANY_ID));
+    }
+
     public HashMap<Integer, Company> getAllCompaniesHashMap() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + CompanyEntry.TABLE_NAME, null);

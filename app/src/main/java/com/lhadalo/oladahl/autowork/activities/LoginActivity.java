@@ -26,8 +26,6 @@ import UserPackage.User;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.lhadalo.oladahl.autowork.InternetService;
 import com.lhadalo.oladahl.autowork.InternetSettingsActivity;
 import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
@@ -36,9 +34,6 @@ import com.lhadalo.oladahl.autowork.Tag;
 import UserPackage.Workpass;
 
 import com.lhadalo.oladahl.autowork.fragments.LoginFragment;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteraction {
     private LoginFragment fragment;
@@ -108,13 +103,22 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     public void onClickInternetSettings() {
         Intent intent = new Intent(this, InternetSettingsActivity.class);
         startActivity(intent);
-
     }
 
     @Override
     public void onClickBtnCreateUser() {
         Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
         startActivityForResult(intent, requestCode);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == this.requestCode) {
+            if (resultCode == RESULT_OK) {
+                fragment.setTextetEmail(data.getStringExtra(Tag.EMAIL_INTENT));
+            }
+        }
+
     }
 
     public static boolean isConnected(Context context) {
@@ -186,9 +190,21 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
                             }
 
-                            List arr = (List)objectIn.readObject();
+                            try {
+                                List<String> workpassesFromServer = (List<String>) objectIn.readObject();
+                                Gson gson =  new GsonBuilder().create();
+                                for (String jsonWorkpass : workpassesFromServer) {
+                                    Workpass workpass = gson.fromJson(jsonWorkpass, Workpass.class);
+                                    workpass.setCompanyID(db.getLocalCompanyId(workpass)); //Hämtar lokalt id för company.
+                                    workpass.setIsSynced(1);
+                                    workpass.setActionTag(Tag.ON_WORKPASS_IS_SYNCED);
+                                    db.addWorkpass(workpass);
+                                }
+                            } catch (ClassNotFoundException e){
+                                e.printStackTrace();
+                            }
 
-                            for (int i = 0; i < arr.size(); i++) {
+                            /*for (int i = 0; i < arr.size(); i++) {
                                 //TODO 16-04-27 Måste synka companyServier id med lokala id
                                 String jobj = (String) arr.get(i);
                                 Gson gson = new GsonBuilder().create();
@@ -197,7 +213,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                                 w.setActionTag("Synced");
                                 w.setIsSynced(1);
                                 db.addWorkpass(w);
-                            }
+                            }*/
                         }
                     } catch (SocketTimeoutException s) {
                         return "The server is offline";
@@ -212,7 +228,6 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
             return Tag.SUCCESS;
         }
-
 
         @Override
         protected void onPostExecute(String res) {
@@ -244,16 +259,6 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                 startActivity(intent);
             }
         }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == this.requestCode) {
-            if (resultCode == RESULT_OK) {
-                fragment.setTextetEmail(data.getStringExtra(Tag.EMAIL_INTENT));
-            }
-        }
-
     }
 
     private class NewPassword extends AsyncTask<String, Void, String> {

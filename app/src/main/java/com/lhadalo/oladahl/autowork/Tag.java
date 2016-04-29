@@ -26,6 +26,8 @@ public class Tag {
     public static final String ON_CREATE_WORKPASS = "Create Workpass";
     public static final String ON_CHANGE_WORKPASS = "Change Workpass";
     public static final String ON_DELETE_WORKPASS = "Delete Workpass";
+    public static final String ON_WORKPASS_IS_SYNCED = "Synced";
+
 
     public static final String MY_SERVICE = "com.lhadalo.oladahl.autowork.InternetService";
 
