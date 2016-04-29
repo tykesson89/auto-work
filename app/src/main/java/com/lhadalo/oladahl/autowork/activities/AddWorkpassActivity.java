@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -33,6 +34,12 @@ import com.lhadalo.oladahl.autowork.fragments.TimePickerFragment;
 
 import UserPackage.Company;
 
+/**
+ * Activity som hanterar tilläggning av arbetspass till applikationen.
+ * Arbetspass representerar ett arbetstillfälle på en viss arbetsplats.
+ * Användaren kan lägga till arbetsplats, starttid, sluttid, tid för rast, titel och anteckningar.
+ * Passet läggs till i databasen, där lön och arbetsade timmar läggs till.
+ */
 public class AddWorkpassActivity extends AppCompatActivity
         implements AddWorkpassFragment.OnFragmentInteraction, DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
@@ -48,7 +55,7 @@ public class AddWorkpassActivity extends AppCompatActivity
     private List<Company> companies;
     private HashMap<Integer, Company> companyHashMap;
     private Company selectedCompany;
-    private GregorianCalendar startDate, startTime, endDate, endTime;
+    private GregorianCalendar startDate, startTime, endDate, endTime, startDateTime;
 
     private List<Workpass> workpasses = new ArrayList<>();
 
@@ -56,6 +63,9 @@ public class AddWorkpassActivity extends AppCompatActivity
     // Initierare
     //----------------------------------------------------------------------------
 
+    /**
+     * Skapar activity, initierar fragmentet, läser in data från databasen
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,17 +82,23 @@ public class AddWorkpassActivity extends AppCompatActivity
 
     }
 
+    /**
+     * Initierar fragmentet som denna activity är kopplad till
+     */
     private void initFragment() {
         fragment = new AddWorkpassFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container_add_workpass, fragment).commit();
     }
 
+    /**
+     * Sätter värden till fragmentet.
+     * Ifall ett nytt arbetspass läggs till sätts defaultvärden,
+     * ifall ett arbetspass ändras sätts värdet från det valda passet.
+     */
     @Override
     protected void onStart() {
         super.onStart();
-
-
 
         if (requestCode > 0) if (requestCode == Tag.ADD_WORKPASS_REQUEST) {
             model = new Workpass();
@@ -100,7 +116,7 @@ public class AddWorkpassActivity extends AppCompatActivity
             //Hämtar nuvarande tid
             Calendar cal = Calendar.getInstance();
 
-            //Sätter tid till interface
+            //Sätter nuvarande tid till interface
             setTimeDate(cal, Tag.START_DATE_TIME);
             setTimeDate(cal, Tag.END_DATE_TIME);
 
@@ -110,28 +126,29 @@ public class AddWorkpassActivity extends AppCompatActivity
             fragment.setTxtDateEnd(formatDate(endDate));
             fragment.setTxtTimeEnd(String.valueOf(DateFormat.format("kk:mm", endTime)));
 
-            model.setNote("Hej");
-            //Sätter paustid till noll i modellen.
-            model.setBreaktime(0.0);
+            model.setBreaktime(0.0); //Sätter paustid till noll i modellen.
+
 
             //Beräknar timmar och lön och sätter i modellen.
             calculateHours();
             setSalary();
 
             fragment.setBtnSave("Add");
-
         }
         else if (requestCode == Tag.UPDATE_WORKPASS_REQUEST) {
+            //Hämtar arbtespasset som användaren valt.
             model = database.getWorkpass(getIntent().getLongExtra(WorkpassEntry.WORKPASS_ID, -1));
 
-            //Sätta alla fält från modellen
+            //Sätter värden från det valda arbetespasset.
             fragment.setTitle(model.getTitle());
 
-
-
             selectedCompany = database.getCompany(model.getCompanyID());
-            fragment.setCompanyName(selectedCompany.getCompanyName());
-
+            if (selectedCompany != null) {
+                fragment.setCompanyName(selectedCompany.getCompanyName());
+            }
+            else {
+                fragment.setCompanyName("ERROR!"); //Ifall inget company hittades.
+            }
 
             setTimeDate(model.getStartDateTime(), Tag.START_DATE_TIME);
             setTimeDate(model.getEndDateTime(), Tag.END_DATE_TIME);
@@ -160,43 +177,74 @@ public class AddWorkpassActivity extends AppCompatActivity
     // Action Events
     //----------------------------------------------------------------------------
 
+    /**
+     * Då användaren trycker på arbetsplats i fragment.
+     */
     @Override
     public void onClickWorkplace() {
         createCompaniesDialog();
     }
 
+    /**
+     * Då användaren trycker på startdatum i fragment.
+     * Skapar en ny dialog för att välja datum.
+     */
     @Override
     public void onClickDateStart() {
         dialogSource = Tag.START_DATE_TIME;
         DatePickerFragment.newInstance().show(getSupportFragmentManager(), "datepicker");
     }
 
+    /**
+     * Då användaren trycker på starttid i fragment.
+     * Skapar en ny dialog för att välja tid.
+     */
     @Override
     public void onClickTimeStart() {
         dialogSource = Tag.START_DATE_TIME;
         TimePickerFragment.newInstance().show(getSupportFragmentManager(), "timepicker");
     }
 
+    /**
+     * Då användaren trycker på slutdatum i fragment.
+     * Skapar en ny dialog för att välja datum.
+     */
     @Override
     public void onClickDateEnd() {
         dialogSource = Tag.END_DATE_TIME;
         DatePickerFragment.newInstance().show(getSupportFragmentManager(), "datepicker");
     }
 
+    /**
+     * Då användaren trycker på sluttid i fragment.
+     * Skapar en ny dialog för att välja tid.
+     */
     @Override
     public void onClickTimeEnd() {
         dialogSource = Tag.END_DATE_TIME;
         TimePickerFragment.newInstance().show(getSupportFragmentManager(), "timepicker");
     }
 
+    /**
+     * Då användaren trycker på rast i fragment.
+     * Skapar en ny dialog för att välja tid för rast.
+     */
     @Override
     public void onClickBreak() {
         createBreakDialog();
     }
 
+    /**
+     * Då användaren trycker på Lägg till eller Uppdatera i fragment.
+     * Tittar ifall alla värden är korrekta och lägger till passet till databasen.
+     * Activityn avslutas till MainActivity.
+     */
     @Override
     public void onClickSave() {
+
+        //Ifall ett nytt pass ska läggas till.
         if (requestCode == Tag.ADD_WORKPASS_REQUEST) {
+
             //Ifall all information kunde läggas till, läggs modellen till i databasen
             //och activityn avslutas.
             if (populateModelFromInterface()) {
@@ -217,6 +265,7 @@ public class AddWorkpassActivity extends AppCompatActivity
                 finish();
             }
         }
+        //Ifall ett arbetspass ska ändras.
         else {
             if (populateModelFromInterface()) {
                 if (model.getIsSynced() == 1) {
@@ -235,16 +284,32 @@ public class AddWorkpassActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Då användaren trycker på Avbryt i fragment.
+     * Activityn avslutas till MainActivity.
+     */
     @Override
     public void onClickCancel() {
-        setResult(RESULT_CANCELED);
-        finish();
+        Log.v(Tag.LOGTAG, formatDate(startDateTime));
+        //setResult(RESULT_CANCELED);
+        //finish();
     }
 
+    /**
+     * Då användaren valt ett datum i DatePickerFragment.
+     * Ifall startdatum valts sätts startdatum.
+     * Ifall slutdatum valts sätts slutdatum.
+     *
+     * @param datePicker referens till datepicker.
+     * @param year det valda året.
+     * @param month den valda månaden.
+     * @param day den valda dagen.
+     */
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         if (dialogSource == Tag.START_DATE_TIME) {
             startDate = new GregorianCalendar(year, month, day);
+            startDateTime.set(year, month, day);
             fragment.setTxtDateStart(formatDate(startDate));
         }
         else if (dialogSource == Tag.END_DATE_TIME) {
@@ -253,12 +318,25 @@ public class AddWorkpassActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Då användaren valt en tid i TimePickerFragment.
+     * Ifall starttid valts sätts starttid.
+     * Ifall sluttid valts sätts sluttid.
+     *
+     * @param timePicker referens till timePicker.
+     * @param hour den valda timmen.
+     * @param minute den valda minuten.
+     */
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
         if (dialogSource == Tag.START_DATE_TIME) {
             fragment.setTxtTimeStart(String.valueOf(DateFormat.format("kk:mm",
                     new GregorianCalendar(0, 0, 0, hour, minute))));
             startTime = new GregorianCalendar(0, 0, 0, hour, minute);
+
+            startDateTime.set(Calendar.HOUR_OF_DAY, hour);
+            startDateTime.set(Calendar.MINUTE, minute);
+
             calculateHours();
             setSalary();
         }
@@ -271,7 +349,14 @@ public class AddWorkpassActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Sätter datum och tid till instansvariabler för tid och datum.
+     *
+     * @param cal tiden som ska sättas.
+     * @param dateTimeTarget ifall det är starttid eller sluttid som ska sättas.
+     */
     private void setTimeDate(Calendar cal, int dateTimeTarget) {
+
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
@@ -282,6 +367,7 @@ public class AddWorkpassActivity extends AppCompatActivity
             case Tag.START_DATE_TIME:
                 startDate = new GregorianCalendar(year, month, dayOfMonth);
                 startTime = new GregorianCalendar(0, 0, 0, hourOfDay, minute);
+                startDateTime = new GregorianCalendar(year, month, dayOfMonth, hourOfDay, minute);
                 break;
             case Tag.END_DATE_TIME:
                 //Ifall ett nytt pass läggs till ska 3 timmar läggas till sluttiden
@@ -297,6 +383,12 @@ public class AddWorkpassActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Slår ihop det valda datumet med de
+      * @param date
+     * @param time
+     * @return
+     */
     private GregorianCalendar joinDateTime(GregorianCalendar date, GregorianCalendar time) {
         return new GregorianCalendar(
                 date.get(Calendar.YEAR),
