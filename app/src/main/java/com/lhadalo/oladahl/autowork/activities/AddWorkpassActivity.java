@@ -360,8 +360,8 @@ public class AddWorkpassActivity extends AppCompatActivity
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-        int hourOfDay = cal.get(Calendar.HOUR_OF_DAY);
-        int minute = cal.get(Calendar.MINUTE);
+        int hourOfDay = 12;
+        int minute = 0;
 
         switch (dateTimeTarget) {
             case Tag.START_DATE_TIME:
@@ -449,16 +449,42 @@ public class AddWorkpassActivity extends AppCompatActivity
         }
     }
 
+    //TODO Fixa så det fungerar med tillägning av pass mellan månader
     private void calculateHours() {
-        double start = (startTime.get(Calendar.HOUR_OF_DAY) * 60) + startTime.get(Calendar.MINUTE);
-        double end = (endTime.get(Calendar.HOUR_OF_DAY) * 60) + endTime.get(Calendar.MINUTE);
 
-        double breaktime = model.getBreaktime();
-        double difference = end - (start + breaktime);
+        //Konverterar tid till timmar
+        float startTimeHours = (((float)startTime.get(Calendar.HOUR_OF_DAY) * 60) +
+                (float)startTime.get(Calendar.MINUTE)) / 60;
+        float endTimeHours =(((float)endTime.get(Calendar.HOUR_OF_DAY) * 60) +
+                (float)endTime.get(Calendar.MINUTE)) / 60;
 
-        double workingTime = difference / 60;
+        double breaktime = (model.getBreaktime() / 60);
+        double nbrOfHours;
 
-        model.setWorkingHours(workingTime);
+        //Ifall startdatum och slutdatum ej är samma ska tiden mellan datum hämtas.
+        if(startDate.get(Calendar.DATE) != endDate.get(Calendar.DATE)){
+
+            //Antalet timmarna för startdatumet
+            float firstDayHours = 24 - (startTimeHours + (float)breaktime);
+
+            //Dagarna mellan nästa dag och slutdatumet
+            float dateDifferenceStart = startDate.get(Calendar.DATE) + 1;
+            float dateDifferenceEnd = endDate.get(Calendar.DATE);
+            float dateDiff = dateDifferenceEnd - dateDifferenceStart;
+
+            //Antalet timmar för dagarna mellan
+            float dayHours = 24 * dateDiff;
+
+            //Lägger ihop alla timmar
+            nbrOfHours = firstDayHours + dayHours + endTimeHours;
+        }
+        //Annars sätts bara en dags arbetade timmar
+        else{
+            nbrOfHours = endTimeHours - startTimeHours;
+        }
+
+        //Sätter antal timmar till datamodellen.
+        model.setWorkingHours(nbrOfHours);
     }
 
     private void setSalary() {
