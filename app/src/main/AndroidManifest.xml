@@ -37,7 +37,7 @@
             android:name=".activities.AddWorkpassActivity"
             android:parentActivityName=".activities.MainActivity" />
 
-        <service android:name=".InternetService" android:enabled="true">
+        <service android:name="com.lhadalo.oladahl.autowork.InternetService" android:enabled="true">
             <intent-filter>
                 <action android:name="com.lhadalo.oladahl.autowork.InternetService"/>
             </intent-filter>

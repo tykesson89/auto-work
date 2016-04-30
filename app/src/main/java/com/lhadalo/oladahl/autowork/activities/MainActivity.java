@@ -1,5 +1,7 @@
 package com.lhadalo.oladahl.autowork.activities;
 
+import android.app.ActivityManager;
+import android.app.ApplicationErrorReport;
 import android.app.IntentService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -28,6 +31,7 @@ import android.widget.Toast;
 import com.lhadalo.oladahl.autowork.ConnectivityChangedReceiver;
 import com.lhadalo.oladahl.autowork.DrawerListener;
 import com.lhadalo.oladahl.autowork.InternetService;
+import com.lhadalo.oladahl.autowork.StartService;
 import com.lhadalo.oladahl.autowork.database.DatabaseContract;
 import com.lhadalo.oladahl.autowork.ListAdapter;
 import com.lhadalo.oladahl.autowork.R;
@@ -164,6 +168,16 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    private boolean isMyServiceRunning() {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for(ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)){
+            if("com.lhadalo.oladahl.autowork.InternetService".equals(service.service.getClassName())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -188,9 +202,16 @@ public class MainActivity extends AppCompatActivity
                     Log.v(Tag.LOGTAG, w.toString());
                 }
                 List<Company> companies = database.getAllCompanies();
-                for(Company c : companies){
+                for (Company c : companies) {
                     Log.v(Tag.LOGTAG, c.toString());
                 }
+                break;
+            case R.id.isservicerunning:
+                Toast.makeText(this, String.valueOf(isMyServiceRunning()),
+                        Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.hasconnection:
+                Toast.makeText(this, String.valueOf(isConnected(this)), Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -220,8 +241,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            Intent serviceIntent = new Intent(getBaseContext(), InternetService.class);
-            startService(serviceIntent);
+            StartService.startService(getBaseContext());
             if (requestCode == Tag.ADD_WORKPASS_REQUEST) {
                 int month = data.getIntExtra(DatabaseContract.WorkpassEntry.MONTH, -1);
                 if (month != -1) {
@@ -230,6 +250,8 @@ public class MainActivity extends AppCompatActivity
                         workpassList.add(lastAdded);
                         adapter.notifyDataSetChanged();
                         FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
+                        Toast.makeText(this, String.valueOf(isMyServiceRunning()),
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -240,6 +262,20 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         }
+    }
+
+    public static boolean isConnected(Context context) {
+        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null) {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null) {
+                for (int i = 0; i < info.length; i++) {
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED)
+                        return true;
+                }
+            }
+        }
+        return false;
     }
 
     public void getStatistics(List<Workpass> allWorkpasses) {

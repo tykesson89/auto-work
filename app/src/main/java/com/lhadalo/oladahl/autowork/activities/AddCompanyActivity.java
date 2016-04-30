@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.lhadalo.oladahl.autowork.R;
+import com.lhadalo.oladahl.autowork.StartService;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 import com.lhadalo.oladahl.autowork.fragments.AddCompanyFragment;
 
@@ -97,9 +98,9 @@ public class AddCompanyActivity extends AppCompatActivity{
 
 
             if(companyName!=null){
+                StartService.startService(this);
                 finish();
             }
-
         }
     }
 
