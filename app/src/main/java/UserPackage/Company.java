@@ -15,9 +15,24 @@ public class Company implements Serializable{
     private int isSynced;
     private String actionTag;
 
+    /*
     @Override
     public String toString() {
         return companyName;
+    }
+    */
+
+    @Override
+    public String toString() {
+        return "Company{" +
+                "companyId=" + companyId +
+                ", serverID=" + serverID +
+                ", userId=" + userId +
+                ", companyName='" + companyName + '\'' +
+                ", hourlyWage=" + hourlyWage +
+                ", isSynced=" + isSynced +
+                ", actionTag='" + actionTag + '\'' +
+                '}';
     }
 
     public Company(long companyId, int serverID, int userId, String companyName, double hourlyWage, int isSynced, String actionTag) {

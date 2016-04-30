@@ -512,8 +512,8 @@ public class SQLiteDB extends SQLiteOpenHelper {
             ex.printStackTrace();
         }
 
-        TimeZone timeZone = TimeZone.getTimeZone("GMT+1");
-        GregorianCalendar cal = new GregorianCalendar(timeZone);
+        //TimeZone timeZone = TimeZone.getTimeZone("GMT+1");
+        GregorianCalendar cal = new GregorianCalendar();
         cal.setTime(date);
 
         return cal;

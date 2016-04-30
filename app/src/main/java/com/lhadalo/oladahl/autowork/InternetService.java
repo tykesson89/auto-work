@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonWriter;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 
@@ -151,8 +152,13 @@ public class InternetService extends IntentService {
                         Workpass w = (Workpass)dataToSync.get(i);
                         objectOut.writeObject(gson.toJson(w));
 
-                        Workpass wServer = gson.fromJson((String)objectIn.readObject(), Workpass.class);
-                        db.updateWorkpass(wServer);
+                        try {
+                            Workpass wServer = gson.fromJson((String)objectIn.readObject(), Workpass.class);
+                            db.updateWorkpass(wServer);
+                        } catch (JsonSyntaxException e){
+                            e.printStackTrace();
+                            Log.v(Tag.LOGTAG, "Något fel på JSON-syntaxen");
+                        }
                     }
 
                     objectIn.close();
