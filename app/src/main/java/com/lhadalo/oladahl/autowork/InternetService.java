@@ -1,6 +1,5 @@
 package com.lhadalo.oladahl.autowork;
 
-import android.app.IntentService;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -17,11 +16,11 @@ import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import UserPackage.Company;
 import UserPackage.Workpass;
 
 
@@ -36,7 +35,6 @@ public class InternetService extends Service {
     private Workpass workpass;
     private List<Workpass> createList, changeList;
 
-
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -50,7 +48,7 @@ public class InternetService extends Service {
         else {
             timer = new Timer();
         }
-        timer.scheduleAtFixedRate(new Task(), 0, 3000);
+        timer.scheduleAtFixedRate(new Task(), 0, 40000);
     }
 
     @Override
@@ -63,6 +61,7 @@ public class InternetService extends Service {
         @Override
         public void run() {
             if (isConnected(context) == true) {
+                //List<Company> companies = db.getCompanysUnsynced();
                 List<Workpass> workpasses = db.getWorkpassesUnsynced();
 
                 if (!workpasses.isEmpty()) {
@@ -70,7 +69,6 @@ public class InternetService extends Service {
                 }
                 else {
                     Log.v(Tag.LOGTAG, "Inget mer i listan");
-
                 }
             }
             else {
@@ -98,10 +96,11 @@ public class InternetService extends Service {
         private ObjectInputStream objectIn;
         private ObjectOutputStream objectOut;
         private Workpass workpass;
-        private List<Workpass> list;
+        private List<Workpass> workpasses;
+        List<Company> companies;
 
-        public InternetConnection(List<Workpass> list) {
-            this.list = list;
+        public InternetConnection(List<Workpass> workpasses) {
+            this.workpasses = workpasses;
 
             try {
                 socket = new Socket();
@@ -121,9 +120,10 @@ public class InternetService extends Service {
         public void run() {
             try {
                 objectOut.writeObject(Tag.ON_CREATE_WORKPASS);
-                objectOut.writeObject(String.valueOf(list.size()));
+                objectOut.writeObject(String.valueOf(workpasses.size()));
 
-                for (Workpass pass : list) {
+
+                for (Workpass pass : workpasses) {
                     Log.v(Tag.LOGTAG, String.valueOf(pass.getServerID()));
                     objectOut.writeObject(pass);
 
@@ -135,7 +135,7 @@ public class InternetService extends Service {
                     else {
                         pass.setServerID(Integer.parseInt(serverId));
                         pass.setIsSynced(1);
-                        pass.setActionTag("Synced");
+                        pass.setActionTag(Tag.ON_WORKPASS_IS_SYNCED);
                         db.updateWorkpass(pass);
                     }
                 }
@@ -150,7 +150,6 @@ public class InternetService extends Service {
 
                 e.printStackTrace();
             }
-
         }
 
     }

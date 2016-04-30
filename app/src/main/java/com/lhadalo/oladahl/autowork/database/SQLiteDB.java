@@ -172,8 +172,9 @@ public class SQLiteDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String select = "select "
                 + CompanyEntry.COMPANY_ID
-                + " where "
-                + CompanyEntry.COMPANY_MY_SQL_ID + "=?";
+                + " from " + CompanyEntry.TABLE_NAME
+                + " where " + CompanyEntry.COMPANY_MY_SQL_ID + "=?";
+
 
         Cursor cursor = db.rawQuery(select,
                 new String[]{String.valueOf(workpass.getCompanyServerID())});
@@ -361,6 +362,32 @@ public class SQLiteDB extends SQLiteOpenHelper {
         db.close();
 
         return workpasses;
+    }
+
+    public List<Company> getCompanysUnsynced(){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String select = "select * from " + CompanyEntry.TABLE_NAME
+                + " where " + CompanyEntry.IS_SYNCED + "=?";
+
+        Cursor cursor = db.rawQuery(select, new String[]{String.valueOf(0)});
+
+        List<Company> companies = new ArrayList<>(5);
+        while (cursor.moveToNext()){
+            Company company = new Company(
+                    cursor.getLong(cursor.getColumnIndex(CompanyEntry.COMPANY_ID)),
+                    cursor.getInt(cursor.getColumnIndex(CompanyEntry.COMPANY_MY_SQL_ID)),
+                    cursor.getInt(cursor.getColumnIndex(CompanyEntry.USER_ID)),
+                    cursor.getString(cursor.getColumnIndex(CompanyEntry.COMPANY_NAME)),
+                    cursor.getDouble(cursor.getColumnIndex(CompanyEntry.WAGE)),
+                    cursor.getInt(cursor.getColumnIndex(CompanyEntry.IS_SYNCED)),
+                    cursor.getString(cursor.getColumnIndex(CompanyEntry.ACTION_TAG))
+            );
+
+            companies.add(company);
+        }
+
+        return companies;
     }
 
     public List<Workpass> getWorkpassesUnsynced() {

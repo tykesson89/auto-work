@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -26,7 +27,6 @@ import UserPackage.User;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.lhadalo.oladahl.autowork.InternetSettingsActivity;
 import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
@@ -99,11 +99,6 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
     }
 
-    @Override
-    public void onClickInternetSettings() {
-        Intent intent = new Intent(this, InternetSettingsActivity.class);
-        startActivity(intent);
-    }
 
     @Override
     public void onClickBtnCreateUser() {
@@ -187,12 +182,12 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                                 Company companyToAdd = companyArrayList.get(i);
                                 long id = db.addCompany(companyToAdd);
                                 companyToAdd.setCompanyId(id);
-
                             }
 
                             try {
                                 List<String> workpassesFromServer = (List<String>) objectIn.readObject();
-                                Gson gson =  new GsonBuilder().create();
+                                Log.v(Tag.LOGTAG, String.valueOf(workpassesFromServer.size()));
+                                Gson gson = new GsonBuilder().create();
                                 for (String jsonWorkpass : workpassesFromServer) {
                                     Workpass workpass = gson.fromJson(jsonWorkpass, Workpass.class);
                                     workpass.setCompanyID(db.getLocalCompanyId(workpass)); //Hämtar lokalt id för company.
@@ -200,20 +195,9 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                                     workpass.setActionTag(Tag.ON_WORKPASS_IS_SYNCED);
                                     db.addWorkpass(workpass);
                                 }
-                            } catch (ClassNotFoundException e){
+                            } catch (ClassNotFoundException e) {
                                 e.printStackTrace();
                             }
-
-                            /*for (int i = 0; i < arr.size(); i++) {
-                                //TODO 16-04-27 Måste synka companyServier id med lokala id
-                                String jobj = (String) arr.get(i);
-                                Gson gson = new GsonBuilder().create();
-
-                                Workpass w = gson.fromJson(jobj, Workpass.class);
-                                w.setActionTag("Synced");
-                                w.setIsSynced(1);
-                                db.addWorkpass(w);
-                            }*/
                         }
                     } catch (SocketTimeoutException s) {
                         return "The server is offline";

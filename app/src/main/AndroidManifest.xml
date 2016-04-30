@@ -36,7 +36,6 @@
         <activity
             android:name=".activities.AddWorkpassActivity"
             android:parentActivityName=".activities.MainActivity" />
-        <activity android:name=".InternetSettingsActivity" />
 
         <service android:name=".InternetService" android:enabled="true">
             <intent-filter>
@@ -52,6 +51,8 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".activities.AddCompanyTest"/>
     </application>
 
 </manifest>

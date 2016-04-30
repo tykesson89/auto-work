@@ -33,13 +33,11 @@ public class LoginFragment extends Fragment {
         void onClickBtnLogin(String email, String password);
         void onClickBtnCreateUser();
         void onClickNewPassword();
-        void onClickInternetSettings();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
     }
 
@@ -103,22 +101,5 @@ public class LoginFragment extends Fragment {
 
     public void setTextetEmail(String str){
         etEmail.setText(str);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        inflater.inflate(R.menu.menu_login, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.action_internet_settings){
-            callback.onClickInternetSettings();
-            return true;
-        }
-
-        return false;
     }
 }
