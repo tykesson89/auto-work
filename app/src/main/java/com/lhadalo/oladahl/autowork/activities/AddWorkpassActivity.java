@@ -449,6 +449,7 @@ public class AddWorkpassActivity extends AppCompatActivity
         }
     }
 
+    //TODO Fixa så det fungerar med tillägning av pass mellan månader
     private void calculateHours() {
 
         //Konverterar tid till timmar
