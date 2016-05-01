@@ -275,9 +275,12 @@ public class SQLiteDB extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(CompanyEntry.WAGE, company.getHourlyWage());
+        values.put(CompanyEntry.IS_SYNCED, company.getIsSynced());
+        values.put(CompanyEntry.ACTION_TAG, company.getActionTag());
+        values.put(CompanyEntry.COMPANY_MY_SQL_ID, company.getServerID());
 
-        db.update(CompanyEntry.TABLE_NAME, values, CompanyEntry.COMPANY_NAME + "=?",
-                new String[]{company.getCompanyName()});
+        db.update(CompanyEntry.TABLE_NAME, values, CompanyEntry.COMPANY_ID + "=?",
+                new String[]{String.valueOf(company.getCompanyId())});
 
         db.close();
     }
@@ -302,7 +305,8 @@ public class SQLiteDB extends SQLiteOpenHelper {
     }
 
     public List<Workpass> getAllWorkpasses() {
-        Cursor cursor = this.getReadableDatabase().rawQuery(
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
                 "SELECT * FROM " + WorkpassEntry.TABLE_NAME, null);
         List<Workpass> workpasses = new ArrayList<>();
 
@@ -310,8 +314,9 @@ public class SQLiteDB extends SQLiteOpenHelper {
             Workpass model = populateModelFromCursor(cursor);
 
             workpasses.add(model);
-
         }
+
+        db.close();
 
         return workpasses;
     }
@@ -323,6 +328,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         Cursor c = this.getReadableDatabase().rawQuery(command, null);
 
         c.moveToFirst();
+
         return this.populateModelFromCursor(c);
     }
 
@@ -345,6 +351,9 @@ public class SQLiteDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + WorkpassEntry.TABLE_NAME
                 + " WHERE " + WorkpassEntry.MONTH + "=?", new String[]{String.valueOf(month)});
+
+
+
         List<Workpass> workpasses = new ArrayList<>();
 
         if (cursor.getCount() != 0) {
@@ -358,8 +367,9 @@ public class SQLiteDB extends SQLiteOpenHelper {
             return workpasses;
         }
 
+        db.close(); //Stänger databasen
         cursor.close();
-        db.close();
+
 
         return workpasses;
     }
@@ -371,6 +381,8 @@ public class SQLiteDB extends SQLiteOpenHelper {
                 + " where " + CompanyEntry.IS_SYNCED + "=?";
 
         Cursor cursor = db.rawQuery(select, new String[]{String.valueOf(0)});
+
+
 
         List<Company> companies = new ArrayList<>(5);
         while (cursor.moveToNext()){
@@ -385,6 +397,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
             );
 
             companies.add(company);
+            db.close(); //Stänger databasen
         }
 
         return companies;
@@ -395,18 +408,22 @@ public class SQLiteDB extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("SELECT * FROM " + WorkpassEntry.TABLE_NAME
                 + " WHERE " + WorkpassEntry.IS_SYNCED + "=?", new String[]{String.valueOf(0)});
 
+
+
         List<Workpass> workpasses = new ArrayList<>();
         while (cursor.moveToNext()) {
             Workpass model = populateModelFromCursor(cursor);
             workpasses.add(model);
         }
 
+        db.close(); //Stänger databasen
+
         return workpasses;
     }
 
-    public boolean deleteWorkpass(long id) {
+    public boolean deleteWorkpass(Workpass workpass) {
         int result = this.getWritableDatabase().delete(WorkpassEntry.TABLE_NAME,
-                WorkpassEntry.WORKPASS_ID + "=?", new String[]{String.valueOf(id)});
+                WorkpassEntry.WORKPASS_ID + "=?", new String[]{String.valueOf(workpass.getWorkpassID())});
 
         return result > 0;
     }
@@ -512,8 +529,8 @@ public class SQLiteDB extends SQLiteOpenHelper {
             ex.printStackTrace();
         }
 
-        //TimeZone timeZone = TimeZone.getTimeZone("GMT+1");
-        GregorianCalendar cal = new GregorianCalendar();
+        TimeZone timeZone = TimeZone.getTimeZone("GMT+1");
+        GregorianCalendar cal = new GregorianCalendar(timeZone);
         cal.setTime(date);
 
         return cal;

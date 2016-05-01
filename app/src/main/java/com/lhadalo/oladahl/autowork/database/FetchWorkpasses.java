@@ -27,7 +27,7 @@ public class FetchWorkpasses extends AsyncTask<Integer, Void, List<Workpass>> {
 
     @Override
     protected List<Workpass> doInBackground(Integer... integers) {
-        if (source == 3) {
+        if (source == Tag.ON_GET_STATISTICS) {
             return db.getAllWorkpasses();
         }
         else {

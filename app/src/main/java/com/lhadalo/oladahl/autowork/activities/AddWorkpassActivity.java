@@ -20,6 +20,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
+import com.lhadalo.oladahl.autowork.database.AddWorkpassDB;
 import com.lhadalo.oladahl.autowork.database.DatabaseContract.WorkpassEntry;
 import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
@@ -253,13 +254,10 @@ public class AddWorkpassActivity extends AppCompatActivity
                 model.setCompanyServerID(selectedCompany.getServerID());
 
 
-                long id = database.addWorkpass(model);
-                model.setWorkpassID(id);
-
+                AddWorkpassDB.addWorkpass(this, model); //Lägger till passet till databas i nytt thread.
 
                 Intent data = new Intent();
                 data.putExtra(WorkpassEntry.MONTH, model.getStartDateTime().get(Calendar.MONTH));
-                data.putExtra(WorkpassEntry.WORKPASS_ID, id);
 
                 setResult(RESULT_OK, data);
                 finish();

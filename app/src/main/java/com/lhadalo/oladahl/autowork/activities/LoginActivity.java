@@ -192,7 +192,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                                     Workpass workpass = gson.fromJson(jsonWorkpass, Workpass.class);
                                     workpass.setCompanyID(db.getLocalCompanyId(workpass)); //Hämtar lokalt id för company.
                                     workpass.setIsSynced(1);
-                                    workpass.setActionTag(Tag.ON_WORKPASS_IS_SYNCED);
+                                    workpass.setActionTag(Tag.ON_ITEM_IS_SYNCED);
                                     db.addWorkpass(workpass);
                                 }
                             } catch (ClassNotFoundException e) {

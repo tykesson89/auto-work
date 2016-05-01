@@ -250,8 +250,6 @@ public class MainActivity extends AppCompatActivity
                         workpassList.add(lastAdded);
                         adapter.notifyDataSetChanged();
                         FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
-                        Toast.makeText(this, String.valueOf(isMyServiceRunning()),
-                                Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -259,6 +257,7 @@ public class MainActivity extends AppCompatActivity
                 int listPosition = data.getIntExtra(Tag.LIST_POSITION, -1);
                 if (listPosition != -1) {
                     FetchWorkpasses.newInstance(this, Tag.ON_UPDATE_LIST).execute(Calendar.getInstance().get(Calendar.MONTH)); //TODO Känns lite dumt att hämta allt på nytt, får ändra sedan.
+                    FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
                 }
             }
         }
@@ -356,12 +355,13 @@ public class MainActivity extends AppCompatActivity
                             Workpass modelToDelete =
                                     database.getWorkpass(workpassList.get(listPosition).getWorkpassID());
 
-                            if (modelToDelete.getIsSynced() == 0) {
-                                database.deleteWorkpass(modelToDelete.getWorkpassID());
+                            //Ifall arbetspass inte är synkat ska ingen stnk utföras
+                            if (modelToDelete.getIsSynced() == Tag.IS_NOT_SYNCED) {
+                                database.deleteWorkpass(modelToDelete);
                             }
                             else {
                                 modelToDelete.setActionTag(Tag.ON_DELETE_WORKPASS);
-                                modelToDelete.setIsSynced(0);
+                                modelToDelete.setIsSynced(Tag.IS_NOT_SYNCED);
                                 database.updateWorkpass(modelToDelete);
                             }
 
