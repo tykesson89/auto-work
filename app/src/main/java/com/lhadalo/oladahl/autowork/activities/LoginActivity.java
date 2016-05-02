@@ -181,7 +181,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                             for (int i = 0; i < companyArrayList.size(); i++) {
                                 Company companyToAdd = companyArrayList.get(i);
                                 long id = db.addCompany(companyToAdd);
-                                companyToAdd.setCompanyId(id);
+                                //companyToAdd.setCompanyId(id);
                             }
 
                             try {

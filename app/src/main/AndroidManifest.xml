@@ -52,6 +52,7 @@
             </intent-filter>
         </receiver>
 
+        <activity android:name=".activities.AddCompanySettingsActivity"/>
     </application>
 
 </manifest>

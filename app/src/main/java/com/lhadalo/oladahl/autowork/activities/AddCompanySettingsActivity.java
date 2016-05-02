@@ -11,10 +11,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.lhadalo.oladahl.autowork.CompanyListAdapter;
 import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.R;
+import com.lhadalo.oladahl.autowork.database.DatabaseContract;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 
 import java.util.List;
@@ -92,8 +94,9 @@ public class AddCompanySettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int position) {
                 if (position == 0) {
+
                     Intent intent = new Intent(getApplicationContext(), AddCompanyActivity.class);
-                    intent.putExtra("Company_id", companies.get(listPosition).getCompanyId());
+                    intent.putExtra(DatabaseContract.CompanyEntry.COMPANY_ID, companies.get(listPosition).getCompanyId());
                     intent.putExtra(Tag.REQUEST_CODE, Tag.CHANGE_COMPANY_REQUEST);
                     startActivity(intent);
 

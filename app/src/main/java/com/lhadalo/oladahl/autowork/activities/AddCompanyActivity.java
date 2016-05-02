@@ -14,6 +14,7 @@ import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.StartService;
 
 import com.lhadalo.oladahl.autowork.Tag;
+import com.lhadalo.oladahl.autowork.database.DatabaseContract;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 import com.lhadalo.oladahl.autowork.fragments.AddCompanyFragment;
 
@@ -32,24 +33,25 @@ public class AddCompanyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_company_settings);
-
+        Intent data = getIntent();
 
         final EditText txtAddCompany = (EditText)findViewById(R.id.add_comp);
         final EditText txtAddHourly = (EditText)findViewById(R.id.add_hourly);
 
         Button buttonAdd = (Button)findViewById(R.id.btn_add);
 
-        final int request = getIntent().getIntExtra(Tag.REQUEST_CODE, -1);
-        int companyId = getIntent().getIntExtra("Company_id", -1);
+        final int request = data.getIntExtra(Tag.REQUEST_CODE, -1);
 
         if(request == Tag.ADD_COMPANY_REQUEST){
             assert buttonAdd != null;
             buttonAdd.setText("Add");
         }
         else{
+            long companyId = data.getLongExtra(DatabaseContract.CompanyEntry.COMPANY_ID, -1);
             companyToChange = db.getCompany(companyId);
             txtAddCompany.setText(companyToChange.getCompanyName());
             txtAddHourly.setText(String.valueOf(companyToChange.getHourlyWage()));
+
 
             buttonAdd.setText("Change");
         }
