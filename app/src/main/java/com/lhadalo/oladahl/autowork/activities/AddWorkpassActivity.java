@@ -20,6 +20,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
+import com.lhadalo.oladahl.autowork.database.AddWorkpassDB;
 import com.lhadalo.oladahl.autowork.database.DatabaseContract.WorkpassEntry;
 import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
@@ -253,13 +254,10 @@ public class AddWorkpassActivity extends AppCompatActivity
                 model.setCompanyServerID(selectedCompany.getServerID());
 
 
-                long id = database.addWorkpass(model);
-                model.setWorkpassID(id);
-
+                AddWorkpassDB.addWorkpass(this, model); //Lägger till passet till databas i nytt thread.
 
                 Intent data = new Intent();
                 data.putExtra(WorkpassEntry.MONTH, model.getStartDateTime().get(Calendar.MONTH));
-                data.putExtra(WorkpassEntry.WORKPASS_ID, id);
 
                 setResult(RESULT_OK, data);
                 finish();
@@ -360,8 +358,8 @@ public class AddWorkpassActivity extends AppCompatActivity
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-        int hourOfDay = cal.get(Calendar.HOUR_OF_DAY);
-        int minute = cal.get(Calendar.MINUTE);
+        int hourOfDay = 12;
+        int minute = 0;
 
         switch (dateTimeTarget) {
             case Tag.START_DATE_TIME:
@@ -452,6 +450,7 @@ public class AddWorkpassActivity extends AppCompatActivity
     //TODO Fixa så det fungerar med tillägning av pass mellan månader
     private void calculateHours() {
 
+
         //Konverterar tid till timmar
         float startTimeHours = (((float)startTime.get(Calendar.HOUR_OF_DAY) * 60) +
                 (float)startTime.get(Calendar.MINUTE)) / 60;
@@ -460,6 +459,7 @@ public class AddWorkpassActivity extends AppCompatActivity
 
         double breaktime = (model.getBreaktime() / 60);
         double nbrOfHours;
+
 
         //Ifall startdatum och slutdatum ej är samma ska tiden mellan datum hämtas.
         if(startDate.get(Calendar.DATE) != endDate.get(Calendar.DATE)){

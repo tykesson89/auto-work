@@ -27,10 +27,12 @@ public class Tag {
     public static final String ON_CREATE_WORKPASS = "Create Workpass";
     public static final String ON_CHANGE_WORKPASS = "Change Workpass";
     public static final String ON_DELETE_WORKPASS = "Delete Workpass";
-    public static final String ON_WORKPASS_IS_SYNCED = "Synced";
+    public static final String ON_ITEM_IS_SYNCED = "Synced";
+    public static final String ON_CREATE_COMPANY = "Create Company";
 
 
-    public static final String MY_SERVICE = "com.lhadalo.oladahl.autowork.InternetService";
+    public static final int IS_SYNCED = 1;
+    public static final int IS_NOT_SYNCED = 0;
 
 
     public static final String LOGTAG = "com.lhadalo.tagvalue";

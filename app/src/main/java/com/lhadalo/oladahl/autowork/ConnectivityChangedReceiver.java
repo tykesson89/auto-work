@@ -12,6 +12,6 @@ import android.widget.Toast;
 public class ConnectivityChangedReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-
+        StartService.startService(context);
     }
 }

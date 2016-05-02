@@ -29,9 +29,8 @@ public class TimePickerFragment extends DialogFragment{
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final Calendar cal = Calendar.getInstance();
-        int hour = cal.get(Calendar.HOUR_OF_DAY);
-        int minute = cal.get(Calendar.MINUTE);
+        int hour = 12; //TODO Ändra så tiden ändras i relation till start och sluttid.
+        int minute = 0;
 
         return new TimePickerDialog(getActivity(), listener, hour, minute,
                 DateFormat.is24HourFormat(getActivity()));

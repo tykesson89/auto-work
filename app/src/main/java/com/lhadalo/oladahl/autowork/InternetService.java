@@ -1,24 +1,26 @@
 package com.lhadalo.oladahl.autowork;
 
-import android.app.Service;
+import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.CountDownLatch;
 
 import UserPackage.Company;
 import UserPackage.Workpass;
@@ -27,141 +29,113 @@ import UserPackage.Workpass;
 /**
  * Created by Henrik on 2016-04-05.
  */
-public class InternetService extends Service {
+public class InternetService extends IntentService {
 
-    private Timer timer;
-    private Context context = InternetService.this;
-    private SQLiteDB db = new SQLiteDB(InternetService.this);
-    private Workpass workpass;
-    private List<Workpass> createList, changeList;
-
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    public void onCreate() {
-        if (timer != null) {
-            timer.cancel();
-        }
-        else {
-            timer = new Timer();
-        }
-        timer.scheduleAtFixedRate(new Task(), 0, 40000);
+    public InternetService() {
+        super("InternetService");
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        return super.onStartCommand(intent, flags, startId);
-
+    protected void onHandleIntent(Intent intent) {
+        ServerCommunicator.newInstance(this);
     }
 
-    class Task extends TimerTask {
-        @Override
-        public void run() {
-            if (isConnected(context) == true) {
-                //List<Company> companies = db.getCompanysUnsynced();
-                List<Workpass> workpasses = db.getWorkpassesUnsynced();
+    private static class ServerCommunicator extends Thread {
+        private SQLiteDB db;
 
-                if (!workpasses.isEmpty()) {
-                    new InternetConnection(workpasses);
-                }
-                else {
-                    Log.v(Tag.LOGTAG, "Inget mer i listan");
-                }
-            }
-            else {
-                // TODO: 2016-04-05 Vad ska hända om applikationen inte har internetuppkoppling.
-            }
-        }
-    }
-
-    public static boolean isConnected(Context context) {
-        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity != null) {
-            NetworkInfo[] info = connectivity.getAllNetworkInfo();
-            if (info != null) {
-                for (int i = 0; i < info.length; i++) {
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED)
-                        return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    class InternetConnection extends Thread {
-        Socket socket;
+        private Socket socket;
         private ObjectInputStream objectIn;
         private ObjectOutputStream objectOut;
-        private Workpass workpass;
-        private List<Workpass> workpasses;
-        List<Company> companies;
+        private Gson gson = new GsonBuilder().create();
+        private Context context;
 
-        public InternetConnection(List<Workpass> workpasses) {
-            this.workpasses = workpasses;
-
+        public static ServerCommunicator newInstance(Context context) {
             try {
-                socket = new Socket();
-                socket.connect(new InetSocketAddress(Tag.IP, Tag.PORT), 4000);
-                objectOut = new ObjectOutputStream(socket.getOutputStream());
-                objectIn = new ObjectInputStream(socket.getInputStream());
-
-            } catch (SocketTimeoutException e){
-                interrupt();
-            } catch (Exception e) {
-
+                return new ServerCommunicator(context);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
+            return null;
+        }
+
+        private ServerCommunicator(Context context) throws IOException {
+            this.context = context;
+            db = new SQLiteDB(context);
+
+            socket = new Socket();
+            socket.connect(new InetSocketAddress(Tag.IP, Tag.PORT), 4000);
+            objectOut = new ObjectOutputStream(socket.getOutputStream());
+            objectIn = new ObjectInputStream(socket.getInputStream());
+
             start();
         }
 
         @Override
         public void run() {
             try {
-                objectOut.writeObject(Tag.ON_CREATE_WORKPASS);
-                objectOut.writeObject(String.valueOf(workpasses.size()));
+                List<Company> companiesToSync = db.getCompanysUnsynced();
+                List<Workpass> workpassesToSync = db.getWorkpassesUnsynced();
 
+                if (!companiesToSync.isEmpty()) {
+                    //Synka Company
+                    objectOut.writeObject(Tag.ON_CREATE_COMPANY);
+                    objectOut.writeObject(String.valueOf(companiesToSync.size()));
+                    for (int i = 0; i < companiesToSync.size(); i++) {
+                        Company company = (Company)companiesToSync.get(i);
+                        objectOut.writeObject(gson.toJson(company));
 
-                for (Workpass pass : workpasses) {
-                    Log.v(Tag.LOGTAG, String.valueOf(pass.getServerID()));
-                    objectOut.writeObject(pass);
+                        int companyServerId = Integer.parseInt((String)objectIn.readObject());
+                        Log.v(Tag.LOGTAG, String.valueOf(companyServerId));
 
-                    String serverId = (String) objectIn.readObject();
-
-                    if (pass.getActionTag().equals(Tag.ON_DELETE_WORKPASS)) {
-                        db.deleteWorkpass(Long.parseLong(serverId));
+                        if (companyServerId >= 0) {
+                            company.setServerID(companyServerId);
+                            company.setIsSynced(Tag.IS_SYNCED);
+                            company.setActionTag(Tag.ON_ITEM_IS_SYNCED);
+                            db.changeCompany(company);
+                        }
                     }
-                    else {
-                        pass.setServerID(Integer.parseInt(serverId));
-                        pass.setIsSynced(1);
-                        pass.setActionTag(Tag.ON_WORKPASS_IS_SYNCED);
-                        db.updateWorkpass(pass);
+
+                    if(!workpassesToSync.isEmpty()) {
+                        new ServerCommunicator(context);
                     }
                 }
+                else if (!workpassesToSync.isEmpty()) {
+                    //Synka workpass
+                    objectOut.writeObject(Tag.ON_CREATE_WORKPASS); //Detta spelar ingen roll, läser från modellen sedan.
 
+                    objectOut.writeObject(String.valueOf(workpassesToSync.size()));
+
+                    for (int i = 0; i < workpassesToSync.size(); i++) {
+                        Workpass workpass = (Workpass)workpassesToSync.get(i);
+                        objectOut.writeObject(gson.toJson(workpass));
+
+                        //int serverId = Integer.parseInt((String)objectIn.readObject());
+                        Workpass result = gson.fromJson((String)objectIn.readObject(), Workpass.class);
+                        if (result != null) {
+                            if (workpass.getActionTag().equals(Tag.ON_DELETE_WORKPASS)) {
+                                db.deleteWorkpass(workpass);
+                            }
+                            else {
+                                db.updateWorkpass(result);
+                            }
+                        }
+                    }
+
+                }
+
+                objectIn.close();
+                objectOut.close();
                 socket.close();
 
-                interrupt();
-                stopThisService();
-            } catch (SocketTimeoutException e){
-                interrupt();
-            } catch (Exception e) {
-
+            } catch (IOException | ClassNotFoundException | JsonSyntaxException | NumberFormatException e) {
                 e.printStackTrace();
             }
+
+            interrupt();
         }
-
     }
 
-    public void stopThisService(){
-        stopSelf();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
 }
 
 

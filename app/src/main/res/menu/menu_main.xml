@@ -20,4 +20,15 @@
         android:orderInCategory="3"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/isservicerunning"
+        android:title="Kör service?"
+        android:orderInCategory="4"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/hasconnection"
+        android:title="Har jag internet?"
+        android:orderInCategory="4"
+        app:showAsAction="never"/>
 </menu>
