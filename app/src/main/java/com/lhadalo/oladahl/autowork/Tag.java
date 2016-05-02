@@ -23,7 +23,8 @@ public class Tag {
     public static final int ON_UPDATE_LIST = 2;
     public static final int ON_GET_STATISTICS = 3;
 
-
+    public static final int ADD_COMPANY_REQUEST = 1;
+    public static final int CHANGE_COMPANY_REQUEST = 2;
     public static final String ON_CREATE_WORKPASS = "Create Workpass";
     public static final String ON_CHANGE_WORKPASS = "Change Workpass";
     public static final String ON_DELETE_WORKPASS = "Delete Workpass";

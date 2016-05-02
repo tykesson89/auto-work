@@ -64,7 +64,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsFragm
     }
 
     public void onClickBtnChangeCompanyInfo() {
-        startActivity(new Intent(this, AddCompanyTest.class));
+        startActivity(new Intent(this, AddCompanySettingsActivity.class));
     }
     public void onClickBtnDeleteCompany() {
         // TODO: 2016-04-19 Christoffer lägger till sitt här
