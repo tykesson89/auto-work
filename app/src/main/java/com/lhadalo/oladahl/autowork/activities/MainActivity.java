@@ -65,6 +65,9 @@ public class MainActivity extends AppCompatActivity
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
+    private double salary;
+    private double hours;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,6 +198,9 @@ public class MainActivity extends AppCompatActivity
                 onActionLogOutPressed();
                 break;
             case R.id.test:
+                Intent intent = new Intent(MainActivity.this, SalaryWithTax.class);
+                intent.putExtra("salary",salary );
+                startActivity(intent);
                 break;
             case R.id.databasetest:
                 List<Workpass> workpasses = database.getAllWorkpasses();
@@ -279,7 +285,8 @@ public class MainActivity extends AppCompatActivity
 
     public void getStatistics(List<Workpass> allWorkpasses) {
 
-        double salary = 0, hours = 0;
+         salary = 0;
+        hours = 0;
 
         if (workpassList != null) {
             for (Workpass workpass : workpassList) {

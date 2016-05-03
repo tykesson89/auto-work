@@ -44,6 +44,7 @@
         </service>
 
         <activity android:name=".activities.TestActivity" />
+        <activity android:name=".activities.SalaryWithTax" />
 
         <receiver android:name=".ConnectivityChangedReceiver"
             android:label="ConnectivityChangeRecieiver">
