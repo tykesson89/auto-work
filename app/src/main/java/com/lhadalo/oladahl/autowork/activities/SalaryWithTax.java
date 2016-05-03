@@ -5,8 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputType;
-import android.view.LayoutInflater;
+
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,11 +20,11 @@ import java.util.ArrayList;
 
 public class SalaryWithTax extends AppCompatActivity {
     private Button taxBtn, addWage;
-    private EditText tax;
+    private EditText txtTax;
     private TextView showSalary, showAfterTax;
     private double salary=0;
-    private double test;
-    private double skatt;
+    private double salaryWithTax;
+    private double tax;
     private ArrayList<String> strArr;
     private ArrayAdapter<String> adapter;
     private ListView list;
@@ -36,6 +35,7 @@ public class SalaryWithTax extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_add_salary_tax);
         salary =  getIntent().getDoubleExtra("salary",0);
+        setAfterTax();
         showSalary = (TextView) findViewById(R.id.tvSalarWithOuttax);
         showAfterTax = (TextView) findViewById(R.id.tvSalaryWithTax);
         list=(ListView)findViewById(R.id.itemsList);
@@ -57,7 +57,7 @@ public class SalaryWithTax extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         setSalary();
-        setAfterTax();
+
 
     }
 
@@ -65,17 +65,17 @@ public class SalaryWithTax extends AppCompatActivity {
     private void setAfterTax() {
 
         taxBtn = (Button) findViewById(R.id.tvShowTax);
-        tax = (EditText) findViewById(R.id.taxProcent);
-        tax.setInputType(0x00002002);
+        txtTax = (EditText) findViewById(R.id.taxProcent);
+        txtTax.setInputType(0x00002002);
         taxBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                skatt = Double.parseDouble(tax.getText().toString());
-                double ska = skatt / 100;
-                double dec = ska * salary;
-                test = salary - dec;
+                tax = Double.parseDouble(txtTax.getText().toString());
+                double ska = tax / 100;
+                double sum = ska * salary;
+                salaryWithTax = salary - sum;
 
-                showAfterTax.setText(String.valueOf(test + " kr"));
+                showAfterTax.setText(String.valueOf(salaryWithTax + " kr"));
             }
         });
     }
@@ -88,16 +88,19 @@ public class SalaryWithTax extends AppCompatActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Extra income");
         final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_NUMBER);
         alertDialogBuilder.setView(input);
         alertDialogBuilder.setCancelable(false)
                 .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
                         String setInput = input.getText().toString();
-                        if (setInput.length() > 0) {
-                            strArr.add(setInput);
+                        double strToDouble = Double.parseDouble(setInput);
+                        double plus = strToDouble + salaryWithTax;
+                        String doubleToString = (String.valueOf(plus));
 
+                        if (setInput.length() > 0) {
+
+                            strArr.add(doubleToString + " kr");
                             adapter.notifyDataSetChanged();
 
                         }
