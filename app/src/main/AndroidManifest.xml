@@ -27,7 +27,7 @@
         <activity android:name=".activities.SettingsActivity"
             android:parentActivityName=".activities.MainActivity"/>
         <activity
-            android:name=".activities.AddCompanyActivity"
+            android:name=".activities.AddCompanySettingsActivity"
             android:parentActivityName=".activities.MainActivity" />
         <activity android:name=".activities.ChangePasswordActivity"
             android:parentActivityName=".activities.SettingsActivity"/>
@@ -52,7 +52,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activities.AddCompanySettingsActivity"/>
+        <activity android:name=".activities.AddCompanyActivity"/>
     </application>
 
 </manifest>

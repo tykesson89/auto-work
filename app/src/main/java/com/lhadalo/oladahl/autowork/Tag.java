@@ -9,8 +9,8 @@ public class Tag {
     public static final String CHANGE_USER_INFO = "Change User Info";
     public static final String DELETE_USER = "Delete User";
     public static final int PORT = 45001;
-    public static final String IP = "90.230.140.110";
-    //public static final String IP = "10.2.5.71";
+    //public static final String IP = "90.230.140.110";
+    public static final String IP = "10.2.3.215";
     //public static final String IP = "192.168.1.5";
     public static final int START_DATE_TIME = 1;
     public static final int END_DATE_TIME = 2;
@@ -30,6 +30,10 @@ public class Tag {
     public static final String ON_DELETE_WORKPASS = "Delete Workpass";
     public static final String ON_ITEM_IS_SYNCED = "Synced";
     public static final String ON_CREATE_COMPANY = "Create Company";
+    public static final String ON_CHANGE_COMPANY = "Change Company";
+    public static final String ON_DELETE_COMPANY = "Delete Company";
+
+
 
 
     public static final int IS_SYNCED = 1;

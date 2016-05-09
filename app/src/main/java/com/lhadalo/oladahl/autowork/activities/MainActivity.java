@@ -1,16 +1,11 @@
 package com.lhadalo.oladahl.autowork.activities;
 
 import android.app.ActivityManager;
-import android.app.ApplicationErrorReport;
-import android.app.IntentService;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -28,7 +23,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lhadalo.oladahl.autowork.ConnectivityChangedReceiver;
 import com.lhadalo.oladahl.autowork.DrawerListener;
 import com.lhadalo.oladahl.autowork.InternetService;
 import com.lhadalo.oladahl.autowork.StartService;
@@ -40,11 +34,9 @@ import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.fragments.MainFragment;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -159,7 +151,6 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-
     public void onActionLogOutPressed() {
         SQLiteDB sqLiteDB = new SQLiteDB(MainActivity.this);
         sqLiteDB.deleteAll();
@@ -217,7 +208,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void onButtonClickTry() {
-        Intent a = new Intent(MainActivity.this, AddCompanyActivity.class);
+        Intent a = new Intent(MainActivity.this, AddCompanySettingsActivity.class);
         startActivity(a);
     }
 

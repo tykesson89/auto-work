@@ -279,8 +279,7 @@ public class SQLiteDB extends SQLiteOpenHelper {
         values.put(CompanyEntry.ACTION_TAG, company.getActionTag());
         values.put(CompanyEntry.COMPANY_MY_SQL_ID, company.getServerID());
 
-        db.update(CompanyEntry.TABLE_NAME, values, CompanyEntry.COMPANY_ID + "=?",
-                new String[]{String.valueOf(company.getCompanyId())});
+        db.update(CompanyEntry.TABLE_NAME, values, CompanyEntry.COMPANY_ID + "=" + company.getCompanyId(), null);
 
         db.close();
     }

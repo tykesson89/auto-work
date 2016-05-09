@@ -270,6 +270,10 @@ public class AddWorkpassActivity extends AppCompatActivity
                     model.setActionTag(Tag.ON_CHANGE_WORKPASS);
                     model.setIsSynced(0);
                 }
+                else{
+                    model.setActionTag(Tag.ON_CREATE_COMPANY);
+                    model.setIsSynced(Tag.IS_NOT_SYNCED);
+                }
 
                 model.setCompanyServerID(selectedCompany.getServerID());
                 if (database.updateWorkpass(model)) {
@@ -574,7 +578,7 @@ public class AddWorkpassActivity extends AppCompatActivity
             public void onClick(DialogInterface dialogInterface, int position) {
                 if (position == companyStrings.length - 1) {
 
-                    Intent intent = new Intent(AddWorkpassActivity.this, AddCompanyActivity.class);
+                    Intent intent = new Intent(AddWorkpassActivity.this, AddCompanySettingsActivity.class);
                     startActivity(intent);
 
 

@@ -86,15 +86,22 @@ public class InternetService extends IntentService {
                         objectOut.writeObject(gson.toJson(company));
 
                         int companyServerId = Integer.parseInt((String)objectIn.readObject());
-                        Log.v(Tag.LOGTAG, String.valueOf(companyServerId));
+
 
                         if (companyServerId >= 0) {
+                            if(company.getActionTag().equals(Tag.ON_DELETE_COMPANY)){
+                                db.deleteCompany(company.getCompanyName());
+                            }
                             company.setServerID(companyServerId);
                             company.setIsSynced(Tag.IS_SYNCED);
                             company.setActionTag(Tag.ON_ITEM_IS_SYNCED);
                             db.changeCompany(company);
                         }
                     }
+
+                    objectIn.close();
+                    objectOut.close();
+                    socket.close();
 
                     if(!workpassesToSync.isEmpty()) {
                         new ServerCommunicator(context);
