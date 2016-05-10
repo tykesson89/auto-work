@@ -105,7 +105,7 @@ public class AddWorkpassFragment extends Fragment {
         txtTimeEnd = (TextView)layoutStop.getChildAt(2);
         txtBrake = (TextView)layoutBreak.getChildAt(1);
 
-        txtWorkplace.setText("Workplace");
+
         txtBrake.setText("Add brake");
 
         imgWorkplace = (ImageView)layoutWorkplace.getChildAt(0);

@@ -53,6 +53,8 @@
         </receiver>
 
         <activity android:name=".activities.AddCompanyActivity"/>
+
+        <activity android:name=".activities.WorkpassViewerActivity"/>
     </application>
 
 </manifest>

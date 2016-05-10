@@ -186,6 +186,7 @@ public class MainActivity extends AppCompatActivity
                 onActionLogOutPressed();
                 break;
             case R.id.test:
+                startActivity(new Intent(this, WorkpassViewerActivity.class));
                 break;
             case R.id.databasetest:
                 List<Workpass> workpasses = database.getAllWorkpasses();
@@ -318,7 +319,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onItemClick(int position) {
-        createOptionsDialog("Choose action", new String[]{"Delete item", "Change item"}, 2, position);
+        Intent intent = new Intent(this, WorkpassViewerActivity.class);
+        intent.putExtra(DatabaseContract.WorkpassEntry.WORKPASS_ID, workpassList.get(position).getWorkpassID());
+
+        startActivity(intent);
+        //createOptionsDialog("Choose action", new String[]{"Delete item", "Change item"}, 2, position);
     }
 
     private void createOptionsDialog(String title, String[] options, final int source,
