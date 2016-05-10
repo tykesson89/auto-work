@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void getStatistics(List<Workpass> allWorkpasses) {
-
+        Calendar now = Calendar.getInstance();
         double salary = 0, hours = 0;
 
         if (workpassList != null) {
@@ -286,7 +286,10 @@ public class MainActivity extends AppCompatActivity
         boolean noNextPass = true;
         for (int i = 0; i < allWorkpasses.size() && noNextPass; i++) {
             if (allWorkpasses.get(i).getStartDateTime().get(Calendar.DAY_OF_MONTH)
-                    >= Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) {
+                    >= now.get(Calendar.DAY_OF_MONTH)) {
+
+                Log.v(Tag.LOGTAG, String.valueOf(allWorkpasses.get(i).getStartDateTime().get(Calendar.DAY_OF_MONTH)));
+                Log.v(Tag.LOGTAG, String.valueOf(now.get(Calendar.DAY_OF_MONTH)));
 
                 nextPass = allWorkpasses.get(i);
                 noNextPass = false;

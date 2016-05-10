@@ -306,7 +306,8 @@ public class SQLiteDB extends SQLiteOpenHelper {
     public List<Workpass> getAllWorkpasses() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(
-                "SELECT * FROM " + WorkpassEntry.TABLE_NAME, null);
+                "SELECT * FROM " + WorkpassEntry.TABLE_NAME + " where not "
+                        + WorkpassEntry.ACTION_TAG + "=?", new String[]{Tag.ON_DELETE_WORKPASS});
         List<Workpass> workpasses = new ArrayList<>();
 
         while (cursor.moveToNext()) {
