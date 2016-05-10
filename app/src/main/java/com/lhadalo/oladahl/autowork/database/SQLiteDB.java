@@ -350,7 +350,8 @@ public class SQLiteDB extends SQLiteOpenHelper {
     public List<Workpass> getWorkpassMonth(int month) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + WorkpassEntry.TABLE_NAME
-                + " WHERE " + WorkpassEntry.MONTH + "=?", new String[]{String.valueOf(month)});
+                + " WHERE " + WorkpassEntry.MONTH + "=? order by " + WorkpassEntry.START_TIME,
+                new String[]{String.valueOf(month)});
 
 
 
