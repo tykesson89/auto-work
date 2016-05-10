@@ -77,8 +77,6 @@ public class AddCompanySettingsActivity extends AppCompatActivity {
     }
 
     public void onClickBtnAddCompany(String companyName, double hourly) {
-
-
         List<Company> list = new ArrayList<>();
         boolean exists = false;
 
@@ -146,18 +144,18 @@ public class AddCompanySettingsActivity extends AppCompatActivity {
             toast.show();
         }
         else {
-            Company company = new Company(companyName, hourly);
-            company.setIsSynced(Tag.IS_NOT_SYNCED);
-            company.setActionTag(Tag.ON_CHANGE_COMPANY);
-            db.changeCompany(company);
+            companyToChange.setCompanyName(companyName);
+            companyToChange.setHourlyWage(hourly);
+            companyToChange.setIsSynced(Tag.IS_NOT_SYNCED);
+            companyToChange.setActionTag(Tag.ON_CHANGE_COMPANY);
+            db.changeCompany(companyToChange);
 
             CharSequence text = "Company updated";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(AddCompanySettingsActivity.this, text, duration);
             toast.show();
 
-
-            //StartService.startService(this);
+            StartService.startService(this);
             finish();
         }
     }

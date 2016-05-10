@@ -562,6 +562,7 @@ public class AddWorkpassActivity extends AppCompatActivity
         builder.show();
     }
 
+
     private void createCompaniesDialog() {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("Choose a workplace");
@@ -579,8 +580,8 @@ public class AddWorkpassActivity extends AppCompatActivity
                 if (position == companyStrings.length - 1) {
 
                     Intent intent = new Intent(AddWorkpassActivity.this, AddCompanySettingsActivity.class);
+                    intent.putExtra(Tag.REQUEST_CODE, Tag.ADD_COMPANY_REQUEST);
                     startActivity(intent);
-
 
                 }
                 else {
