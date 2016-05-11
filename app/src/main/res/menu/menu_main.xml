@@ -2,11 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/action_log_out"
-        android:title="@string/action_log_out"
-        android:orderInCategory="1"
-        app:showAsAction="never"/>
+
 
     <item
         android:id="@+id/test"
@@ -30,5 +26,11 @@
         android:id="@+id/hasconnection"
         android:title="Har jag internet?"
         android:orderInCategory="4"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_log_out"
+        android:title="@string/action_log_out"
+        android:orderInCategory="200"
         app:showAsAction="never"/>
 </menu>
