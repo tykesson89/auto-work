@@ -1,6 +1,8 @@
 package com.lhadalo.oladahl.autowork;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +21,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         void onItemClick(int position);
     }
 
+    private Context context;
     ItemClickListener clickListener;
     List<Workpass> content;
 
-    public ListAdapter(ItemClickListener clickListener, List<Workpass> content) {
+    public ListAdapter(Context context, ItemClickListener clickListener, List<Workpass> content) {
+        this.context = context;
         this.clickListener = clickListener;
         this.content = content;
     }
@@ -45,8 +49,16 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         GregorianCalendar start = content.get(pos).getStartDateTime();
         GregorianCalendar end = content.get(pos).getEndDateTime();
 
-        holder.txtDateList.setText(String.format("%1$td/%1$tm, %1$ty", start));
-        holder.txtTimeList.setText(String.format("%tR - %tR", start, end));
+        String date = DateUtils.formatDateTime(context,
+                start.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE);
+
+        String time =
+                DateUtils.formatDateTime(context,
+                        start.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME) + " - "
+                        + DateUtils.formatDateTime(context, end.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
+
+        holder.txtDateList.setText(date);
+        holder.txtTimeList.setText(time);
 
         //Sätt lyssnare i ViewHolder
         holder.setClickListener(clickListener);

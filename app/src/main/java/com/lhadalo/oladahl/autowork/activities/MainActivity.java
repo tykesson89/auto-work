@@ -35,7 +35,6 @@ import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.fragments.MainFragment;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -48,7 +47,7 @@ import UserPackage.Workpass;
 public class MainActivity extends AppCompatActivity
         implements MainFragment.OnFragmentInteraction, ListAdapter.ItemClickListener {
     private MainFragment fragment;
-    private List<Workpass> workpassList;
+    private List<Workpass> workpasses;
     private SQLiteDB database = new SQLiteDB(this);
 
     private ListAdapter adapter;
@@ -68,8 +67,6 @@ public class MainActivity extends AppCompatActivity
         toolbar.setTitle(getResources()
                 .getStringArray(R.array.months)[Calendar.getInstance().get(Calendar.MONTH)]);
         setSupportActionBar(toolbar);
-
-        List<Workpass> list = database.getAllWorkpasses();
 
         navigationView = (NavigationView)findViewById(R.id.navigation_view);
 
@@ -215,10 +212,6 @@ public class MainActivity extends AppCompatActivity
         startActivity(a);
     }
 
-    public void onActionLaunchTestActivityPressed() {
-        Intent intent = new Intent(this, TestActivity.class);
-        startActivity(intent);
-    }
 
     public void onActionAddWorkpassPressed() {
         Intent intent = new Intent(this, AddWorkpassActivity.class);
@@ -232,6 +225,30 @@ public class MainActivity extends AppCompatActivity
         //createOptionsDialog("Choose action", new String[]{"Add Company", "Add Workpass"}, 1, -1);
     }
 
+    public void onCreateList(List<Workpass> workpasses) {
+        this.workpasses = workpasses;
+
+        adapter = new ListAdapter(MainActivity.this, this, workpasses);
+        fragment.setListAdapter(adapter);
+        FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
+    }
+
+    public void updateList(List<Workpass> workpasses) {
+        this.workpasses.clear();
+
+        if (workpasses != null) {
+            this.workpasses.addAll(workpasses);
+        }
+        else {
+            Toast.makeText(MainActivity.this, "Inga pass hittades", Toast.LENGTH_SHORT).show();
+        }
+
+        adapter.notifyDataSetChanged();
+
+        FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -241,7 +258,7 @@ public class MainActivity extends AppCompatActivity
                 if (month != -1) {
                     if (month == Calendar.getInstance().get(Calendar.MONTH)) {
                         Workpass lastAdded = database.getLastAddedWorkpass();
-                        workpassList.add(lastAdded);
+                        workpasses.add(lastAdded);
                         adapter.notifyDataSetChanged();
                         FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
                     }
@@ -275,8 +292,8 @@ public class MainActivity extends AppCompatActivity
         Calendar now = Calendar.getInstance();
         double salary = 0, hours = 0;
 
-        if (workpassList != null) {
-            for (Workpass workpass : workpassList) {
+        if (workpasses != null) {
+            for (Workpass workpass : workpasses) {
                 salary += workpass.getSalary();
                 hours += workpass.getWorkingHours();
             }
@@ -319,7 +336,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(this, WorkpassViewerActivity.class);
-        intent.putExtra(DatabaseContract.WorkpassEntry.WORKPASS_ID, workpassList.get(position).getWorkpassID());
+        intent.putExtra(DatabaseContract.WorkpassEntry.WORKPASS_ID, workpasses.get(position).getWorkpassID());
 
         startActivity(intent);
         //createOptionsDialog("Choose action", new String[]{"Delete item", "Change item"}, 2, position);
@@ -351,7 +368,7 @@ public class MainActivity extends AppCompatActivity
                             startService(serviceIntent);
 
                             Workpass modelToDelete =
-                                    database.getWorkpass(workpassList.get(listPosition).getWorkpassID());
+                                    database.getWorkpass(workpasses.get(listPosition).getWorkpassID());
 
                             //Ifall arbetspass inte är synkat ska ingen stnk utföras
                             if (modelToDelete.getIsSynced() == Tag.IS_NOT_SYNCED) {
@@ -363,7 +380,7 @@ public class MainActivity extends AppCompatActivity
                                 database.updateWorkpass(modelToDelete);
                             }
 
-                            workpassList.remove(listPosition);
+                            workpasses.remove(listPosition);
                             adapter.notifyDataSetChanged();
                             FetchWorkpasses.newInstance(MainActivity.this, Tag.ON_GET_STATISTICS).execute(0);
 
@@ -373,7 +390,7 @@ public class MainActivity extends AppCompatActivity
 
                             break;
                         case 1:
-                            Workpass modelToChange = workpassList.get(listPosition);
+                            Workpass modelToChange = workpasses.get(listPosition);
 
 
                             Intent intent = new Intent(getApplicationContext(),
@@ -393,32 +410,7 @@ public class MainActivity extends AppCompatActivity
         optionDialog.show();
     }
 
-    public void onCreateList(List<Workpass> workpasses) {
-        workpassList = new ArrayList<>();
-        for (Workpass workpass : workpasses) {
-            workpassList.add(workpass);
-        }
 
-        adapter = new ListAdapter(this, workpassList);
-        fragment.setListAdapter(adapter);
-        FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
-    }
-
-    public void updateList(List<Workpass> workpasses) {
-        workpassList.clear();
-
-        if (workpasses != null) {
-            workpassList.addAll(workpasses);
-        }
-        else {
-            Toast.makeText(MainActivity.this, "Inga pass hittades", Toast.LENGTH_SHORT).show();
-        }
-
-        adapter.notifyDataSetChanged();
-
-        FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
-
-    }
 }
 
 
