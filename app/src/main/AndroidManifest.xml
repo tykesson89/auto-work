@@ -43,10 +43,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activities.TestActivity" />
-
         <receiver android:name=".ConnectivityChangedReceiver"
-            android:label="ConnectivityChangeRecieiver">
+                  android:label="ConnectivityChangeRecieiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
