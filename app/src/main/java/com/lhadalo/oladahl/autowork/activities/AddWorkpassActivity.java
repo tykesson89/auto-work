@@ -53,20 +53,13 @@ public class AddWorkpassActivity extends AppCompatActivity
         TimePickerDialog.OnTimeSetListener {
 
     private AddWorkpassFragment fragment;
-
     private SQLiteDB database;
-
     private int requestCode;
     private int dialogSource = 0;
-
     private Workpass model;
     private List<Company> companies;
-    private HashMap<Integer, Company> companyHashMap;
     private Company selectedCompany;
-    //private GregorianCalendar startDate, startTime, endDate, endTime, startDateTime;
 
-
-    private List<Workpass> workpasses = new ArrayList<>();
 
     //----------------------------------------------------------------------------
     // Initierare
@@ -130,7 +123,6 @@ public class AddWorkpassActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
 
-
         if (requestCode > 0)
             if (requestCode == Tag.ADD_WORKPASS_REQUEST) {
 
@@ -143,10 +135,10 @@ public class AddWorkpassActivity extends AppCompatActivity
                 }
 
                 fragment.setTxtDateStart(formatDate(model.getStartDateTime()));
-                fragment.setTxtTimeStart(DateUtils.formatDateTime(getBaseContext(), model.getStartDateTime().getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME));
+                fragment.setTxtTimeStart(formatTime(model.getStartDateTime()));
 
                 fragment.setTxtDateEnd(formatDate(model.getEndDateTime()));
-                fragment.setTxtTimeEnd(DateUtils.formatDateTime(getBaseContext(), model.getEndDateTime().getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME));
+                fragment.setTxtTimeEnd(formatTime(model.getEndDateTime()));
 
                 fragment.setBtnSave("Add");
 
@@ -157,7 +149,6 @@ public class AddWorkpassActivity extends AppCompatActivity
                 //Sätter värden från det valda arbetespasset.
                 fragment.setTitle(model.getTitle());
 
-
                 if (selectedCompany != null) {
                     fragment.setCompanyName(selectedCompany.getCompanyName());
                 }
@@ -165,14 +156,11 @@ public class AddWorkpassActivity extends AppCompatActivity
                     fragment.setCompanyName("ERROR!"); //Ifall inget company hittades.
                 }
 
-                //setTimeDate(model.getStartDateTime(), Tag.START_DATE_TIME);
-                //setTimeDate(model.getEndDateTime(), Tag.END_DATE_TIME);
-
                 fragment.setTxtDateStart(formatDate(model.getStartDateTime()));
-                fragment.setTxtTimeStart(DateUtils.formatDateTime(getBaseContext(), model.getStartDateTime().getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME));
+                fragment.setTxtTimeStart(formatTime(model.getStartDateTime()));
 
                 fragment.setTxtDateEnd(formatDate(model.getEndDateTime()));
-                fragment.setTxtTimeEnd(DateUtils.formatDateTime(getBaseContext(), model.getEndDateTime().getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME));
+                fragment.setTxtTimeEnd(formatTime(model.getEndDateTime()));
 
                 if (model.getBreaktime() > 0) {
                     fragment.setTxtBrake(String.valueOf(model.getBreaktime()));
@@ -185,7 +173,6 @@ public class AddWorkpassActivity extends AppCompatActivity
                 fragment.setBtnSave("Update");
             }
     }
-
 
     //----------------------------------------------------------------------------
     // Action Events
@@ -230,7 +217,6 @@ public class AddWorkpassActivity extends AppCompatActivity
                 model.setCompanyServerID(selectedCompany.getServerID());
                 if (database.updateWorkpass(model)) {
                     Intent data = new Intent();
-                    //data.putExtra(Tag.LIST_POSITION, getIntent().getIntExtra(Tag.LIST_POSITION, -1));
                     setResult(RESULT_OK, data);
                     finish();
                 }
@@ -341,15 +327,12 @@ public class AddWorkpassActivity extends AppCompatActivity
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
         if (dialogSource == Tag.START_DATE_TIME) {
-
             model.getStartDateTime().set(Calendar.HOUR_OF_DAY, hour);
             model.getStartDateTime().set(Calendar.MINUTE, minute);
 
-            fragment.setTxtTimeStart(formatTime());
+            fragment.setTxtTimeStart(formatTime(model.getStartDateTime()));
             calculateHours();
             setSalary();
-
-
         }
         else if (dialogSource == Tag.END_DATE_TIME) {
 
@@ -357,7 +340,7 @@ public class AddWorkpassActivity extends AppCompatActivity
             model.getEndDateTime().set(Calendar.MINUTE, minute);
 
 
-            fragment.setTxtTimeEnd(formatTime());
+            fragment.setTxtTimeEnd(formatTime(model.getEndDateTime()));
             calculateHours();
             setSalary();
         }
@@ -373,13 +356,8 @@ public class AddWorkpassActivity extends AppCompatActivity
         return getResources().getStringArray(R.array.months)[month] + " " + dayOfMonth + ", " + year;
     }
 
-    private String formatTime(){
-        if(dialogSource == Tag.START_DATE_TIME) {
-            return DateUtils.formatDateTime(getBaseContext(), model.getStartDateTime().getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
-        }
-        else{
-            return DateUtils.formatDateTime(getBaseContext(), model.getEndDateTime().getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
-        }
+    private String formatTime(GregorianCalendar calendar){
+        return DateUtils.formatDateTime(getBaseContext(), calendar.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
     }
 
     private boolean populateModelFromInterface() {
