@@ -2,18 +2,21 @@ package com.lhadalo.oladahl.autowork.fragments;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,6 +32,8 @@ import java.util.GregorianCalendar;
 
 public class AddWorkpassFragment extends Fragment {
     private OnFragmentInteraction callback;
+    private Toolbar toolbar;
+
     private EventListener listener = new EventListener();
     private LinearLayout layoutWorkplace;
     private LinearLayout layoutStart;
@@ -83,7 +88,7 @@ public class AddWorkpassFragment extends Fragment {
     }
 
     private void initComponents(View view) {
-        Toolbar toolbar = (Toolbar)view.findViewById(R.id.toolbar_1);
+        toolbar = (Toolbar)view.findViewById(R.id.toolbar_1);
         AppCompatActivity activity = (AppCompatActivity)getActivity();
         activity.setSupportActionBar(toolbar);
         activity.setTitle("Add workpass");
@@ -198,6 +203,10 @@ public class AddWorkpassFragment extends Fragment {
 
     public void setBtnSave(String option){
         btnSave.setText(option);
+    }
+
+    public void setToolbarPadding(int padding){
+        toolbar.setPadding(0, padding, 0, 0);
     }
 
 

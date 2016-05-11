@@ -11,49 +11,75 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:elevation="2dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:expandedTitleTextAppearance="@style/Widget.AppCompat.ActionBar.TabText">
+            android:orientation="vertical">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_1"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
                 android:background="@color/colorPrimary"
-                android:elevation="0dp"
-                android:theme="@style/ThemeOverlay.AppCompat">
+
+                android:theme="@style/ThemeOverlay.AppCompat.Dark"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp">
+
             </android.support.v7.widget.Toolbar>
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar_add_workplace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
-                android:elevation="0dp"
-                android:theme="@style/ThemeOverlay.AppCompat">
 
-                <TextView
-                    android:id="@+id/et_title"
-                    style="@style/edit_text_style"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_marginRight="@dimen/toolbar_horizontal_margin"
-                    android:background="@color/colorPrimary"
-                    android:selectAllOnFocus="true"
-                    android:imeOptions="actionDone"
-                    android:hint="Enter title"
-                    android:singleLine="true"/>
+
+                android:theme="@style/ThemeOverlay.AppCompat"
+                app:contentInsetStart="72dp"
+                >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <!--<TextView
+                        android:id="@+id/toolbar_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="Title"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"/>-->
+
+                    <TextView
+                        android:id="@+id/txt_title"
+                        style="@style/edit_text_style_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:background="@android:color/transparent"
+                        android:selectAllOnFocus="true"
+                        android:text="Enter title"
+                        android:singleLine="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"/>
+                </RelativeLayout>
+
             </android.support.v7.widget.Toolbar>
+
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="@dimen/content_vertical_margin"
         android:layout_below="@id/appbar">
 
         <RelativeLayout
@@ -72,7 +98,11 @@
 
 
                 <include
-                    android:id="@+id/txt_layout_start"
+                    android:id="@+id/txt_layout_time"
+                    layout="@layout/add_workpass_list_item"/>
+
+                <include
+                    android:id="@+id/txt_layout_salary"
                     layout="@layout/add_workpass_list_item"/>
 
                 <include
@@ -84,11 +114,7 @@
                     layout="@layout/add_workpass_list_item"/>
 
             </LinearLayout>
-
-
         </RelativeLayout>
-
-
     </ScrollView>
 
     <android.support.design.widget.FloatingActionButton
@@ -97,8 +123,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        app:backgroundTint="@color/colorPrimary"
         android:layout_margin="@dimen/fab_compat_margin"
-        android:src="@drawable/ic_add_black_24dp"
+        android:src="@drawable/ic_create_white_24dp"
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"/>
 

@@ -4,12 +4,16 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -92,6 +96,8 @@ public class AddWorkpassActivity extends AppCompatActivity
                 .replace(R.id.container_add_workpass, fragment).commit();
     }
 
+
+
     /**
      * Sätter värden till fragmentet.
      * Ifall ett nytt arbetspass läggs till sätts defaultvärden,
@@ -100,6 +106,8 @@ public class AddWorkpassActivity extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+
+        //fragment.setToolbarPadding(getStatusBarHeight());
 
         if (requestCode > 0) if (requestCode == Tag.ADD_WORKPASS_REQUEST) {
             model = new Workpass();
@@ -292,9 +300,8 @@ public class AddWorkpassActivity extends AppCompatActivity
      */
     @Override
     public void onClickCancel() {
-        Log.v(Tag.LOGTAG, formatDate(startDateTime));
-        //setResult(RESULT_CANCELED);
-        //finish();
+        setResult(RESULT_CANCELED);
+        finish();
     }
 
     /**
@@ -349,6 +356,16 @@ public class AddWorkpassActivity extends AppCompatActivity
             calculateHours();
             setSalary();
         }
+    }
+
+    // A method to find height of the status bar
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     /**

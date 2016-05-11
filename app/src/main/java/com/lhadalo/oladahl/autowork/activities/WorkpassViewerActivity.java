@@ -1,53 +1,114 @@
 package com.lhadalo.oladahl.autowork.activities;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.text.format.DateUtils;
 
 import com.lhadalo.oladahl.autowork.R;
+import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.database.DatabaseContract;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
+import com.lhadalo.oladahl.autowork.fragments.WorkpassViewerFragment;
 
-import java.util.List;
+import java.util.Locale;
 
+import UserPackage.Company;
 import UserPackage.Workpass;
 
 /**
  * Created by oladahl on 16-05-10.
  */
-public class WorkpassViewerActivity extends AppCompatActivity {
+public class WorkpassViewerActivity extends AppCompatActivity
+        implements WorkpassViewerFragment.OnFragmentInteraction{
+    private WorkpassViewerFragment fragment;
+    SQLiteDB db = new SQLiteDB(this);
+    private Workpass workpass = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.fragment_workpass_viewer);
-        SQLiteDB db = new SQLiteDB(this);
-        Workpass pass = null;
+        setContentView(R.layout.activity_workpass_viewer);
+        initFragment();
+
+
         try {
-            pass = db.getWorkpass(getIntent().getLongExtra(DatabaseContract.WorkpassEntry.WORKPASS_ID, -1));
-        } catch(Exception e){
+            workpass = db.getWorkpass(
+                    getIntent().getLongExtra(DatabaseContract.WorkpassEntry.WORKPASS_ID, -1));
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
-        if(pass != null) {
+    private void initFragment() {
+        fragment = new WorkpassViewerFragment();
 
-            LinearLayout layoutWorkplace = (LinearLayout)findViewById(R.id.txt_layout_workplace);
-            ImageView imgWorkplace = (ImageView)layoutWorkplace.getChildAt(0);
-            imgWorkplace.setImageDrawable(getResources().getDrawable(R.drawable.ic_business_center_black_24dp));
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container_workpass_viewer, fragment)
+                .commit();
+    }
 
-            TextView txtWorkplace = (TextView)layoutWorkplace.getChildAt(1);
-            txtWorkplace.setText(db.getCompany(pass.getCompanyID()).getCompanyName());
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+        Locale locale = new Locale("Sweden");
+        if (workpass != null) {
+            fragment.setTxtTitle(workpass.getTitle());
 
-            LinearLayout time = (LinearLayout)findViewById(R.id.txt_layout_start);
-            TextView textView = (TextView)time.getChildAt(1);
+            Company company = db.getCompany(workpass.getCompanyID());
+            fragment.setImgWorkplace(
+                    getResources().getDrawable(R.drawable.ic_business_center_black_24dp));
+            fragment.setTxtWorkplace(company.getCompanyName() + " \n(" + company.getHourlyWage() + " kr/h)");
 
-            textView.setText("Sunday, Mars 27, 2016\n13:45 - 15:00");
+            String date = DateUtils.formatDateTime(getBaseContext(),
+                    workpass.getStartDateTime().getTimeInMillis(), DateUtils.FORMAT_SHOW_YEAR);
+
+            String time =
+                    DateUtils.formatDateTime(getBaseContext(),
+                            workpass.getStartDateTime().getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME) + " - " + DateUtils.formatDateTime(getBaseContext(),
+                            workpass.getEndDateTime().getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
+
+            fragment.setImgTime(getResources().getDrawable(R.drawable.ic_query_builder_black_24dp));
+            fragment.setTxtTime(date + ", " + time + "\n" + workpass.getWorkingHours() + " timmar");
+
+            fragment.setImgSalary(getResources().getDrawable(R.drawable.ic_attach_money_black_24dp));
+            fragment.setTxtSalary(String.valueOf(workpass.getSalary()) + " kr");
+
+            if(workpass.getBreaktime() == 0){
+                fragment.setLayoutBreakGone();
+            }
+            else{
+                fragment.setImgBreak(getResources().getDrawable(R.drawable.ic_av_timer_black_24dp));
+                fragment.setTxtBreak(String.valueOf(workpass.getBreaktime()));
+            }
+
+            if(workpass.getNote().isEmpty()){
+                fragment.setLayoutNoteGone();
+            }
+            else{
+                fragment.setImgNote(getResources().getDrawable(R.drawable.ic_note_black_24dp));
+                fragment.setTxtNote(workpass.getNote());
+            }
+
+            //fragment.setTxtTime(String.valueOf(DateFormat.format("EEEE d MMMM", workpass.getStartDateTime())));
         }
+    }
+
+    @Override
+    public void onClickFAB() {
+        Intent intent = new Intent(this, AddWorkpassActivity.class);
+        intent.putExtra(DatabaseContract.WorkpassEntry.WORKPASS_ID, workpass.getWorkpassID());
+        intent.putExtra(Tag.REQUEST_CODE, Tag.UPDATE_WORKPASS_REQUEST);
+
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClickDelete() {
+
     }
 }

@@ -64,24 +64,24 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         initFragment();
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        toolbar = (Toolbar)findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
         List<Workpass> list = database.getAllWorkpasses();
 
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView = (NavigationView)findViewById(R.id.navigation_view);
 
         //Får referens till header för att sätta namn och email på användare
         View headerLayout = navigationView.getHeaderView(0);
         User user = database.getUser();
-        TextView headerName = (TextView) headerLayout.findViewById(R.id.header_name);
-        TextView headerEmail = (TextView) headerLayout.findViewById(R.id.header_email);
+        TextView headerName = (TextView)headerLayout.findViewById(R.id.header_name);
+        TextView headerEmail = (TextView)headerLayout.findViewById(R.id.header_email);
 
         headerName.setText(String.format("%1$s %2$s", user.getFirstname(), user.getLastname()));
         headerEmail.setText(user.getEmail());
 
         //Får referens till inställningslayout
-        LinearLayout settingsLayout = (LinearLayout) navigationView.findViewById(R.id.settings_row);
+        LinearLayout settingsLayout = (LinearLayout)navigationView.findViewById(R.id.settings_row);
 
         //Sätter eventlistener till inställningslayout
         settingsLayout.setOnClickListener(new View.OnClickListener() {
@@ -92,13 +92,13 @@ public class MainActivity extends AppCompatActivity
         });
 
         //Hämtar textview i inställningslayout och sätter rätt text.
-        TextView txtSettings = (TextView) settingsLayout.getChildAt(0);
+        TextView txtSettings = (TextView)settingsLayout.getChildAt(0);
         txtSettings.setText("Settings");
 
-        ImageView imgSettings = (ImageView) settingsLayout.getChildAt(1);
+        ImageView imgSettings = (ImageView)settingsLayout.getChildAt(1);
         imgSettings.setImageDrawable(getResources().getDrawable(R.drawable.ic_settings_black_18dp));
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_main);
+        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_main);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.openDrawer, R.string.closeDrawer) {
             @Override
@@ -160,9 +160,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     private boolean isMyServiceRunning() {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for(ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)){
-            if("com.lhadalo.oladahl.autowork.InternetService".equals(service.service.getClassName())){
+        ActivityManager manager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if ("com.lhadalo.oladahl.autowork.InternetService".equals(service.service.getClassName())) {
                 return true;
             }
         }
@@ -246,17 +246,17 @@ public class MainActivity extends AppCompatActivity
                 }
             }
             else if (requestCode == Tag.UPDATE_WORKPASS_REQUEST) {
-                int listPosition = data.getIntExtra(Tag.LIST_POSITION, -1);
-                if (listPosition != -1) {
-                    FetchWorkpasses.newInstance(this, Tag.ON_UPDATE_LIST).execute(Calendar.getInstance().get(Calendar.MONTH)); //TODO Känns lite dumt att hämta allt på nytt, får ändra sedan.
-                    FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
-                }
+                //int listPosition = data.getIntExtra(Tag.LIST_POSITION, -1);
+                //if (listPosition != -1) {
+                //}
+                FetchWorkpasses.newInstance(this, Tag.ON_UPDATE_LIST).execute(Calendar.getInstance().get(Calendar.MONTH)); //TODO Känns lite dumt att hämta allt på nytt, får ändra sedan.
+                FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
             }
         }
     }
 
     public static boolean isConnected(Context context) {
-        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivity = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivity != null) {
             NetworkInfo[] info = connectivity.getAllNetworkInfo();
             if (info != null) {
