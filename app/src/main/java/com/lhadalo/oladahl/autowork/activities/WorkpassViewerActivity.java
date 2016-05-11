@@ -9,6 +9,7 @@ import android.text.format.DateUtils;
 import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.database.DatabaseContract;
+import com.lhadalo.oladahl.autowork.database.FetchWorkpasses;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 import com.lhadalo.oladahl.autowork.fragments.WorkpassViewerFragment;
 
@@ -33,7 +34,6 @@ public class WorkpassViewerActivity extends AppCompatActivity
         setContentView(R.layout.activity_workpass_viewer);
         initFragment();
 
-
         try {
             workpass = db.getWorkpass(
                     getIntent().getLongExtra(DatabaseContract.WorkpassEntry.WORKPASS_ID, -1));
@@ -55,6 +55,10 @@ public class WorkpassViewerActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
 
+        setWorkpassData();
+    }
+
+    private void setWorkpassData(){
         Locale locale = new Locale("Sweden");
         if (workpass != null) {
             fragment.setTxtTitle(workpass.getTitle());
@@ -99,12 +103,22 @@ public class WorkpassViewerActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK){
+            workpass = db.getWorkpass(workpass.getWorkpassID());
+            setWorkpassData();
+        }
+    }
+
+    @Override
     public void onClickFAB() {
         Intent intent = new Intent(this, AddWorkpassActivity.class);
         intent.putExtra(DatabaseContract.WorkpassEntry.WORKPASS_ID, workpass.getWorkpassID());
         intent.putExtra(Tag.REQUEST_CODE, Tag.UPDATE_WORKPASS_REQUEST);
 
-        startActivity(intent);
+        startActivityForResult(intent, Tag.UPDATE_WORKPASS_REQUEST);
     }
 
     @Override

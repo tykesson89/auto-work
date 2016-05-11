@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity
         initFragment();
 
         toolbar = (Toolbar)findViewById(R.id.toolbar_main);
+        toolbar.setTitle(getResources()
+                .getStringArray(R.array.months)[Calendar.getInstance().get(Calendar.MONTH)]);
         setSupportActionBar(toolbar);
 
         List<Workpass> list = database.getAllWorkpasses();
@@ -288,9 +290,6 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < allWorkpasses.size() && noNextPass; i++) {
             if (allWorkpasses.get(i).getStartDateTime().get(Calendar.DAY_OF_MONTH)
                     >= now.get(Calendar.DAY_OF_MONTH)) {
-
-                Log.v(Tag.LOGTAG, String.valueOf(allWorkpasses.get(i).getStartDateTime().get(Calendar.DAY_OF_MONTH)));
-                Log.v(Tag.LOGTAG, String.valueOf(now.get(Calendar.DAY_OF_MONTH)));
 
                 nextPass = allWorkpasses.get(i);
                 noNextPass = false;

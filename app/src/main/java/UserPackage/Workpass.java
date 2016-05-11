@@ -17,7 +17,7 @@ public class Workpass implements Serializable{
     private int companyServerID;
     private GregorianCalendar startDateTime;
     private GregorianCalendar endDateTime;
-    private double breaktime;
+    private double breaktime = 0;
     private double salary;
     private String note;
     private double workingHours;

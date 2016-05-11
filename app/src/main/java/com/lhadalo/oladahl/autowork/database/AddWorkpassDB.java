@@ -2,6 +2,8 @@ package com.lhadalo.oladahl.autowork.database;
 
 import android.content.Context;
 
+import com.lhadalo.oladahl.autowork.Tag;
+
 import UserPackage.Workpass;
 
 /**
@@ -23,6 +25,9 @@ public class AddWorkpassDB extends Thread{
 
     @Override
     public void run() {
+        workpass.setUserId(database.getUser().getUserid());
+        workpass.setIsSynced(Tag.IS_NOT_SYNCED);
+        workpass.setActionTag(Tag.ON_CREATE_WORKPASS);
         database.addWorkpass(workpass);
 
         interrupt();

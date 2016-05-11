@@ -189,6 +189,7 @@
         android:tint="@android:color/white"
         android:src="@drawable/ic_add_black_24dp"
         app:elevation="6dp"
-        app:pressedTranslationZ="12dp"/>
+        app:pressedTranslationZ="12dp"
+        app:backgroundTint="@color/colorPrimary"/>
 
 </RelativeLayout>
