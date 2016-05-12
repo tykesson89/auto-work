@@ -21,6 +21,7 @@
         android:layout_height="@dimen/list_height_dense"
         android:background="?android:selectableItemBackground"
         android:gravity="center_vertical"
-        android:text="Placeholder"/>
+        android:text="Placeholder"
+        style="@style/TextAppearance.AppCompat.Body1"/>
 
 </LinearLayout>
