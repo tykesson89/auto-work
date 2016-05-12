@@ -512,26 +512,27 @@ public class SQLiteDB extends SQLiteOpenHelper {
     }
 
     private String formatCalendarToString(GregorianCalendar cal) {
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy MM dd HH:mm");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy MM dd HH:mm");
+        format.setTimeZone(TimeZone.getDefault());
 
-        String dateFormatted = fmt.format(cal.getTime());
+        String dateFormatted = format.format(cal.getTime());
 
         return dateFormatted;
     }
 
     private GregorianCalendar formatStringToCalendar(String str) {
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy MM dd HH:mm");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy MM dd HH:mm");
 
         Date date = null;
         try {
-            date = fmt.parse(str);
+            date = format.parse(str);
 
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
 
-        TimeZone timeZone = TimeZone.getTimeZone("GMT+1");
-        GregorianCalendar cal = new GregorianCalendar(timeZone);
+
+        GregorianCalendar cal = new GregorianCalendar(TimeZone.getDefault());
         cal.setTime(date);
 
         return cal;
