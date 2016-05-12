@@ -5,8 +5,12 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.text.format.DateFormat;
+
+import com.lhadalo.oladahl.autowork.Tag;
 
 import java.util.Calendar;
 
@@ -15,10 +19,6 @@ import java.util.Calendar;
  */
 public class TimePickerFragment extends DialogFragment{
     private TimePickerDialog.OnTimeSetListener listener;
-
-    public static TimePickerFragment newInstance() {
-        return new TimePickerFragment();
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -29,10 +29,10 @@ public class TimePickerFragment extends DialogFragment{
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        int hour = 12; //TODO Ändra så tiden ändras i relation till start och sluttid.
-        int minute = 0;
+        Bundle args = getArguments();
 
-        return new TimePickerDialog(getActivity(), listener, hour, minute,
+
+        return new TimePickerDialog(getActivity(), listener, args.getInt(Tag.HOUR), args.getInt(Tag.MINUTE),
                 DateFormat.is24HourFormat(getActivity()));
     }
 }

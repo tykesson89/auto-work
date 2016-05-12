@@ -19,6 +19,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -60,6 +61,7 @@ public class AddWorkpassActivity extends AppCompatActivity
     private List<Company> companies;
     private Company selectedCompany;
 
+    private GregorianCalendar startDateTime, endDateTime;
 
     //----------------------------------------------------------------------------
     // Initierare
@@ -84,12 +86,14 @@ public class AddWorkpassActivity extends AppCompatActivity
             selectedCompany = companies.get(0);
 
             GregorianCalendar now = (GregorianCalendar)Calendar.getInstance(Locale.getDefault());
-            GregorianCalendar now3 = (GregorianCalendar)now.clone();
-            now3.add(Calendar.HOUR_OF_DAY, 3);
+            startDateTime = (GregorianCalendar)now.clone();
+
+            now.add(Calendar.HOUR_OF_DAY, 3);
+            endDateTime = (GregorianCalendar)now.clone();
 
             model.setCompanyID(selectedCompany.getCompanyId());
-            model.setStartDateTime(now);
-            model.setEndDateTime(now3);
+            model.setStartDateTime(startDateTime);
+            model.setEndDateTime(endDateTime);
 
 
             //Beräknar timmar och lön och sätter i modellen.
@@ -100,7 +104,10 @@ public class AddWorkpassActivity extends AppCompatActivity
         else if (requestCode == Tag.UPDATE_WORKPASS_REQUEST) {
             //Hämtar arbtespasset som användaren valt.
             model = database.getWorkpass(getIntent().getLongExtra(WorkpassEntry.WORKPASS_ID, -1));
+
             selectedCompany = database.getCompany(model.getCompanyID());
+            startDateTime = model.getStartDateTime();
+            endDateTime = model.getEndDateTime();
         }
     }
 
@@ -134,11 +141,11 @@ public class AddWorkpassActivity extends AppCompatActivity
                     fragment.setCompanyName("ERROR!");
                 }
 
-                fragment.setTxtDateStart(formatDate(model.getStartDateTime()));
-                fragment.setTxtTimeStart(formatTime(model.getStartDateTime()));
+                fragment.setTxtDateStart(formatDate(startDateTime));
+                fragment.setTxtTimeStart(formatTime(startDateTime));
 
-                fragment.setTxtDateEnd(formatDate(model.getEndDateTime()));
-                fragment.setTxtTimeEnd(formatTime(model.getEndDateTime()));
+                fragment.setTxtDateEnd(formatDate(endDateTime));
+                fragment.setTxtTimeEnd(formatTime(endDateTime));
 
                 fragment.setBtnSave("Add");
 
@@ -156,11 +163,11 @@ public class AddWorkpassActivity extends AppCompatActivity
                     fragment.setCompanyName("ERROR!"); //Ifall inget company hittades.
                 }
 
-                fragment.setTxtDateStart(formatDate(model.getStartDateTime()));
-                fragment.setTxtTimeStart(formatTime(model.getStartDateTime()));
+                fragment.setTxtDateStart(formatDate(startDateTime));
+                fragment.setTxtTimeStart(formatTime(startDateTime));
 
-                fragment.setTxtDateEnd(formatDate(model.getEndDateTime()));
-                fragment.setTxtTimeEnd(formatTime(model.getEndDateTime()));
+                fragment.setTxtDateEnd(formatDate(endDateTime));
+                fragment.setTxtTimeEnd(formatTime(endDateTime));
 
                 if (model.getBreaktime() > 0) {
                     fragment.setTxtBrake(String.valueOf(model.getBreaktime()));
@@ -196,7 +203,7 @@ public class AddWorkpassActivity extends AppCompatActivity
                 AddWorkpassDB.addWorkpass(this, model); //Lägger till passet till databas i nytt thread.
 
                 Intent data = new Intent();
-                data.putExtra(WorkpassEntry.MONTH, model.getStartDateTime().get(Calendar.MONTH));
+                data.putExtra(WorkpassEntry.MONTH, startDateTime.get(Calendar.MONTH));
 
                 setResult(RESULT_OK, data);
                 finish();
@@ -239,7 +246,17 @@ public class AddWorkpassActivity extends AppCompatActivity
     @Override
     public void onClickDateStart() {
         dialogSource = Tag.START_DATE_TIME;
-        DatePickerFragment.newInstance().show(getSupportFragmentManager(), "datepicker");
+        DatePickerFragment datePicker = new DatePickerFragment();
+
+        Bundle args = new Bundle(3);
+
+        args.putInt(Tag.YEAR, startDateTime.get(Calendar.YEAR));
+        args.putInt(Tag.MONTH, startDateTime.get(Calendar.MONTH));
+        args.putInt(Tag.DAY, startDateTime.get(Calendar.DAY_OF_MONTH));
+
+        datePicker.setArguments(args);
+
+        datePicker.show(getSupportFragmentManager(), "datepicker");
     }
 
     /**
@@ -249,7 +266,16 @@ public class AddWorkpassActivity extends AppCompatActivity
     @Override
     public void onClickTimeStart() {
         dialogSource = Tag.START_DATE_TIME;
-        TimePickerFragment.newInstance().show(getSupportFragmentManager(), "timepicker");
+
+        TimePickerFragment timePicker = new TimePickerFragment();
+        Bundle bundle = new Bundle(2);
+        bundle.putInt(Tag.HOUR, startDateTime.get(Calendar.HOUR_OF_DAY));
+        bundle.putInt(Tag.MINUTE, startDateTime.get(Calendar.MINUTE));
+
+        timePicker.setArguments(bundle);
+
+        timePicker.show(getSupportFragmentManager(), "timepicker");
+
     }
 
     /**
@@ -259,7 +285,17 @@ public class AddWorkpassActivity extends AppCompatActivity
     @Override
     public void onClickDateEnd() {
         dialogSource = Tag.END_DATE_TIME;
-        DatePickerFragment.newInstance().show(getSupportFragmentManager(), "datepicker");
+        DatePickerFragment datePicker = new DatePickerFragment();
+        Bundle args = new Bundle(3);
+
+        args.putInt(Tag.YEAR, endDateTime.get(Calendar.YEAR));
+        args.putInt(Tag.MONTH, endDateTime.get(Calendar.MONTH));
+        args.putInt(Tag.DAY, endDateTime.get(Calendar.DAY_OF_MONTH));
+
+        datePicker.setArguments(args);
+
+        datePicker.show(getSupportFragmentManager(), "datepicker");
+
     }
 
     /**
@@ -269,7 +305,15 @@ public class AddWorkpassActivity extends AppCompatActivity
     @Override
     public void onClickTimeEnd() {
         dialogSource = Tag.END_DATE_TIME;
-        TimePickerFragment.newInstance().show(getSupportFragmentManager(), "timepicker");
+
+        TimePickerFragment timePicker = new TimePickerFragment();
+        Bundle bundle = new Bundle(2);
+        bundle.putInt(Tag.HOUR, endDateTime.get(Calendar.HOUR_OF_DAY));
+        bundle.putInt(Tag.MINUTE, endDateTime.get(Calendar.MINUTE));
+
+        timePicker.setArguments(bundle);
+
+        timePicker.show(getSupportFragmentManager(), "timepicker");
     }
 
     /**
@@ -289,8 +333,9 @@ public class AddWorkpassActivity extends AppCompatActivity
      */
     @Override
     public void onClickCancel() {
-        setResult(RESULT_CANCELED);
-        finish();
+        /*setResult(RESULT_CANCELED);
+        finish();*/
+        Log.v(Tag.LOGTAG, startDateTime.toString());
     }
 
     /**
@@ -306,12 +351,12 @@ public class AddWorkpassActivity extends AppCompatActivity
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
         if (dialogSource == Tag.START_DATE_TIME) {
-            model.getStartDateTime().set(year, month, day);
-            fragment.setTxtDateStart(formatDate(model.getStartDateTime()));
+            startDateTime.set(year, month, day);
+            fragment.setTxtDateStart(formatDate(startDateTime));
         }
         else if (dialogSource == Tag.END_DATE_TIME) {
-            model.getEndDateTime().set(year, month, day);
-            fragment.setTxtDateEnd(formatDate(model.getEndDateTime()));
+            endDateTime.set(year, month, day);
+            fragment.setTxtDateEnd(formatDate(endDateTime));
         }
     }
 
@@ -327,20 +372,20 @@ public class AddWorkpassActivity extends AppCompatActivity
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
         if (dialogSource == Tag.START_DATE_TIME) {
-            model.getStartDateTime().set(Calendar.HOUR_OF_DAY, hour);
-            model.getStartDateTime().set(Calendar.MINUTE, minute);
+            startDateTime.set(Calendar.HOUR_OF_DAY, hour);
+            startDateTime.set(Calendar.MINUTE, minute);
 
-            fragment.setTxtTimeStart(formatTime(model.getStartDateTime()));
+            fragment.setTxtTimeStart(formatTime(startDateTime));
             calculateHours();
             setSalary();
         }
         else if (dialogSource == Tag.END_DATE_TIME) {
 
-            model.getEndDateTime().set(Calendar.HOUR_OF_DAY, hour);
-            model.getEndDateTime().set(Calendar.MINUTE, minute);
+            endDateTime.set(Calendar.HOUR_OF_DAY, hour);
+            endDateTime.set(Calendar.MINUTE, minute);
 
 
-            fragment.setTxtTimeEnd(formatTime(model.getEndDateTime()));
+            fragment.setTxtTimeEnd(formatTime(endDateTime));
             calculateHours();
             setSalary();
         }
@@ -349,19 +394,24 @@ public class AddWorkpassActivity extends AppCompatActivity
     }
 
     private String formatDate(GregorianCalendar calendar) {
-        int year = calendar.get(Calendar.YEAR);
+        /*int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-
-        return getResources().getStringArray(R.array.months)[month] + " " + dayOfMonth + ", " + year;
+        getResources().getStringArray(R.array.months)[month] + " " + dayOfMonth + ", " + year;*/
+        SimpleDateFormat format = new SimpleDateFormat("dd MMM, yyyy", Locale.getDefault());
+        return format.format(calendar.getTime());
     }
 
     private String formatTime(GregorianCalendar calendar){
-        return DateUtils.formatDateTime(getBaseContext(), calendar.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
+        SimpleDateFormat format = new SimpleDateFormat("kk:mm", Locale.getDefault());
+        return format.format(calendar.getTime());
     }
 
     private boolean populateModelFromInterface() {
         if (validateTitle() && validateDateTime()) {
+
+            model.setStartDateTime(startDateTime);
+            model.setEndDateTime(endDateTime);
 
             model.setNote(fragment.getNote());
             return true;
@@ -384,9 +434,10 @@ public class AddWorkpassActivity extends AppCompatActivity
     }
 
     private boolean validateDateTime() {
-        GregorianCalendar start = model.getStartDateTime();
-        GregorianCalendar end = model.getEndDateTime();
+        GregorianCalendar start = startDateTime;
+        GregorianCalendar end = endDateTime;
 
+        //För att jag bara vill jämföra datum först.
         GregorianCalendar startDate = new GregorianCalendar(
                 start.get(Calendar.YEAR), start.get(Calendar.MONTH), start.get(Calendar.DAY_OF_MONTH));
 
@@ -399,11 +450,11 @@ public class AddWorkpassActivity extends AppCompatActivity
             createAlertDialog("Wrong date", "The end date cannot be before the start date");
             return false;
         }
-        if (model.getStartDateTime().compareTo(model.getEndDateTime()) == 0) {
+        if (startDateTime.compareTo(endDateTime) == 0) {
             createAlertDialog("Same time", "You can't have the same start time as your end time");
             return false;
         }
-        if (model.getStartDateTime().compareTo(model.getEndDateTime()) > 0) {
+        if (startDateTime.compareTo(endDateTime) > 0) {
             createAlertDialog("Wrong time", "The end time cannot be before the start time");
             return false;
         }
@@ -416,24 +467,24 @@ public class AddWorkpassActivity extends AppCompatActivity
     //TODO Fixa så det fungerar med tillägning av pass mellan månader
     private void calculateHours() {
         //Konverterar tid till timmar
-        float startTimeHours = (((float)model.getStartDateTime().get(Calendar.HOUR_OF_DAY) * 60) +
-                (float)model.getStartDateTime().get(Calendar.MINUTE)) / 60;
-        float endTimeHours = (((float)model.getEndDateTime().get(Calendar.HOUR_OF_DAY) * 60) +
-                (float)model.getEndDateTime().get(Calendar.MINUTE)) / 60;
+        float startTimeHours = (((float)startDateTime.get(Calendar.HOUR_OF_DAY) * 60) +
+                (float)startDateTime.get(Calendar.MINUTE)) / 60;
+        float endTimeHours = (((float)endDateTime.get(Calendar.HOUR_OF_DAY) * 60) +
+                (float)endDateTime.get(Calendar.MINUTE)) / 60;
 
         double breaktime = (model.getBreaktime() / 60);
         double nbrOfHours;
 
 
         //Ifall startdatum och slutdatum ej är samma ska tiden mellan datum hämtas.
-        if (model.getStartDateTime().get(Calendar.DATE) != model.getEndDateTime().get(Calendar.DATE)) {
+        if (startDateTime.get(Calendar.DATE) != endDateTime.get(Calendar.DATE)) {
 
             //Antalet timmarna för startdatumet
             float firstDayHours = 24 - (startTimeHours + (float)breaktime);
 
             //Dagarna mellan nästa dag och slutdatumet
-            float dateDifferenceStart = model.getStartDateTime().get(Calendar.DATE) + 1;
-            float dateDifferenceEnd = model.getEndDateTime().get(Calendar.DATE);
+            float dateDifferenceStart = startDateTime.get(Calendar.DATE) + 1; //TODO Lite konstiga namn på detta.
+            float dateDifferenceEnd = endDateTime.get(Calendar.DATE);
             float dateDiff = dateDifferenceEnd - dateDifferenceStart;
 
             //Antalet timmar för dagarna mellan
@@ -509,7 +560,6 @@ public class AddWorkpassActivity extends AppCompatActivity
 
         builder.show();
     }
-
 
     private void createCompaniesDialog() {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);

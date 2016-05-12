@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 
 import com.lhadalo.oladahl.autowork.R;
@@ -13,6 +14,7 @@ import com.lhadalo.oladahl.autowork.database.FetchWorkpasses;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 import com.lhadalo.oladahl.autowork.fragments.WorkpassViewerFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import UserPackage.Company;
@@ -59,7 +61,9 @@ public class WorkpassViewerActivity extends AppCompatActivity
     }
 
     private void setWorkpassData(){
-        Locale locale = new Locale("Sweden");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM, yyyy", Locale.getDefault());
+        SimpleDateFormat timeFormat = new SimpleDateFormat("kk:mm", Locale.getDefault());
+
         if (workpass != null) {
             fragment.setTxtTitle(workpass.getTitle());
 
@@ -68,13 +72,10 @@ public class WorkpassViewerActivity extends AppCompatActivity
                     getResources().getDrawable(R.drawable.ic_business_center_black_24dp));
             fragment.setTxtWorkplace(company.getCompanyName() + " \n(" + company.getHourlyWage() + " kr/h)");
 
-            String date = DateUtils.formatDateTime(getBaseContext(),
-                    workpass.getStartDateTime().getTimeInMillis(), DateUtils.FORMAT_SHOW_YEAR);
 
-            String time =
-                    DateUtils.formatDateTime(getBaseContext(),
-                            workpass.getStartDateTime().getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME) + " - " + DateUtils.formatDateTime(getBaseContext(),
-                            workpass.getEndDateTime().getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
+            String date = dateFormat.format(workpass.getStartDateTime().getTime());
+            String time = timeFormat.format(workpass.getStartDateTime().getTime())
+                    + " - " + timeFormat.format(workpass.getEndDateTime().getTime());
 
             fragment.setImgTime(getResources().getDrawable(R.drawable.ic_query_builder_black_24dp));
             fragment.setTxtTime(date + ", " + time + "\n" + workpass.getWorkingHours() + " timmar");
@@ -98,7 +99,6 @@ public class WorkpassViewerActivity extends AppCompatActivity
                 fragment.setTxtNote(workpass.getNote());
             }
 
-            //fragment.setTxtTime(String.valueOf(DateFormat.format("EEEE d MMMM", workpass.getStartDateTime())));
         }
     }
 

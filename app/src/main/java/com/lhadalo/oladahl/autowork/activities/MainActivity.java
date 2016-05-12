@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.databasetest:
                 List<Workpass> workpasses = database.getAllWorkpasses();
                 for (Workpass w : workpasses) {
-                    Log.v(Tag.LOGTAG, w.toString());
+                    Log.v(Tag.LOGTAG, w.getTitle() + ": " + w.getStartDateTime().toString());
                 }
                 List<Company> companies = database.getAllCompanies();
                 for (Company c : companies) {

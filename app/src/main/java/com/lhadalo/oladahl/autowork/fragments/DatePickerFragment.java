@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 
+import com.lhadalo.oladahl.autowork.Tag;
+
 import java.util.Calendar;
 
 /**
@@ -14,10 +16,6 @@ import java.util.Calendar;
  */
 public class DatePickerFragment extends DialogFragment{
     private DatePickerDialog.OnDateSetListener listener;
-
-    public static DatePickerFragment newInstance() {
-        return new DatePickerFragment();
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -28,12 +26,11 @@ public class DatePickerFragment extends DialogFragment{
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
+        Bundle args = getArguments();
 
-        return new DatePickerDialog(getActivity(), listener, year, month, day);
+
+        return new DatePickerDialog(getActivity(),
+                listener, args.getInt(Tag.YEAR), args.getInt(Tag.MONTH), args.getInt(Tag.DAY));
     }
 }
 
