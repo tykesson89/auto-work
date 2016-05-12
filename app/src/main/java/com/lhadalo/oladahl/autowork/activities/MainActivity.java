@@ -1,12 +1,15 @@
 package com.lhadalo.oladahl.autowork.activities;
 
+import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -17,12 +20,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +53,7 @@ import UserPackage.User;
 import UserPackage.Workpass;
 
 
+
 public class MainActivity extends AppCompatActivity
         implements MainFragment.OnFragmentInteraction, ListAdapter.ItemClickListener {
     private MainFragment fragment;
@@ -60,6 +67,7 @@ public class MainActivity extends AppCompatActivity
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private CoordinatorLayout coordinatorLayout;
+    private Spinner spinner;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +76,18 @@ public class MainActivity extends AppCompatActivity
         initFragment();
 
         toolbar = (Toolbar)findViewById(R.id.toolbar_main);
-        toolbar.setTitle(getResources()
-                .getStringArray(R.array.months)[Calendar.getInstance().get(Calendar.MONTH)]);
+
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        spinner = (Spinner)toolbar.getChildAt(0);
+
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.months,  R.layout.simple_spinner_item);
+
+        spinnerAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+
+        setDropdownWidth();
+        spinner.setAdapter(spinnerAdapter);
 
         navigationView = (NavigationView)findViewById(R.id.navigation_view);
 
@@ -124,6 +141,21 @@ public class MainActivity extends AppCompatActivity
         drawerToggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(new DrawerListener(this));
+
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private void setDropdownWidth(){
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+
+        display.getSize(size);
+        int width = size.x;
+
+        width -= 300;
+        spinner.setDropDownWidth(width);
+
+        //spinner.setDropDownHorizontalOffset(100);
 
     }
 

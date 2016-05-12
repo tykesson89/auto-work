@@ -56,5 +56,32 @@
         <item name="android:paddingRight">5dp</item>
     </style>
 
+    <style name="AppTheme.SpinnerDropdown"
+           parent="Theme.AppCompat.Light">
+
+        <item name="android:ellipsize">marquee</item>
+
+        <item name="android:paddingTop">8dp</item>
+    </style>
+
+    <style name="AppTheme.SpinnerTitle"
+           parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceLargeInverse</item>
+    </style>
+
+    <style name="AppTheme.Spinner"
+           parent="Base.Widget.AppCompat.Spinner">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceLargeInverse</item>
+    </style>
+
+    <style name="Widget.MyApp.HeaderBar.Spinner" parent="Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
+        <item name="android:background">?android:selectableItemBackground</item>
+        <item name="android:dropDownSelector">?android:selectableItemBackground</item>
+        <item name="android:divider">@null</item>
+        <item name="android:overlapAnchor">true</item>
+    </style>
+
 
 </resources>
