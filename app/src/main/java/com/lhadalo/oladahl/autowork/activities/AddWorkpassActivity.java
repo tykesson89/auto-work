@@ -333,9 +333,8 @@ public class AddWorkpassActivity extends AppCompatActivity
      */
     @Override
     public void onClickCancel() {
-        /*setResult(RESULT_CANCELED);
-        finish();*/
-        Log.v(Tag.LOGTAG, startDateTime.toString());
+        setResult(RESULT_CANCELED);
+        finish();
     }
 
     /**

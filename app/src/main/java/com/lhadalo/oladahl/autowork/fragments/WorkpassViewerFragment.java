@@ -26,6 +26,8 @@ public class WorkpassViewerFragment extends Fragment {
     private LinearLayout layoutBreak;
     private LinearLayout layoutNote;
 
+    private Toolbar toolbar;
+
     private TextView txtTitle;
     private TextView txtWorkplace;
     private TextView txtTime;
@@ -47,6 +49,8 @@ public class WorkpassViewerFragment extends Fragment {
     public interface OnFragmentInteraction {
         void onClickFAB();
         void onClickDelete();
+
+        void onClickClose();
     }
 
     @Nullable
@@ -61,12 +65,16 @@ public class WorkpassViewerFragment extends Fragment {
     }
 
     private void initComponents(View view) {
-        Toolbar toolbar = (Toolbar)view.findViewById(R.id.toolbar_1);
+        toolbar = (Toolbar)view.findViewById(R.id.toolbar_1);
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_clear_white_24dp));
+        toolbar.setNavigationContentDescription("Close Window");
+
 
         AppCompatActivity activity = (AppCompatActivity)getActivity();
-
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
         LinearLayout layoutWorkplace = (LinearLayout)view.findViewById(R.id.txt_layout_workplace);
         LinearLayout layoutTime = (LinearLayout)view.findViewById(R.id.txt_layout_time);
@@ -100,6 +108,13 @@ public class WorkpassViewerFragment extends Fragment {
     }
 
     private void initListeners() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callback.onClickClose();
+            }
+        });
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

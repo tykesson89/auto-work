@@ -41,7 +41,7 @@ public class Tag {
     public static final String HOUR = "hour";
     public static final String MINUTE = "minute";
 
-
+    public static final int RESULT_WORKPASS_DELETED = 10;
 
 
     public static final int IS_SYNCED = 1;

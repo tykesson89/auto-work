@@ -1,11 +1,14 @@
 package com.lhadalo.oladahl.autowork.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
+import android.widget.Toast;
 
 import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.Tag;
@@ -28,6 +31,8 @@ public class WorkpassViewerActivity extends AppCompatActivity
     private WorkpassViewerFragment fragment;
     SQLiteDB db = new SQLiteDB(this);
     private Workpass workpass = null;
+
+    private int resultCode = RESULT_CANCELED;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,6 +114,7 @@ public class WorkpassViewerActivity extends AppCompatActivity
         if(resultCode == RESULT_OK){
             workpass = db.getWorkpass(workpass.getWorkpassID());
             setWorkpassData();
+            this.resultCode = RESULT_OK;
         }
     }
 
@@ -123,6 +129,46 @@ public class WorkpassViewerActivity extends AppCompatActivity
 
     @Override
     public void onClickDelete() {
+        createAlertDialog();
+    }
 
+    @Override
+    public void onClickClose() {
+        setResult(resultCode);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(resultCode);
+        finish();
+    }
+
+    private void createAlertDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+        alertDialog.setTitle("Delete?");
+        alertDialog.setMessage("You can't undo this (for now)");
+
+        alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent data = new Intent();
+                data.putExtra(Tag.LIST_POSITION, getIntent().getIntExtra(Tag.LIST_POSITION, -1));
+                db.deleteWorkpass(workpass);
+
+                setResult(Tag.RESULT_WORKPASS_DELETED, data);
+
+                finish();
+            }
+        });
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        alertDialog.show();
     }
 }

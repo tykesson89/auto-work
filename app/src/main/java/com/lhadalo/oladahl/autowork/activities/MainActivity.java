@@ -246,7 +246,6 @@ public class MainActivity extends AppCompatActivity
         adapter.notifyDataSetChanged();
 
         FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
-
     }
 
     @Override
@@ -271,6 +270,12 @@ public class MainActivity extends AppCompatActivity
                 FetchWorkpasses.newInstance(this, Tag.ON_UPDATE_LIST).execute(Calendar.getInstance().get(Calendar.MONTH)); //TODO Känns lite dumt att hämta allt på nytt, får ändra sedan.
                 FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
             }
+        }
+        else if(resultCode == Tag.RESULT_WORKPASS_DELETED){
+            int positionToDelete = data.getIntExtra(Tag.LIST_POSITION, -1);
+            workpasses.remove(positionToDelete);
+            adapter.notifyDataSetChanged();
+            FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
         }
     }
 
@@ -337,8 +342,9 @@ public class MainActivity extends AppCompatActivity
     public void onItemClick(int position) {
         Intent intent = new Intent(this, WorkpassViewerActivity.class);
         intent.putExtra(DatabaseContract.WorkpassEntry.WORKPASS_ID, workpasses.get(position).getWorkpassID());
+        intent.putExtra(Tag.LIST_POSITION, position);
 
-        startActivity(intent);
+        startActivityForResult(intent, Tag.UPDATE_WORKPASS_REQUEST);
         //createOptionsDialog("Choose action", new String[]{"Delete item", "Change item"}, 2, position);
     }
 
