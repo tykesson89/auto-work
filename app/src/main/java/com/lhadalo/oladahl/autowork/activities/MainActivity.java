@@ -6,7 +6,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
+    private CoordinatorLayout coordinatorLayout;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,6 +143,17 @@ public class MainActivity extends AppCompatActivity
         //Hämtar arbetspass baserat på vilken månad det är.
         FetchWorkpasses.newInstance(this, 1).execute(Calendar.getInstance().get(Calendar.MONTH));
 
+    }
+
+
+
+    @Override
+    public void setCoordinatorLayout(CoordinatorLayout layout) {
+        this.coordinatorLayout = layout;
+    }
+
+    public void showSnackbar(){
+        Snackbar.make(coordinatorLayout, "Workpass Deleted", Snackbar.LENGTH_SHORT).show();
     }
 
     public void closeDrawer() {
@@ -271,11 +286,12 @@ public class MainActivity extends AppCompatActivity
                 FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
             }
         }
-        else if(resultCode == Tag.RESULT_WORKPASS_DELETED){
+        else if (resultCode == Tag.RESULT_WORKPASS_DELETED) {
             int positionToDelete = data.getIntExtra(Tag.LIST_POSITION, -1);
             workpasses.remove(positionToDelete);
             adapter.notifyDataSetChanged();
             FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
+            Waiter.newInstance(this).execute();
         }
     }
 
@@ -416,7 +432,32 @@ public class MainActivity extends AppCompatActivity
         optionDialog.show();
     }
 
+    private static class Waiter extends AsyncTask<Void, Void, Void> {
+        MainActivity activity;
 
+        public static Waiter newInstance(Context context){
+            return new Waiter(context);
+        }
+
+        public Waiter(Context context){
+            activity = (MainActivity)context;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                Thread.sleep(400);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            activity.showSnackbar();
+        }
+    }
 }
 
 

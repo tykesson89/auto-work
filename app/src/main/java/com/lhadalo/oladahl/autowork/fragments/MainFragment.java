@@ -3,6 +3,7 @@ package com.lhadalo.oladahl.autowork.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -26,10 +27,12 @@ public class MainFragment extends Fragment {
     private Toolbar toolbar;
     private RecyclerView mainRecyclerList;
     private FloatingActionButton fab;
+    private CoordinatorLayout coordinatorLayout;
     //private Button btnTry;
 
     public interface OnFragmentInteraction{
         void onFABPressed();
+        void setCoordinatorLayout(CoordinatorLayout layout);
     }
 
     /*
@@ -57,6 +60,7 @@ public class MainFragment extends Fragment {
         tvHoursPass = (TextView)view.findViewById(R.id.tvHoursPass);
         //btnTry=(Button)view.findViewById(R.id.button_addCompany_try);
 
+
         mainRecyclerList = (RecyclerView)view.findViewById(R.id.main_recycler_list);
         mainRecyclerList.setHasFixedSize(true);
 
@@ -65,6 +69,7 @@ public class MainFragment extends Fragment {
         mainRecyclerList.setLayoutManager(mLinearLayoutManager);
 
         fab = (FloatingActionButton)view.findViewById(R.id.fab);
+        coordinatorLayout = (CoordinatorLayout)view.findViewById(R.id.coordinator_layout);
 
         initListeners();
     }
@@ -84,6 +89,13 @@ public class MainFragment extends Fragment {
             }
         });*/
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        callback.setCoordinatorLayout(coordinatorLayout);
     }
 
     @Override
