@@ -109,6 +109,7 @@ public class AddCompanySettingsActivity extends AppCompatActivity {
             company.setUserId(myID);
             company.setIsSynced(Tag.IS_NOT_SYNCED);
             company.setActionTag(Tag.ON_CREATE_COMPANY);
+
             db.addCompany(company);
 
             CharSequence text = "Company added";
@@ -148,6 +149,7 @@ public class AddCompanySettingsActivity extends AppCompatActivity {
             companyToChange.setHourlyWage(hourly);
             companyToChange.setIsSynced(Tag.IS_NOT_SYNCED);
             companyToChange.setActionTag(Tag.ON_CHANGE_COMPANY);
+
             db.changeCompany(companyToChange);
 
             CharSequence text = "Company updated";

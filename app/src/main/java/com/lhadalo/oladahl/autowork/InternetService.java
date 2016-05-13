@@ -35,6 +35,7 @@ public class InternetService extends IntentService {
         super("InternetService");
     }
 
+    //TODO Koppla inte upp dig om inget finns att skicka!
     @Override
     protected void onHandleIntent(Intent intent) {
         ServerCommunicator.newInstance(this);
@@ -85,25 +86,33 @@ public class InternetService extends IntentService {
                         Company company = (Company)companiesToSync.get(i);
                         objectOut.writeObject(gson.toJson(company));
 
-                        int companyServerId = Integer.parseInt((String)objectIn.readObject());
-
-
-                        if (companyServerId >= 0) {
-                            if(company.getActionTag().equals(Tag.ON_DELETE_COMPANY)){
+                        int companyServerId = -1;
+                        if (company.getActionTag().equals(Tag.ON_CHANGE_COMPANY)) {
+                            companyServerId = (Integer)objectIn.readObject();
+                            if(companyServerId >= 0) {
+                                company.setActionTag("Synced");
+                                company.setIsSynced(Tag.IS_SYNCED);
+                                db.changeCompany(company);
+                            }
+                        }
+                        else if (company.getActionTag().equals(Tag.ON_DELETE_COMPANY)) {
+                            companyServerId = (Integer)objectIn.readObject();
+                            if(companyServerId >= 0) {
                                 db.deleteCompany(company.getCompanyName());
                             }
-                            company.setServerID(companyServerId);
-                            company.setIsSynced(Tag.IS_SYNCED);
-                            company.setActionTag(Tag.ON_ITEM_IS_SYNCED);
-                            db.changeCompany(company);
+                        }
+                        else {
+                            companyServerId = (Integer)objectIn.readObject();
+                            if (companyServerId >= 0) {
+                                company.setServerID(companyServerId);
+                                company.setIsSynced(Tag.IS_SYNCED);
+                                company.setActionTag(Tag.ON_ITEM_IS_SYNCED);
+                                db.changeCompany(company);
+                            }
                         }
                     }
 
-                    objectIn.close();
-                    objectOut.close();
-                    socket.close();
-
-                    if(!workpassesToSync.isEmpty()) {
+                    if (!workpassesToSync.isEmpty()) {
                         new ServerCommunicator(context);
                     }
                 }
@@ -130,11 +139,15 @@ public class InternetService extends IntentService {
                     }
                 }
 
+            } catch (IOException | ClassNotFoundException | JsonSyntaxException | NumberFormatException e) {
+                e.printStackTrace();
+            }
+
+            try {
                 objectIn.close();
                 objectOut.close();
                 socket.close();
-
-            } catch (IOException | ClassNotFoundException | JsonSyntaxException | NumberFormatException e) {
+            } catch (IOException e){
                 e.printStackTrace();
             }
 
