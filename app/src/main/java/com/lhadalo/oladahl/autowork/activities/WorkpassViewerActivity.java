@@ -155,7 +155,9 @@ public class WorkpassViewerActivity extends AppCompatActivity
             public void onClick(DialogInterface dialogInterface, int i) {
                 Intent data = new Intent();
                 data.putExtra(Tag.LIST_POSITION, getIntent().getIntExtra(Tag.LIST_POSITION, -1));
-                db.deleteWorkpass(workpass);
+                workpass.setActionTag(Tag.ON_DELETE_WORKPASS);
+                workpass.setIsSynced(Tag.IS_NOT_SYNCED);
+                db.updateWorkpass(workpass);
 
                 setResult(Tag.RESULT_WORKPASS_DELETED, data);
 

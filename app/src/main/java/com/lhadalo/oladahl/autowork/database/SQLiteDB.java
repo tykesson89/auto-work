@@ -353,8 +353,6 @@ public class SQLiteDB extends SQLiteOpenHelper {
                 + " WHERE " + WorkpassEntry.MONTH + "=? order by " + WorkpassEntry.START_TIME,
                 new String[]{String.valueOf(month)});
 
-
-
         List<Workpass> workpasses = new ArrayList<>();
 
         if (cursor.getCount() != 0) {

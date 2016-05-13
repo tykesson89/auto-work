@@ -128,7 +128,6 @@ public class InternetService extends IntentService {
                             }
                         }
                     }
-
                 }
 
                 objectIn.close();
