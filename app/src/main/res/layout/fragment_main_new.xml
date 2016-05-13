@@ -1,130 +1,294 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <include
-        layout="@layout/toolbar"/>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/test"
+
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:elevation="2dp"
-        android:layout_weight="9"
-        android:background="@android:color/white"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include
-            android:id="@+id/layout_next_pass"
-            android:layout_marginTop="16dp"
+        <android.support.percent.PercentRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            layout="@layout/layout_statistics"/>
-
-        <include
-            android:id="@+id/layout_month"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            layout="@layout/layout_statistics"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="0dp"
-        android:layout_weight="16">
-
-        <LinearLayout
-            android:id="@+id/layout_title_main_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?android:colorBackground"
-            android:paddingTop="8dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:gravity="bottom">
+            android:orientation="vertical"
+            android:background="@android:color/white"
+            android:elevation="2dp"
+            android:layout_weight="9">
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
+                android:id="@+id/layout_next_pass"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_heightPercent="50%"
+                android:divider="?android:listDivider"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:showDividers="middle">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:id="@+id/tv_title_next_pass"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:textStyle="bold"
-                    android:layout_weight="2"
-                    android:text="TITLE"/>
+                    android:fontFamily="sans-serif"
+                    android:text="NÄSTA PASS"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+
+                            android:text="Timmar:"
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:textSize="20sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_hours_next_pass"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif"
+                            android:text="12.5 h"
+                            android:textSize="20sp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:text="Lön: "
+                            android:textSize="20sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_salary_next_pass"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif"
+                            android:text="1325 kr"
+                            android:textSize="20sp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="sans-serif-light"
-                    android:textStyle="bold"
-                    android:text="DATE"/>
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_heightPercent="50%"
+                android:layout_below="@id/layout_next_pass"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:divider="?android:listDivider"
+                android:orientation="vertical"
+                android:showDividers="middle">
 
                 <TextView
+                    android:id="@+id/tv_title_month"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:text="totalt januari"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+
+                            android:text="Timmar:"
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:textSize="20sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_hours_month"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif"
+                            android:text="12.5 h"
+                            android:textSize="20sp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:text="Lön: "
+                            android:textSize="20sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_salary_month"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif"
+                            android:text="1325 kr"
+                            android:textSize="20sp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+        </android.support.percent.PercentRelativeLayout>
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/layout_title_main_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:colorBackground"
+                android:gravity="bottom"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp">
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="sans-serif-light"
-                    android:textStyle="bold"
-                    android:text="TIME"/>
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:fontFamily="sans-serif-light"
+                        android:text="TITLE"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-light"
+                        android:text="DATE"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-light"
+                        android:text="TIME"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+
             </LinearLayout>
 
 
         </LinearLayout>
 
-
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/main_recycler_list"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@id/layout_title_main_list">
+            android:layout_height="0dp"
+            android:layout_weight="16">
 
-        </android.support.v7.widget.RecyclerView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/main_recycler_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true">
 
-        <android.support.design.widget.CoordinatorLayout
-            android:id="@+id/coordinator_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            </android.support.v7.widget.RecyclerView>
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
-                android:layout_margin="@dimen/fab_compat_margin"
-                android:tint="@android:color/white"
 
-                android:src="@drawable/ic_add_black_24dp"
-                app:elevation="6dp"
-                app:pressedTranslationZ="12dp"
-                app:backgroundTint="@color/colorPrimary"/>
 
-        </android.support.design.widget.CoordinatorLayout>
-
+        </LinearLayout>
     </LinearLayout>
 
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</LinearLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/fab_compat_margin"
+            android:tint="@android:color/white"
+
+            android:src="@drawable/ic_add_black_24dp"
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp"
+            app:backgroundTint="@color/colorPrimary"/>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</RelativeLayout>
+

@@ -43,6 +43,7 @@ import com.lhadalo.oladahl.autowork.database.FetchWorkpasses;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.fragments.MainFragment;
+import com.lhadalo.oladahl.autowork.fragments.MainFragmentNew;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -56,8 +57,8 @@ import UserPackage.Workpass;
 
 
 public class MainActivity extends AppCompatActivity
-        implements MainFragment.OnFragmentInteraction, ListAdapter.ItemClickListener {
-    private MainFragment fragment;
+        implements MainFragmentNew.OnFragmentInteraction, ListAdapter.ItemClickListener {
+    private MainFragmentNew fragment;
     private List<Workpass> workpasses;
     private SQLiteDB database = new SQLiteDB(this);
 
@@ -145,6 +146,15 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void initFragment() {
+        fragment = new MainFragmentNew();
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_container, fragment)
+                .commit();
+    }
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void setDropdownWidth(){
         Display display = getWindowManager().getDefaultDisplay();
@@ -160,14 +170,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void initFragment() {
-        fragment = new MainFragment();
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.main_container, fragment)
-                .commit();
-    }
 
     @Override
     protected void onStart() {
