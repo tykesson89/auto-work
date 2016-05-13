@@ -42,6 +42,7 @@
                 <action android:name="com.lhadalo.oladahl.autowork.InternetService"/>
             </intent-filter>
         </service>
+        <activity android:name=".activities.SalaryWithTax" />
 
         <receiver android:name=".ConnectivityChangedReceiver"
                   android:label="ConnectivityChangeRecieiver">

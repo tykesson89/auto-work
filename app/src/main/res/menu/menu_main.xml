@@ -33,4 +33,9 @@
         android:title="@string/action_log_out"
         android:orderInCategory="200"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/showSalary1"
+        android:title="Salary with tax"
+        android:orderInCategory="200"
+        app:showAsAction="never"/>
 </menu>

@@ -60,7 +60,8 @@ public class MainActivity extends AppCompatActivity
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private CoordinatorLayout coordinatorLayout;
-
+    private double salary;
+    private double hours;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -202,6 +203,11 @@ public class MainActivity extends AppCompatActivity
             case R.id.test:
                 startActivity(new Intent(this, WorkpassViewerActivity.class));
                 break;
+            case R.id.showSalary1:
+                Intent intent = new Intent(MainActivity.this, SalaryWithTax.class);
+                intent.putExtra("salary",salary );
+                startActivity(intent);
+                break;
             case R.id.databasetest:
                 List<Workpass> workpasses = database.getAllWorkpasses();
                 for (Workpass w : workpasses) {
@@ -216,6 +222,7 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(this, String.valueOf(isMyServiceRunning()),
                         Toast.LENGTH_SHORT).show();
                 break;
+
             case R.id.hasconnection:
                 Toast.makeText(this, String.valueOf(isConnected(this)), Toast.LENGTH_SHORT).show();
         }
@@ -312,7 +319,8 @@ public class MainActivity extends AppCompatActivity
 
     public void getStatistics(List<Workpass> allWorkpasses) {
         Calendar now = Calendar.getInstance();
-        double salary = 0, hours = 0;
+        salary = 0;
+        hours = 0;
 
         if (workpasses != null) {
             for (Workpass workpass : workpasses) {
