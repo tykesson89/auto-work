@@ -9,10 +9,12 @@ public class Tag {
     public static final String CHANGE_USER_INFO = "Change User Info";
     public static final String DELETE_USER = "Delete User";
     public static final int PORT = 45001;
+
     //public static final String IP = "90.230.140.110";
     //public static final String IP = "10.2.1.120";
     //public static final String IP = "10.2.3.215";
-    public static final String IP = "192.168.1.7";
+    //public static final String IP = "192.168.1.7";
+    public static final String IP = "10.2.12.163";
     public static final int START_DATE_TIME = 1;
     public static final int END_DATE_TIME = 2;
 

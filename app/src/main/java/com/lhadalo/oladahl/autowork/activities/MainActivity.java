@@ -238,7 +238,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.databasetest:
                 List<Workpass> workpasses = database.getAllWorkpasses();
                 for (Workpass w : workpasses) {
-                    Log.v(Tag.LOGTAG, w.getTitle() + ": " + w.getStartDateTime().toString());
+                    Log.v(Tag.LOGTAG, w.toString());
                 }
                 List<Company> companies = database.getAllCompanies();
                 for (Company c : companies) {
@@ -323,6 +323,7 @@ public class MainActivity extends AppCompatActivity
             int positionToDelete = data.getIntExtra(Tag.LIST_POSITION, -1);
             workpasses.remove(positionToDelete);
             adapter.notifyDataSetChanged();
+            StartService.startService(this);
             FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
             Waiter.newInstance(this).execute();
         }

@@ -92,6 +92,7 @@ public class AddWorkpassActivity extends AppCompatActivity
             endDateTime = (GregorianCalendar)now.clone();
 
             model.setCompanyID(selectedCompany.getCompanyId());
+            model.setCompanyServerID(selectedCompany.getServerID());
             model.setStartDateTime(startDateTime);
             model.setEndDateTime(endDateTime);
 

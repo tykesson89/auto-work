@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.lhadalo.oladahl.autowork.CompanyListAdapter;
+import com.lhadalo.oladahl.autowork.StartService;
 import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.database.DatabaseContract;
@@ -100,8 +101,13 @@ public class AddCompanyActivity extends AppCompatActivity {
                     startActivity(intent);
 
                 } else if (position == 1) {
-                    db.deleteCompany(companies.get(listPosition).getCompanyName());
+                    Company companyToDelete = companies.get(listPosition);
+
+                    companyToDelete.setActionTag(Tag.ON_DELETE_COMPANY);
+                    companyToDelete.setIsSynced(Tag.IS_NOT_SYNCED);
+                    db.changeCompany(companyToDelete);
                     companies.remove(listPosition);
+                    StartService.startService(getApplicationContext());
                     adapter.notifyDataSetChanged();
 
                 } else {
