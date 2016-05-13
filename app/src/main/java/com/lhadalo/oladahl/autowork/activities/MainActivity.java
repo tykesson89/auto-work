@@ -35,6 +35,7 @@ import android.widget.Toast;
 import com.lhadalo.oladahl.autowork.DrawerListener;
 import com.lhadalo.oladahl.autowork.InternetService;
 import com.lhadalo.oladahl.autowork.StartService;
+import com.lhadalo.oladahl.autowork.TestActivity;
 import com.lhadalo.oladahl.autowork.database.DatabaseContract;
 import com.lhadalo.oladahl.autowork.ListAdapter;
 import com.lhadalo.oladahl.autowork.R;
@@ -232,7 +233,7 @@ public class MainActivity extends AppCompatActivity
                 onActionLogOutPressed();
                 break;
             case R.id.test:
-                startActivity(new Intent(this, WorkpassViewerActivity.class));
+                startActivity(new Intent(this, TestActivity.class));
                 break;
             case R.id.databasetest:
                 List<Workpass> workpasses = database.getAllWorkpasses();
