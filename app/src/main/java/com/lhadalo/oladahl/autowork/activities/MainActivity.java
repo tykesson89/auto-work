@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,6 +35,7 @@ import android.widget.Toast;
 
 import com.lhadalo.oladahl.autowork.DrawerListener;
 import com.lhadalo.oladahl.autowork.InternetService;
+import com.lhadalo.oladahl.autowork.SpinnerListener;
 import com.lhadalo.oladahl.autowork.StartService;
 import com.lhadalo.oladahl.autowork.TestActivity;
 import com.lhadalo.oladahl.autowork.database.DatabaseContract;
@@ -82,14 +84,19 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        //Hämtar arbetspass baserat på vilken månad det är.
+        FetchWorkpasses.newInstance(this, Tag.ON_CREATE_LIST).execute(Calendar.getInstance().get(Calendar.MONTH));
+
+        //Spinner
         spinner = (Spinner)toolbar.getChildAt(0);
 
         ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.months,  R.layout.simple_spinner_item);
-
         spinnerAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-
         setDropdownWidth();
         spinner.setAdapter(spinnerAdapter);
+
+        spinner.setSelection(Calendar.getInstance().get(Calendar.MONTH), true);
+        spinner.setOnItemSelectedListener(SpinnerListener.newInstance(this));
 
         navigationView = (NavigationView)findViewById(R.id.navigation_view);
 
@@ -176,8 +183,8 @@ public class MainActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
 
-        //Hämtar arbetspass baserat på vilken månad det är.
-        FetchWorkpasses.newInstance(this, 1).execute(Calendar.getInstance().get(Calendar.MONTH));
+
+
 
     }
 
