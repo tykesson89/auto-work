@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9"
+            android:background="@android:color/white"
+            android:elevation="2dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/layout_next_pass"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:divider="?android:listDivider"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:showDividers="middle"
+                app:layout_heightPercent="50%">
+
+                <TextView
+                    android:id="@+id/tv_title_next_pass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:text="NÄSTA PASS"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+                            android:text="Timmar:"
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:textSize="20sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_hours_next_pass"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif"
+                            android:text="12.5 h"
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:textSize="20sp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+                            android:text="Lön: "
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:textSize="20sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_salary_next_pass"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif"
+                            android:text="1325 kr"
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:textSize="20sp"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_below="@id/layout_next_pass"
+                android:divider="?android:listDivider"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:showDividers="middle"
+                app:layout_heightPercent="50%">
+
+                <TextView
+                    android:id="@+id/tv_title_month"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:text="totalt januari"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+
+                            android:text="Timmar:"
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:textSize="20sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_hours_month"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif"
+                            android:text="12.5 h"
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:textSize="20sp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+                            android:text="Lön: "
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:textSize="20sp"/>
+
+                        <TextView
+                            android:id="@+id/tv_salary_month"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:fontFamily="sans-serif"
+                            android:text="1325 kr"
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:textSize="20sp"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.percent.PercentRelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.percent.PercentRelativeLayout
+                android:id="@+id/layout_title_main_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:colorBackground"
+                android:gravity="bottom"
+                android:paddingTop="8dp">
+
+
+                <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                app:layout_widthPercent="50%"
+                android:id="@+id/text1"
+                android:fontFamily="sans-serif-light"
+                android:text="TITLE"
+                android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/text_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/text1"
+                    app:layout_widthPercent="25%"
+                    android:fontFamily="sans-serif-light"
+                    android:text="DATE"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_toRightOf="@id/text_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_widthPercent="25%"
+                    android:fontFamily="sans-serif-light"
+                    android:text="TIME"
+                    android:textStyle="bold"/>
+
+
+
+
+            </android.support.percent.PercentRelativeLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="16">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/main_recycler_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true">
+
+            </android.support.v7.widget.RecyclerView>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/fab_compat_margin"
+            android:src="@drawable/ic_add_black_24dp"
+
+            android:tint="@android:color/white"
+            app:backgroundTint="@color/colorPrimary"
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp"/>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</RelativeLayout>
+
