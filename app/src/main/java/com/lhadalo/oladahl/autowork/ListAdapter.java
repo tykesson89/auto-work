@@ -8,8 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import UserPackage.Workpass;
 
@@ -49,13 +51,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         GregorianCalendar start = content.get(pos).getStartDateTime();
         GregorianCalendar end = content.get(pos).getEndDateTime();
 
-        String date = DateUtils.formatDateTime(context,
-                start.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE);
+        SimpleDateFormat format = new SimpleDateFormat("cccc\ndd MMM", Locale.getDefault());
+        String date = format.format(start.getTime());
 
-        String time =
-                DateUtils.formatDateTime(context,
-                        start.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME) + " - "
-                        + DateUtils.formatDateTime(context, end.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
+        format = new SimpleDateFormat("kk:mm", Locale.getDefault());
+        String time = format.format(start.getTime()) + "-\n" + format.format(end.getTime());
+
 
         holder.txtDateList.setText(date);
         holder.txtTimeList.setText(time);

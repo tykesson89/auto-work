@@ -64,6 +64,10 @@
         <activity android:name=".activities.AddCompanyActivity"/>
 
         <activity android:name=".activities.WorkpassViewerActivity"/>
+
+        <activity android:name=".TestActivity"/>
+
+        <activity android:name=".AccountActivity"/>
     </application>
 
 </manifest>

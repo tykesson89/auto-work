@@ -1,24 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="178dp"
-                android:background="@android:color/holo_blue_dark"
-                android:orientation="vertical"
-                android:weightSum="1">
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="178dp"
+    android:background="@drawable/sunset_malmo"
+
+    android:orientation="vertical"
+    android:weightSum="1">
+
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/img_logo"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="46dp"
+        android:src="@mipmap/ic_launcher"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/img_logo"
+        android:layout_alignTop="@id/img_logo"
+        android:textColor="?android:textColorPrimaryInverse"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@id/img_logo"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center_vertical"
+        android:text="AutoWork"
+        android:textSize="30sp"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/header_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginLeft="16dp"
+            android:text="Ola Dahl"
             android:textColor="@android:color/white"
             android:textSize="14sp"
             android:textStyle="bold"/>
@@ -27,11 +56,14 @@
             android:id="@+id/header_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
+            android:layout_weight="1"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="8dp"
+            android:text="oladahl.lel@gmail.com"
+            android:textColor="@android:color/white"
             android:textSize="14sp"
             android:textStyle="normal"/>
     </LinearLayout>
 
-</RelativeLayout>
+</android.support.percent.PercentRelativeLayout>

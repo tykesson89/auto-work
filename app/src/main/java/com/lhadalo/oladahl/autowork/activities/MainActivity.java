@@ -1,12 +1,15 @@
 package com.lhadalo.oladahl.autowork.activities;
 
+import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -17,18 +20,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lhadalo.oladahl.autowork.AccountActivity;
 import com.lhadalo.oladahl.autowork.DrawerListener;
 import com.lhadalo.oladahl.autowork.InternetService;
+import com.lhadalo.oladahl.autowork.SpinnerListener;
 import com.lhadalo.oladahl.autowork.StartService;
+import com.lhadalo.oladahl.autowork.TestActivity;
 import com.lhadalo.oladahl.autowork.database.DatabaseContract;
 import com.lhadalo.oladahl.autowork.ListAdapter;
 import com.lhadalo.oladahl.autowork.R;
@@ -36,6 +46,7 @@ import com.lhadalo.oladahl.autowork.database.FetchWorkpasses;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.fragments.MainFragment;
+import com.lhadalo.oladahl.autowork.fragments.MainFragmentNew;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -47,21 +58,26 @@ import UserPackage.User;
 import UserPackage.Workpass;
 
 
+
 public class MainActivity extends AppCompatActivity
-        implements MainFragment.OnFragmentInteraction, ListAdapter.ItemClickListener {
-    private MainFragment fragment;
+        implements MainFragmentNew.OnFragmentInteraction, ListAdapter.ItemClickListener {
+    private MainFragmentNew fragment;
     private List<Workpass> workpasses;
     private SQLiteDB database = new SQLiteDB(this);
 
     private ListAdapter adapter;
     ActionBarDrawerToggle drawerToggle;
 
+    private int drawerItemPressed;
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private CoordinatorLayout coordinatorLayout;
     private double salary;
     private double hours;
+    private Spinner spinner;
+
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,9 +85,23 @@ public class MainActivity extends AppCompatActivity
         initFragment();
 
         toolbar = (Toolbar)findViewById(R.id.toolbar_main);
-        toolbar.setTitle(getResources()
-                .getStringArray(R.array.months)[Calendar.getInstance().get(Calendar.MONTH)]);
+
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        //Hämtar arbetspass baserat på vilken månad det är.
+        FetchWorkpasses.newInstance(this, Tag.ON_CREATE_LIST).execute(Calendar.getInstance().get(Calendar.MONTH));
+
+        //Spinner
+        spinner = (Spinner)toolbar.getChildAt(0);
+
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.months,  R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+        setDropdownWidth();
+        spinner.setAdapter(spinnerAdapter);
+
+        spinner.setSelection(Calendar.getInstance().get(Calendar.MONTH), true);
+        spinner.setOnItemSelectedListener(SpinnerListener.newInstance(this));
 
         navigationView = (NavigationView)findViewById(R.id.navigation_view);
 
@@ -112,6 +142,16 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onDrawerClosed(View drawerView) {
+                switch (drawerItemPressed){
+                    case R.id.item_profile:
+                        drawerItemPressed = -1;
+                        startActivity(new Intent(getApplicationContext(), AccountActivity.class));
+                        break;
+                    case R.id.item_companies:
+                        drawerItemPressed = -1;
+                        startActivity(new Intent(getApplicationContext(), AddCompanyActivity.class));
+                        break;
+                }
                 super.onDrawerClosed(drawerView);
             }
 
@@ -129,7 +169,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initFragment() {
-        fragment = new MainFragment();
+        fragment = new MainFragmentNew();
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -137,15 +177,28 @@ public class MainActivity extends AppCompatActivity
                 .commit();
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private void setDropdownWidth(){
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+
+        display.getSize(size);
+        int width = size.x;
+
+        width -= 300;
+        spinner.setDropDownWidth(width);
+
+        //spinner.setDropDownHorizontalOffset(100);
+
+    }
+
+
+
     @Override
     protected void onStart() {
         super.onStart();
 
-        //Hämtar arbetspass baserat på vilken månad det är.
-        FetchWorkpasses.newInstance(this, 1).execute(Calendar.getInstance().get(Calendar.MONTH));
-
     }
-
 
 
     @Override
@@ -157,7 +210,8 @@ public class MainActivity extends AppCompatActivity
         Snackbar.make(coordinatorLayout, "Workpass Deleted", Snackbar.LENGTH_SHORT).show();
     }
 
-    public void closeDrawer() {
+    public void closeDrawer(int drawerItemPressed) {
+        this.drawerItemPressed = drawerItemPressed;
         drawerLayout.closeDrawers();
     }
 
@@ -201,7 +255,7 @@ public class MainActivity extends AppCompatActivity
                 onActionLogOutPressed();
                 break;
             case R.id.test:
-                startActivity(new Intent(this, WorkpassViewerActivity.class));
+                startActivity(new Intent(this, TestActivity.class));
                 break;
             case R.id.showSalary1:
                 Intent intent = new Intent(MainActivity.this, SalaryWithTax.class);

@@ -535,6 +535,4 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
         return cal;
     }
-
-
 }
