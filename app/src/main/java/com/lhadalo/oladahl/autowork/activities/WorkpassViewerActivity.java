@@ -103,7 +103,6 @@ public class WorkpassViewerActivity extends AppCompatActivity
                 fragment.setImgNote(getResources().getDrawable(R.drawable.ic_note_black_24dp));
                 fragment.setTxtNote(workpass.getNote());
             }
-
         }
     }
 

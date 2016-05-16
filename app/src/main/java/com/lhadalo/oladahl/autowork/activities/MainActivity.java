@@ -25,7 +25,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,7 +32,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lhadalo.oladahl.autowork.AccountActivity;
 import com.lhadalo.oladahl.autowork.DrawerListener;
 import com.lhadalo.oladahl.autowork.InternetService;
 import com.lhadalo.oladahl.autowork.SpinnerListener;
@@ -45,7 +43,6 @@ import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.database.FetchWorkpasses;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 import com.lhadalo.oladahl.autowork.Tag;
-import com.lhadalo.oladahl.autowork.fragments.MainFragment;
 import com.lhadalo.oladahl.autowork.fragments.MainFragmentNew;
 
 import java.text.SimpleDateFormat;
@@ -76,7 +73,6 @@ public class MainActivity extends AppCompatActivity
     private double salary;
     private double hours;
     private Spinner spinner;
-
 
 
     protected void onCreate(Bundle savedInstanceState) {

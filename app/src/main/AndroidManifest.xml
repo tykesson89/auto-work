@@ -67,7 +67,7 @@
 
         <activity android:name=".TestActivity"/>
 
-        <activity android:name=".AccountActivity"/>
+        <activity android:name=".activities.AccountActivity"/>
     </application>
 
 </manifest>
