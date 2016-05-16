@@ -16,10 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.lhadalo.oladahl.autowork.DividerItemDecoration;
 import com.lhadalo.oladahl.autowork.ListAdapter;
 import com.lhadalo.oladahl.autowork.R;
+import com.lhadalo.oladahl.autowork.VerticalSpaceItemDecoration;
 
 public class MainFragmentNew extends Fragment {
+    private static final int VERTICAL_ITEM_SPACE = 48;
     private OnFragmentInteraction callback;
     private TextView tvTitleMonth;
     private TextView tvSalaryMonth;
@@ -60,6 +63,9 @@ public class MainFragmentNew extends Fragment {
         AppCompatActivity context = (AppCompatActivity)getActivity();
         RecyclerView.LayoutManager mLinearLayoutManager = new LinearLayoutManager(context);
         mainRecyclerList.setLayoutManager(mLinearLayoutManager);
+
+        //mainRecyclerList.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_ITEM_SPACE));
+        mainRecyclerList.addItemDecoration(new DividerItemDecoration(getActivity()));
 
         fab = (FloatingActionButton)view.findViewById(R.id.fab);
         coordinatorLayout = (CoordinatorLayout)view.findViewById(R.id.coordinator_layout);

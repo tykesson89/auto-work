@@ -4,15 +4,20 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/item_profile"
-            android:title="My Account"/>
+            android:title="My Account"
+            android:icon="@drawable/ic_account_circle_black_24dp"
+            android:checkable="false"/>
 
         <item
             android:id="@+id/item_companies"
-            android:title="My Companies"/>
+            android:title="My Companies"
+            android:icon="@drawable/ic_account_balance_black_24dp"
+            android:checkable="false"/>
 
         <item
             android:id="@+id/item_extras"
-            android:title="Calculate tax m.m."/>
+            android:title="Calculate tax m.m."
+            android:checkable="false"/>
 
     </group>
 

@@ -33,6 +33,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lhadalo.oladahl.autowork.AccountActivity;
 import com.lhadalo.oladahl.autowork.DrawerListener;
 import com.lhadalo.oladahl.autowork.InternetService;
 import com.lhadalo.oladahl.autowork.SpinnerListener;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity
     private ListAdapter adapter;
     ActionBarDrawerToggle drawerToggle;
 
+    private int drawerItemPressed;
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
@@ -137,6 +139,16 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onDrawerClosed(View drawerView) {
+                switch (drawerItemPressed){
+                    case R.id.item_profile:
+                        drawerItemPressed = -1;
+                        startActivity(new Intent(getApplicationContext(), AccountActivity.class));
+                        break;
+                    case R.id.item_companies:
+                        drawerItemPressed = -1;
+                        startActivity(new Intent(getApplicationContext(), AddCompanyActivity.class));
+                        break;
+                }
                 super.onDrawerClosed(drawerView);
             }
 
@@ -183,11 +195,7 @@ public class MainActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
 
-
-
-
     }
-
 
 
     @Override
@@ -199,7 +207,8 @@ public class MainActivity extends AppCompatActivity
         Snackbar.make(coordinatorLayout, "Workpass Deleted", Snackbar.LENGTH_SHORT).show();
     }
 
-    public void closeDrawer() {
+    public void closeDrawer(int drawerItemPressed) {
+        this.drawerItemPressed = drawerItemPressed;
         drawerLayout.closeDrawers();
     }
 

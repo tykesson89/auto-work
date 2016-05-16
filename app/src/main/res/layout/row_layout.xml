@@ -12,6 +12,8 @@
         app:layout_widthPercent="50%"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
+        style="@android:style/TextAppearance"
+
         android:paddingLeft="16dp"
         android:text="Titel"/>
 
@@ -21,7 +23,9 @@
         app:layout_widthPercent="25%"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
+        style="@android:style/TextAppearance"
         android:layout_toRightOf="@id/txt_title_list"
+        android:textColor="?android:textColorPrimary"
         android:layout_weight="1"
         android:text="Söndag\n13 maj"/>
 
@@ -30,7 +34,9 @@
         android:layout_width="wrap_content"
         app:layout_widthPercent="25%"
         android:layout_height="match_parent"
+        android:textColor="?android:textColorPrimary"
         android:gravity="center_vertical"
+        style="@android:style/TextAppearance"
         android:layout_toRightOf="@id/txt_date_list"
         android:layout_weight="1"
         android:text="17:45-\n19:30"/>
