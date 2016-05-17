@@ -91,7 +91,7 @@ public class AddWorkpassFragment extends Fragment {
         toolbar = (Toolbar)view.findViewById(R.id.toolbar_1);
         AppCompatActivity activity = (AppCompatActivity)getActivity();
         activity.setSupportActionBar(toolbar);
-        activity.setTitle("Add workpass");
+        activity.setTitle(getString(R.string.addWorkpass));
 
         etTitle = (EditText)view.findViewById(R.id.et_title);
         etAddNote = (EditText)view.findViewById(R.id.et_add_note);
@@ -111,7 +111,7 @@ public class AddWorkpassFragment extends Fragment {
         txtBrake = (TextView)layoutBreak.getChildAt(1);
 
 
-        txtBrake.setText("Add brake");
+        txtBrake.setText(getString(R.string.addbreak));
 
         imgWorkplace = (ImageView)layoutWorkplace.getChildAt(0);
         imgDateStart = (ImageView)layoutStart.getChildAt(0);

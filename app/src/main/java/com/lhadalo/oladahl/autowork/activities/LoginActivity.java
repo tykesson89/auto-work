@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.R.*;
+
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

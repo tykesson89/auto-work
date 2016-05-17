@@ -40,7 +40,7 @@ public class AccountFragment extends Fragment {
 
     private void initComponents(View view) {
         Toolbar toolbar = (Toolbar)view.findViewById(R.id.toolbar);
-        toolbar.setTitle("My Account");
+        toolbar.setTitle(getString(R.string.myAccount));
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_clear_white_24dp));
 
         AppCompatActivity activity = (AppCompatActivity)getActivity();

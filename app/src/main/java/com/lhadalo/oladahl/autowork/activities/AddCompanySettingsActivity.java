@@ -43,7 +43,7 @@ public class AddCompanySettingsActivity extends AppCompatActivity {
 
         if(request == Tag.ADD_COMPANY_REQUEST){
             assert buttonAdd != null;
-            buttonAdd.setText("Add");
+            buttonAdd.setText(getString(R.string.add));
         }
         else{
             long companyId = data.getLongExtra(DatabaseContract.CompanyEntry.COMPANY_ID, -1);
@@ -52,7 +52,7 @@ public class AddCompanySettingsActivity extends AppCompatActivity {
             txtAddHourly.setText(String.valueOf(companyToChange.getHourlyWage()));
 
 
-            buttonAdd.setText("Change");
+            buttonAdd.setText(getString(R.string.changeCompany));
         }
 
 
@@ -94,7 +94,7 @@ public class AddCompanySettingsActivity extends AppCompatActivity {
 
         if(exists == true) {
 
-            CharSequence text = "Company already exists";
+            CharSequence text = getString(R.string.companyExists);
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(AddCompanySettingsActivity.this, text, duration);
             toast.show();
@@ -112,7 +112,7 @@ public class AddCompanySettingsActivity extends AppCompatActivity {
 
             db.addCompany(company);
 
-            CharSequence text = "Company added";
+            CharSequence text = getString(R.string.companyAdded);
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(AddCompanySettingsActivity.this, text, duration);
             toast.show();
@@ -152,7 +152,7 @@ public class AddCompanySettingsActivity extends AppCompatActivity {
 
             db.changeCompany(companyToChange);
 
-            CharSequence text = "Company updated";
+            CharSequence text = getString(R.string.companyUpdated);
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(AddCompanySettingsActivity.this, text, duration);
             toast.show();
@@ -178,7 +178,7 @@ public class AddCompanySettingsActivity extends AppCompatActivity {
         }
         if(exists == false) {
 
-            CharSequence text = "Company not deleted";
+            CharSequence text = getString(R.string.companyNotDeleted);
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(AddCompanySettingsActivity.this, text, duration);
             toast.show();
@@ -187,7 +187,7 @@ public class AddCompanySettingsActivity extends AppCompatActivity {
 
             db.deleteCompany(companyName);
 
-            CharSequence text = "Company deleted";
+            CharSequence text = getString(R.string.companyDeleted);
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(AddCompanySettingsActivity.this, text, duration);
             toast.show();

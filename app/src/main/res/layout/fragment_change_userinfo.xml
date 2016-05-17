@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Change UserInfo"
+        android:text="@string/changeUserInfo"
         android:id="@+id/textView3"
         android:layout_gravity="center_horizontal" />
 
@@ -59,7 +59,7 @@
         android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Change Userinfo"
+        android:text="@string/changeUserInfo"
         android:id="@+id/btnChangeUserInfo"
         android:layout_gravity="center_horizontal" />
 
