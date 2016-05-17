@@ -27,6 +27,7 @@ public class AddCompanyActivity extends AppCompatActivity {
     SQLiteDB db = new SQLiteDB(this);
     List<Company> companies;
     CompanyListAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +75,7 @@ public class AddCompanyActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             Intent intent = new Intent(this, AddCompanySettingsActivity.class);
             intent.putExtra(Tag.REQUEST_CODE, Tag.ADD_COMPANY_REQUEST);
-            startActivity(intent);
+            startActivityForResult(intent, Tag.ADD_COMPANY_REQUEST);
             return true;
         }
 
@@ -83,6 +84,27 @@ public class AddCompanyActivity extends AppCompatActivity {
 
     public void onItemOptionsDialogSelected(int option, int listPosition){
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK){
+            if(requestCode == Tag.ADD_COMPANY_REQUEST){
+                Company companyAdded = db.getLastAddedCompany();
+                companies.add(companyAdded);
+                adapter.notifyDataSetChanged();
+            }
+            else if(requestCode == Tag.CHANGE_COMPANY_REQUEST){
+                int pos = data.getIntExtra(Tag.LIST_POSITION, -1);
+                if(pos >= 0){
+                    long id = data.getLongExtra(DatabaseContract.CompanyEntry.COMPANY_ID, -1);
+                    Company changedComp = db.getCompany(id);
+
+                    companies.set(pos, changedComp);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
     }
 
     public void createOptionsDialog(final int listPosition){
@@ -97,8 +119,9 @@ public class AddCompanyActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(getApplicationContext(), AddCompanySettingsActivity.class);
                     intent.putExtra(DatabaseContract.CompanyEntry.COMPANY_ID, companies.get(listPosition).getCompanyId());
+                    intent.putExtra(Tag.LIST_POSITION, listPosition);
                     intent.putExtra(Tag.REQUEST_CODE, Tag.CHANGE_COMPANY_REQUEST);
-                    startActivity(intent);
+                    startActivityForResult(intent, Tag.CHANGE_COMPANY_REQUEST);
 
                 } else if (position == 1) {
                     Company companyToDelete = companies.get(listPosition);

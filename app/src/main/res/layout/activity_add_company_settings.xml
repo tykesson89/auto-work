@@ -8,16 +8,15 @@
 
     <EditText
         android:id="@+id/add_comp"
-        android:text="@string/add_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Company" />
 
     <EditText
         android:id="@+id/add_hourly"
-        android:text="@string/add_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="number"
         android:hint="Hourly wage" />
 
     <Button

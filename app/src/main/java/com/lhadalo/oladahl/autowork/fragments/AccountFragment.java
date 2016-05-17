@@ -64,7 +64,6 @@ public class AccountFragment extends Fragment {
 
         LinearLayout layoutChangeName = (LinearLayout)view.findViewById(R.id.layout_change_name);
         LinearLayout layoutChangeEmail = (LinearLayout)view.findViewById(R.id.layout_change_email);
-        //LinearLayout layoutChangePassword = (LinearLayout)view.findViewById(R.id.layout_change_password);
 
         ImageView imgChangeName = (ImageView)layoutChangeName.getChildAt(0);
         ImageView imgChangeEmail = (ImageView)layoutChangeEmail.getChildAt(0);
@@ -76,7 +75,6 @@ public class AccountFragment extends Fragment {
 
         RelativeLayout layoutContentName = (RelativeLayout)layoutChangeName.getChildAt(1);
         RelativeLayout layoutContentEmail = (RelativeLayout)layoutChangeEmail.getChildAt(1);
-        //RelativeLayout layoutContentPassword = (RelativeLayout)layoutChangePassword.getChildAt(1);
 
         txtChangeName = (TextView)layoutContentName.getChildAt(0);
         txtChangeEmail = (TextView)layoutContentEmail.getChildAt(0);
@@ -96,13 +94,8 @@ public class AccountFragment extends Fragment {
 
         txtChangePassword = (TextView)view.findViewById(R.id.txt_password);
 
-        //TextView txtChangePasswordDesc = (TextView)layoutContentPassword.getChildAt(1);
-
         btnLogOut = (Button)view.findViewById(R.id.btn_logout);
         btnDeleteAccount = (Button)view.findViewById(R.id.btn_delete_account);
-
-        /*TextView txtChangeEmail = (TextView)layoutChangeEmail.getChildAt(1);
-        TextView txtChangePassword = (TextView)layoutChangePassword.getChildAt(1);*/
 
         initListeners();
     }

@@ -145,7 +145,10 @@ public class SQLiteDB extends SQLiteOpenHelper {
 
     public List<Company> getAllCompanies() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + CompanyEntry.TABLE_NAME, null);
+        Cursor cursor =
+                db.rawQuery("SELECT * FROM "
+                        + CompanyEntry.TABLE_NAME + " where not " + CompanyEntry.ACTION_TAG + "=?",
+                        new String[]{Tag.ON_DELETE_COMPANY});
         List<Company> companies = new ArrayList<>();
 
         while (cursor.moveToNext()) {
@@ -295,6 +298,27 @@ public class SQLiteDB extends SQLiteOpenHelper {
                 db.close();
             }
         }
+    }
+
+    public Company getLastAddedCompany(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String command = "SELECT * FROM " + CompanyEntry.TABLE_NAME + " WHERE " + CompanyEntry.COMPANY_ID
+                + " = (SELECT MAX(" + CompanyEntry.COMPANY_ID + ") FROM " + CompanyEntry.TABLE_NAME + ");";
+
+        Cursor c = db.rawQuery(command, null);
+        c.moveToFirst();
+
+        Company company = new Company(
+                c.getLong(c.getColumnIndex(CompanyEntry.COMPANY_ID)),
+                c.getInt(c.getColumnIndex(CompanyEntry.COMPANY_MY_SQL_ID)),
+                c.getInt(c.getColumnIndex(CompanyEntry.USER_ID)),
+                c.getString(c.getColumnIndex(CompanyEntry.COMPANY_NAME)),
+                c.getDouble(c.getColumnIndex(CompanyEntry.WAGE)),
+                c.getInt(c.getColumnIndex(CompanyEntry.IS_SYNCED)),
+                c.getString(c.getColumnIndex(CompanyEntry.ACTION_TAG))
+        );
+
+        return company;
     }
 
     //Workpass-----------------------------------------------------------------------------------
