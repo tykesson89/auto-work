@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity
     private double salary;
     private double hours;
     private Spinner spinner;
+    private Menu menu;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +121,7 @@ public class MainActivity extends AppCompatActivity
                 onActionSettingsPressed();
             }
         });
+
 
         //Hämtar textview i inställningslayout och sätter rätt text.
         TextView txtSettings = (TextView)settingsLayout.getChildAt(0);
@@ -194,6 +196,7 @@ public class MainActivity extends AppCompatActivity
     protected void onStart() {
         super.onStart();
 
+        invalidateOptionsMenu();
     }
 
 
@@ -235,10 +238,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.databasetest).setTitle("Hej");
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
 
         inflater.inflate(R.menu.menu_main, menu);
+
+
 
         return true;
     }
@@ -349,7 +360,8 @@ public class MainActivity extends AppCompatActivity
             adapter.notifyDataSetChanged();
             StartService.startService(this);
             FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
-            Waiter.newInstance(this).execute();
+            //Waiter.newInstance(this).execute();
+            Toast.makeText(MainActivity.this, "Arbetspass borttaget", Toast.LENGTH_SHORT).show();
         }
     }
 

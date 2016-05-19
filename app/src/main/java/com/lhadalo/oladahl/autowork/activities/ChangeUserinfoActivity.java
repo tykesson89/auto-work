@@ -65,8 +65,6 @@ public class ChangeUserinfoActivity extends AppCompatActivity implements ChangeU
 
 
 
-
-
     private void initFragment() {
         fragment = new ChangeUserinfoFragment();
         getSupportFragmentManager().beginTransaction()
