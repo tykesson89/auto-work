@@ -1,0 +1,145 @@
+<resources>
+    <!-- App -->
+    <string name="app_name">Auto Work</string>
+    <string name="hello_world">Hej världen!</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- MainActivity -->
+    <string name="openDrawer">Öppna lådan</string>
+    <string name="closeDrawer">Stäga lådan</string>
+    <string name="action_log_out">Logga ut</string>
+    <string name="action_settings">Inställningar</string>
+
+    <!-- MainFragment -->
+    <string name="settings">Inställningar</string>
+    <string name="nextpass">Nästa pass: </string>
+    <string name="Timmar">Timmar: </string>
+    <string name="salary">Lön: </string>
+    <string name="date">DATUM </string>
+    <string name="time">TID </string>
+    <string name="tittle">TITEL </string>
+    <string name="total">Totalt</string>
+    <string name="deleteAccount">Ta bort kontot</string>
+    <string name="changeUserInfo">Byt användare info</string>
+    <string name="myAccount">Mitt konto</string>
+    <string name="myCompanies">Mina företag</string>
+    <string name="tax">Min lön med skatt</string>
+    <!--Add workpass -->
+    <string name="addWorkpassTomenu">Lägg till</string>
+    <string name="fel">Fel!</string>
+    <string name="update">Updatera</string>
+    <string name="error">Pausen ska vara i minuter</string>
+    <string name="workPlace">Välj arbetsplats</string>
+    <string name="enterTitle">Skriv en titel</string>
+    <string name="Addnote">Lägg till anteckningar</string>
+    <string name="cancel">Avsluta</string>
+    <string name="addbreak">Lägg till paus</string>
+    <string name="addWorkpass">Lägg till arbetspass</string>
+    <string name="save">Spara</string>
+    <string name="noTitle">Ingen titel</string>
+    <string name="wrongWorkpass">Arbetspass måste ha en titel</string>
+    <string name="wrongDate">Fel datum</string>
+    <string name="wrongTime">Fel tid</string>
+    <string name="sameTime">samma tid</string>
+    <string name="wrongMessage1">Slutdatumet kan inte vara före startdatum</string>
+    <string name="wrongMessage3">Sluttiden kan inte vara före starttiden</string>
+    <string name="wrongInput">Fel input</string>
+    <string name="wrongInput2">Någonting blev fel med input</string>
+
+    <!-- Company -->
+    <string name="changeCompany">Ändra</string>
+    <string name="deleteCompany">Ta bort</string>
+    <string name="companyExists">Företaget finns redan</string>
+    <string name="companyAdded">Företaget har lagt till</string>
+    <string name="companyUpdated">Företaget updaterade</string>
+    <string name="companyNotDeleted">Företaget har inte tagit bort</string>
+    <string name="companyDeleted">Företaget har tagit bort</string>
+    <string name="edit">Redigera</string>
+
+
+    <!-- Login Activity -->
+    <string name="dialog_title_login">Loggar in</string>
+    <string name="dialog_message_login">Loggar in</string>
+    <string name="toast_user_not_found">Användaren finns inte</string>
+
+    <!-- LoginFragment -->
+    <string name="login_title">Välkommen till Auto Work!</string>
+    <string name="login_description">Ange din mail och lösenord för att logga in</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Lösenord</string>
+    <string name="btn_login">Logg in</string>
+    <string name="btn_create_account">Skapa konto</string>
+    <string name="login_desciption">Skriv din mail och lösenord för att logga in</string>
+    <string name="forgetPassword">Glömt lösenord? \n Tryck här</string>
+
+    <!-- RegistrationActivity -->
+    <string name="create_account_title">Skapa konto</string>
+    <string name="account_title">Skapa konto</string>
+    <string name="dialog_title_creating_user">Skapa konto</string>
+    <string name="dialog_message_creating_user">Skapa konto</string>
+    <string name="toast_user_exists">Användaren finns redan</string>
+    <string name="toast_account_created">Kontot skapad</string>
+    <string name="toast_wage_number_error">Din timlön måste vara siffror</string>
+    <string name="toast_password_error">Lösenord måste vara minst 6 tecken</string>
+    <string name="toast_email_error">Fel Email</string>
+    <string name="toast_all_fields_error">Du måste fylla i alla fält</string>
+
+    <!-- RegistrationFragment -->
+    <string name="registration_title">Skapa konto</string>
+    <string name="et_first_name_hint">Förenamn</string>
+    <string name="et_last_name_hint">Efternamn</string>
+    <string name="et_email_hint">Email</string>
+    <string name="et_password_hint">Lösenord</string>
+    <string name="et_company_hint">Företag</string>
+    <string name="et_hourly_wage_hint">Timlön</string>
+    <string name="btn_register">Registera</string>
+
+    <string-array name="months">
+        <item name="jan">Januari</item>
+        <item name="feb">Februari</item>
+        <item name="mar">Mars</item>
+        <item name="apr">April</item>
+        <item name="may">Maj</item>
+        <item name="jun">Juni</item>
+        <item name="jul">Juli</item>
+        <item name="aug">Augusti</item>
+        <item name="sep">September</item>
+        <item name="oct">Oktober</item>
+        <item name="nov">November</item>
+        <item name="dec">December</item>
+    </string-array>
+
+
+    <!--RemoveOrChangeCompanyFragment -->
+    <string name="delete">Ta bort</string>
+    <string name="change">Ändra</string>
+    <string name="back">Tillbacka</string>
+    <string name="txt_company">Företag</string>
+
+
+    <string name="company">Företag</string>
+    <string-array name="company_names">
+        <item>xxx</item>
+        <item>yyy</item>
+        <item>ccc</item>
+        <item>bbb</item>
+    </string-array>
+    <string name="title_activity_add_company">Lägga Company Aktivitet</string>
+    <string name="title_activity_static">StaticActivity</string>
+    <string name="add">Lägg ett företag</string>
+    <string name="btn_cancel">Avsluta</string>
+    <string name="ChangePassword">Ändra Lösenord</string>
+    <string name="NewPassword">Nytt Lösenord</string>
+    <string name="NewPasswordConfirmation">Nytt lösenord Bekräftelse</string>
+    <string name="OldPassword">Gammalt Lösenord</string>
+    <string name="add_title">Företag</string>
+    <string name="add_desc">Timlön</string>
+
+
+</resources>
+
+
+
+
+
+
