@@ -11,7 +11,50 @@
     <string name="action_settings">Settings</string>
 
     <!-- MainFragment -->
+    <string name="settings">Setting</string>
+    <string name="nextpass">Next pass: </string>
+    <string name="Timmar">Hours: </string>
+    <string name="salary">Salary: </string>
+    <string name="date">DATE </string>
+    <string name="time">TIME </string>
+    <string name="tittle">TITLE </string>
+    <string name="total">Total</string>
+    <string name="deleteAccount">Delete Account</string>
+    <string name="changeUserInfo">Change User Info</string>
+    <string name="myAccount">My Account</string>
+    <string name="myCompanies">My Companies</string>
+    <string name="tax">Your salary with tax</string>
+    <!--Add workpass -->
+    <string name="addWorkpassTomenu">ADD</string>
+    <string name="fel">ERROR!</string>
+    <string name="update">Update</string>
+    <string name="error">Add brake in minutes</string>
+    <string name="workPlace">Choose a workplace</string>
+    <string name="enterTitle">Enter title</string>
+    <string name="Addnote">Add note</string>
+    <string name="cancel">Cancel</string>
+    <string name="addbreak">Add break</string>
+    <string name="addWorkpass">Add workpass</string>
+    <string name="save">Save</string>
+    <string name="noTitle">NO TITLE</string>
+    <string name="wrongWorkpass">The workpass must have a title</string>
+    <string name="wrongDate">Wrong date</string>
+    <string name="wrongTime">Wrong time</string>
+    <string name="sameTime">Same time</string>
+    <string name="wrongMessage1">The end date cannot be before the start date</string>
 
+    <string name="wrongMessage3">The end time cannot be before the start time</string>
+    <string name="wrongInput">Wrong input</string>
+    <string name="wrongInput2">Something went wrong</string>
+    <!-- Company -->
+    <string name="changeCompany">Change</string>
+    <string name="deleteCompany">Delete</string>
+    <string name="companyExists">Company already exists</string>
+    <string name="companyAdded">Company added</string>
+    <string name="companyUpdated">Company updated</string>
+    <string name="companyNotDeleted">Company not deleted</string>
+    <string name="companyDeleted">Company deleted</string>
+    <string name="edit">Edit</string>
     <!-- Login Activity -->
     <string name="dialog_title_login">Logging in</string>
     <string name="dialog_message_login">Logging in</string>
@@ -25,6 +68,7 @@
     <string name="btn_login">Login</string>
     <string name="btn_create_account">Create Account</string>
     <string name="login_desciption">Please write your email and password to log in</string>
+    <string name="forgetPassword">Forgot your password? \n Press here</string>
 
     <!-- RegistrationActivity -->
     <string name="create_account_title">Create Account</string>
@@ -71,7 +115,7 @@
     <string name="txt_company">Company</string>
 
 
-    <string name="company"></string>
+    <string name="company" translatable="false">company</string>
     <string-array name="company_names">
         <item>xxx</item>
         <item>yyy</item>

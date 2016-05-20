@@ -49,8 +49,8 @@ public class SplashScreen extends Activity {
                 try {
                     int waited = 0;
                     while (waited < 2000) {
-                        sleep(100);
-                        waited += 100;
+                        sleep(10);
+                        waited += 10;
                     }
                     Intent intent = new Intent(SplashScreen.this,
                             LoginActivity.class);

@@ -56,7 +56,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif"
-                            android:text="Timmar:"
+                            android:text="@string/Timmar"
                             android:textColor="?android:attr/textColorPrimary"
                             android:textSize="20sp"/>
 
@@ -82,7 +82,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif"
-                            android:text="Lön: "
+                            android:text="@string/salary"
                             android:textColor="?android:attr/textColorPrimary"
                             android:textSize="20sp"/>
 
@@ -116,7 +116,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
-                    android:text="totalt januari"
+                    android:text="@string/total"
                     android:textAllCaps="true"
                     android:textStyle="bold"/>
 
@@ -137,7 +137,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif"
 
-                            android:text="Timmar:"
+                            android:text="@string/Timmar"
                             android:textColor="?android:attr/textColorPrimary"
                             android:textSize="20sp"/>
 
@@ -164,7 +164,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif"
-                            android:text="Lön: "
+                            android:text="@string/salary"
                             android:textColor="?android:attr/textColorPrimary"
                             android:textSize="20sp"/>
 
@@ -205,7 +205,7 @@
                 app:layout_widthPercent="50%"
                 android:id="@+id/text1"
                 android:fontFamily="sans-serif-light"
-                android:text="TITLE"
+                android:text="@string/tittle"
                 android:textStyle="bold"/>
 
                 <TextView
@@ -215,7 +215,7 @@
                     android:layout_toRightOf="@id/text1"
                     app:layout_widthPercent="25%"
                     android:fontFamily="sans-serif-light"
-                    android:text="DATE"
+                    android:text="@string/date"
                     android:textStyle="bold"/>
 
                 <TextView
@@ -224,7 +224,7 @@
                     android:layout_height="wrap_content"
                     app:layout_widthPercent="25%"
                     android:fontFamily="sans-serif-light"
-                    android:text="TIME"
+                    android:text="@string/time"
                     android:textStyle="bold"/>
 
 

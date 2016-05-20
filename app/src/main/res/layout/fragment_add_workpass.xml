@@ -45,7 +45,7 @@
                     android:background="@color/colorPrimary"
                     android:selectAllOnFocus="true"
                     android:imeOptions="actionDone"
-                    android:hint="Enter title"
+                    android:hint="@string/enterTitle"
                     android:singleLine="true"/>
             </android.support.v7.widget.Toolbar>
         </LinearLayout>
@@ -108,7 +108,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:hint="Add note"
+                        android:hint="@string/Addnote"
                         android:minHeight="@dimen/list_height_dense"
                         android:imeOptions="actionDone"
                         android:textSize="15sp"/>
@@ -141,7 +141,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:text="Cancel"
+            android:text="@string/cancel"
             style="?attr/buttonBarNegativeButtonStyle"/>
 
         <Button
@@ -149,7 +149,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Save"
+            android:text="@string/save"
             style="?attr/buttonBarPositiveButtonStyle"/>
 
     </LinearLayout>

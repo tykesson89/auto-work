@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity
 
         //Hämtar textview i inställningslayout och sätter rätt text.
         TextView txtSettings = (TextView)settingsLayout.getChildAt(0);
-        txtSettings.setText("Settings");
+        txtSettings.setText(getResources().getString(R.string.settings));
 
         ImageView imgSettings = (ImageView)settingsLayout.getChildAt(1);
         imgSettings.setImageDrawable(getResources().getDrawable(R.drawable.ic_settings_black_18dp));
@@ -148,6 +148,11 @@ public class MainActivity extends AppCompatActivity
                     case R.id.item_companies:
                         drawerItemPressed = -1;
                         startActivity(new Intent(getApplicationContext(), AddCompanyActivity.class));
+                        break;
+                    case R.id.item_extras:
+                        Intent intent = new Intent(MainActivity.this, SalaryWithTax.class);
+                        intent.putExtra("salary",salary );
+                        startActivity(intent);
                         break;
                 }
                 super.onDrawerClosed(drawerView);
@@ -264,11 +269,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.test:
                 startActivity(new Intent(this, TestActivity.class));
                 break;
-            case R.id.showSalary1:
-                Intent intent = new Intent(MainActivity.this, SalaryWithTax.class);
-                intent.putExtra("salary",salary );
-                startActivity(intent);
-                break;
+
             case R.id.databasetest:
                 List<Workpass> workpasses = database.getAllWorkpasses();
                 for (Workpass w : workpasses) {
@@ -408,12 +409,12 @@ public class MainActivity extends AppCompatActivity
         if (nextPass != null) {
             fragment.setTextTvSalaryPass(String.valueOf(nextPass.getSalary()) + " Kr");
             fragment.setTextTvHoursPass(String.valueOf(nextPass.getWorkingHours()) + " h");
-            fragment.setTextTvNextPass("Next pass: " + formatCalendarToString(nextPass.getStartDateTime()));
+            fragment.setTextTvNextPass(getString(R.string.nextpass) +" "+ formatCalendarToString(nextPass.getStartDateTime()));
         }
         else {
             fragment.setTextTvSalaryPass("0.0 Kr");
             fragment.setTextTvHoursPass("0.0 h");
-            fragment.setTextTvNextPass("Next pass:");
+            fragment.setTextTvNextPass(getString(R.string.nextpass));
         }
     }
 

@@ -110,9 +110,9 @@ public class AddCompanyActivity extends AppCompatActivity {
     public void createOptionsDialog(final int listPosition){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setTitle("Edit");
+        builder.setTitle(getString(R.string.edit));
 
-        builder.setItems(new String[]{"Change", "Delete", "Cancel"}, new DialogInterface.OnClickListener() {
+        builder.setItems(new String[]{getString(R.string.changeCompany), getString(R.string.deleteCompany), getString(R.string.cancel)}, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int position) {
                 if (position == 0) {

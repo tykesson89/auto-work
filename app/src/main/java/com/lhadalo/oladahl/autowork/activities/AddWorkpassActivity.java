@@ -139,7 +139,7 @@ public class AddWorkpassActivity extends AppCompatActivity
                     fragment.setCompanyName(selectedCompany.getCompanyName());
                 }
                 else {
-                    fragment.setCompanyName("ERROR!");
+                    fragment.setCompanyName(getString(R.string.fel));
                 }
 
                 fragment.setTxtDateStart(formatDate(startDateTime));
@@ -148,7 +148,7 @@ public class AddWorkpassActivity extends AppCompatActivity
                 fragment.setTxtDateEnd(formatDate(endDateTime));
                 fragment.setTxtTimeEnd(formatTime(endDateTime));
 
-                fragment.setBtnSave("Add");
+                fragment.setBtnSave(getString(R.string.save));
 
 
             }
@@ -161,7 +161,7 @@ public class AddWorkpassActivity extends AppCompatActivity
                     fragment.setCompanyName(selectedCompany.getCompanyName());
                 }
                 else {
-                    fragment.setCompanyName("ERROR!"); //Ifall inget company hittades.
+                    fragment.setCompanyName(getString(R.string.fel)); //Ifall inget company hittades.
                 }
 
                 fragment.setTxtDateStart(formatDate(startDateTime));
@@ -178,7 +178,7 @@ public class AddWorkpassActivity extends AppCompatActivity
                     fragment.setTxtNote(model.getNote());
                 }
 
-                fragment.setBtnSave("Update");
+                fragment.setBtnSave((getString(R.string.update)));
             }
     }
 
@@ -424,7 +424,7 @@ public class AddWorkpassActivity extends AppCompatActivity
     private boolean validateTitle() {
         String res = fragment.getTitle();
         if (res.isEmpty()) {
-            createAlertDialog("No title", "The workpass must have a title");
+            createAlertDialog((getString(R.string.noTitle)), getString(R.string.wrongWorkpass));
             return false;
         }
         else {
@@ -446,16 +446,16 @@ public class AddWorkpassActivity extends AppCompatActivity
 
         Log.v(Tag.LOGTAG, startDate.toString());
 
-        if (startDate.compareTo(endDate) > 0) {
-            createAlertDialog("Wrong date", "The end date cannot be before the start date");
+       if (startDate.compareTo(endDate) > 0) {
+            createAlertDialog(getString(R.string.wrongDate), getString(R.string.wrongMessage1));
             return false;
         }
         if (startDateTime.compareTo(endDateTime) == 0) {
-            createAlertDialog("Same time", "You can't have the same start time as your end time");
+            createAlertDialog(getString(R.string.sameTime), "You can't have the same start time as your end time");
             return false;
         }
         if (startDateTime.compareTo(endDateTime) > 0) {
-            createAlertDialog("Wrong time", "The end time cannot be before the start time");
+            createAlertDialog(getString(R.string.wrongTime), getString(R.string.wrongMessage3));
             return false;
         }
         else {
@@ -532,7 +532,7 @@ public class AddWorkpassActivity extends AppCompatActivity
     private void createBreakDialog() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Add brake in minutes");
+        builder.setTitle(getString(R.string.error));
 
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -547,11 +547,11 @@ public class AddWorkpassActivity extends AppCompatActivity
                             model.setBreaktime(Integer.parseInt(brakeTime));
                             fragment.setTxtBrake(String.valueOf(brakeTime + " min"));
                         } catch (NumberFormatException e) {
-                            createAlertDialog("Fel input", "Någonting blev fel med input");
+                            createAlertDialog(getString(R.string.wrongInput), getString(R.string.wrongInput2));
                         }
                     }
                 }
-        ).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        ).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
                 dialog.cancel();
@@ -563,7 +563,7 @@ public class AddWorkpassActivity extends AppCompatActivity
 
     private void createCompaniesDialog() {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("Choose a workplace");
+        dialog.setTitle(getString(R.string.workPlace));
 
         final String[] companyStrings = new String[companies.size() + 1];
         for (int i = 0; i < companies.size(); i++) {
