@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lhadalo.oladahl.autowork.AccountFragment">
+    tools:context=".fragments.AccountFragment">
 
     <include
         android:id="@+id/toolbar"
@@ -51,9 +51,40 @@
             android:id="@+id/layout_change_email"
             layout="@layout/account_list_item"/>
 
-        <include
-            android:id="@+id/layout_change_password"
-            layout="@layout/account_list_item"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_height_dense"
+            android:orientation="horizontal"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+
+            <ImageView
+                android:id="@+id/img_password"
+                android:layout_width="@dimen/list_icon_horizontal_margin"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:gravity="center_vertical|center_horizontal" />
+            <!--android:layout_width="@dimen/list_icon_horizontal_margin"
+            android:layout_height="@dimen/list_height_dense"-->
+
+            <TextView
+                android:id="@+id/txt_password"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/list_height_dense"
+                android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
+                android:gravity="center_vertical"
+                android:text="Password"
+                style="@style/TextAppearance.AppCompat.Body1"/>
+
+            <Button
+                android:id="@+id/btn_edit_password"
+                android:layout_width="56dp"
+                android:layout_height="wrap_content"
+                android:text="Edit"
+                style="?android:borderlessButtonStyle"/>
+
+
+        </LinearLayout>
     </LinearLayout>
 
 
@@ -67,13 +98,14 @@
         android:orientation="vertical">
 
         <Button
+            android:id="@+id/btn_logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/action_log_out"
             style="?android:borderlessButtonStyle"/>
 
         <Button
-            android:id="@+id/btn_logout"
+            android:id="@+id/btn_delete_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/deleteAccount"

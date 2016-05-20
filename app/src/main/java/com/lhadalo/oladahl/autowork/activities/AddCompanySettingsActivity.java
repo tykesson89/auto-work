@@ -27,6 +27,8 @@ public class AddCompanySettingsActivity extends AppCompatActivity {
     private AddCompanyFragment fragment;
     SQLiteDB db = new SQLiteDB(AddCompanySettingsActivity.this);
     Company companyToChange;
+    private long companyId;
+    private EditText txtAddCompany;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,7 @@ public class AddCompanySettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_company_settings);
         Intent data = getIntent();
 
-        final EditText txtAddCompany = (EditText)findViewById(R.id.add_comp);
+        txtAddCompany = (EditText)findViewById(R.id.add_comp);
         final EditText txtAddHourly = (EditText)findViewById(R.id.add_hourly);
 
         Button buttonAdd = (Button)findViewById(R.id.btn_add);
@@ -46,13 +48,14 @@ public class AddCompanySettingsActivity extends AppCompatActivity {
             buttonAdd.setText(getString(R.string.add));
         }
         else{
-            long companyId = data.getLongExtra(DatabaseContract.CompanyEntry.COMPANY_ID, -1);
+            companyId = data.getLongExtra(DatabaseContract.CompanyEntry.COMPANY_ID, -1);
             companyToChange = db.getCompany(companyId);
             txtAddCompany.setText(companyToChange.getCompanyName());
             txtAddHourly.setText(String.valueOf(companyToChange.getHourlyWage()));
 
+            txtAddCompany.setEnabled(false);
+            buttonAdd.setText("Change");
 
-            buttonAdd.setText(getString(R.string.changeCompany));
         }
 
 
@@ -120,6 +123,7 @@ public class AddCompanySettingsActivity extends AppCompatActivity {
 
             if(companyName!=null){
                 StartService.startService(this);
+                setResult(RESULT_OK);
                 finish();
             }
         }
@@ -157,7 +161,12 @@ public class AddCompanySettingsActivity extends AppCompatActivity {
             Toast toast = Toast.makeText(AddCompanySettingsActivity.this, text, duration);
             toast.show();
 
+            Intent data = new Intent();
+            data.putExtra(Tag.LIST_POSITION, getIntent().getIntExtra(Tag.LIST_POSITION, -1));
+            data.putExtra(DatabaseContract.CompanyEntry.COMPANY_ID, companyId);
+
             StartService.startService(this);
+            setResult(RESULT_OK, data);
             finish();
         }
     }

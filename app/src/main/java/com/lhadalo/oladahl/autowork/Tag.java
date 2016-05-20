@@ -51,4 +51,6 @@ public class Tag {
 
 
     public static final String LOGTAG = "com.lhadalo.tagvalue";
+    public static final String BTN_EDIT_NAME = "btn_edit_name";
+    public static final String BTN_EDIT_EMAIL = "btn_edit_email";
 }
