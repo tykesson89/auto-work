@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
@@ -36,7 +37,7 @@ public class AccountActivity extends AppCompatActivity
     MaterialEditText etEmail = null;
     MaterialEditText etNewPass = null;
     MaterialEditText etNewPassConf = null;
-
+    private MaterialEditText etPassword = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,17 +70,17 @@ public class AccountActivity extends AppCompatActivity
 
     @Override
     public void onClickEditName() {
-        changeUserDialog(1);
+        inputDialog(1);
     }
 
     @Override
     public void onClickEditEmail() {
-        changeUserDialog(2);
+        inputDialog(2);
     }
 
     @Override
     public void onClickEditPassword() {
-        changeUserDialog(3);
+        inputDialog(3);
     }
 
     @Override
@@ -105,8 +106,11 @@ public class AccountActivity extends AppCompatActivity
                 if (source == 1) {
                     Toast.makeText(AccountActivity.this, "Loggar ut...", Toast.LENGTH_SHORT).show();
                 }
-                else {
-                    Toast.makeText(AccountActivity.this, "Tar bort account", Toast.LENGTH_SHORT).show();
+                else if (source == 2) {
+                    inputDialog(5);
+                }
+                else{
+                    finish();
                 }
             }
         });
@@ -121,7 +125,7 @@ public class AccountActivity extends AppCompatActivity
         dialog.show();
     }
 
-    private void changeUserDialog(final int source) {
+    private void inputDialog(final int source) {
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 
@@ -153,10 +157,27 @@ public class AccountActivity extends AppCompatActivity
             btnOk = (Button)inputs.findViewById(R.id.btn_ok);
             btnCancel = (Button)inputs.findViewById(R.id.btn_cancel);
         }
-        else {
+        else if (source == 3){
             inputs = inflater.inflate(R.layout.password_dialog, null);
             etNewPass = (MaterialEditText)inputs.findViewById(R.id.et_new_pass);
             etNewPassConf = (MaterialEditText)inputs.findViewById(R.id.et_new_pass_conf);
+
+            btnOk = (Button)inputs.findViewById(R.id.btn_ok);
+            btnCancel = (Button)inputs.findViewById(R.id.btn_cancel);
+        }
+        else if(source == 4){
+            inputs = inflater.inflate(R.layout.confirmation_dialog, null);
+            etPassword = (MaterialEditText)inputs.findViewById(R.id.et_password);
+
+            btnOk = (Button)inputs.findViewById(R.id.btn_ok);
+            btnCancel = (Button)inputs.findViewById(R.id.btn_cancel);
+        }
+        else{
+            inputs = inflater.inflate(R.layout.confirmation_dialog, null);
+            etPassword = (MaterialEditText)inputs.findViewById(R.id.et_password);
+
+            TextView dialogDesc = (TextView)inputs.findViewById(R.id.dialog_desc);
+            dialogDesc.setText("Please enter your password to delete your account.");
 
             btnOk = (Button)inputs.findViewById(R.id.btn_ok);
             btnCancel = (Button)inputs.findViewById(R.id.btn_cancel);
@@ -254,7 +275,7 @@ public class AccountActivity extends AppCompatActivity
                         }
                     }
                 }
-                else{
+                else if (source == 3){
                     String newPass = etNewPass.getText().toString();
                     String newPassConf = etNewPassConf.getText().toString();
 
@@ -275,6 +296,12 @@ public class AccountActivity extends AppCompatActivity
                         alert.dismiss();
                     }
                 }
+                else if(source == 4){
+                    //TODO Kolla gammalt lösenord och spara ändringar.
+                }
+                else{
+                    //TODO Kolla gammalt lösenord och ta bort account.
+                }
             }
         });
 
@@ -284,6 +311,16 @@ public class AccountActivity extends AppCompatActivity
                 alert.dismiss();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(changesToSave){
+            createAlertDialog("Discard changes?", "All changes will be lost.", 3);
+        }
+        else{
+            finish();
+        }
     }
 
     @Override
@@ -298,7 +335,7 @@ public class AccountActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        inputDialog(4);
         return super.onOptionsItemSelected(item);
     }
 
