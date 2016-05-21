@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout
-    android:id="@+id/below_statusbar"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:android.support.design="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:http="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -13,7 +11,8 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:elevation="2dp">
+        android:paddingTop="@dimen/tool_bar_top_padding"
+        app:elevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,88 +42,79 @@
                     android:layout_height="?attr/actionBarSize"
                     android:layout_marginRight="@dimen/toolbar_horizontal_margin"
                     android:background="@color/colorPrimary"
-                    android:selectAllOnFocus="true"
-                    android:imeOptions="actionDone"
                     android:hint="@string/enterTitle"
+                    android:imeOptions="actionDone"
+                    android:selectAllOnFocus="true"
                     android:singleLine="true"/>
             </android.support.v7.widget.Toolbar>
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/appbar">
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/appbar"
+        android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:divider="?android:dividerHorizontal"
+            android:orientation="vertical"
+            android:showDividers="middle">
+
+            <include
+                android:id="@+id/txt_layout_workplace"
+                layout="@layout/add_workpass_list_item"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:divider="?android:dividerHorizontal"
-                android:orientation="vertical"
-                android:showDividers="middle">
+                android:orientation="vertical">
 
                 <include
-                    android:id="@+id/txt_layout_workplace"
-                    layout="@layout/add_workpass_list_item"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <include
-                        android:id="@+id/txt_layout_start"
-                        layout="@layout/add_workpass_list_item_time"/>
-
-                    <include
-                        android:id="@+id/txt_layout_stop"
-                        layout="@layout/add_workpass_list_item_time"/>
-                </LinearLayout>
+                    android:id="@+id/txt_layout_start"
+                    layout="@layout/add_workpass_list_item_time"/>
 
                 <include
-                    android:id="@+id/txt_layout_lunch"
-                    layout="@layout/add_workpass_list_item"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/list_height_dense"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/img_note"
-                        android:layout_width="@dimen/list_icon_horizontal_margin"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:src="@drawable/ic_note_black_24dp"/>
-
-                    <EditText
-                        android:id="@+id/et_add_note"
-                        style="@style/edit_text_style_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:hint="@string/Addnote"
-                        android:minHeight="@dimen/list_height_dense"
-                        android:imeOptions="actionDone"
-                        android:textSize="15sp"/>
-                </LinearLayout>
-
-                <!-- Dummy för att skapa divider -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/list_height_dense"/>
-
+                    android:id="@+id/txt_layout_stop"
+                    layout="@layout/add_workpass_list_item_time"/>
             </LinearLayout>
 
+            <include
+                android:id="@+id/txt_layout_lunch"
+                layout="@layout/add_workpass_list_item"/>
 
-        </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/list_height_dense"
+                android:orientation="horizontal">
 
+                <ImageView
+                    android:id="@+id/img_note"
+                    android:layout_width="@dimen/list_icon_horizontal_margin"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:src="@drawable/ic_note_black_24dp"/>
 
+                <EditText
+                    android:id="@+id/et_add_note"
+                    style="@style/edit_text_style_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:hint="@string/Addnote"
+                    android:imeOptions="actionDone"
+                    android:minHeight="@dimen/list_height_dense"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+
+            <!-- Dummy för att skapa divider -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/list_height_dense"/>
+
+        </LinearLayout>
     </ScrollView>
 
     <LinearLayout
@@ -132,25 +122,25 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        android:elevation="4dp"
-        android:background="?android:colorBackground">
+        android:background="?android:colorBackground"
+        android:elevation="4dp">
 
         <Button
             android:id="@+id/btn_cancel"
+            style="?attr/buttonBarNegativeButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:text="@string/cancel"
-            style="?attr/buttonBarNegativeButtonStyle"/>
+            android:text="@string/cancel"/>
 
         <Button
             android:id="@+id/btn_save"
+            style="?attr/buttonBarPositiveButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/save"
-            style="?attr/buttonBarPositiveButtonStyle"/>
+            android:text="@string/save"/>
 
     </LinearLayout>
 

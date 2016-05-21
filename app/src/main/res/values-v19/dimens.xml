@@ -5,4 +5,5 @@
 	<dimen name="item_vertical_margin">16dp</dimen>
 
 	<dimen name="status_bar_height">24dp</dimen>
+	<dimen name="tool_bar_top_padding">24dp</dimen>
 </resources>
