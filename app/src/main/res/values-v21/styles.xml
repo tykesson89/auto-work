@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="android:colorPrimary">@color/colorPrimary</item>
-        <item name="android:colorPrimaryDark">@color/ColorPrimaryDarkPrimary</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@android:color/black</item>
         <item name="android:windowTranslucentStatus">true</item>
@@ -22,10 +22,10 @@
 
     <style name="AppTheme.Workpass" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:colorPrimary">@color/colorPrimary</item>
-        <item name="android:colorPrimaryDark">@color/ColorPrimaryDarkWorkpass</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDarkWorkpass</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@android:color/black</item>
-        <item name="android:statusBarColor">@color/ColorPrimaryDarkWorkpass</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDarkWorkpass</item>
     </style>
 
     <style name="AppTheme.Title" parent="@android:style/TextAppearance">

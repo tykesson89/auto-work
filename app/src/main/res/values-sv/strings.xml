@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App -->
     <string name="app_name">Auto Work</string>
@@ -24,6 +25,7 @@
     <string name="myAccount">Mitt konto</string>
     <string name="myCompanies">Mina företag</string>
     <string name="tax">Min lön med skatt</string>
+
     <!--Add workpass -->
     <string name="addWorkpassTomenu">Lägg till</string>
     <string name="fel">Fel!</string>
@@ -32,7 +34,7 @@
     <string name="workPlace">Välj arbetsplats</string>
     <string name="enterTitle">Skriv en titel</string>
     <string name="Addnote">Lägg till anteckningar</string>
-    <string name="cancel">Avsluta</string>
+    <string name="cancel">Avbryt</string>
     <string name="addbreak">Lägg till paus</string>
     <string name="addWorkpass">Lägg till arbetspass</string>
     <string name="save">Spara</string>
@@ -137,9 +139,3 @@
 
 
 </resources>
-
-
-
-
-
-
