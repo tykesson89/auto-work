@@ -2,35 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-
     <item
-        android:id="@+id/test"
-        android:title="Test"
+        android:id="@+id/refresh"
+        android:title="Refresh"
         android:orderInCategory="2"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/databasetest"
-        android:title="Database Test"
-        android:orderInCategory="3"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/isservicerunning"
-        android:title="Kör service?"
-        android:orderInCategory="4"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/hasconnection"
-        android:title="Har jag internet?"
-        android:orderInCategory="4"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/action_log_out"
-        android:title="@string/action_log_out"
-        android:orderInCategory="200"
-        app:showAsAction="never"/>
+        android:icon="@drawable/ic_refresh_white_24dp"
+        app:showAsAction="ifRoom"/>
 </menu>

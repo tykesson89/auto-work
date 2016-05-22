@@ -3,6 +3,7 @@ package com.lhadalo.oladahl.autowork.activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -112,6 +113,14 @@ public class AccountActivity extends AppCompatActivity
         }
     }
 
+    public void onActionLogOutPressed() {
+        SQLiteDB sqLiteDB = new SQLiteDB(this);
+        sqLiteDB.deleteAll();
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
     private void createAlertDialog(String title, String message, final int source) {
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -123,6 +132,7 @@ public class AccountActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (source == 1) {
+                    onActionLogOutPressed();
                     Toast.makeText(AccountActivity.this, "Loggar ut...", Toast.LENGTH_SHORT).show();
                 }
                 else if (source == 2) {

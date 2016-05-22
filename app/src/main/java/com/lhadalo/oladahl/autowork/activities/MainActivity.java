@@ -242,11 +242,6 @@ public class MainActivity extends AppCompatActivity
         return false;
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.databasetest).setTitle("Hej");
-        return super.onPrepareOptionsMenu(menu);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -261,33 +256,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.action_log_out:
-                onActionLogOutPressed();
-                break;
-            case R.id.test:
-                startActivity(new Intent(this, TestActivity.class));
-                break;
+        StartService.startService(this);
 
-            case R.id.databasetest:
-                List<Workpass> workpasses = database.getAllWorkpasses();
-                for (Workpass w : workpasses) {
-                    Log.v(Tag.LOGTAG, w.toString());
-                }
-                List<Company> companies = database.getAllCompanies();
-                for (Company c : companies) {
-                    Log.v(Tag.LOGTAG, c.toString());
-                }
-                break;
-            case R.id.isservicerunning:
-                Toast.makeText(this, String.valueOf(isMyServiceRunning()),
-                        Toast.LENGTH_SHORT).show();
-                break;
-
-            case R.id.hasconnection:
-                Toast.makeText(this, String.valueOf(isConnected(this)), Toast.LENGTH_SHORT).show();
-        }
         return super.onOptionsItemSelected(item);
     }
 
