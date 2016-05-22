@@ -11,7 +11,7 @@
         <item name="windowActionModeOverlay">true</item>
     </style>
 
-    <style name="AppTheme.Workpass" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.StatusbarOpaque" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:colorPrimary">@color/colorPrimary</item>
         <item name="android:colorPrimaryDark">@color/colorPrimaryDarkWorkpass</item>
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -54,11 +54,8 @@
         <item name="android:paddingRight">5dp</item>
     </style>
 
-    <style name="AppTheme.SpinnerDropdown"
-           parent="Theme.AppCompat.Light">
-
+    <style name="AppTheme.SpinnerDropdown" parent="Theme.AppCompat.Light">
         <item name="android:ellipsize">marquee</item>
-
         <item name="android:paddingTop">8dp</item>
     </style>
 

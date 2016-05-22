@@ -32,6 +32,7 @@
 
         <activity
             android:name=".activities.RegistrationActivity"
+            android:theme="@style/AppTheme.StatusbarOpaque"
             android:parentActivityName=".activities.LoginActivity"/>
 
         <activity android:name=".activities.MainActivity" />
@@ -51,7 +52,7 @@
 
         <activity
             android:name=".activities.AddWorkpassActivity"
-            android:theme="@style/AppTheme.Workpass"/>
+            android:theme="@style/AppTheme.StatusbarOpaque"/>
 
         <service android:name="com.lhadalo.oladahl.autowork.InternetService" android:enabled="true">
             <intent-filter>

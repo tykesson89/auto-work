@@ -39,9 +39,11 @@ public class AddCompanyActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.listview);
         companies = db.getAllCompanies();
 
-       // ArrayAdapter<Company> adapter = new ArrayAdapter<Company>(this, android.R.layout.simple_list_item_1, companies);
+
         adapter = new CompanyListAdapter(this, companies);
-        listView.setAdapter(adapter);
+        if (listView != null) {
+            listView.setAdapter(adapter);
+        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

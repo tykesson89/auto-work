@@ -1,6 +1,11 @@
 package com.lhadalo.oladahl.autowork.activities;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -14,16 +19,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lhadalo.oladahl.autowork.Tag;
 import com.lhadalo.oladahl.autowork.database.SQLiteDB;
 import com.lhadalo.oladahl.autowork.fragments.AccountFragment;
 import com.lhadalo.oladahl.autowork.R;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketTimeoutException;
+
 import UserPackage.User;
 
-/**
- * Created by oladahl on 16-05-15.
- */
 public class AccountActivity extends AppCompatActivity
         implements AccountFragment.OnFragmentInteraction {
     private AccountFragment fragment;
@@ -32,11 +41,11 @@ public class AccountActivity extends AppCompatActivity
     boolean changesToSave = false;
 
 
-    MaterialEditText etFirstname = null;
-    MaterialEditText etLastname = null;
-    MaterialEditText etEmail = null;
-    MaterialEditText etNewPass = null;
-    MaterialEditText etNewPassConf = null;
+    private MaterialEditText etFirstname = null;
+    private MaterialEditText etLastname = null;
+    private MaterialEditText etEmail = null;
+    private MaterialEditText etNewPass = null;
+    private MaterialEditText etNewPassConf = null;
     private MaterialEditText etPassword = null;
 
     @Override
@@ -95,10 +104,10 @@ public class AccountActivity extends AppCompatActivity
 
     @Override
     public void onClickClose() {
-        if(changesToSave) {
+        if (changesToSave) {
             createAlertDialog("Discard changes?", "All changes will be lost.", 3);
         }
-        else{
+        else {
             finish();
         }
     }
@@ -119,7 +128,7 @@ public class AccountActivity extends AppCompatActivity
                 else if (source == 2) {
                     inputDialog(5);
                 }
-                else{
+                else {
                     finish();
                 }
             }
@@ -145,6 +154,7 @@ public class AccountActivity extends AppCompatActivity
         dialog.setCancelable(false);
         LayoutInflater inflater = LayoutInflater.from(this);
         View inputs = null;
+
         if (source == 1) {
             inputs = inflater.inflate(R.layout.name_dialog, null);
             etFirstname = (MaterialEditText)inputs.findViewById(R.id.et_firstname);
@@ -167,7 +177,7 @@ public class AccountActivity extends AppCompatActivity
             btnOk = (Button)inputs.findViewById(R.id.btn_ok);
             btnCancel = (Button)inputs.findViewById(R.id.btn_cancel);
         }
-        else if (source == 3){
+        else if (source == 3) {
             inputs = inflater.inflate(R.layout.password_dialog, null);
             etNewPass = (MaterialEditText)inputs.findViewById(R.id.et_new_pass);
             etNewPassConf = (MaterialEditText)inputs.findViewById(R.id.et_new_pass_conf);
@@ -175,14 +185,14 @@ public class AccountActivity extends AppCompatActivity
             btnOk = (Button)inputs.findViewById(R.id.btn_ok);
             btnCancel = (Button)inputs.findViewById(R.id.btn_cancel);
         }
-        else if(source == 4){
+        else if (source == 4) {
             inputs = inflater.inflate(R.layout.confirmation_dialog, null);
             etPassword = (MaterialEditText)inputs.findViewById(R.id.et_password);
 
             btnOk = (Button)inputs.findViewById(R.id.btn_ok);
             btnCancel = (Button)inputs.findViewById(R.id.btn_cancel);
         }
-        else{
+        else {
             inputs = inflater.inflate(R.layout.confirmation_dialog, null);
             etPassword = (MaterialEditText)inputs.findViewById(R.id.et_password);
 
@@ -243,8 +253,8 @@ public class AccountActivity extends AppCompatActivity
                         fName = removeSpaceBefore(fName);
                     }
 
-                    if(inputOk){
-                        if( !user.getFirstname().equals(fName) || !user.getLastname().equals(lName)) {
+                    if (inputOk) {
+                        if (!user.getFirstname().equals(fName) || !user.getLastname().equals(lName)) {
                             changesToSave = true;
                             invalidateOptionsMenu();
                             user.setFirstname(fName);
@@ -252,7 +262,7 @@ public class AccountActivity extends AppCompatActivity
                             fragment.setTxtChangeName(fName + " " + lName);
                             alert.dismiss();
                         }
-                        else{
+                        else {
                             alert.dismiss();
                         }
                     }
@@ -272,7 +282,7 @@ public class AccountActivity extends AppCompatActivity
                         inputOk = false;
                     }
                     else {
-                        if(!user.getEmail().equals(email)) {
+                        if (!user.getEmail().equals(email)) {
                             changesToSave = true;
                             invalidateOptionsMenu();
                             email = removeSpaceBefore(email);
@@ -280,12 +290,12 @@ public class AccountActivity extends AppCompatActivity
                             fragment.setTxtChangeEmail(email);
                             alert.dismiss();
                         }
-                        else{
+                        else {
                             alert.dismiss();
                         }
                     }
                 }
-                else if (source == 3){
+                else if (source == 3) {
                     String newPass = etNewPass.getText().toString();
                     String newPassConf = etNewPassConf.getText().toString();
 
@@ -293,12 +303,12 @@ public class AccountActivity extends AppCompatActivity
                         etNewPass.setError("Password must be 6 characters");
                         inputOk = false;
                     }
-                    else if(!newPass.equals(newPassConf)){
-                       etNewPassConf.setError("Password doesn't match");
+                    else if (!newPass.equals(newPassConf)) {
+                        etNewPassConf.setError("Password doesn't match");
                         inputOk = false;
                     }
 
-                    if(inputOk){
+                    if (inputOk) {
                         changesToSave = true;
                         invalidateOptionsMenu();
                         user.setNewPassword(newPass);
@@ -306,10 +316,13 @@ public class AccountActivity extends AppCompatActivity
                         alert.dismiss();
                     }
                 }
-                else if(source == 4){
+                else if (source == 4) {
                     //TODO Kolla gammalt lösenord och spara ändringar.
+                    user.setOldPassword(etPassword.getText().toString());
+                    alert.dismiss();
+                    new ChangeUserInfo(AccountActivity.this).execute(user);
                 }
-                else{
+                else {
                     //TODO Kolla gammalt lösenord och ta bort account.
                 }
             }
@@ -325,10 +338,10 @@ public class AccountActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        if(changesToSave){
+        if (changesToSave) {
             createAlertDialog("Discard changes?", "All changes will be lost.", 3);
         }
-        else{
+        else {
             finish();
         }
     }
@@ -345,7 +358,7 @@ public class AccountActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.action_change_account) {
+        if (item.getItemId() == R.id.action_change_account) {
             inputDialog(4);
         }
         return super.onOptionsItemSelected(item);
@@ -359,78 +372,10 @@ public class AccountActivity extends AppCompatActivity
         return true;
     }
 
+    private void setPasswordIsWrong() {
+        etNewPass.setError("Wrong password");
+    }
 
-
-
-    /*public void onClickBtnChangeUserinfo(String etFirstname, String etLastname, String email, String password) {
-        boolean inputOk = true;
-        boolean isEmpty, hasDigit;
-        CharSequence text = null;
-
-        isEmpty = etFirstname.length() < 1;
-        hasDigit = containsDigit(etFirstname);
-        if (isEmpty || hasDigit) {
-
-            if (isEmpty) {
-                text = "You must fill in your first name";
-                fragment.setFirstNameError(true, "No name");
-            } else if (hasDigit) {
-                text = "Firstname cannot contain digits";
-                fragment.setFirstNameError(true, "Digits not allowed");
-            }
-            inputOk = false;
-
-        } else {
-            etFirstname = removeSpaceBefore(etFirstname);
-            fragment.setFirstNameError(false, null);
-        }
-        isEmpty = etLastname.length() < 1;
-        hasDigit = containsDigit(etLastname);
-        if (isEmpty || hasDigit) {
-            if (isEmpty) {
-                text = "You must fill in your last name";
-                fragment.setLastNameError(true, "No name");
-            } else if (hasDigit) {
-                text = "Lastname cannot contain digits";
-                fragment.setLastNameError(true, "Digits not allowed");
-            }
-
-
-            inputOk = false;
-        } else {
-            etLastname = removeSpaceBefore(etLastname);
-            fragment.setLastNameError(false, null);
-        }
-        isEmpty = email.isEmpty();
-        boolean isntEmail = !email.contains("@");
-        if (isntEmail || isEmpty) {
-            if (isntEmail) {
-                text = getString(R.string.toast_email_error);
-                fragment.setEmailError(true, "Isn't a email adress");
-            } else if (isEmpty) {
-                text = "Email cannot be empty";
-                fragment.setEmailError(true, "No email");
-            }
-
-            inputOk = false;
-        } else {
-            email = removeSpaceBefore(email);
-            fragment.setEmailError(false, null);
-        }
-
-        if (password.length() < 6) {
-            fragment.setPasswError(true, "Password must be 6 characters");
-            inputOk = false;
-        } else {
-            fragment.setPasswError(false, null);
-        }
-
-        if (inputOk) {
-            user = new User(etFirstname, etLastname, email, password, userId);
-            new ChangeUserInfo().execute(user);
-        }
-
-    }*/
 
     public String removeSpaceBefore(String str) {
         String res = str;
@@ -453,5 +398,90 @@ public class AccountActivity extends AppCompatActivity
         }
 
         return false;
+    }
+
+    private static boolean isConnected(Context context) {
+        ConnectivityManager connectivity = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null) {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null) {
+                for (int i = 0; i < info.length; i++) {
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED)
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    class ChangeUserInfo extends AsyncTask<User, Void, String> {
+        private ObjectInputStream objectInputStream;
+        private ObjectOutputStream objectOutputStream;
+        private AccountActivity activity;
+        private ProgressDialog progDialog;
+        private Context context;
+
+        public ChangeUserInfo(Context context) {
+            this.context = context;
+            this.activity = (AccountActivity)context;
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+            progDialog = ProgressDialog.show(context, "Synkar", "Synkar uppgifter med server", true);
+        }
+
+        protected String doInBackground(User... params) {
+
+            if (isConnected(context) == true) {
+                User user = params[0];
+                try {
+                    try {
+                        Socket socket = new Socket();
+                        socket.connect(new InetSocketAddress(Tag.IP, Tag.PORT), 4000);
+                        objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                        objectInputStream = new ObjectInputStream(socket.getInputStream());
+                        objectOutputStream.writeObject(Tag.CHANGE_USER_INFO);
+                        objectOutputStream.writeObject(user);
+
+                        String response = (String)objectInputStream.readObject();
+                        return response;
+                    } catch (SocketTimeoutException e) {
+                        return "Server is offline";
+                    }
+
+                } catch (Exception e) {
+                    return "Server is offline";
+                }
+            }
+            else {
+                return "No Internet Connection";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            progDialog.dismiss();
+
+            if (s.equals("Password is incorrect")) {
+                Toast.makeText(context, "Password is incorrect", Toast.LENGTH_SHORT).show();
+            }
+            else if (s.equals("Server is offline")) {
+                Toast.makeText(context, "Server is offline", Toast.LENGTH_SHORT).show();
+            }
+            else if (s.equals("No Internet Connection")) {
+                Toast.makeText(context, "You have no Internet Connection", Toast.LENGTH_SHORT).show();
+            }
+            else if (s.equals("Something went wrong")) {
+                Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
+            }
+            else if (s.equals("Success")) {
+                SQLiteDB sqLiteDB = new SQLiteDB(context);
+                sqLiteDB.updateUser(user);
+                finish();
+                Toast.makeText(context, "User info changed", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

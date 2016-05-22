@@ -9,7 +9,7 @@
     android:paddingTop="20sp"
     android:paddingLeft="20sp"
     android:paddingRight="20sp"
-    tools:context=".activities.SettingsActivity">
+    tools:activity=".activities.SettingsActivity">
 
     <TextView
         android:layout_width="wrap_content"

@@ -49,6 +49,7 @@ public class ChangeUserinfoActivity extends AppCompatActivity implements ChangeU
         Log.d(email, " ");
 
     }
+
     protected void onStart() {
         super.onStart();
         SQLiteDB sqLiteDB = new SQLiteDB(this);
@@ -165,6 +166,7 @@ public class ChangeUserinfoActivity extends AppCompatActivity implements ChangeU
 
         return res;
     }
+
     public static boolean isConnected(Context context) {
         ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivity != null) {
@@ -232,7 +234,6 @@ public class ChangeUserinfoActivity extends AppCompatActivity implements ChangeU
                     Intent intent = new Intent(ChangeUserinfoActivity.this, SettingsActivity.class);
                     startActivity(intent);
                 }
-
         }
     }
 }

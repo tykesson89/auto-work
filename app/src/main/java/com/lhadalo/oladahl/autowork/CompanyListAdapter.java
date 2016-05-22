@@ -11,9 +11,7 @@ import java.util.List;
 
 import UserPackage.Company;
 
-/**
- * Created by stoffe on 2016-04-28.
- */
+
 public class CompanyListAdapter extends ArrayAdapter<Company> {
     private Context context;
     private List<Company> companies;
