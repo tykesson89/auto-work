@@ -93,6 +93,16 @@ public class AccountActivity extends AppCompatActivity
         createAlertDialog("Delete Account?", "You can't undo this action!", 2);
     }
 
+    @Override
+    public void onClickClose() {
+        if(changesToSave) {
+            createAlertDialog("Discard changes?", "All changes will be lost.", 3);
+        }
+        else{
+            finish();
+        }
+    }
+
     private void createAlertDialog(String title, String message, final int source) {
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -335,7 +345,9 @@ public class AccountActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        inputDialog(4);
+        if(item.getItemId() == R.id.action_change_account) {
+            inputDialog(4);
+        }
         return super.onOptionsItemSelected(item);
     }
 

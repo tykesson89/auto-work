@@ -22,7 +22,7 @@ import com.lhadalo.oladahl.autowork.R;
 import com.lhadalo.oladahl.autowork.Tag;
 
 public class AccountFragment extends Fragment {
-
+    private Toolbar toolbar;
     private TextView txtChangeName;
     private TextView txtChangeEmail;
     private TextView txtChangePassword;
@@ -41,6 +41,8 @@ public class AccountFragment extends Fragment {
         void onClickEditEmail();
 
         void onClickEditPassword();
+
+        void onClickClose();
     }
 
     @Nullable
@@ -53,7 +55,7 @@ public class AccountFragment extends Fragment {
     }
 
     private void initComponents(View view) {
-        Toolbar toolbar = (Toolbar)view.findViewById(R.id.toolbar);
+        toolbar = (Toolbar)view.findViewById(R.id.toolbar);
         toolbar.setTitle("My Account");
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_clear_white_24dp));
 
@@ -103,6 +105,7 @@ public class AccountFragment extends Fragment {
     private void initListeners() {
         OnClickListener listener = new OnClickListener();
 
+
         btnEditName.setOnClickListener(listener);
 
         btnEditEmail.setOnClickListener(listener);
@@ -112,6 +115,13 @@ public class AccountFragment extends Fragment {
         btnLogOut.setOnClickListener(listener);
 
         btnDeleteAccount.setOnClickListener(listener);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callback.onClickClose();
+            }
+        });
     }
 
     @Override
