@@ -42,8 +42,4 @@ captures/
 # Mac
 .DS_Store
 
-.idea/libraries/
-.idea/gradle.xml
-.idea/codeStyleSettings.xml
-.idea/encodings.xml
-.idea/inspectionProfiles/
+.idea/
