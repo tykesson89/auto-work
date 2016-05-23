@@ -11,7 +11,7 @@ public class Tag {
     public static final int PORT = 45001;
 
     //public static final String IP = "90.230.140.110";
-    public static final String IP = "192.168.1.14";
+    public static final String IP = "10.2.4.89";
     //public static final String IP = "10.2.1.120";
     //public static final String IP = "10.2.3.215";
     //public static final String IP = "192.168.1.7";
@@ -36,6 +36,7 @@ public class Tag {
     public static final String ON_CREATE_COMPANY = "Create Company";
     public static final String ON_CHANGE_COMPANY = "Change Company";
     public static final String ON_DELETE_COMPANY = "Delete Company";
+    public static final String COMPANY_IS_SYNCED = "company_is_synced";
 
 
     public static final String YEAR = "year";

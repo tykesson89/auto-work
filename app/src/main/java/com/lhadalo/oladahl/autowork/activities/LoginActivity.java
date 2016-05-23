@@ -182,6 +182,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                             }
                             for (int i = 0; i < companyArrayList.size(); i++) {
                                 Company companyToAdd = companyArrayList.get(i);
+                                companyToAdd.setActionTag(Tag.COMPANY_IS_SYNCED);
                                 long id = db.addCompany(companyToAdd);
                                 //companyToAdd.setCompanyId(id);
                             }
