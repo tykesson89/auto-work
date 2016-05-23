@@ -201,10 +201,6 @@ public class MainActivity extends AppCompatActivity
         drawerLayout.closeDrawers();
     }
 
-    public void onActionSettingsPressed() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
-    }
 
     public void onActionLogOutPressed() {
         SQLiteDB sqLiteDB = new SQLiteDB(MainActivity.this);
