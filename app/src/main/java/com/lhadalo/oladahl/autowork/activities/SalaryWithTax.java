@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -35,6 +36,7 @@ public class SalaryWithTax extends AppCompatActivity {
     private double salary=0;
     private double salaryWithTax;
     private double tax;
+
     private ArrayList<String> strArr;
     private ArrayAdapter<String> adapter;
     private ListView list;
@@ -49,7 +51,7 @@ public class SalaryWithTax extends AppCompatActivity {
         setAfterTax();
         showSalary = (TextView) findViewById(R.id.tvSalarWithOuttax);
         showAfterTax = (TextView) findViewById(R.id.tvSalaryWithTax);
-        list=(ListView)findViewById(R.id.itemsList);
+  /*      list=(ListView)findViewById(R.id.itemsList);
         strArr= new ArrayList<>();
         adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, strArr);
         list.setAdapter(adapter);
@@ -64,7 +66,7 @@ public class SalaryWithTax extends AppCompatActivity {
                 }else{
              showInputDialog();
             }}
-        });
+        });*/
 
     }
 
@@ -105,7 +107,7 @@ public class SalaryWithTax extends AppCompatActivity {
         showSalary.setText(String.valueOf(salary + " kr"));
     }
 
-    private void showInputDialog() {
+  /*  private void showInputDialog() {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Extra income");
@@ -159,7 +161,7 @@ public class SalaryWithTax extends AppCompatActivity {
 
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
-    }
+    }*/
     private void createAlertDialog(String title, String message) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
