@@ -6,9 +6,6 @@ import com.lhadalo.oladahl.autowork.database.DatabaseContract.UserEntry;
 import com.lhadalo.oladahl.autowork.database.DatabaseContract.CompanyEntry;
 import com.lhadalo.oladahl.autowork.database.DatabaseContract.WorkpassEntry;
 
-/**
- * Created by oladahl on 16-03-26.
- */
 public class SQLiteCommand {
     private static final String COMMA_SEP = ", ";
     private static final String TEXT_TYPE = " TEXT";

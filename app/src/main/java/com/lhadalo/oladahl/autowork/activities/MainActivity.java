@@ -111,24 +111,6 @@ public class MainActivity extends AppCompatActivity
         headerName.setText(String.format("%1$s %2$s", user.getFirstname(), user.getLastname()));
         headerEmail.setText(user.getEmail());
 
-        //Får referens till inställningslayout
-        LinearLayout settingsLayout = (LinearLayout)navigationView.findViewById(R.id.settings_row);
-
-        //Sätter eventlistener till inställningslayout
-        settingsLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onActionSettingsPressed();
-            }
-        });
-
-
-        //Hämtar textview i inställningslayout och sätter rätt text.
-        TextView txtSettings = (TextView)settingsLayout.getChildAt(0);
-        txtSettings.setText(getResources().getString(R.string.settings));
-
-        ImageView imgSettings = (ImageView)settingsLayout.getChildAt(1);
-        imgSettings.setImageDrawable(getResources().getDrawable(R.drawable.ic_settings_black_18dp));
 
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_main);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
