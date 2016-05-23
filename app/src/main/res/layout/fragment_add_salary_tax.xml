@@ -8,13 +8,10 @@
     android:background="@android:color/white"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-<<<<<<< Updated upstream
+
     tools:activity="com.lhadalo.oladahl.autowork.activities.SalaryWithTax"
-    android:background="#f1f1f1">
-=======
-    tools:context="com.lhadalo.oladahl.autowork.activities.SalaryWithTax"
     >
->>>>>>> Stashed changes
+
 
     <TextView
         android:layout_width="wrap_content"
