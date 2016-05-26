@@ -89,7 +89,7 @@ public class SalaryWithTax extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (txtTax.getText().toString().trim().length() == 0) {
-                    createAlertDialog("Wrong", "Enter the percentage");
+                    createAlertDialog(getString(R.string.WrongSalary), getString(R.string.WrongProcentage));
 
                 } else {
                     tax = Double.parseDouble(txtTax.getText().toString());

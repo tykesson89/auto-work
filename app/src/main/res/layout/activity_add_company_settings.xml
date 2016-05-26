@@ -10,18 +10,18 @@
         android:id="@+id/add_comp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Company" />
+        android:hint="@string/add_title" />
 
     <EditText
         android:id="@+id/add_hourly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"
-        android:hint="Hourly wage" />
+        android:hint="@string/add_desc" />
 
     <Button
         android:id="@+id/btn_add"
-        android:text="Add"
+        android:text="@string/addCompany"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

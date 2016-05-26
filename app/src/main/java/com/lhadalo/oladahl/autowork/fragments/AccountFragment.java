@@ -56,7 +56,7 @@ public class AccountFragment extends Fragment {
 
     private void initComponents(View view) {
         toolbar = (Toolbar)view.findViewById(R.id.toolbar);
-        toolbar.setTitle("My Account");
+        toolbar.setTitle(getString(R.string.myAccount));
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_clear_white_24dp));
 
         AppCompatActivity activity = (AppCompatActivity)getActivity();
@@ -91,7 +91,7 @@ public class AccountFragment extends Fragment {
         btnEditName.setTag(Tag.BTN_EDIT_NAME);
         btnEditEmail.setTag(Tag.BTN_EDIT_EMAIL);
 
-        txtChangeNameDesc.setText("Name");
+        txtChangeNameDesc.setText(getString(R.string.Name));
         txtChangeEmailDesc.setText("E-mail");
 
         txtChangePassword = (TextView)view.findViewById(R.id.txt_password);
@@ -179,4 +179,3 @@ public class AccountFragment extends Fragment {
         }
     }
 }
-

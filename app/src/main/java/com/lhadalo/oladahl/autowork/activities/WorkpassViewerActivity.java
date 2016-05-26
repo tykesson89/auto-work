@@ -146,7 +146,7 @@ public class WorkpassViewerActivity extends AppCompatActivity
     private void createAlertDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
-        alertDialog.setTitle("Delete?");
+        alertDialog.setTitle(getString(R.string.Delete));
         alertDialog.setMessage("You can't undo this (for now)");
 
         alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -163,7 +163,7 @@ public class WorkpassViewerActivity extends AppCompatActivity
                 finish();
             }
         });
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();

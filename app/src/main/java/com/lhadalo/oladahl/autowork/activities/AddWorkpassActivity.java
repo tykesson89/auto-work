@@ -569,7 +569,7 @@ public class AddWorkpassActivity extends AppCompatActivity
         for (int i = 0; i < companies.size(); i++) {
             companyStrings[i] = companies.get(i).getCompanyName();
         }
-        companyStrings[companyStrings.length - 1] = "Add Company";
+        companyStrings[companyStrings.length - 1] =  getString(R.string.Add_company);
 
 
         dialog.setItems(companyStrings, new DialogInterface.OnClickListener() {

@@ -10,6 +10,9 @@
     <string name="closeDrawer">Stäga lådan</string>
     <string name="action_log_out">Logga ut</string>
     <string name="action_settings">Inställningar</string>
+    <string name="Workpass_Deleted">Arbetspass är borttagen</string>
+    <string name="No_pass">Inget pass hittades</string>
+    <string name="Pass_deleted">Arbetspass är borttagen</string>
 
     <!-- MainFragment -->
     <string name="settings">Inställningar</string>
@@ -25,6 +28,10 @@
     <string name="myAccount">Mitt konto</string>
     <string name="myCompanies">Mina företag</string>
     <string name="tax">Min lön med skatt</string>
+    <string name="Name">Namn</string>
+    <string name="Edit">Redigera</string>
+    <string name="ChangeName">Ändra namn</string>
+    <string name="ChangeEmail">Ändra Email</string>
 
     <!--Add workpass -->
     <string name="addWorkpassTomenu">Lägg till</string>
@@ -57,19 +64,38 @@
     <string name="companyNotDeleted">Företaget har inte tagit bort</string>
     <string name="companyDeleted">Företaget har tagit bort</string>
     <string name="edit">Redigera</string>
+    <string name="Add_company">Lägg till företag</string>
+    <string name="Compant_not_exists">Företaget existerar inte</string>
+    <string name="SaveChanges">Spara ändringar</string>
+
+    <!-- Workpass view Actvity -->
+    <string name="Delete">Ta bort?</string>
 
 
     <!-- Login Activity -->
     <string name="dialog_title_login">Loggar in</string>
     <string name="dialog_message_login">Loggar in</string>
     <string name="toast_user_not_found">Användaren finns inte</string>
+    <string name="New_password">Ny Lösenord</string>
+    <string name="Emil_input">Skriv din mail för att få nytt lösenord</string>
+    <string name="Send">Skicka</string>
+    <string name="Wrong_here">Något gick fel</string>
+    <string name="No_conn">Ingen internet koppling</string>
+    <string name="Server_offline">Ingen uppkoppling mot servern</string>
+    <string name="Wrong_password">Fel Lösenord</string>
+    <string name="Wrong_Email">Fel Email</string>
+    <string name="Email_not_exists">Email existerar inte</string>
+    <string name="NoMail">Ingen Email</string>
+    <string name="EmailSend">Email skickades</string>
+    <string name="PasswordSend">Lösenord Skickades</string>
+
 
     <!-- LoginFragment -->
     <string name="login_title">Välkommen till Auto Work!</string>
     <string name="login_description">Ange din mail och lösenord för att logga in</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Lösenord</string>
-    <string name="btn_login">Logg in</string>
+    <string name="btn_login">Logga in</string>
     <string name="btn_create_account">Skapa konto</string>
     <string name="login_desciption">Skriv din mail och lösenord för att logga in</string>
     <string name="forgetPassword">Glömt lösenord? \n Tryck här</string>
@@ -85,16 +111,56 @@
     <string name="toast_password_error">Lösenord måste vara minst 6 tecken</string>
     <string name="toast_email_error">Fel Email</string>
     <string name="toast_all_fields_error">Du måste fylla i alla fält</string>
+    <string name="Fill_firstname">Du måste skriva din första namn</string>
+    <string name="Fill_lastname">Du måste skriva din efter namn</string>
+    <string name="No_name">Inget namn</string>
+    <string name="FirstName_no_digits">Förstnamn kan inte innehålla siffror</string>
+    <string name="LastName_no_digits">Efternamn kan inte innehålla siffror</string>
+    <string name="No_digits">Siffror inte tillåtet</string>
+    <string name="No_empty_email">Email kan inte vara tom</string>
+    <string name="EmptyName">Tomt namn</string>
+    <string name="NoWage">Ingen lön</string>
+    <string name="Fill_company">Du måste skriva företag namn</string>
+    <string name="Fill_Hour">Du måste skriva din timlön</string>
+    <string name="Wrong_message">Något gick fel, kontrollera alla fält</string>
+    <string name="No_Email_Adress">Är inte email adress</string>
 
     <!-- RegistrationFragment -->
     <string name="registration_title">Skapa konto</string>
-    <string name="et_first_name_hint">Förenamn</string>
+    <string name="et_first_name_hint">Förnamn</string>
     <string name="et_last_name_hint">Efternamn</string>
     <string name="et_email_hint">Email</string>
     <string name="et_password_hint">Lösenord</string>
     <string name="et_company_hint">Företag</string>
     <string name="et_hourly_wage_hint">Timlön</string>
     <string name="btn_register">Registera</string>
+    <string name="Account_created">Kontot skapade</string>
+
+    <!-- Account activity -->
+    <string name="Account_logout">Logg ut?</string>
+    <string name="Sure_logout">Är du säker att du vill logga ut?</string>
+    <string name="Account_delete">Ta bort kontot?</string>
+    <string name="Cannot_undo">Du kan inte ångra den här åtgärden!</string>
+    <string name="Account_changes">Ignorera ändringar?</string>
+    <string name="Changes_lost">Alla ändringar kommer att gå förlorade</string>
+    <string name="Account_logingOut">Loggar ut...</string>
+    <string name="Enter_password">Ange ditt lösenord för att ta bort kontot</string>
+    <string name="Password_not_match">Lösenord stämmer inte</string>
+    <string name="Password_changed">Lösenordet (Ändrat)</string>
+    <string name="Internet_Sync">Synkar</string>
+    <string name="Sync_server">Synkar med servern</string>
+    <string name="Account_passWrong">Lösenordet är inte rätt</string>
+    <string name="Account_passWrite">Success</string>
+    <string name="Info_changed">Användare info är ändrat</string>
+    <!-- Salary with tax -->
+    <string name="Show_with_tax">Visa efter skatt</string>
+    <string name="WrongSalary">Fel</string>
+    <string name="WrongProcentage">Skriv procent</string>
+    <string name="TaxWithoutSalary">Lön innan skatt</string>
+    <string name="TaxWithSalary">Lön efter skatt</string>
+    <string name="TextSalary">Lön efter skatt</string>
+    <string name="Skatt">Skatt:</string>
+
 
     <string-array name="months">
         <item name="jan">Januari</item>
@@ -128,11 +194,12 @@
     </string-array>
     <string name="title_activity_add_company">Lägga Company Aktivitet</string>
     <string name="title_activity_static">StaticActivity</string>
-    <string name="add">Lägg ett företag</string>
-    <string name="btn_cancel">Avsluta</string>
+    <string name="add">Lägg till företaget</string>
+    <string name="addCompany">Lägg till</string>
+    <string name="btn_cancel">Avbryt</string>
     <string name="ChangePassword">Ändra Lösenord</string>
     <string name="NewPassword">Nytt Lösenord</string>
-    <string name="NewPasswordConfirmation">Nytt lösenord Bekräftelse</string>
+    <string name="NewPasswordConfirmation">Bekräfta lösenord</string>
     <string name="OldPassword">Gammalt Lösenord</string>
     <string name="add_title">Företag</string>
     <string name="add_desc">Timlön</string>

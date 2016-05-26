@@ -43,7 +43,8 @@
         android:id="@+id/btn_edit"
         android:layout_width="56dp"
         android:layout_height="wrap_content"
-        android:text="edit"
-        style="?android:borderlessButtonStyle"/>
+        android:text="@string/Edit"
+        style="?android:borderlessButtonStyle"
+        android:layout_weight="0.21" />
 
 </LinearLayout>

@@ -83,17 +83,17 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         txtEmail.setHint("Email");
 
         new AlertDialog.Builder(this)
-                .setTitle("New Password")
-                .setMessage("Input your email to get new Password")
+                .setTitle(getString(R.string.New_password))
+                .setMessage(getString(R.string.Emil_input))
                 .setView(txtEmail)
-                .setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.Send), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String str = txtEmail.getText().toString();
                         new NewPassword().execute(str);
                         dialog.dismiss();
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                     }
                 })
@@ -178,7 +178,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
                             try {
                                 companyArrayList = (ArrayList<Company>) objectIn.readObject();
                             } catch (Exception e) {
-                                return "Något blev fel här";
+                                return getString(R.string.Wrong_here);
                             }
                             for (int i = 0; i < companyArrayList.size(); i++) {
                                 Company companyToAdd = companyArrayList.get(i);
@@ -215,6 +215,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
 
             return Tag.SUCCESS;
         }
+
 
         @Override
         protected void onPostExecute(String res) {

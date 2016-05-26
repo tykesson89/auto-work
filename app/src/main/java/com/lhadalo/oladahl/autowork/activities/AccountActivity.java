@@ -1,5 +1,4 @@
 package com.lhadalo.oladahl.autowork.activities;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -74,7 +73,7 @@ public class AccountActivity extends AppCompatActivity
 
         fragment.setTxtChangeName(user.getFirstname() + " " + user.getLastname());
         fragment.setTxtChangeEmail(user.getEmail());
-        fragment.setTxtChangePassword("Password");
+        fragment.setTxtChangePassword(getString(R.string.password_hint));
 
     }
 
@@ -95,18 +94,18 @@ public class AccountActivity extends AppCompatActivity
 
     @Override
     public void onClickLogOut() {
-        createAlertDialog("Log Out?", "Are you sure you want to log out?", 1);
+        createAlertDialog(getString(R.string.Account_logout), getString(R.string.Sure_logout), 1);
     }
 
     @Override
     public void onClickDeleteAccount() {
-        createAlertDialog("Delete Account?", "You can't undo this action!", 2);
+        createAlertDialog(getString(R.string.Account_delete), getString(R.string.Cannot_undo), 2);
     }
 
     @Override
     public void onClickClose() {
         if (changesToSave) {
-            createAlertDialog("Discard changes?", "All changes will be lost.", 3);
+            createAlertDialog(getString(R.string.Account_changes), getString(R.string.Changes_lost), 3);
         }
         else {
             finish();
@@ -133,7 +132,7 @@ public class AccountActivity extends AppCompatActivity
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (source == 1) {
                     onActionLogOutPressed();
-                    Toast.makeText(AccountActivity.this, "Loggar ut...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AccountActivity.this, getString(R.string.Account_logingOut), Toast.LENGTH_SHORT).show();
                 }
                 else if (source == 2) {
                     inputDialog(5);
@@ -144,7 +143,7 @@ public class AccountActivity extends AppCompatActivity
             }
         });
 
-        dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
@@ -207,7 +206,7 @@ public class AccountActivity extends AppCompatActivity
             etPassword = (MaterialEditText)inputs.findViewById(R.id.et_password);
 
             TextView dialogDesc = (TextView)inputs.findViewById(R.id.dialog_desc);
-            dialogDesc.setText("Please enter your password to delete your account.");
+            dialogDesc.setText(getString(R.string.Enter_password));
 
             btnOk = (Button)inputs.findViewById(R.id.btn_ok);
             btnCancel = (Button)inputs.findViewById(R.id.btn_cancel);
@@ -235,10 +234,10 @@ public class AccountActivity extends AppCompatActivity
                     if (isEmpty || hasDigit) {
 
                         if (isEmpty) {
-                            etFirstname.setError("No name");
+                            etFirstname.setError(getString(R.string.No_name));
                         }
                         else if (hasDigit) {
-                            etFirstname.setError("Digits not allowed");
+                            etFirstname.setError(getString(R.string.No_digits));
                         }
                         inputOk = false;
 
@@ -252,10 +251,10 @@ public class AccountActivity extends AppCompatActivity
                     if (isEmpty || hasDigit) {
 
                         if (isEmpty) {
-                            etLastname.setError("No name");
+                            etLastname.setError(getString(R.string.No_name));
                         }
                         else if (hasDigit) {
-                            etLastname.setError("Digits not allowed");
+                            etLastname.setError(getString(R.string.No_digits));
                         }
                         inputOk = false;
                     }
@@ -283,10 +282,10 @@ public class AccountActivity extends AppCompatActivity
                     boolean isntEmail = !email.contains("@");
                     if (isntEmail || isEmpty) {
                         if (isntEmail) {
-                            etEmail.setError("Isn't an email adress");
+                            etEmail.setError(getString(R.string.No_Email_Adress));
                         }
                         else if (isEmpty) {
-                            etEmail.setError("No email");
+                            etEmail.setError(getString(R.string.NoMail));
                         }
 
                         inputOk = false;
@@ -310,11 +309,11 @@ public class AccountActivity extends AppCompatActivity
                     String newPassConf = etNewPassConf.getText().toString();
 
                     if (newPass.length() < 6) {
-                        etNewPass.setError("Password must be 6 characters");
+                        etNewPass.setError(getString(R.string.toast_password_error));
                         inputOk = false;
                     }
                     else if (!newPass.equals(newPassConf)) {
-                        etNewPassConf.setError("Password doesn't match");
+                        etNewPassConf.setError(getString(R.string.Password_not_match));
                         inputOk = false;
                     }
 
@@ -322,7 +321,7 @@ public class AccountActivity extends AppCompatActivity
                         changesToSave = true;
                         invalidateOptionsMenu();
                         user.setNewPassword(newPass);
-                        fragment.setTxtChangePassword("Password (changed)");
+                        fragment.setTxtChangePassword(getString(R.string.Password_changed));
                         alert.dismiss();
                     }
                 }
@@ -349,7 +348,7 @@ public class AccountActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         if (changesToSave) {
-            createAlertDialog("Discard changes?", "All changes will be lost.", 3);
+            createAlertDialog(getString(R.string.Account_changes), getString(R.string.Changes_lost), 3);
         }
         else {
             finish();
@@ -383,7 +382,7 @@ public class AccountActivity extends AppCompatActivity
     }
 
     private void setPasswordIsWrong() {
-        etNewPass.setError("Wrong password");
+        etNewPass.setError(getString(R.string.Wrong_password));
     }
 
 
@@ -439,7 +438,7 @@ public class AccountActivity extends AppCompatActivity
 
         @Override
         protected void onPreExecute() {
-            progDialog = ProgressDialog.show(context, "Synkar", "Synkar uppgifter med server", true);
+            progDialog = ProgressDialog.show(context, getString(R.string.Internet_Sync), getString(R.string.Sync_server), true);
         }
 
         protected String doInBackground(User... params) {
@@ -458,15 +457,15 @@ public class AccountActivity extends AppCompatActivity
                         String response = (String)objectInputStream.readObject();
                         return response;
                     } catch (SocketTimeoutException e) {
-                        return "Server is offline";
+                        return getString(R.string.Server_offline);
                     }
 
                 } catch (Exception e) {
-                    return "Server is offline";
+                    return getString(R.string.Server_offline);
                 }
             }
             else {
-                return "No Internet Connection";
+                return getString(R.string.No_conn);
             }
         }
 

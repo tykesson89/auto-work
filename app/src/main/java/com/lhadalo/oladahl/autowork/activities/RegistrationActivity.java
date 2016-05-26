@@ -1,5 +1,4 @@
 package com.lhadalo.oladahl.autowork.activities;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -63,11 +62,11 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         if (isEmpty || hasDigit) {
 
             if (isEmpty) {
-                text = "You must fill in your first name";
-                fragment.setFirstNameError(true, "No name");
+                text = getString(R.string.Fill_firstname);
+                fragment.setFirstNameError(true, getString(R.string.No_name));
             } else if (hasDigit) {
-                text = "Firstname cannot contain digits";
-                fragment.setFirstNameError(true, "Digits not allowed");
+                text = getString(R.string.FirstName_no_digits);
+                fragment.setFirstNameError(true, getString(R.string.No_digits));
             }
             inputOk = false;
 
@@ -80,11 +79,11 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         hasDigit = containsDigit(lastName);
         if (isEmpty || hasDigit) {
             if (isEmpty) {
-                text = "You must fill in your last name";
-                fragment.setLastNameError(true, "No name");
+                text = getString(R.string.Fill_lastname);
+                fragment.setLastNameError(true, getString(R.string.No_name));
             } else if (hasDigit) {
-                text = "Lastname cannot contain digits";
-                fragment.setLastNameError(true, "Digits not allowed");
+                text = getString(R.string.LastName_no_digits);
+                fragment.setLastNameError(true,  getString(R.string.No_digits));
             }
 
 
@@ -100,10 +99,10 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         if (isntEmail || isEmpty) {
             if (isntEmail) {
                 text = getString(R.string.toast_email_error);
-                fragment.setEmailError(true, "Isn't an email adress");
+                fragment.setEmailError(true, getString(R.string.No_Email_Adress));
             } else if (isEmpty) {
-                text = "Email cannot be empty";
-                fragment.setEmailError(true, "No email");
+                text = getString(R.string.No_empty_email);
+                fragment.setEmailError(true, getString(R.string.NoMail));
             }
 
             inputOk = false;
@@ -114,7 +113,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
 
         if (password.length() < 6) {
             text = getString(R.string.toast_password_error);
-            fragment.setPasswError(true, "Password must be 6 characters");
+            fragment.setPasswError(true, getString(R.string.toast_password_error));
             inputOk = false;
         } else {
             fragment.setPasswError(false, null);
@@ -122,8 +121,8 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
 
 
         if (companyName.length() < 1) {
-            text = "You must fill in a company name";
-            fragment.setCompanyError(true, "Empty name");
+            text = getString(R.string.Fill_company);
+            fragment.setCompanyError(true, getString(R.string.EmptyName));
             inputOk = false;
         } else {
             companyName = removeSpaceBefore(companyName);
@@ -133,8 +132,8 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         try {
             hourlyWage = Double.parseDouble(wage);
             if (wage.length() < 1) {
-                text = "You must fill in your hourly wage";
-                fragment.setWageError(true, "No wage");
+                text = getString(R.string.Fill_Hour);
+                fragment.setWageError(true, getString(R.string.NoWage));
                 inputOk = false;
 
             } else {
@@ -154,7 +153,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         } else {
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(RegistrationActivity.this,
-                    "Something went wrong, please check all fields", duration);
+                    getString(R.string.Wrong_message), duration);
             toast.show();
         }
     }
@@ -238,14 +237,14 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
                         String response = (String) objectInputStream.readObject();
                         return response;
                     } catch (SocketTimeoutException s) {
-                        return "The server is offline";
+                        return getString(R.string.Server_offline);
                     }
                     }catch(Exception e){
-                        return "The server is offline";
+                        return getString(R.string.Server_offline);
                     }
 
             }else{
-                return "You have no Internet Connection";
+                return getString(R.string.No_conn);
             }
 
         }
@@ -259,33 +258,33 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         protected void onPostExecute(String res) {
             progressDialog.dismiss();
             if (res.equals("The server is offline")) {
-                CharSequence text = "The server is offline";
+                CharSequence text = getString(R.string.Server_offline);
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
             } else if (res.equals("You have no Internet Connection")) {
-                CharSequence text = "You have no Internet Connection";
+                CharSequence text = getString(R.string.No_conn);
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
             }else if(res.equals("User Already Exists")) {
-                CharSequence text = "User Already Exists";
+                CharSequence text = getString(R.string.Email_not_exists);
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
             }else if(res.equals("Something went wrong")) {
-                CharSequence text = "Something went wrong";
+                CharSequence text = getString(R.string.Wrong_here);
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
             }else if(res.equals("No Email")) {
-                CharSequence text = "Invalid Email";
+                CharSequence text = getString(R.string.toast_email_error);
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
 
             }else{
-                CharSequence text = "Account created";
+                CharSequence text = getString(R.string.Account_created);
                 int duration = Toast.LENGTH_SHORT;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();

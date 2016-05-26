@@ -9,6 +9,9 @@
     <string name="closeDrawer">Close drawer</string>
     <string name="action_log_out">Log out</string>
     <string name="action_settings">Settings</string>
+    <string name="Workpass_Deleted">Workpass Deleted</string>
+    <string name="No_pass">No pass founds</string>
+    <string name="Pass_deleted">Workpass deleted</string>
 
     <!-- MainFragment -->
     <string name="settings">Setting</string>
@@ -24,6 +27,10 @@
     <string name="myAccount">My Account</string>
     <string name="myCompanies">My Companies</string>
     <string name="tax">Your salary with tax</string>
+    <string name="Name">Name</string>
+    <string name="Edit">Edit</string>
+    <string name="ChangeName">Change name</string>
+    <string name="ChangeEmail">Change Email</string>
     <!--Add workpass -->
     <string name="addWorkpassTomenu">ADD</string>
     <string name="fel">ERROR!</string>
@@ -55,10 +62,31 @@
     <string name="companyNotDeleted">Company not deleted</string>
     <string name="companyDeleted">Company deleted</string>
     <string name="edit">Edit</string>
+    <string name="Add_company">Add Company</string>
+    <string name="Compant_not_exists">Company doesnot exists</string>
+    <string name="SaveChanges">Save Changes</string>
+
+    <!-- Workpass view Actvity -->
+    <string name="Delete">Delete?</string>
+
+
     <!-- Login Activity -->
     <string name="dialog_title_login">Logging in</string>
     <string name="dialog_message_login">Logging in</string>
     <string name="toast_user_not_found">User not found</string>
+    <string name="New_password">New Password</string>
+    <string name="Emil_input">Input your email to get new Password</string>
+    <string name="Send">Send</string>
+    <string name="Wrong_here">Something went wrong</string>
+    <string name="No_conn">You have no internet connection</string>
+    <string name="Server_offline">The server is offline</string>
+    <string name="Wrong_password">Wrong Password</string>
+    <string name="Wrong_Email">Wrong Email</string>
+    <string name="Email_not_exists">Email does not exists</string>
+    <string name="NoMail">No Email</string>
+    <string name="EmailSend">Email Sent</string>
+    <string name="PasswordSend">Password Sent</string>
+
 
     <!-- LoginFragment -->
     <string name="login_title">Welcome to Auto Work!</string>
@@ -81,6 +109,20 @@
     <string name="toast_password_error">Password need to be atleast 6 characters</string>
     <string name="toast_email_error">Invalid Email</string>
     <string name="toast_all_fields_error">You have to fill all the fields</string>
+    <string name="Fill_firstname">You must fill in your first name</string>
+    <string name="Fill_lastname">"You must fill in your last name"</string>
+    <string name="No_name">No name</string>
+    <string name="FirstName_no_digits">Firstname cannot contain digits</string>
+    <string name="LastName_no_digits">Lastname cannot contain digits</string>
+    <string name="No_digits">Digits not allowed</string>
+    <string name="No_empty_email">Email cannot be empty</string>
+    <string name="EmptyName">Empty name</string>
+    <string name="NoWage">No Wage</string>
+    <string name="Fill_company">You must fill in a company name</string>
+    <string name="Fill_Hour">You must fill in your hourly wage</string>
+    <string name="Wrong_message">Something went wrong, please check all fields</string>
+    <string name="No_Email_Adress">Isnt an email adress</string>
+
 
     <!-- RegistrationFragment -->
     <string name="registration_title">Create Account</string>
@@ -91,6 +133,32 @@
     <string name="et_company_hint">Company</string>
     <string name="et_hourly_wage_hint">Hourly wage</string>
     <string name="btn_register">Register</string>
+    <string name="Account_created">Account created</string>
+    <!-- Account activity -->
+    <string name="Account_logout">Log Out?</string>
+    <string name="Sure_logout">Are you sure you want to log out?</string>
+    <string name="Account_delete">Delete Account?</string>
+    <string name="Cannot_undo">You cannot undo this action!</string>
+    <string name="Account_changes">Discard changes?</string>
+    <string name="Changes_lost">All changes will be lost.</string>
+    <string name="Account_logingOut">Loging out...</string>
+    <string name="Enter_password">Please enter your password to delete your account.</string>
+    <string name="Password_not_match">Password doesnnot match</string>
+    <string name="Password_changed">Password (changed)</string>
+    <string name="Internet_Sync">Sync</string>
+    <string name="Sync_server">Sync with server</string>
+    <string name="Account_passWrong">Password is incorrect</string>
+    <string name="Account_passWrite">Success</string>
+    <string name="Info_changed">User info changed</string>
+
+    <!-- Salary with tax -->
+    <string name="Show_with_tax">Show with tax</string>
+    <string name="WrongSalary">Wrong</string>
+    <string name="WrongProcentage">Enter the percentage</string>
+    <string name="TaxWithoutSalary">your salary without tax</string>
+    <string name="TaxWithSalary">YOUR SALARY WITH TAX</string>
+    <string name="TextSalary">Salary with tax</string>
+    <string name="Skatt">Tax:</string>
 
     <string-array name="months">
         <item name="jan">January</item>
@@ -125,6 +193,7 @@
     <string name="title_activity_add_company">AddCompanyActivity</string>
     <string name="title_activity_static">StaticActivity</string>
     <string name="add">Add Company</string>
+    <string name="addCompany">Add</string>
     <string name="btn_cancel">Cancel</string>
     <string name="ChangePassword">Change Password</string>
     <string name="NewPassword">New Password</string>

@@ -1,5 +1,4 @@
 package com.lhadalo.oladahl.autowork.activities;
-
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.content.Context;
@@ -193,7 +192,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void showSnackbar(){
-        Snackbar.make(coordinatorLayout, "Workpass Deleted", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(coordinatorLayout, getString(R.string.Workpass_Deleted), Snackbar.LENGTH_SHORT).show();
     }
 
     public void closeDrawer(int drawerItemPressed) {
@@ -272,7 +271,7 @@ public class MainActivity extends AppCompatActivity
             this.workpasses.addAll(workpasses);
         }
         else {
-            Toast.makeText(MainActivity.this, "Inga pass hittades", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, getString(R.string.No_pass), Toast.LENGTH_SHORT).show();
         }
 
         adapter.notifyDataSetChanged();
@@ -310,7 +309,7 @@ public class MainActivity extends AppCompatActivity
             StartService.startService(this);
             FetchWorkpasses.newInstance(this, Tag.ON_GET_STATISTICS).execute(0);
             //Waiter.newInstance(this).execute();
-            Toast.makeText(MainActivity.this, "Arbetspass borttaget", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, getString(R.string.Pass_deleted), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -426,7 +425,7 @@ public class MainActivity extends AppCompatActivity
                             adapter.notifyDataSetChanged();
                             FetchWorkpasses.newInstance(MainActivity.this, Tag.ON_GET_STATISTICS).execute(0);
 
-                            Toast.makeText(MainActivity.this, "Workpass Deleted",
+                            Toast.makeText(MainActivity.this, getString(R.string.Workpass_Deleted),
                                     Toast.LENGTH_SHORT).show();
 
 
@@ -479,6 +478,8 @@ public class MainActivity extends AppCompatActivity
         }
     }
 }
+
+
 
 
 

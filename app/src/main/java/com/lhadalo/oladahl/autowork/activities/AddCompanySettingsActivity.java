@@ -54,7 +54,7 @@ public class AddCompanySettingsActivity extends AppCompatActivity {
             txtAddHourly.setText(String.valueOf(companyToChange.getHourlyWage()));
 
             txtAddCompany.setEnabled(false);
-            buttonAdd.setText("Change");
+            buttonAdd.setText(getString(R.string.changeCompany));
 
         }
 
@@ -143,7 +143,7 @@ public class AddCompanySettingsActivity extends AppCompatActivity {
             }
         }
         if(exists == false) {
-            CharSequence text = "Company doesn't exists";
+            CharSequence text = getString(R.string.Compant_not_exists);
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(AddCompanySettingsActivity.this, text, duration);
             toast.show();
